@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.List;
+
 @Controller
 @RequestMapping(path="/api")
 public class MainController {
@@ -38,10 +40,25 @@ public class MainController {
     }
 
     @PostMapping(path = "/item/add")
-    public @ResponseBody String addNewItem(@RequestParam Integer userID, @RequestParam String state,
-                                           @RequestParam Integer numItems, @RequestParam String hashtags,
-                                           @RequestParam String location) {
-        Item item = new Item(userID, state, numItems, hashtags, location);
+    public @ResponseBody String addNewItem(@RequestParam Integer userID, @RequestParam String name,
+                                           @RequestParam Integer state, @RequestParam Integer numItems,
+                                           @RequestParam String hashtags, @RequestParam String location) {
+        List<Integer> maxIndex = itemRepository.findMaxItemIdByUser(userID);
+        Integer itemID = 0;
+        if (maxIndex.size() > 0) {
+            itemID = maxIndex.get(0);
+        }
+        String s = "";
+        if (state == 0) {
+            s = "REQUESTED";
+        } else if (state == 1) {
+            s = "INSTOCK";
+        } else if (state == 2) {
+            s = "INPROGRESS";
+        } else {
+            s = "UNKNOWN";
+        }
+        Item item = new Item(userID, itemID + 1, name, s, numItems, hashtags, location);
         itemRepository.save(item);
         return "Saved";
     }

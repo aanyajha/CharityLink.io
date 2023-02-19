@@ -8,19 +8,33 @@ public class Item {
     @Id
     private Integer userID;
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Integer itemID;
+    private String name;
     private String state;
     private Integer numItems;
     private String hashtags;
     private String location;
 
-    public Item(Integer userID, String state, Integer numItems, String hashtags, String location) {
+    public Item(Integer userID, String name, String state, Integer numItems, String hashtags, String location) {
         this.userID = userID;
+        this.name = name;
         this.state = state;
         this.numItems = numItems;
         this.hashtags = hashtags;
         this.location = location;
+    }
+
+    public Item(Integer userID, Integer itemID, String name, String state, Integer numItems, String hashtags, String location) {
+        this.userID = userID;
+        this.itemID = itemID;
+        this.name = name;
+        this.state = state;
+        this.numItems = numItems;
+        this.hashtags = hashtags;
+        this.location = location;
+    }
+
+    public Item() {
     }
 
     public Integer getUserID() {
