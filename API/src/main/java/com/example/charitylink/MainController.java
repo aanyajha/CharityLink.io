@@ -31,6 +31,10 @@ public class MainController {
                                            @RequestParam(required = false, defaultValue = "") String state,
                                            @RequestParam(required = false, defaultValue = "") String zip, @RequestParam String date,
                                            @RequestParam(required = false, defaultValue = "-1") String companyID) {
+        List<Integer> userIdList = userRepository.findUserIdByEmail(email);
+        if (userIdList.size() > 0) {
+            return "Email already exists";
+        }
         User user = new User(name, username, password, email, addressLine1, addressLine2, city, state, Integer.parseInt(zip),
                 java.sql.Date.valueOf(date), Integer.parseInt(companyID));
         userRepository.save(user);
