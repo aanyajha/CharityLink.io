@@ -8,13 +8,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.sql.Date;
-
 @Controller
 @RequestMapping(path="/api")
 public class MainController {
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private ItemRepository itemRepository;
 
     @PostMapping(path="/user/add")
     public @ResponseBody String addNewUser(@RequestParam String name, @RequestParam String username,
@@ -25,15 +26,23 @@ public class MainController {
                                            @RequestParam(required = false, defaultValue = "") String state,
                                            @RequestParam(required = false, defaultValue = "") String zip, @RequestParam String date,
                                            @RequestParam(required = false, defaultValue = "-1") String companyID) {
-        Date d = java.sql.Date.valueOf(date);
-        User n = new User(name, username, password, email, addressLine1, addressLine2, city, state, Integer.parseInt(zip),
+        User user = new User(name, username, password, email, addressLine1, addressLine2, city, state, Integer.parseInt(zip),
                 java.sql.Date.valueOf(date), Integer.parseInt(companyID));
-        userRepository.save(n);
+        userRepository.save(user);
         return "Saved";
     }
 
     @GetMapping(path="/user/all")
     public @ResponseBody Iterable<User> getAllUsers() {
         return userRepository.findAll();
+    }
+
+    @PostMapping(path = "/item/add")
+    public @ResponseBody String addNewItem(@RequestParam Integer userID, @RequestParam String state,
+                                           @RequestParam Integer numItems, @RequestParam String hashtags,
+                                           @RequestParam String location) {
+        Item item = new Item(userID, state, numItems, hashtags, location);
+        itemRepository.save(item);
+        return "Saved";
     }
 }
