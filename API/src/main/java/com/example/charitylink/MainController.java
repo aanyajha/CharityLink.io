@@ -19,6 +19,9 @@ public class MainController {
     @Autowired
     private ItemRepository itemRepository;
 
+    @Autowired
+    private EventRepository eventRepository;
+
     @PostMapping(path="/user/add")
     public @ResponseBody String addNewUser(@RequestParam String name, @RequestParam String username,
                                            @RequestParam String password, @RequestParam String email,
@@ -34,7 +37,7 @@ public class MainController {
         return "Saved";
     }
 
-    @GetMapping(path="/user/all")
+    @GetMapping(path="/user/all") //Need to remove this at some point
     public @ResponseBody Iterable<User> getAllUsers() {
         return userRepository.findAll();
     }
@@ -60,6 +63,19 @@ public class MainController {
         }
         Item item = new Item(userID, itemID + 1, name, s, numItems, hashtags, location);
         itemRepository.save(item);
+        return "Saved";
+    }
+
+    @GetMapping(path = "/item/all") //Need to remove this at some point
+    public @ResponseBody Iterable<Item> getAllItems() {
+        return itemRepository.findAll();
+    }
+
+    @PostMapping(path = "/event/add")
+    public @ResponseBody String addNewEvent(@RequestParam String title, @RequestParam String description,
+                                            @RequestParam String location, @RequestParam String date) {
+        Event event = new Event(title, description, location, java.sql.Date.valueOf(date));
+        eventRepository.save(event);
         return "Saved";
     }
 }
