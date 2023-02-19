@@ -7,7 +7,7 @@ import java.sql.Date;
 @Entity
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue
     private Integer id;
     private String name;
     private String username;

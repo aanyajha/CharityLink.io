@@ -2,11 +2,7 @@ package com.example.charitylink;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -29,7 +25,7 @@ public class MainController {
                                            @RequestParam(required = false, defaultValue = "") String addressLine2,
                                            @RequestParam(required = false, defaultValue = "") String city,
                                            @RequestParam(required = false, defaultValue = "") String state,
-                                           @RequestParam(required = false, defaultValue = "") String zip, @RequestParam String date,
+                                           @RequestParam(required = false, defaultValue = "-1") String zip, @RequestParam String date,
                                            @RequestParam(required = false, defaultValue = "-1") String companyID) {
         List<Integer> userIdList = userRepository.findUserIdByEmail(email);
         if (userIdList.size() > 0) {
@@ -39,6 +35,21 @@ public class MainController {
                 java.sql.Date.valueOf(date), Integer.parseInt(companyID));
         userRepository.save(user);
         return "Saved";
+    }
+
+    @DeleteMapping(path = "/user/delete")
+    public @ResponseBody String deleteUserByEmail(@RequestParam String email) {
+        List<Integer> userIdList = userRepository.findUserIdByEmail(email);
+        if (userIdList.size() == 0) {
+            return "Invalid Email";
+        }
+        long count = userRepository.count();
+        userRepository.deleteById(userIdList.get(0));
+        if (count - 1 == userRepository.count()) {
+            return "Email = " + email + "; ID = " + userIdList.get(0) + "; Successfully deleted";
+        } else {
+            return "Error";
+        }
     }
 
     @GetMapping(path="/user/all") //Need to remove this at some point
