@@ -45,7 +45,7 @@ public class MainController {
         }
         long count = userRepository.count();
         userRepository.deleteById(userIdList.get(0));
-        if (count - 1 == userRepository.count()) {
+        if (count > userRepository.count()) {
             return "Email = " + email + "; ID = " + userIdList.get(0) + "; Successfully deleted";
         } else {
             return "Error";
@@ -79,6 +79,17 @@ public class MainController {
         Item item = new Item(userID, itemID + 1, name, s, numItems, hashtags, location);
         itemRepository.save(item);
         return "Saved";
+    }
+
+    @DeleteMapping(path = "/item/delete")
+    public @ResponseBody String deleteItemById(@RequestParam Integer itemId, @RequestParam Integer userId) {
+        long count = itemRepository.count();
+        itemRepository.deleteByItemIdAndUserId(itemId, userId);
+        if (count > itemRepository.count()) {
+            return "ItemID = " + itemId + "; UserID = " + userId + "; Successfully deleted";
+        } else {
+            return "Item does not exist";
+        }
     }
 
     @GetMapping(path = "/item/all") //Need to remove this at some point
