@@ -1,34 +1,44 @@
 <!DOCTYPE html>
-<link type="text/css" rel="stylesheet" href="style.css" />
-<html>
+<head>
+<title>CharityLink</title>
+
+</head>
+
+<body>
+
+<button type="button" id="signUpButtonUp" class="up-button" onclick="registerPage()">
+Sign Up</button>
+  <button type="button" id="loginButtonUp" class="up-button" onclick="loginPage()">
+Login</button>
 
 <div id="wrapper" class="wrapper">
   <div class="container">
-    <h1>
+    <h1 id="welcome-words">
     Welcome to
     </h1>
-    <img src="https://i.postimg.cc/kXgFLH7q/charity-Link-Logo.png" alt="Charity Link Logo" width="400" height="150">
+    <img id="logo" src="https://i.postimg.cc/Zq3dkdkW/Charitylink-Logo-Updated.png" alt="Charity Link Logo" width="400" height="150">
 
-    <div id="error" class="error">
+    <div id="main-words">
+    <p>
+     Words meant to explain more about our project.
+    </p>
+    <p>
+    Be part of a change. Be part of the CharityLink community.
+    </p>
     </div>
-    <form class="form" id="signup">
-        <input type="username" id="username" placeHolder="Username" required>
 
-        <input type="password" id="password" placeHolder="Password" required>
-        
-         <button type="button" id="loginButton" class="loginButton">
+      <button type="button" id="loginButtonDown" class="down-button" onclick="loginPage()">
 Login</button>
 
-         <button type="button" id="signUpButton" class="signUpButton">
+      <button type="button" id="signUpButtonDown" class="down-button" onclick="registerPage()">
 Sign Up</button>
-    
-    </form>
     
   </div>
 </div>
-  
+
+
 <style>
-    @import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300);
+@import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300);
 
   {
   -webkit-box-sizing: border-box;
@@ -40,6 +50,13 @@ Sign Up</button>
 
 body {
   font-family: 'Source Sans Pro', sans-serif;
+  background: #CBFCFF;
+  background: -webkit-gradient(linear, left top, right bottom, from(#CBFCFF), to(#FFFFFF));
+  background: linear-gradient(to bottom right, #CBFCFF 0%, #FFFFFF 100%);
+  top: 50%;
+  left: 0;
+  width: 100%;
+  height: 850px;
 }
 
 body ::-webkit-input-placeholder {
@@ -48,14 +65,15 @@ body ::-webkit-input-placeholder {
   font-weight: 300;
 }
 
-body :-moz-placeholder {
+body ::-moz-placeholder {
   font-family: 'Source Sans Pro', sans-serif;
   color: #009999;
   opacity: 1;
   font-weight: 300;
 }
 
-body ::-moz-placeholder {
+
+body :-moz-placeholder {
   font-family: 'Source Sans Pro', sans-serif;
   color: #009999;
   opacity: 1;
@@ -68,17 +86,14 @@ body :-ms-input-placeholder {
   font-weight: 300;
 }
 
-.wrapper {
-  background: #CBFCFF;
-  background: -webkit-gradient(linear, left top, right bottom, from(#CBFCFF), to(#FFFFFF));
-  background: linear-gradient(to bottom right, #CBFCFF 0%, #FFFFFF 100%);
-  position: absolute;
-  top: 50%;
-  left: 0;
-  width: 100%;
-  height: 850px;
-  margin-top: -400px;
-  overflow: hidden;
+.container h1 {
+  font-size: 40px;
+  -webkit-transition-duration: 1s;
+  transition-duration: 1s;
+  -webkit-transition-timing-function: ease-in-put;
+  transition-timing-function: ease-in-put;
+  font-weight: 200;
+  color: #009999;
 }
 
 .wrapper.form-success .container h1 {
@@ -92,16 +107,6 @@ body :-ms-input-placeholder {
   padding: 80px 0;
   height: 400px;
   text-align: center;
-}
-
-.container h1 {
-  font-size: 40px;
-  -webkit-transition-duration: 1s;
-  transition-duration: 1s;
-  -webkit-transition-timing-function: ease-in-put;
-  transition-timing-function: ease-in-put;
-  font-weight: 200;
-  color: #009999;
 }
 
 form {
@@ -140,7 +145,7 @@ form input:focus {
   color: #009999;
 }
 
-.loginButton {
+.down-button {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
@@ -157,53 +162,32 @@ form input:focus {
   transition-duration: 0.25s;
 }
 
-form button:hover {
-  background-color: #f5f7f9;
-}
-
-.signUpButton {
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  outline: 0;
-  background-color: white;
-  border: 0;
-  padding: 10px 15px;
-  color: #009999;
-  border-radius: 3px;
-  width: 125px;
-  cursor: pointer;
-  font-size: 18px;
-  -webkit-transition-duration: 0.25s;
-  transition-duration: 0.25s;
+.down-button:hover {
+  background-color: #009999;
+  color: #FFFFFF;
 }
 
 form button:hover {
   background-color: #f5f7f9;
+}
+
+#signUpButtonDown {
+  margin-left: 20px;
 }
 
 .fadeout {
   visibility: hidden;
   opacity: 0;
-  transition: visibility 0s .5s, opacity .5s linear;
+  transition: visibility 0s 0.5s, opacity 0.5s linear;
 }
 
 .fadeout2 {
   visibility: hidden;
   opacity: 0;
-  transition: visibility 0s .5s, opacity .5s linear;
+  transition: visibility 0s 0.5s, opacity 0.5s linear;
 }
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-
-  to {
-    opacity: 1;
-  }
-}
-
+/* @keyframes fadeIn { from { opacity:0; } to { opacity:1; } } */
 .fadein {
   opacity: 0;
   animation: fadeIn ease-in 1;
@@ -220,12 +204,79 @@ form button:hover {
   display: none;
 }
 
-.button {}
-
 .nosignin {
   margin-top: 20px;
-  font-size: .8em;
+  font-size: 0.8em;
 }
 
+.up-button {
+  float: right;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  outline: 0;
+  background-color: transparent;
+  border: 0;
+  padding: 5px 10px;
+  color: #009999;
+  border-radius: 3px;
+  width: 70px;
+  cursor: pointer;
+  font-size: 14px;
+  -webkit-transition-duration: 0.25s;
+  transition-duration: 0.25s;
+}
+
+.up-button:hover {
+  background-color: #f5f7f9;
+}
+
+#logo {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  position: relative;
+  top: -45px;
+  animation-name: fadeIn;
+  animation-duration: 3s;
+  animation-fill-mode: both;
+  animation-delay: 0s;
+  animation-iteration-count: 1;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(-60px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+#main-words {
+  position: relative;
+  top: -30px;
+}
+
+#welcome-words {
+  font-size: 60px;
+  font-weight: 150px;
+}
 </style>
-</html>
+
+<script>
+function loginPage() {
+  //links to login
+  window.location.href = '/login.html'
+}
+
+function registerPage() {
+  //links register page
+  window.location.href = '/register.html'
+}
+</script>
+
+</body>
