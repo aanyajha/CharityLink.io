@@ -21,18 +21,13 @@ public class MainController {
     @PostMapping(path="/user/add")
     public @ResponseBody String addNewUser(@RequestParam String name, @RequestParam String username,
                                            @RequestParam String password, @RequestParam String email,
-                                           @RequestParam(required = false, defaultValue = "") String addressLine1,
-                                           @RequestParam(required = false, defaultValue = "") String addressLine2,
-                                           @RequestParam(required = false, defaultValue = "") String city,
-                                           @RequestParam(required = false, defaultValue = "") String state,
-                                           @RequestParam(required = false, defaultValue = "-1") String zip, @RequestParam String date,
+                                           @RequestParam(required = false, defaultValue = "-1") String locationID, @RequestParam String date,
                                            @RequestParam(required = false, defaultValue = "-1") String companyID) {
         List<Integer> userIdList = userRepository.findUserIdByEmail(email);
         if (userIdList.size() > 0) {
             return "Email already exists";
         }
-        User user = new User(name, username, password, email, addressLine1, addressLine2, city, state, Integer.parseInt(zip),
-                java.sql.Date.valueOf(date), Integer.parseInt(companyID));
+        User user = new User(name, username, password, email, java.sql.Date.valueOf(date), Integer.parseInt(companyID), Integer.parseInt(locationID));
         userRepository.save(user);
         return "Saved";
     }

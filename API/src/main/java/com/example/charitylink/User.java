@@ -13,44 +13,29 @@ public class User {
     private String username;
     private String password;
     private String email;
-    private String addressLine1;
-    private String addressLine2;
-    private String city;
-    private String state;
-    private Integer zip;
     @Temporal(TemporalType.DATE)
     private Date joinDate;
     private Integer companyID;
+    private Integer locationID;
 
     public User() {
     }
 
-    public User(String name, String username, String password, String email, String addressLine1, String addressLine2,
-                String city, String state, Integer zip, Date joinDate, Integer companyID) {
+    public User(String name, String username, String password, String email, Date joinDate, Integer companyID, Integer locationID) {
         this.name = name;
         this.username = username;
         this.password = password;
         this.email = email;
-        this.addressLine1 = addressLine1;
-        this.addressLine2 = addressLine2;
-        this.city = city;
-        this.state = state;
-        this.zip = zip;
         this.joinDate = joinDate;
         this.companyID = companyID;
+        this.locationID = locationID;
     }
 
-    public User(String name, String username, String password, String email, String addressLine1, String addressLine2,
-                String city, String state, Integer zip, Date joinDate) {
+    public User(String name, String username, String password, String email, Date joinDate) {
         this.name = name;
         this.username = username;
         this.password = password;
         this.email = email;
-        this.addressLine1 = addressLine1;
-        this.addressLine2 = addressLine2;
-        this.city = city;
-        this.state = state;
-        this.zip = zip;
         this.joinDate = joinDate;
         this.companyID = -1;
     }
@@ -95,46 +80,6 @@ public class User {
         this.email = email;
     }
 
-    public String getAddressLine1() {
-        return addressLine1;
-    }
-
-    public void setAddressLine1(String addressLine1) {
-        this.addressLine1 = addressLine1;
-    }
-
-    public String getAddressLine2() {
-        return addressLine2;
-    }
-
-    public void setAddressLine2(String addressLine2) {
-        this.addressLine2 = addressLine2;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public String getState() {
-        return state;
-    }
-
-    public void setState(String state) {
-        this.state = state;
-    }
-
-    public Integer getZip() {
-        return zip;
-    }
-
-    public void setZip(Integer zip) {
-        this.zip = zip;
-    }
-
     public Date getJoinDate() {
         return joinDate;
     }
@@ -149,5 +94,13 @@ public class User {
 
     public void setCompanyID(Integer companyID) {
         this.companyID = companyID;
+    }
+
+    public Integer getLocationID() {
+        return locationID;
+    }
+
+    public void setLocationID(Integer locationID) {
+        this.locationID = locationID;
     }
 }
