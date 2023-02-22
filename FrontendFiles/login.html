@@ -3,6 +3,12 @@
 <title>Login</title>
 </head>
 <body>
+
+<a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/index.html"><img id="logo" src="https://i.postimg.cc/Zq3dkdkW/Charitylink-Logo-Updated.png" alt="Charity Link Logo" width="160" height="60"></a>
+
+<button type="button" id="signUpButtonUp" class="up-button" onclick="registerPage()">
+    Sign Up</button>
+
 <div class="wrapper">
 <div id="login-word">
     <p>
@@ -35,11 +41,15 @@ Login
 
 <div id="attempts">
 </div>
+
+<div>
+<a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/register.html">Sign Up instead</a>
 </div>
-</body>
+
+</div>
 
 <style>
-  @import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300);
+@import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300);
 {
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
@@ -164,14 +174,43 @@ input:focus {
 }
 
 #login-word {
-  
+  font-size: 80px;
+  margin-bottom: -30px;
+}
+
+.up-button {
+  float: right;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  outline: 0;
+  background-color: transparent;
+  border: 0;
+  padding: 5px 10px;
+  color: #009999;
+  border-radius: 3px;
+  width: 70px;
+  cursor: pointer;
+  font-size: 14px;
+  -webkit-transition-duration: 0.25s;
+  transition-duration: 0.25s;
+}
+
+.up-button:hover {
+  background-color: #f5f7f9;
 }
 </style>
 
 <script>
-  function loginFunc() {
+function loginPage() {
+  //links to login
+  window.location.href = '/CharityLink.io/FrontendFiles/login.html'
+}
 
-	var username = document.getElementById("username");
-	var password = document.getElementById("password");
+function registerPage() {
+  //links register page
+  window.location.href = '/CharityLink.io/FrontendFiles/register.html'
 }
 </script>
+
+</body>
