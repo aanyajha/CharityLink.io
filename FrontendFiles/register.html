@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<head>
+<title>Sign Up</title>
+</head>
+<body>
+<div class="wrapper">
+<div id="register-word">
+    <p>
+    Sign Up
+    </p>
+</div>
+
+<div id="username-div">
+    <p class="words">
+    Username:
+    </p>
+    <input type="text" id="username" class="input-class" placeHolder="Username" required>
+</div>
+
+<div id="email-div">
+    <p class="words">
+    Email: 
+    </p>
+    <input type="text" id="email" class="input-class" placeHolder="Email" required>
+</div>
+
+
+<div id="password-div">
+    <p class="words">
+    Password: 
+    </p>
+    <input type="text" id="password" class="input-class" placeHolder="Password" required>
+</div>
+
+<div id="button-div">
+<button type="button" id="register-button"  onclick="signUpFunc()">
+Sign Up
+</button>
+</div>
+
+<div>
+<a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/login.html">Login instead</a>
+</div>
+
+</div>
+
+<style>
+  @import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300);
+{
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-weight: 300;
+}
+body ::-moz-placeholder {
+  font-family: 'Source Sans Pro', sans-serif;
+  color: #009999;
+  opacity: 1;
+  font-weight: 300;
+}
+body {
+  font-family: 'Source Sans Pro', sans-serif;
+  background: #CBFCFF;
+  background: -webkit-gradient(linear, left top, right bottom, from(#CBFCFF), to(#FFFFFF));
+  background: linear-gradient(to bottom right, #CBFCFF 0%, #FFFFFF 100%);
+  top: 50%;
+  left: 0;
+  width: 100%;
+  height: 850px;
+}
+
+body ::-webkit-input-placeholder{
+  font-family: 'Source Sans Pro', sans-serif;
+    color: #009999;
+    font-weight: 300;
+}
+
+body :-moz-placeholder {
+  font-family: 'Source Sans Pro', sans-serif;
+  color: #009999;
+  opacity: 1;
+  font-weight: 300;
+}
+
+
+body :-ms-input-placeholder {
+  font-family: 'Source Sans Pro', sans-serif;
+  color: #009999;
+  font-weight: 300;
+}
+
+.wrapper {
+  background: #CBFCFF;
+  background: -webkit-gradient(linear, left top, right bottom, from(#CBFCFF), to(#FFFFFF));
+  background: linear-gradient(to bottom right, #CBFCFF 0%, #FFFFFF 100%);
+  top: 50%;
+  margin: auto;
+  left: 0;
+  width: 100%;
+  height: 850px;
+  overflow: hidden;
+  text-align: center;
+}
+.wrapper.form-success .container h1 {
+  -webkit-transform: translateY(85px);
+          transform: translateY(85px);
+}
+
+
+input {
+  /* padding: 20px 0; */
+  position: relative;
+  z-index: 2;
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+  outline: 0;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  background-color: rgba(255, 255, 255, 0.2);
+  width: 250px;
+  border-radius: 3px;
+  padding: 10px 15px;
+  margin: 0 auto 10px auto;
+  display: block;
+  text-align: center;
+  font-size: 18px;
+  color: white;
+  -webkit-transition-duration: 0.25s;
+          transition-duration: 0.25s;
+  font-weight: 300;
+}
+
+input:hover {
+  background-color: rgba(255, 255, 255, 0.4);
+}
+
+input:focus {
+  background-color: white;
+  width: 300px;
+  color: #009999;
+}
+
+.words::after {
+  content: " *";
+  color: red;
+}
+
+#register-button {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  outline: 0;
+  margin-top: 10px;
+  background-color: white;
+  border: 0;
+  padding: 10px 15px;
+  color: #009999;
+  border-radius: 3px;
+  width: 125px;
+  cursor: pointer;
+  font-size: 18px;
+  -webkit-transition-duration: 0.25s;
+  transition-duration: 0.25s;
+}
+
+#register-button:hover {
+  background-color: #009999;
+  color: #FFFFFF;
+}
+
+#register-word {
+  font-size: 80px;
+  margin-bottom: -30px;
+}
+  
+  </style>
+  
+  <script>
+    
+    function signUpFunc() {
+
+	var username = document.getElementById("username");
+  var email = document.getElementById("email");
+	var password = document.getElementById("password");
+
+}
+    
+  </script>
+  
+</body>
