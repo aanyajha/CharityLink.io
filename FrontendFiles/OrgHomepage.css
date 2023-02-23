@@ -108,6 +108,10 @@ body {
   border-radius: 0;
 }
 
+.h2 {
+  padding-top: 0.75rem;  
+}
+
 .form-control-dark {
   color: #fff;
   background-color: rgba(203, 252, 255, 0.1);
