@@ -58,7 +58,7 @@ public class MainController {
     @PostMapping(path = "/item/add")
     public @ResponseBody String addNewItem(@RequestParam Integer userID, @RequestParam String name,
                                            @RequestParam Integer state, @RequestParam Integer numItems,
-                                           @RequestParam String hashtags, @RequestParam String location) {
+                                           @RequestParam String hashtags, @RequestParam Integer location) {
         List<Integer> maxIndex = itemRepository.findMaxItemIdByUser(userID);
         Integer itemID = 0;
         if (maxIndex.size() > 0) {

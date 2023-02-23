@@ -13,9 +13,9 @@ public class Item {
     private String state;
     private Integer numItems;
     private String hashtags;
-    private String location;
+    private Integer location;
 
-    public Item(Integer userID, String name, String state, Integer numItems, String hashtags, String location) {
+    public Item(Integer userID, String name, String state, Integer numItems, String hashtags, Integer location) {
         this.userID = userID;
         this.name = name;
         this.state = state;
@@ -24,7 +24,7 @@ public class Item {
         this.location = location;
     }
 
-    public Item(Integer userID, Integer itemID, String name, String state, Integer numItems, String hashtags, String location) {
+    public Item(Integer userID, Integer itemID, String name, String state, Integer numItems, String hashtags, Integer location) {
         this.userID = userID;
         this.itemID = itemID;
         this.name = name;
@@ -77,11 +77,19 @@ public class Item {
         this.hashtags = hashtags;
     }
 
-    public String getLocation() {
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Integer getLocation() {
         return location;
     }
 
-    public void setLocation(String location) {
+    public void setLocation(Integer location) {
         this.location = location;
     }
 }
