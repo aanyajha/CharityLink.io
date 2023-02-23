@@ -11,14 +11,14 @@ public class Event {
     private Integer id;
     private String title;
     private String description;
-    private String location;
+    private Integer locationID;
     @Temporal(TemporalType.DATE)
     private Date date;
 
-    public Event(String title, String description, String location, Date date) {
+    public Event(String title, String description, Integer locationID, Date date) {
         this.title = title;
         this.description = description;
-        this.location = location;
+        this.locationID = locationID;
         this.date = date;
     }
 
@@ -50,12 +50,12 @@ public class Event {
         this.description = description;
     }
 
-    public String getLocation() {
-        return location;
+    public Integer getLocationID() {
+        return locationID;
     }
 
-    public void setLocation(String location) {
-        this.location = location;
+    public void setLocationID(Integer locationID) {
+        this.locationID = locationID;
     }
 
     public Date getDate() {

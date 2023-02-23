@@ -18,6 +18,9 @@ public class MainController {
     @Autowired
     private EventRepository eventRepository;
 
+    @Autowired
+    private LocationRepository locationRepository;
+
     @PostMapping(path="/user/add")
     public @ResponseBody String addNewUser(@RequestParam String name, @RequestParam String username,
                                            @RequestParam String password, @RequestParam String email,
@@ -94,9 +97,18 @@ public class MainController {
 
     @PostMapping(path = "/event/add")
     public @ResponseBody String addNewEvent(@RequestParam String title, @RequestParam String description,
-                                            @RequestParam String location, @RequestParam String date) {
-        Event event = new Event(title, description, location, java.sql.Date.valueOf(date));
+                                            @RequestParam Integer locationID, @RequestParam String date) {
+        Event event = new Event(title, description, locationID, java.sql.Date.valueOf(date));
         eventRepository.save(event);
         return "Saved";
+    }
+
+    @PostMapping(path = "/location/add")
+    public @ResponseBody Integer addNewLocation(@RequestParam String addressLine1, @RequestParam(required = false, defaultValue = "") String addressLine2,
+                                                @RequestParam String city, @RequestParam String state,
+                                                @RequestParam Integer zip) {
+        Location location = new Location(addressLine1, addressLine2, city, state, zip);
+        locationRepository.save(location);
+        return location.getId();
     }
 }

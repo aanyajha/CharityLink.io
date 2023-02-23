@@ -6,15 +6,23 @@ import jakarta.persistence.*;
 public class Location {
     @Id
     @GeneratedValue
-    private Integer locationId;
+    private Integer id;
     private String addressLine1;
     private String addressLine2;
     private String city;
     private String state;
     private Integer zip;
 
-    public Location(Integer locationId, String addressLine1, String addressLine2, String city, String state, Integer zip) {
-        this.locationId = locationId;
+    public Location(Integer id, String addressLine1, String addressLine2, String city, String state, Integer zip) {
+        this.id = id;
+        this.addressLine1 = addressLine1;
+        this.addressLine2 = addressLine2;
+        this.city = city;
+        this.state = state;
+        this.zip = zip;
+    }
+
+    public Location(String addressLine1, String addressLine2, String city, String state, Integer zip) {
         this.addressLine1 = addressLine1;
         this.addressLine2 = addressLine2;
         this.city = city;
@@ -25,12 +33,12 @@ public class Location {
     public Location() {
     }
 
-    public void setLocationId(Integer locationId) {
-        this.locationId = locationId;
+    public Integer getId() {
+        return id;
     }
 
-    public Integer getLocationId() {
-        return locationId;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getAddressLine1() {
