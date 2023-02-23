@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <body>
+
+    <div class="sidebar bar-block collapse card animate-right" style="width:200px;right:0;" id="mySidebar">
+      <button class="bar-item button large hide-large" onclick="close()">Close &times;</button>
+      <a href="https://aanyajha.github.io/CharityLink.io/" class="bar-item button">Link 1</a>
+      <a href="#" class="bar-item button">Link 2</a>
+      <a href="#" class="bar-item button">Link 3</a>
+    </div>
+
+    <div class="main" style="margin-right:200px">
+      <div class="turquoise">
+        <button class="button turquoise xlarge right hide-large" onclick="open()">&#9776;</button>
+        <div class="container">
+          <h1>Dashboard</h1>
+        </div>
+      </div>
+
+      <div class="container">
+        <p>Welcome to Charity Link!</p>
+        <p>Use the side menu to select your desired function.</p>
+        <p><b>This page is incomplete.</b></p>
+      </div>
+
+    </div>
+  </body>
+
+</html>
