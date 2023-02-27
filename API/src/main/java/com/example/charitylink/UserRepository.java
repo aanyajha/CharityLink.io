@@ -16,5 +16,6 @@ import java.util.List;
 public interface UserRepository extends CrudRepository<User, Integer> {
     @Query(value = "SELECT user.id FROM user WHERE user.email = :email", nativeQuery = true)
     List<Integer> findUserIdByEmail(@Param("email") String email);
-//    long deleteById(Integer id);
+    @Query(value = "SELECT user.id FROM user WHERE user.username = :username", nativeQuery = true)
+    List<Integer> findUserIdByUsername(@Param("username") String username);
 }

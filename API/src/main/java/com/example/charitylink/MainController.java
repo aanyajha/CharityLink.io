@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping(path="/api")
@@ -33,6 +34,26 @@ public class MainController {
         User user = new User(name, username, password, email, java.sql.Date.valueOf(date), Integer.parseInt(companyID), Integer.parseInt(locationID));
         userRepository.save(user);
         return "Saved";
+    }
+
+    @GetMapping(path = "/user/login/email")
+    public @ResponseBody Boolean loginFromEmail(@RequestParam String email, @RequestParam String password) {
+        List<Integer> userIdList = userRepository.findUserIdByEmail(email);
+        if (userIdList.size() == 0) {
+            return false;
+        }
+        Optional<User> user = userRepository.findById(userIdList.get(0));
+        return user.get().getPassword().equals(password);
+    }
+
+    @GetMapping(path = "/user/login/username")
+    public @ResponseBody Boolean loginFromUsername(@RequestParam String username, @RequestParam String password) {
+        List<Integer> userIdList = userRepository.findUserIdByUsername(username);
+        if (userIdList.size() == 0) {
+            return false;
+        }
+        Optional<User> user = userRepository.findById(userIdList.get(0));
+        return user.get().getPassword().equals(password);
     }
 
     @DeleteMapping(path = "/user/delete")
