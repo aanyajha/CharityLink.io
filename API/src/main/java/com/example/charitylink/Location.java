@@ -1,6 +1,10 @@
 package com.example.charitylink;
 
 import jakarta.persistence.*;
+import com.byteowls.jopencage.JOpenCageGeocoder;
+import com.byteowls.jopencage.model.JOpenCageForwardRequest;
+import com.byteowls.jopencage.model.JOpenCageLatLng;
+import com.byteowls.jopencage.model.JOpenCageResponse;
 
 @Entity
 public class Location {
@@ -12,6 +16,8 @@ public class Location {
     private String city;
     private String state;
     private Integer zip;
+    private Double latitude;
+    private Double longitude;
 
     public Location(Integer id, String addressLine1, String addressLine2, String city, String state, Integer zip) {
         this.id = id;
@@ -20,6 +26,13 @@ public class Location {
         this.city = city;
         this.state = state;
         this.zip = zip;
+        JOpenCageGeocoder jOpenCageGeocoder = new JOpenCageGeocoder("8ea9eae59cbf470b90604e16c30b8a0e");
+        JOpenCageForwardRequest request = new JOpenCageForwardRequest(this.addressLine1 + ", " + this.city + ", " + this.state + ", " + this.zip + ", USA");
+        request.setRestrictToCountryCode("us"); // restrict results to a specific country
+        JOpenCageResponse response = jOpenCageGeocoder.forward(request);
+        JOpenCageLatLng firstResultLatLng = response.getFirstPosition();
+        this.latitude = firstResultLatLng.getLat();
+        this.longitude = firstResultLatLng.getLng();
     }
 
     public Location(String addressLine1, String addressLine2, String city, String state, Integer zip) {
@@ -28,6 +41,13 @@ public class Location {
         this.city = city;
         this.state = state;
         this.zip = zip;
+        JOpenCageGeocoder jOpenCageGeocoder = new JOpenCageGeocoder("8ea9eae59cbf470b90604e16c30b8a0e");
+        JOpenCageForwardRequest request = new JOpenCageForwardRequest(this.addressLine1 + ", " + this.city + ", " + this.state + ", " + this.zip + ", USA");
+        request.setRestrictToCountryCode("us"); // restrict results to a specific country
+        JOpenCageResponse response = jOpenCageGeocoder.forward(request);
+        JOpenCageLatLng firstResultLatLng = response.getFirstPosition();
+        this.latitude = firstResultLatLng.getLat();
+        this.longitude = firstResultLatLng.getLng();
     }
 
     public Location() {
