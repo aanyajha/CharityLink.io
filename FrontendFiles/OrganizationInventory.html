@@ -3,27 +3,25 @@
 <title>W3.CSS</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<body>
 
 <style>
 img {
       max-width: 100%;
       height: auto;
     }
-
 </style>
-
-<body>
 
   <div class="w3-sidebar w3-bar-block w3-card w3-animate-right" style="display:none;right:0;" id="mySidebar">
 
-    <button onclick="closeNav()" class="w3-bar-item w3-button w3-large">Close &times;</button>
+    <button onclick="closeNav()" class="w3-bar-item w3-button w3-large">&#10005; Close</button>
 
     <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles" class="w3-bar-item w3-button">&#x27B2; Logout</a>
     <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/OrganizationDashboard" class="w3-bar-item w3-button">Dashboard</a>
     <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/OrganizationManageRequests" class="w3-bar-item w3-button">Manage Requests</a>
-    <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/OrganizationInventory" class="w3-bar-item w3-button">Manage Inventory</a>
     <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/OrganizationDeliveries" class="w3-bar-item w3-button">Manage Deliveries</a>
     <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/OrganizationEmployees" class="w3-bar-item w3-button">Manage Employees</a>
+    <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/OrganizationManageEvents" class="w3-bar-item w3-button">Manage Events</a>
     <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/OrganizationSettings" class="w3-bar-item w3-button">&#9965; Settings</a>
     <a href="https://aanyajha.github.io/CharityLink.io" class="w3-bar-item w3-button"><img src="https://i.postimg.cc/Zq3dkdkW/Charitylink-Logo-Updated.png" alt="Charity Link Logo" width="200" height="65"></a>
   </div>
@@ -41,27 +39,28 @@ img {
   
   <div class="w3-pale-blue">
   <div class="w3-container">
-      <h1 style="color: #009999">Manage Events</h1>
+      <h1 style="color: #009999">Manage Inventory</h1>
       
       </div>
   </div>
 
   <div class="w3-container">
-    <p>Welcome to Manage Events!</p>
-    <p>Here you can add events, edit events, and delete events.</p>
-    <p>This page will eventually list events made by the organization or managers under that organization.</p>
+    <p>Welcome to Manage Inventory!</p>
+    <p>Here you can view your inventory.</p>
+    <p>This page will eventually display an organization's inventory.</p>
   </div>
 
 </body>
 
 <script>
-	function openNav() {
+		function openNav() {
       document.getElementById("mySidebar").style.display = "block";
     }
 
     function closeNav() {
       document.getElementById("mySidebar").style.display = "none";
     }
+
 </script>
 
 </html>

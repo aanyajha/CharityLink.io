@@ -2,6 +2,7 @@
 <head>
 <title>Login</title>
 </head>
+
 <body>
 
 <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/index.html"><img id="logo" src="https://i.postimg.cc/Zq3dkdkW/Charitylink-Logo-Updated.png" alt="Charity Link Logo" width="160" height="60"></a>
@@ -34,7 +35,7 @@
 </div>
 
 <div id="button-div">
-<button type="button" id="login-button"  onclick="loginFunc()">
+<button type="button" id="login-button">
 Login
 </button>
 </div>
@@ -202,7 +203,7 @@ input:focus {
 </style>
 
 <script>
-function loginPage() {
+	function loginPage() {
   //links to login
   window.location.href = '/CharityLink.io/FrontendFiles/login.html'
 }
@@ -211,6 +212,51 @@ function registerPage() {
   //links register page
   window.location.href = '/CharityLink.io/FrontendFiles/register.html'
 }
+
+function isEmail(username){
+    let regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+
+  if (emailAdress.match(regex)) 
+    return true; 
+
+   else 
+    return false; 
+}
+
+const loginButton = document.querySelector('#login-button');
+
+loginButton.addEventListener('click', async () => {
+	if (isEmail(username) == true) {
+		const email = document.querySelector('#username')
+    
+    const response = await fetch('/api/login', {
+    method: 'POST',
+    headers: {
+    	'Content-Type': 'application/json'
+    },
+    bosy: JSON.stringify({ email, password })
+		});
+  
+		const data = await response.json();
+  
+		console.log(data);
+  }
+  else {
+  	const username = document.querySelector('#password').value;
+    
+    const response = await fetch('/api/login', {
+    method: 'POST',
+    headers: {
+    	'Content-Type': 'application/json'
+    },
+    bosy: JSON.stringify({ username, password })
+		});
+  
+		const data = await response.json();
+  
+		console.log(data);
+  }
+});
 </script>
 
 </body>
