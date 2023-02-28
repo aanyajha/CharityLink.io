@@ -9,6 +9,7 @@ import java.util.Optional;
 
 @Controller
 @RequestMapping(path="/api")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class MainController {
     @Autowired
     private UserRepository userRepository;
@@ -110,13 +111,14 @@ public class MainController {
 
     @DeleteMapping(path = "/item/delete")
     public @ResponseBody String deleteItemById(@RequestParam Integer itemId, @RequestParam Integer userId) {
-        long count = itemRepository.count();
-        itemRepository.deleteByItemIdAndUserId(itemId, userId);
-        if (count > itemRepository.count()) {
-            return "ItemID = " + itemId + "; UserID = " + userId + "; Successfully deleted";
-        } else {
-            return "Item does not exist";
-        }
+//        long count = itemRepository.count();
+//        itemRepository.deleteByItemIdAndUserId(itemId, userId);
+//        if (count > itemRepository.count()) {
+//            return "ItemID = " + itemId + "; UserID = " + userId + "; Successfully deleted";
+//        } else {
+//            return "Item does not exist";
+//        }
+        return "";
     }
 
     @GetMapping(path = "/item/all") //Need to remove this at some point
