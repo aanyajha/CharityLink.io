@@ -27,12 +27,12 @@ public class MainController {
     public @ResponseBody String addNewUser(@RequestParam String name, @RequestParam String username,
                                            @RequestParam String password, @RequestParam String email,
                                            @RequestParam(required = false, defaultValue = "-1") String locationID, @RequestParam String date,
-                                           @RequestParam(required = false, defaultValue = "-1") String companyID) {
+                                           @RequestParam(required = false, defaultValue = "-1") String companyID, @RequestParam Integer userType) {
         List<Integer> userIdList = userRepository.findUserIdByEmail(email);
         if (userIdList.size() > 0) {
             return "Email already exists";
         }
-        User user = new User(name, username, password, email, java.sql.Date.valueOf(date), Integer.parseInt(companyID), Integer.parseInt(locationID));
+        User user = new User(name, username, password, email, java.sql.Date.valueOf(date), Integer.parseInt(companyID), Integer.parseInt(locationID), userType);
         userRepository.save(user);
         return "Saved";
     }

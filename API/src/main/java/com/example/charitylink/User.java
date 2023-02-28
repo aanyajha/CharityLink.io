@@ -17,11 +17,12 @@ public class User {
     private Date joinDate;
     private Integer companyID;
     private Integer locationID;
+    private Integer userType;
 
     public User() {
     }
 
-    public User(String name, String username, String password, String email, Date joinDate, Integer companyID, Integer locationID) {
+    public User(String name, String username, String password, String email, Date joinDate, Integer companyID, Integer locationID, Integer userType) {
         this.name = name;
         this.username = username;
         this.password = password;
@@ -29,6 +30,7 @@ public class User {
         this.joinDate = joinDate;
         this.companyID = companyID;
         this.locationID = locationID;
+        this.userType = userType;
     }
 
     public User(String name, String username, String password, String email, Date joinDate) {
