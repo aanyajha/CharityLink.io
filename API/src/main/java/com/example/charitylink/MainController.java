@@ -37,23 +37,31 @@ public class MainController {
     }
 
     @GetMapping(path = "/user/login/email")
-    public @ResponseBody Boolean loginFromEmail(@RequestParam String email, @RequestParam String password) {
+    public @ResponseBody User loginFromEmail(@RequestParam String email, @RequestParam String password) {
         List<Integer> userIdList = userRepository.findUserIdByEmail(email);
         if (userIdList.size() == 0) {
-            return false;
+            return null;
         }
         Optional<User> user = userRepository.findById(userIdList.get(0));
-        return user.get().getPassword().equals(password);
+        if (user.get().getPassword().equals(password)) {
+            return userRepository.findById(userIdList.get(0)).get();
+        } else {
+            return null;
+        }
     }
 
     @GetMapping(path = "/user/login/username")
-    public @ResponseBody Boolean loginFromUsername(@RequestParam String username, @RequestParam String password) {
+    public @ResponseBody User loginFromUsername(@RequestParam String username, @RequestParam String password) {
         List<Integer> userIdList = userRepository.findUserIdByUsername(username);
         if (userIdList.size() == 0) {
-            return false;
+            return null;
         }
         Optional<User> user = userRepository.findById(userIdList.get(0));
-        return user.get().getPassword().equals(password);
+        if (user.get().getPassword().equals(password)) {
+            return userRepository.findById(userIdList.get(0)).get();
+        } else {
+            return null;
+        }
     }
 
     @DeleteMapping(path = "/user/delete")
