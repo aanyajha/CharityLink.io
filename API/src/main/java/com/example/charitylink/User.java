@@ -3,10 +3,9 @@ package com.example.charitylink;
 import jakarta.persistence.*;
 
 import java.sql.Date;
-import java.util.Collection;
 
 @Entity
-public abstract class User {
+public class User {
     @Id
     @GeneratedValue
     private Integer id;
@@ -65,8 +64,6 @@ public abstract class User {
         this.username = username;
     }
 
-    public abstract <GrantedAuthority> Collection<? extends GrantedAuthority> getAuthorities();
-
     public String getPassword() {
         return password;
     }
@@ -106,12 +103,4 @@ public abstract class User {
     public void setLocationID(Integer locationID) {
         this.locationID = locationID;
     }
-
-    public abstract boolean isAccountNonExpired();
-
-    public abstract boolean isAccountNonLocked();
-
-    public abstract boolean isCredentialsNonExpired();
-
-    public abstract boolean isEnabled();
 }
