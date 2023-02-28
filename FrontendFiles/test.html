@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Test API</title>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script>
+		function testAPI() {
+			const username = "vjasti";
+			const password = "passwordtest";
+
+			const url = `http://localhost:8080/api/user/login/username?username=${username}&password=${password}`;
+
+			$.ajax({
+				url: url,
+				type: "GET",
+				dataType: "json",
+				success: function(data) {
+					console.log(data); // handle the response data here
+				},
+				error: function(xhr, status, error) {
+					console.error(error); // handle errors here
+				}
+			});
+		}
+	</script>
+</head>
+<body>
+	<button onclick="testAPI()">Test API</button>
+</body>
+</html>
