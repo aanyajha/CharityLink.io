@@ -88,7 +88,7 @@ public class MainController {
     @PostMapping(path = "/item/add")
     public @ResponseBody String addNewItem(@RequestParam Integer userID, @RequestParam String name,
                                            @RequestParam Integer state, @RequestParam Integer numItems,
-                                           @RequestParam String hashtags, @RequestParam Integer location) {
+                                           @RequestParam String hashtags, @RequestParam(required = false, defaultValue = "-1") String location) {
         List<Integer> maxIndex = itemRepository.findMaxItemIdByUser(userID);
         Integer itemID = 0;
         if (maxIndex.size() > 0) {
@@ -104,21 +104,20 @@ public class MainController {
         } else {
             s = "UNKNOWN";
         }
-        Item item = new Item(userID, itemID + 1, name, s, numItems, hashtags, location);
+        Item item = new Item(userID, itemID + 1, name, s, numItems, hashtags, Integer.parseInt(location));
         itemRepository.save(item);
         return "Saved";
     }
 
     @DeleteMapping(path = "/item/delete")
     public @ResponseBody String deleteItemById(@RequestParam Integer itemId, @RequestParam Integer userId) {
-//        long count = itemRepository.count();
-//        itemRepository.deleteByItemIdAndUserId(itemId, userId);
-//        if (count > itemRepository.count()) {
-//            return "ItemID = " + itemId + "; UserID = " + userId + "; Successfully deleted";
-//        } else {
-//            return "Item does not exist";
-//        }
-        return "";
+        long count = itemRepository.count();
+        itemRepository.deleteByItemIDAndUserID(itemId, userId);
+        if (count > itemRepository.count()) {
+            return "ItemID = " + itemId + "; UserID = " + userId + "; Successfully deleted";
+        } else {
+            return "Item does not exist";
+        }
     }
 
     @GetMapping(path = "/item/all") //Need to remove this at some point
