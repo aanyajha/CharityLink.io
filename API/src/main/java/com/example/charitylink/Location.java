@@ -53,6 +53,35 @@ public class Location {
     public Location() {
     }
 
+    public Double findDistance(Double latitude, Double longitude) {
+        double r = 3958.8;
+        double latDistance = Math.toRadians(this.latitude - latitude);
+        double lonDistance = Math.toRadians(this.longitude - longitude);
+
+        double a = Math.sin(latDistance / 2) * Math.sin(latDistance / 2) +
+                Math.cos(Math.toRadians(latitude)) * Math.cos(Math.toRadians(this.latitude)) *
+                        Math.sin(lonDistance / 2) * Math.sin(lonDistance / 2);
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        double distance = r * c;
+        return distance;
+    }
+
+    public Double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(Double latitude) {
+        this.latitude = latitude;
+    }
+
+    public Double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(Double longitude) {
+        this.longitude = longitude;
+    }
+
     public Integer getId() {
         return id;
     }
