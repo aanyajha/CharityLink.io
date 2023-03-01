@@ -1,9 +1,11 @@
 package com.example.charitylink;
 
+import jakarta.persistence.criteria.CriteriaBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -45,13 +47,13 @@ public class MainController {
     public @ResponseBody User loginFromEmail(@RequestParam String email, @RequestParam String password) {
         List<Integer> userIdList = userRepository.findUserIdByEmail(email);
         if (userIdList.size() == 0) {
-            return null;
+            return new User();
         }
         Optional<User> user = userRepository.findById(userIdList.get(0));
         if (user.get().getPassword().equals(password)) {
             return userRepository.findById(userIdList.get(0)).get();
         } else {
-            return null;
+            return new User();
         }
     }
 
@@ -59,14 +61,35 @@ public class MainController {
     public @ResponseBody User loginFromUsername(@RequestParam String username, @RequestParam String password) {
         List<Integer> userIdList = userRepository.findUserIdByUsername(username);
         if (userIdList.size() == 0) {
-            return null;
+            return new User();
         }
         Optional<User> user = userRepository.findById(userIdList.get(0));
         if (user.get().getPassword().equals(password)) {
             return userRepository.findById(userIdList.get(0)).get();
         } else {
-            return null;
+            return new User();
         }
+    }
+
+    @PutMapping(path = "/user/update")
+    public @ResponseBody User updateUser(@RequestParam(required = false) String name, @RequestParam(required = false) String username,
+                                           @RequestParam(required = false) String password, @RequestParam String email,
+                                           @RequestParam(required = false) String locationID, @RequestParam(required = false) String date,
+                                           @RequestParam(required = false) String companyID, @RequestParam(required = false) Integer userType) {
+        List<Integer> userIdList = userRepository.findUserIdByEmail(email);
+        if (userIdList.size() == 0) {
+            return new User();
+        }
+        User user = userRepository.findById(userIdList.get(0)).get();
+        if (name != null) user.setName(name);
+        if (username != null) user.setUsername(username);
+        if (password != null) user.setPassword(password);
+        if (locationID != null) user.setLocationID(Integer.parseInt(locationID));
+        if (date != null) user.setJoinDate(java.sql.Date.valueOf(date));
+        if(companyID != null) user.setCompanyID(Integer.parseInt(companyID));
+        if (userType != null) user.setUserType(userType);
+        userRepository.save(user);
+        return user;
     }
 
     @DeleteMapping(path = "/user/delete")
@@ -88,7 +111,7 @@ public class MainController {
     public @ResponseBody Iterable<User> getUsersByCompanyId(@RequestParam String email) {
         List<Integer> userIdList = userRepository.findUserIdByEmail(email);
         if (userIdList.size() == 0) {
-            return null;
+            return new ArrayList<User>();
         }
         User user = userRepository.findById(userIdList.get(0)).get();
         return userRepository.findAllByCompanyID(user.getCompanyID(), user.getUserType());
