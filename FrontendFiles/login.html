@@ -7,47 +7,47 @@
 
 <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/index.html"><img id="logo" src="https://i.postimg.cc/Zq3dkdkW/Charitylink-Logo-Updated.png" alt="Charity Link Logo" width="160" height="60"></a>
 
-<button type="button" id="signUpButtonUp" class="up-button" onclick="registerPage()">
+  <button type="button" id="signUpButtonUp" class="up-button" onclick="registerPage()">
     Sign Up</button>
 
-<div class="wrapper">
-<div id="login-word">
-    <p>
-    Login
-    </p>
-</div>
+  <div class="wrapper">
+    <div id="login-word">
+      <p>
+        Login
+      </p>
+    </div>
 
-<div id="username-div">
-    <p class="words">
-    Username or Email: 
-    </p>
-    <input type="text" id="username" class="input-class" placeHolder="Username" required>
-</div>
+    <div id="username-div">
+      <p class="words">
+        Username or Email:
+      </p>
+      <input type="text" id="username" class="input-class" placeHolder="Username" required>
+    </div>
 
-<div id="password-div">
-    <p class="words">
-    Password: 
-    </p>
-    <input type="text" id="password" class="input-class" placeHolder="Password" required>
-</div>
-<div id="forgot-div">
-<a href="">Forgot Password?</a>
-</div>
+    <div id="password-div">
+      <p class="words">
+        Password:
+      </p>
+      <input type="text" id="password" class="input-class" placeHolder="Password" required>
+    </div>
+    <div id="forgot-div">
+      <a href="">Forgot Password?</a>
+    </div>
 
-<div id="button-div">
-<button type="button" id="login-button">
-Login
-</button>
-</div>
+    <div id="button-div">
+      <button type="button" id="login-button" onclick="loginAuth()">
+        Login
+      </button>
+    </div>
 
-<div id="attempts">
-</div>
+    <div id="attempts">
+    </div>
 
-<div>
-<a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/register.html">Sign Up instead</a>
-</div>
+    <div>
+      <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/register.html">Sign Up instead</a>
+    </div>
 
-</div>
+  </div>
 
 <style>
 @import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300);
@@ -203,7 +203,7 @@ input:focus {
 </style>
 
 <script>
-	function loginPage() {
+function loginPage() {
   //links to login
   window.location.href = '/CharityLink.io/FrontendFiles/login.html'
 }
@@ -213,50 +213,59 @@ function registerPage() {
   window.location.href = '/CharityLink.io/FrontendFiles/register.html'
 }
 
-function isEmail(username){
-    let regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-
-  if (emailAdress.match(regex)) 
-    return true; 
-
-   else 
-    return false; 
+function isValidEmail(email) {
+  const pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return pattern.test(email);
 }
 
-const loginButton = document.querySelector('#login-button');
+//const loginButton = document.querySelector('#login-button');
 
-loginButton.addEventListener('click', async () => {
-	if (isEmail(username) == true) {
-		const email = document.querySelector('#username')
-    
-    const response = await fetch('/api/login', {
-    method: 'POST',
-    headers: {
-    	'Content-Type': 'application/json'
-    },
-    bosy: JSON.stringify({ email, password })
-		});
-  
-		const data = await response.json();
-  
-		console.log(data);
+function loginAuth() {
+  console.log("test");
+  const username = document.getElementById('username').value;
+  const password = document.getElementById('password').value;
+  console.log("test");
+
+  if (isValidEmail(username)) {
+    const url = `http://20.163.149.164:8080/api/user/login/email?email=${username}&password=${password}`;
+
+    $.ajax({
+      url: url,
+      type: "GET",
+      dataType: "json",
+      success: function(data) {
+        console.log(data); // handle the response data here
+      },
+      error: function(xhr, status, error) {
+        console.error(error); // handle errors here
+      }
+    });
+  } else {
+    const url = `http://20.163.149.164:8080/api/user/login/username?username=${username}&password=${password}`;
+    console.log(username);
+    console.log(password);
+
+
+    const xhr = new XMLHttpRequest();
+    xhr.open("GET", url, true);
+
+    xhr.onload = function() {
+      if (this.status === 200) {
+        const data = JSON.parse(this.responseText);
+        console.log(data);
+      } else {
+        console.error("Request failed with status code", this.status);
+      }
+    };
+
+    xhr.onerror = function() {
+      console.error("Request failed");
+    };
+
+    xhr.send();
+
   }
-  else {
-  	const username = document.querySelector('#password').value;
-    
-    const response = await fetch('/api/login', {
-    method: 'POST',
-    headers: {
-    	'Content-Type': 'application/json'
-    },
-    bosy: JSON.stringify({ username, password })
-		});
-  
-		const data = await response.json();
-  
-		console.log(data);
-  }
-});
+}
 </script>
 
 </body>
