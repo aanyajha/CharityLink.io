@@ -14,16 +14,36 @@ public class Event {
     private Integer locationID;
     @Temporal(TemporalType.DATE)
     private Date date;
+    private Integer companyId;
+    private String userList;
 
-    public Event(String title, String description, Integer locationID, Date date) {
+    public Event(String title, String description, Integer locationID, Date date, Integer companyId, String userList) {
         this.title = title;
         this.description = description;
         this.locationID = locationID;
         this.date = date;
+        this.companyId = companyId;
+        this.userList = userList;
     }
 
     public Event() {
 
+    }
+
+    public String getUserList() {
+        return userList;
+    }
+
+    public void setUserList(String userList) {
+        this.userList = userList;
+    }
+
+    public Integer getCompanyId() {
+        return companyId;
+    }
+
+    public void setCompanyId(Integer companyId) {
+        this.companyId = companyId;
     }
 
     public Integer getId() {

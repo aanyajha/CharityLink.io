@@ -164,10 +164,43 @@ public class MainController {
 
     @PostMapping(path = "/event/add")
     public @ResponseBody String addNewEvent(@RequestParam String title, @RequestParam String description,
-                                            @RequestParam Integer locationID, @RequestParam String date) {
-        Event event = new Event(title, description, locationID, java.sql.Date.valueOf(date));
+                                            @RequestParam Integer locationID, @RequestParam String date,
+                                            @RequestParam Integer companyID) {
+        Event event = new Event(title, description, locationID, java.sql.Date.valueOf(date), companyID, "");
         eventRepository.save(event);
         return "Saved";
+    }
+
+    @DeleteMapping(path = "/event/delete")
+    public @ResponseBody Event deleteEvent(@RequestParam Integer id) {
+        Event event = eventRepository.findById(id).get();
+        if (event == null) {
+            return new Event();
+        }
+        eventRepository.deleteById(id);
+        return event;
+    }
+
+    @PutMapping(path = "/event/rsvp")
+    public @ResponseBody Event rsvpEvent(@RequestParam Integer id, @RequestParam List<Integer> userIds) {
+        Event event = eventRepository.findById(id).get();
+        if (event == null) {
+            return new Event();
+        }
+        for (int i = 0; i < userIds.size(); i++) {
+            if (i == 0 && event.getUserList().equals("")) {
+                event.setUserList("" + userIds.get(i));
+            } else {
+                event.setUserList(event.getUserList() + "," + userIds.get(i));
+            }
+        }
+        eventRepository.save(event);
+        return event;
+    }
+
+    @GetMapping(path = "/event/all")
+    public @ResponseBody Iterable<Event> getAllEvents() {
+        return eventRepository.findAll();
     }
 
     @PostMapping(path = "/location/add")
