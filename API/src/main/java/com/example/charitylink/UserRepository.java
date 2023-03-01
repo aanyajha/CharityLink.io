@@ -1,5 +1,6 @@
 package com.example.charitylink;
 
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
@@ -18,4 +19,6 @@ public interface UserRepository extends CrudRepository<User, Integer> {
     List<Integer> findUserIdByEmail(@Param("email") String email);
     @Query(value = "SELECT user.id FROM user WHERE user.username = :username", nativeQuery = true)
     List<Integer> findUserIdByUsername(@Param("username") String username);
+    @Query(value = "SELECT * FROM user WHERE user.companyid = :companyId AND user.user_type < :userType", nativeQuery = true)
+    List<User> findAllByCompanyID(@Param("companyId") Integer companyId, @Param("userType") Integer userType);
 }

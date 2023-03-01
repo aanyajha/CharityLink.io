@@ -17,7 +17,7 @@ public class User {
     private Date joinDate;
     private Integer companyID;
     private Integer locationID;
-    private Integer userType;
+    private Integer userType; //1=Normal,2=Employee,3=Manager,4=Org
 
     public User() {
     }
@@ -40,6 +40,14 @@ public class User {
         this.email = email;
         this.joinDate = joinDate;
         this.companyID = -1;
+    }
+
+    public Integer getUserType() {
+        return userType;
+    }
+
+    public void setUserType(Integer userType) {
+        this.userType = userType;
     }
 
     public Integer getId() {

@@ -10,7 +10,7 @@
 
 			const url = `http://20.163.149.164:8080/api/user/login/username?username=${username}&password=${password}`;
 
-			$.ajax({
+			/*$.ajax({
 				url: url,
 				type: "GET",
 				dataType: "json",
@@ -20,7 +20,25 @@
 				error: function(xhr, status, error) {
 					console.error(error); // handle errors here
 				}
-			});
+			});*/
+
+			const xhr = new XMLHttpRequest();
+			xhr.open("GET", url, true);
+
+			xhr.onload = function() {
+			if (this.status === 200) {
+				const data = JSON.parse(this.responseText);
+				console.log(data);
+			} else {
+				console.error("Request failed with status code", this.status);
+			}
+			};
+
+			xhr.onerror = function() {
+			console.error("Request failed");
+			};
+
+			xhr.send();
 		}
 	</script>
 </head>

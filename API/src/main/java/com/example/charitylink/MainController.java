@@ -34,6 +34,10 @@ public class MainController {
         }
         User user = new User(name, username, password, email, java.sql.Date.valueOf(date), Integer.parseInt(companyID), Integer.parseInt(locationID), userType);
         userRepository.save(user);
+        if (user.getUserType() == 4) {
+            user.setCompanyID(user.getId());
+            userRepository.save(user);
+        }
         return "Saved";
     }
 
@@ -78,6 +82,16 @@ public class MainController {
         } else {
             return "Error";
         }
+    }
+
+    @GetMapping(path = "/user/find/company")
+    public @ResponseBody Iterable<User> getUsersByCompanyId(@RequestParam String email) {
+        List<Integer> userIdList = userRepository.findUserIdByEmail(email);
+        if (userIdList.size() == 0) {
+            return null;
+        }
+        User user = userRepository.findById(userIdList.get(0)).get();
+        return userRepository.findAllByCompanyID(user.getCompanyID(), user.getUserType());
     }
 
     @GetMapping(path="/user/all") //Need to remove this at some point
