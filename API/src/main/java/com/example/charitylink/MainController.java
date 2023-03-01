@@ -1,7 +1,10 @@
 package com.example.charitylink;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,6 +25,12 @@ public class MainController {
 
     @Autowired
     private LocationRepository locationRepository;
+
+    @Autowired
+    private PasswordResetService passwordResetService;
+
+    @Autowired
+    private EmailService emailService;
 
     @PostMapping(path="/user/add")
     public @ResponseBody String addNewUser(@RequestParam String name, @RequestParam String username,
@@ -50,6 +59,44 @@ public class MainController {
             return null;
         }
     }
+
+
+
+
+    @GetMapping("/request")
+    public String showRequestForm() {
+        return "password_reset/request_form";
+    }
+
+    @PostMapping("/request")
+    public String submitRequestForm(@RequestParam String email) {
+        passwordResetService.storeToken(email);
+        User user = (User) userRepository.findUserIdByEmail(email);
+        String token = user.generateToken();
+        emailService.sendPasswordResetEmail(user.getEmail(), token);
+        return "password_reset/request_success";
+    }
+
+    @GetMapping("/verify-token")
+    public String showVerifyTokenForm(@RequestParam String email, @RequestParam String token) {
+        User user = (User) userRepository.findUserIdByEmail(email);
+        if (user == null || !user.generateToken().equals(token)) {
+            return "password_reset/token_verification_failed";
+        }
+        return "password_reset/reset_form";
+    }
+
+    @PostMapping("/reset")
+    public String submitResetForm(@RequestParam String email, @RequestParam String password) {
+        User user = (User) userRepository.findUserIdByEmail(email);
+        user.setPassword(password);
+        user.setPasswordResetToken(null);
+        userRepository.save(user);
+        return "password_reset/reset_success";
+    }
+
+
+
 
     @GetMapping(path = "/user/login/username")
     public @ResponseBody User loginFromUsername(@RequestParam String username, @RequestParam String password) {

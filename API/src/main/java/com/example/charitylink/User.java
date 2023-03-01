@@ -3,6 +3,7 @@ package com.example.charitylink;
 import jakarta.persistence.*;
 
 import java.sql.Date;
+import java.util.UUID;
 
 @Entity
 public class User {
@@ -17,6 +18,8 @@ public class User {
     private Date joinDate;
     private Integer companyID;
     private Integer locationID;
+
+    private String passwordResetToken;
 
     public User() {
     }
@@ -102,5 +105,17 @@ public class User {
 
     public void setLocationID(Integer locationID) {
         this.locationID = locationID;
+    }
+
+    public String generateToken() {
+        return UUID.randomUUID().toString();
+    }
+
+    public String getPasswordResetToken() {
+        return generateToken();
+    }
+
+    public void setPasswordResetToken (String token){
+        this.passwordResetToken = token;
     }
 }
