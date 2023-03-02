@@ -237,15 +237,19 @@ function signUpFunc() {
   var password = document.getElementById("password");
 
 	if (isValidEmail(email)) {
-  	
+  	if (isStrongPassword) {
+    	//TODO: API IMPLEMENTATION
+    } else {
+    	alert("This is not a strong password. Minimum of 8 characters.")
+    }
   } else {
   	alert("This is not a valid email format.");
+    return;
   }
 
 }
 
 function orgCheck() {
-
   var editable = document.getElementsByClassName("edit-loc");
   if (document.getElementById("check").checked) {
     for (var i = 0; i < editable.length; i++) {
@@ -256,7 +260,6 @@ function orgCheck() {
       editable[i].style.display = 'none';
     }
   }
-
 }
 
 function isValidEmail(email) {
@@ -264,7 +267,12 @@ function isValidEmail(email) {
   return pattern.test(email);
 }
 
-    
+function isStrongPassword(password) {
+	if (password.length < 8) {
+  	return false;
+  }
+  return true;
+}
   </script>
   
 </body>
