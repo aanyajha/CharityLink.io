@@ -26,13 +26,13 @@ public class MainController {
     private LocationRepository locationRepository;
 
     @PostMapping(path="/user/add")
-    public @ResponseBody String addNewUser(@RequestParam String name, @RequestParam String username,
+    public @ResponseBody User addNewUser(@RequestParam String name, @RequestParam String username,
                                            @RequestParam String password, @RequestParam String email,
                                            @RequestParam(required = false, defaultValue = "-1") String locationID, @RequestParam String date,
                                            @RequestParam(required = false, defaultValue = "-1") String companyID, @RequestParam Integer userType) {
         List<Integer> userIdList = userRepository.findUserIdByEmail(email);
         if (userIdList.size() > 0) {
-            return "Email already exists";
+            return new User();
         }
         User user = new User(name, username, password, email, java.sql.Date.valueOf(date), Integer.parseInt(companyID), Integer.parseInt(locationID), userType);
         userRepository.save(user);
@@ -40,7 +40,7 @@ public class MainController {
             user.setCompanyID(user.getId());
             userRepository.save(user);
         }
-        return "Saved";
+        return user;
     }
 
     @GetMapping(path = "/user/login/email")
