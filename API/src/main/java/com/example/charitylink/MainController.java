@@ -151,12 +151,35 @@ public class MainController {
         return itemRepository.findItemsByUserID(userID);
     }
 
+    @PutMapping(path = "/item/edit")
+    public @ResponseBody Item editItem(@RequestParam Integer userID, @RequestParam Integer itemID, @RequestParam(required = false) String name,
+                                       @RequestParam(required = false) Integer state, @RequestParam(required = false) Integer numItems,
+                                       @RequestParam(required = false) String hashtags, @RequestParam(required = false) Integer locationID) {
+        Item item = itemRepository.findItemByUserIDAndItemID(userID, itemID);
+        if (name != null) item.setName(name);
+        if (state != null) {
+            if (state == 0) {
+                item.setState("REQUESTED");
+            } else if (state == 1) {
+                item.setState("INSTOCK");
+            } else if (state == 2) {
+                item.setState("INPROGRESS");
+            } else {
+                item.setState("UNKNOWN");
+            }
+        }
+        if (numItems != null) item.setNumItems(numItems);
+        if (hashtags != null) item.setHashtags(hashtags);
+        if (locationID != null) item.setLocation(locationID);
+        itemRepository.save(item);
+        return item;
+    }
+
     @DeleteMapping(path = "/item/delete")
-    public @ResponseBody String deleteItemById(@RequestParam Integer itemId, @RequestParam Integer userId) {
-        long count = itemRepository.count();
-        itemRepository.deleteByItemIDAndUserID(itemId, userId);
-        if (count > itemRepository.count()) {
-            return "ItemID = " + itemId + "; UserID = " + userId + "; Successfully deleted";
+    public @ResponseBody String deleteItemById(@RequestParam Integer itemID, @RequestParam Integer userID) {
+        Integer count = itemRepository.deleteByItemIDAndUserID(itemID, userID);
+        if (count > 0) {
+            return "ItemID = " + itemID + "; UserID = " + userID + "; Successfully deleted";
         } else {
             return "Item does not exist";
         }

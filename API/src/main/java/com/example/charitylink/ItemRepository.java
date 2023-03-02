@@ -15,7 +15,8 @@ public interface ItemRepository extends CrudRepository<Item, Integer>{
     @Query(value = "SELECT MAX(item.itemid) AS itemid FROM item WHERE item.userid = :userID GROUP BY item.userid", nativeQuery = true)
     List<Integer> findMaxItemIdByUser(@Param("userID") Integer userID);
     @Transactional
-    void deleteByItemIDAndUserID(Integer itemId, Integer userId);
+    Integer deleteByItemIDAndUserID(Integer itemId, Integer userId);
 //    @Query(value = "", nativeQuery = true)
     List<Item> findItemsByUserID(Integer userID);
+    Item findItemByUserIDAndItemID(Integer userID, Integer itemID);
 }
