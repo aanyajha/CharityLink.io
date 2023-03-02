@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<title>Make a Delivery</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<body>
+
+<style>
+img {
+      max-width: 100%;
+      height: auto;
+    }
+</style>
+
+  <div class="w3-sidebar w3-bar-block w3-card w3-animate-right" style="display:none;right:0;" id="mySidebar">
+
+    <button onclick="closeNav()" class="w3-bar-item w3-button w3-large">&#10005; Close</button>
+
+    <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles" class="w3-bar-item w3-button">&#x27B2; Logout</a>
+    <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/" class="w3-bar-item w3-button">Dashboard</a>
+    <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/BrowseCatalog" class="w3-bar-item w3-button">Browse Catalog</a>
+    <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/UserRequest" class="w3-bar-item w3-button">Make a Request</a>
+    <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/UserEvents" class="w3-bar-item w3-button">Events Near Me</a>
+     <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/ViewProfiles" class="w3-bar-item w3-button">View Organization Profiles</a>
+    <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/UserSettings" class="w3-bar-item w3-button">&#9965; Settings</a>
+    <a href="https://aanyajha.github.io/CharityLink.io" class="w3-bar-item w3-button"><img src="https://i.postimg.cc/Zq3dkdkW/Charitylink-Logo-Updated.png" alt="Charity Link Logo" width="200" height="65"></a>
+  </div>
+
+  <div class="w3-pale-blue">
+    <button class="w3-button turquoise w3-xlarge w3-right" onclick="openNav()">&#9776;</button>
+    
+  </div>
+  
+  <div class="w3-pale-blue">
+  <div class="w3-container">
+      <h1 style="color: #009999">Make a Delivery</h1>
+      
+      </div>
+  </div>
+
+  <div class="w3-container">
+    <p>Welcome to Make a Delivery!</p>
+    <p>Here you can make a delivery by request of an organization or user.</p>
+  </div>
+
+</body>
+
+<script>
+		function openNav() {
+      document.getElementById("mySidebar").style.display = "block";
+    }
+
+    function closeNav() {
+      document.getElementById("mySidebar").style.display = "none";
+    }
+    
+    const userData = sessionStorage.getItem('userData');
+    
+    //const usernameTitle = userData.username;
+    
+    //document.getElementById("docTitle").innerHTML = "title" + ${usernameTitle};
+   	
+</script>
+
+</html>
