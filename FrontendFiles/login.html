@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 
 <head>
   <title>Login</title>
@@ -51,12 +51,12 @@
     <div>
       <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/register.html">Sign Up instead</a>
     </div>
-    
+
 
   </div>
 
-<style>
-@import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300);
+  <style>
+    @import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300);
 
       {
       -webkit-box-sizing: border-box;
@@ -65,7 +65,7 @@
       padding: 0;
       font-weight: 300;
     }
-    
+
     body ::-moz-placeholder {
       font-family: 'Source Sans Pro', sans-serif;
       color: #009999;
@@ -103,7 +103,7 @@
       color: #009999;
       font-weight: 300;
     }
-    
+
     .hidden {
       color: red;
       display: none;
@@ -215,68 +215,79 @@
     .up-button:hover {
       background-color: #f5f7f9;
     }
-</style>
 
-<script>
-function loginPage() {
-  //links to login
-  window.location.href = '/CharityLink.io/FrontendFiles/login.html'
-}
+  </style>
 
-function registerPage() {
-  //links register page
-  window.location.href = '/CharityLink.io/FrontendFiles/register.html'
-}
+  <script>
+    function loginPage() {
+      //links to login
+      window.location.href = '/CharityLink.io/FrontendFiles/login.html'
+    }
 
-function isValidEmail(email) {
-  const pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  return pattern.test(email);
-}
+    function registerPage() {
+      //links register page
+      window.location.href = '/CharityLink.io/FrontendFiles/register.html'
+    }
 
-//const loginButton = document.querySelector('#login-button');
+    function isValidEmail(email) {
+      const pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      return pattern.test(email);
+    }
 
-function loginAuth() {
-  console.log("test");
-  const username = document.getElementById('username').value;
-  const password = document.getElementById('password').value;
-  const emailWarning = document.getElementById('email-warning');
-  const passwordWarning = document.getElementById('password-warning');
+    //const loginButton = document.querySelector('#login-button');
 
-  if (isValidEmail(username)) {
-    const url = `http://20.163.149.164:8080/api/user/login/email?email=${username}&password=${password}`;
-    console.log(username);
-    console.log(password);
+    function loginAuth() {
+      console.log("test");
+      const username = document.getElementById('username').value;
+      const password = document.getElementById('password').value;
+      const emailWarning = document.getElementById('email-warning');
+      const passwordWarning = document.getElementById('password-warning');
 
-    const xhr = new XMLHttpRequest();
-    xhr.open("GET", url, true);
+      if (isValidEmail(username)) {
+        const url = `http://20.163.149.164:8080/api/user/login/email?email=${username}&password=${password}`;
+        console.log(username);
+        console.log(password);
 
-    xhr.onload = function() {
-      if (this.status === 200) {
-        const data = JSON.parse(this.responseText);
-  			emailWarning.classList.remove('hidden');
-        passwordWarning.classList.add('hidden');
-        console.log(data);
-        // Store the API data in sessionStorage
-        sessionStorage.setItem('userData', JSON.stringify(data));
-        // Redirect to the next HTML page
-        window.location.href = 'https://aanyajha.github.io/CharityLink.io/FrontendFiles/OrganizationDashboard';
+        const xhr = new XMLHttpRequest();
+        xhr.open("GET", url, true);
+
+        xhr.onload = function() {
+          if (this.status === 200) {
+            const data = JSON.parse(this.responseText);
+            emailWarning.classList.remove('hidden');
+            passwordWarning.classList.add('hidden');
+            console.log(data);
+            // Store the API data in sessionStorage
+            sessionStorage.setItem('userData', JSON.stringify(data));
+            // Redirect to the next HTML page
+            const account_type = data.username_type;
+            if (account_type == 1) {
+              window.location.href = 'https://aanyajha.github.io/CharityLink.io/FrontendFiles/OrganizationDashboard';
+            } else if (account_type == 2) {
+              window.location.href = 'https://aanyajha.github.io/CharityLink.io/FrontendFiles/EmployeeDashboard';
+            } else if (account_type == 3) {
+              window.location.href = 'https://aanyajha.github.io/CharityLink.io/FrontendFiles/ManagerDashboard';
+            } else if (account_type == 4) {
+              window.location.href = 'https://aanyajha.github.io/CharityLink.io/FrontendFiles/DefaultDashboard';
+            }
+          } else {
+            passwordWarning.classList.remove('hidden');
+            console.error("Request failed with status code", this.status);
+          }
+        };
+
+        xhr.onerror = function() {
+          console.error("Request failed");
+        };
+
+        xhr.send();
       } else {
-      	passwordWarning.classList.remove('hidden');
-        console.error("Request failed with status code", this.status);
+        console.log("here");
+        emailWarning.classList.remove('hidden');
+        passwordWarning.classList.add('hidden');
       }
-    };
+    }
 
-    xhr.onerror = function() {
-      console.error("Request failed");
-    };
-
-    xhr.send();
-  } else {
- 		console.log("here");
-		emailWarning.classList.remove('hidden');
-    passwordWarning.classList.add('hidden');
-  }
-}
-</script>
+  </script>
 
 </body>
