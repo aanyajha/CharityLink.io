@@ -1,1 +1,42 @@
-<!-- this is where we'll put the settings page -->
+<!DOCTYPE html>
+
+<head>
+<title>Settings</title>
+</head>
+
+<body>
+<button type="button" onclick="editFunc()" id="edit-button">
+Edit
+</button>
+<button type="button" onclick="deleteFunc()">
+Delete
+</button>
+</body>
+
+<style>
+  #edit-button {
+  display: none;
+}
+</style>
+
+<script>
+  function deleteFunc() {
+	
+  //TODO: API IMPLEMENTATION
+  //don't forget to include ifs for error flags
+  //var realPass = API IMPLEMENTATION
+  var confirmation = prompt("Are you sure? \nEnter your password:")
+  /*if (confirmation == realPass) {
+  	//stuff
+    alert("Account deleted. Returning to main page.")
+    window.location.replace("https://aanyajha.github.io/CharityLink.io/FrontendFiles/index.html");
+  }
+  else {
+  	alert("Password incorrect. Deletion aborted.")
+  } */
+}
+
+function editFunc() {
+
+}
+</script>
