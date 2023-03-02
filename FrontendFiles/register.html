@@ -3,11 +3,12 @@
 <title>Sign Up</title>
 </head>
 <body>
-	
+
 <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/index.html"><img id="logo" src="https://i.postimg.cc/Zq3dkdkW/Charitylink-Logo-Updated.png" alt="Charity Link Logo" width="160" height="60"></a>
 
 <button type="button" id="signUpButtonUp" class="up-button" onclick="loginPage()">
     Login</button>
+
 <div class="wrapper">
 <div id="register-word">
     <p>
@@ -37,6 +38,21 @@
     <input type="text" id="password" class="input-class" placeHolder="Password" required>
 </div>
 
+<label>Are you an organization?</label>
+<input type="checkbox" id="check" onclick="orgCheck()">
+
+<p class="edit-loc">Address Line 1</p>
+<input type="text" value="123 state street" id="address1" class="edit-loc">
+<p class="edit-loc">Address Line 2</p>
+<input type="text" value="Apartment 2" id="address2" class="edit-loc">
+<p class="edit-loc">City</p>
+<input type="text" value="Lafayette" id="city" class="edit-loc">
+<p class="edit-loc">State</p>
+<input type="text" value="IN" id="state" class="edit-loc">
+<p class="edit-loc">Zip Code</p>
+<input type="text" value="47905" id="zip" class="edit-loc">
+
+
 <div id="button-div">
 <button type="button" id="register-button"  onclick="signUpFunc()">
 Sign Up
@@ -48,9 +64,10 @@ Sign Up
 </div>
 
 </div>
+</body>
 
 <style>
-  @import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300);
+@import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300);
 {
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
@@ -113,7 +130,7 @@ body :-ms-input-placeholder {
 }
 
 
-input {
+.input-class {
   /* padding: 20px 0; */
   position: relative;
   z-index: 2;
@@ -136,11 +153,11 @@ input {
   font-weight: 300;
 }
 
-input:hover {
+.input-class:hover {
   background-color: rgba(255, 255, 255, 0.4);
 }
 
-input:focus {
+.input-class:focus {
   background-color: white;
   width: 300px;
   color: #009999;
@@ -178,7 +195,8 @@ input:focus {
   font-size: 80px;
   margin-bottom: -30px;
 }
-	.up-button {
+
+.up-button {
   float: right;
   -webkit-appearance: none;
   -moz-appearance: none;
@@ -199,7 +217,16 @@ input:focus {
 .up-button:hover {
   background-color: #f5f7f9;
 }
+
+.edit-loc {
+  display: none;
+  position: relative;
+  z-index: 2;
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
   
+}
   </style>
   
   <script>
@@ -209,6 +236,21 @@ input:focus {
 	var username = document.getElementById("username");
   var email = document.getElementById("email");
 	var password = document.getElementById("password");
+
+}
+	  
+	  function orgCheck() {
+
+  var editable = document.getElementsByClassName("edit-loc");
+  if (document.getElementById("check").checked) {
+    for (var i = 0; i < editable.length; i++) {
+      editable[i].style.display = 'inline';
+    }
+  } else {
+  	for (var i = 0; i < editable.length; i++) {
+      editable[i].style.display = 'none';
+    }
+  }
 
 }
     
