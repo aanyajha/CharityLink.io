@@ -1,6 +1,5 @@
 package com.example.charitylink;
 
-import jakarta.persistence.criteria.CriteriaBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -24,6 +23,39 @@ public class MainController {
 
     @Autowired
     private LocationRepository locationRepository;
+
+    @Autowired
+    private ProfileRepository profileRepository;
+
+    @PostMapping(path = "/profile/add")
+    public @ResponseBody Profile addNewProfile(@RequestParam Integer companyID, @RequestParam String statement,
+                                               @RequestParam String logo) {
+        Profile profile = new Profile(companyID, statement, logo);
+        profileRepository.save(profile);
+        return profile;
+    }
+
+    @PutMapping(path = "/profile/edit")
+    public @ResponseBody Profile editProfile(@RequestParam Integer companyID, @RequestParam(required = false) String statement,
+                                             @RequestParam(required = false) String logo) {
+        Profile profile = profileRepository.findById(companyID).get();
+        if (profile == null) {
+            return new Profile();
+        }
+        if (statement != null) profile.setStatement(statement);
+        if (logo != null) profile.setLogo(logo);
+        profileRepository.save(profile);
+        return profile;
+    }
+
+    @GetMapping(path = "/profile/get")
+    public @ResponseBody Profile getProfile (@RequestParam Integer companyID) {
+        Profile profile = profileRepository.findById(companyID).get();
+        if (profile == null) {
+            return new Profile();
+        }
+        return profile;
+    }
 
     @PostMapping(path="/user/add")
     public @ResponseBody User addNewUser(@RequestParam String name, @RequestParam String username,
