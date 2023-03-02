@@ -219,74 +219,82 @@
   </style>
 
   <script>
-    function loginPage() {
-      //links to login
-      window.location.href = '/CharityLink.io/FrontendFiles/login.html'
-    }
+    
+function loginPage() {
+  //links to login
+  window.location.href = '/CharityLink.io/FrontendFiles/login.html'
+}
 
-    function registerPage() {
-      //links register page
-      window.location.href = '/CharityLink.io/FrontendFiles/register.html'
-    }
+function registerPage() {
+  //links register page
+  window.location.href = '/CharityLink.io/FrontendFiles/register.html'
+}
 
-    function isValidEmail(email) {
-      const pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      return pattern.test(email);
-    }
+function isValidEmail(email) {
+  const pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return pattern.test(email);
+}
 
-    //const loginButton = document.querySelector('#login-button');
+//const loginButton = document.querySelector('#login-button');
 
-    function loginAuth() {
-      console.log("test");
-      const username = document.getElementById('username').value;
-      const password = document.getElementById('password').value;
-      const emailWarning = document.getElementById('email-warning');
-      const passwordWarning = document.getElementById('password-warning');
+function loginAuth() {
+  console.log("test");
+  const username = document.getElementById('username').value;
+  const password = document.getElementById('password').value;
+  const emailWarning = document.getElementById('email-warning');
+  const passwordWarning = document.getElementById('password-warning');
 
-      if (isValidEmail(username)) {
-        const url = `http://20.163.149.164:8080/api/user/login/email?email=${username}&password=${password}`;
-        console.log(username);
-        console.log(password);
+  if (isValidEmail(username)) {
+    const url = `http://20.163.149.164:8080/api/user/login/email?email=${username}&password=${password}`;
+    console.log(username);
+    console.log(password);
 
-        const xhr = new XMLHttpRequest();
-        xhr.open("GET", url, true);
+    const xhr = new XMLHttpRequest();
+    xhr.open("GET", url, true);
 
-        xhr.onload = function() {
-          if (this.status === 200) {
-            const data = JSON.parse(this.responseText);
-            emailWarning.classList.remove('hidden');
-            passwordWarning.classList.add('hidden');
-            console.log(data);
-            // Store the API data in sessionStorage
-            sessionStorage.setItem('userData', JSON.stringify(data));
-            // Redirect to the next HTML page
-            const account_type = data.username_type;
-            if (account_type == 1) {
-              window.location.href = 'https://aanyajha.github.io/CharityLink.io/FrontendFiles/OrganizationDashboard';
-            } else if (account_type == 2) {
-              window.location.href = 'https://aanyajha.github.io/CharityLink.io/FrontendFiles/EmployeeDashboard';
-            } else if (account_type == 3) {
-              window.location.href = 'https://aanyajha.github.io/CharityLink.io/FrontendFiles/ManagerDashboard';
-            } else if (account_type == 4) {
-              window.location.href = 'https://aanyajha.github.io/CharityLink.io/FrontendFiles/DefaultDashboard';
-            }
-          } else {
-            passwordWarning.classList.remove('hidden');
-            console.error("Request failed with status code", this.status);
-          }
-        };
-
-        xhr.onerror = function() {
-          console.error("Request failed");
-        };
-
-        xhr.send();
-      } else {
-        console.log("here");
-        emailWarning.classList.remove('hidden');
+    xhr.onload = function() {
+      if (this.status === 200) {
+        const data = JSON.parse(this.responseText);
+  			emailWarning.classList.remove('hidden');
         passwordWarning.classList.add('hidden');
+        console.log(data);
+        // Store the API data in sessionStorage
+        sessionStorage.setItem('userData', JSON.stringify(data));
+        // Redirect to the next HTML page
+        const account_type = data.userType;
+        console.log(account_type);
+        if (account_type == 1) {
+       		window.location.href = 'https://aanyajha.github.io/CharityLink.io/FrontendFiles/OrganizationDashboard';
+        } 
+        else if (account_type == 2) {
+        	window.location.href = 'https://aanyajha.github.io/CharityLink.io/FrontendFiles/EmployeeDashboard';
+        }
+        else if (account_type == 3) {
+        	window.location.href = 'https://aanyajha.github.io/CharityLink.io/FrontendFiles/ManagerDashboard';
+        }
+        else if (account_type == 4) {
+        	window.location.href = 'https://aanyajha.github.io/CharityLink.io/FrontendFiles/DefaultDashboard';
+        }
+        else {
+        	console.log("Not valid");
+        }
+      } else {
+      	passwordWarning.classList.remove('hidden');
+        console.error("Request failed with status code", this.status);
       }
-    }
+    };
+
+    xhr.onerror = function() {
+      console.error("Request failed");
+    };
+
+    xhr.send();
+  } else {
+ 		console.log("here");
+		emailWarning.classList.remove('hidden');
+    passwordWarning.classList.add('hidden');
+  }
+}
 
   </script>
 
