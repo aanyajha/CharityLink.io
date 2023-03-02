@@ -1,209 +1,224 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
+
 <head>
-<title>Login</title>
+  <title>Login</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js">
+  </script>
 </head>
 
 <body>
 
-<a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/index.html"><img id="logo" src="https://i.postimg.cc/Zq3dkdkW/Charitylink-Logo-Updated.png" alt="Charity Link Logo" width="160" height="60"></a>
+  <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/index.html"><img id="logo" src="https://i.postimg.cc/Zq3dkdkW/Charitylink-Logo-Updated.png" alt="Charity Link Logo" width="160" height="60"></a>
 
-<button type="button" id="signUpButtonUp" class="up-button" onclick="registerPage()">
+  <button type="button" id="signUpButtonUp" class="up-button" onclick="registerPage()">
     Sign Up</button>
 
-<div class="wrapper">
-<div id="login-word">
-    <p>
-    Login
-    </p>
-</div>
+  <div class="wrapper">
+    <div id="login-word">
+      <p>
+        Login
+      </p>
+    </div>
 
-<div id="username-div">
-    <p class="words">
-    Username or Email: 
-    </p>
-    <input type="text" id="username" class="input-class" placeHolder="Username" required>
-</div>
+    <div id="username-div">
+      <p class="words">
+        Username or Email:
+      </p>
+      <input type="text" id="username" class="input-class" placeHolder="Username" required>
+      <div id="email-warning" class="warning" style="display: none">Invalid email address</div>
+    </div>
 
-<div id="password-div">
-    <p class="words">
-    Password: 
-    </p>
-    <input type="text" id="password" class="input-class" placeHolder="Password" required>
-</div>
-<div id="forgot-div">
-<a href="">Forgot Password?</a>
-</div>
+    <div id="password-div">
+      <p class="words">
+        Password:
+      </p>
+      <input type="password" id="password" class="input-class" placeHolder="Password" required>
+      <p id="password-warning" class="hidden">Incorrect password</p>
+    </div>
+    <div id="forgot-div">
+      <a href="">Forgot Password?</a>
+    </div>
 
-<div id="button-div">
-<button type="button" id="login-button">
-Login
-</button>
-</div>
+    <div id="button-div">
+      <button type="button" id="login-button" onclick="loginAuth()">
+        Login
+      </button>
+    </div>
 
-<div id="attempts">
-</div>
+    <div id="attempts">
+    </div>
 
-<div>
-<a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/register.html">Sign Up instead</a>
-</div>
+    <div>
+      <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/register.html">Sign Up instead</a>
+    </div>
+    
 
-</div>
+  </div>
 
 <style>
 @import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300);
-{
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-  font-weight: 300;
-}
-body ::-moz-placeholder {
-  font-family: 'Source Sans Pro', sans-serif;
-  color: #009999;
-  opacity: 1;
-  font-weight: 300;
-}
-body {
-  font-family: 'Source Sans Pro', sans-serif;
-  background: #CBFCFF;
-  background: -webkit-gradient(linear, left top, right bottom, from(#CBFCFF), to(#FFFFFF));
-  background: linear-gradient(to bottom right, #CBFCFF 0%, #FFFFFF 100%);
-  top: 50%;
-  left: 0;
-  width: 100%;
-  height: 850px;
-}
 
-body ::-webkit-input-placeholder{
-  font-family: 'Source Sans Pro', sans-serif;
-    color: #009999;
-    font-weight: 300;
-}
+      {
+      -webkit-box-sizing: border-box;
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-weight: 300;
+    }
+    
+    body ::-moz-placeholder {
+      font-family: 'Source Sans Pro', sans-serif;
+      color: #009999;
+      opacity: 1;
+      font-weight: 300;
+    }
 
-body :-moz-placeholder {
-  font-family: 'Source Sans Pro', sans-serif;
-  color: #009999;
-  opacity: 1;
-  font-weight: 300;
-}
+    body {
+      font-family: 'Source Sans Pro', sans-serif;
+      background: #CBFCFF;
+      background: -webkit-gradient(linear, left top, right bottom, from(#CBFCFF), to(#FFFFFF));
+      background: linear-gradient(to bottom right, #CBFCFF 0%, #FFFFFF 100%);
+      top: 50%;
+      left: 0;
+      width: 100%;
+      height: 850px;
+    }
 
+    body ::-webkit-input-placeholder {
+      font-family: 'Source Sans Pro', sans-serif;
+      color: #009999;
+      font-weight: 300;
+    }
 
-body :-ms-input-placeholder {
-  font-family: 'Source Sans Pro', sans-serif;
-  color: #009999;
-  font-weight: 300;
-}
-
-.wrapper {
-  background: #CBFCFF;
-  background: -webkit-gradient(linear, left top, right bottom, from(#CBFCFF), to(#FFFFFF));
-  background: linear-gradient(to bottom right, #CBFCFF 0%, #FFFFFF 100%);
-  top: 50%;
-  margin: auto;
-  left: 0;
-  width: 100%;
-  height: 850px;
-  overflow: hidden;
-  text-align: center;
-}
-.wrapper.form-success .container h1 {
-  -webkit-transform: translateY(85px);
-          transform: translateY(85px);
-}
+    body :-moz-placeholder {
+      font-family: 'Source Sans Pro', sans-serif;
+      color: #009999;
+      opacity: 1;
+      font-weight: 300;
+    }
 
 
-input {
-  /* padding: 20px 0; */
-  position: relative;
-  z-index: 2;
-  -webkit-appearance: none;
-     -moz-appearance: none;
-          appearance: none;
-  outline: 0;
-  border: 1px solid rgba(255, 255, 255, 0.4);
-  background-color: rgba(255, 255, 255, 0.2);
-  width: 250px;
-  border-radius: 3px;
-  padding: 10px 15px;
-  margin: 0 auto 10px auto;
-  display: block;
-  text-align: center;
-  font-size: 18px;
-  color: white;
-  -webkit-transition-duration: 0.25s;
-          transition-duration: 0.25s;
-  font-weight: 300;
-}
+    body :-ms-input-placeholder {
+      font-family: 'Source Sans Pro', sans-serif;
+      color: #009999;
+      font-weight: 300;
+    }
+    
+    .hidden {
+      color: red;
+      display: none;
+    }
 
-input:hover {
-  background-color: rgba(255, 255, 255, 0.4);
-}
+    .wrapper {
+      background: #CBFCFF;
+      background: -webkit-gradient(linear, left top, right bottom, from(#CBFCFF), to(#FFFFFF));
+      background: linear-gradient(to bottom right, #CBFCFF 0%, #FFFFFF 100%);
+      top: 50%;
+      margin: auto;
+      left: 0;
+      width: 100%;
+      height: 850px;
+      overflow: hidden;
+      text-align: center;
+    }
 
-input:focus {
-  background-color: white;
-  width: 300px;
-  color: #009999;
-}
+    .wrapper.form-success .container h1 {
+      -webkit-transform: translateY(85px);
+      transform: translateY(85px);
+    }
 
-.words::after {
-  content: " *";
-  color: red;
-}
 
-#login-button {
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  outline: 0;
-  margin-top: 10px;
-  background-color: white;
-  border: 0;
-  padding: 10px 15px;
-  color: #009999;
-  border-radius: 3px;
-  width: 125px;
-  cursor: pointer;
-  font-size: 18px;
-  -webkit-transition-duration: 0.25s;
-  transition-duration: 0.25s;
-}
+    input {
+      /* padding: 20px 0; */
+      position: relative;
+      z-index: 2;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+      outline: 0;
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      background-color: rgba(255, 255, 255, 0.2);
+      width: 250px;
+      border-radius: 3px;
+      padding: 10px 15px;
+      margin: 0 auto 10px auto;
+      display: block;
+      text-align: center;
+      font-size: 18px;
+      color: #009999;
+      -webkit-transition-duration: 0.25s;
+      transition-duration: 0.25s;
+      font-weight: 300;
+    }
 
-#login-button:hover {
-  background-color: #009999;
-  color: #FFFFFF;
-}
+    input:hover {
+      background-color: rgba(255, 255, 255, 0.4);
+    }
 
-#login-word {
-  font-size: 80px;
-  margin-bottom: -30px;
-}
+    input:focus {
+      background-color: white;
+      width: 300px;
+      color: #009999;
+    }
 
-.up-button {
-  float: right;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  outline: 0;
-  background-color: transparent;
-  border: 0;
-  padding: 5px 10px;
-  color: #009999;
-  border-radius: 3px;
-  width: 70px;
-  cursor: pointer;
-  font-size: 14px;
-  -webkit-transition-duration: 0.25s;
-  transition-duration: 0.25s;
-}
+    .words::after {
+      content: " *";
+      color: red;
+    }
 
-.up-button:hover {
-  background-color: #f5f7f9;
-}
+    #login-button {
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+      outline: 0;
+      margin-top: 10px;
+      background-color: white;
+      border: 0;
+      padding: 10px 15px;
+      color: #009999;
+      border-radius: 3px;
+      width: 125px;
+      cursor: pointer;
+      font-size: 18px;
+      -webkit-transition-duration: 0.25s;
+      transition-duration: 0.25s;
+    }
+
+    #login-button:hover {
+      background-color: #009999;
+      color: #FFFFFF;
+    }
+
+    #login-word {
+      font-size: 80px;
+      margin-bottom: -30px;
+    }
+
+    .up-button {
+      float: right;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+      outline: 0;
+      background-color: transparent;
+      border: 0;
+      padding: 5px 10px;
+      color: #009999;
+      border-radius: 3px;
+      width: 70px;
+      cursor: pointer;
+      font-size: 14px;
+      -webkit-transition-duration: 0.25s;
+      transition-duration: 0.25s;
+    }
+
+    .up-button:hover {
+      background-color: #f5f7f9;
+    }
 </style>
 
 <script>
-	function loginPage() {
+function loginPage() {
   //links to login
   window.location.href = '/CharityLink.io/FrontendFiles/login.html'
 }
@@ -213,50 +228,55 @@ function registerPage() {
   window.location.href = '/CharityLink.io/FrontendFiles/register.html'
 }
 
-function isEmail(username){
-    let regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-
-  if (emailAdress.match(regex)) 
-    return true; 
-
-   else 
-    return false; 
+function isValidEmail(email) {
+  const pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return pattern.test(email);
 }
 
-const loginButton = document.querySelector('#login-button');
+//const loginButton = document.querySelector('#login-button');
 
-loginButton.addEventListener('click', async () => {
-	if (isEmail(username) == true) {
-		const email = document.querySelector('#username')
-    
-    const response = await fetch('/api/login', {
-    method: 'POST',
-    headers: {
-    	'Content-Type': 'application/json'
-    },
-    bosy: JSON.stringify({ email, password })
-		});
-  
-		const data = await response.json();
-  
-		console.log(data);
+function loginAuth() {
+  console.log("test");
+  const username = document.getElementById('username').value;
+  const password = document.getElementById('password').value;
+  const emailWarning = document.getElementById('email-warning');
+  const passwordWarning = document.getElementById('password-warning');
+
+  if (isValidEmail(username)) {
+    const url = `http://20.163.149.164:8080/api/user/login/email?email=${username}&password=${password}`;
+    console.log(username);
+    console.log(password);
+
+    const xhr = new XMLHttpRequest();
+    xhr.open("GET", url, true);
+
+    xhr.onload = function() {
+      if (this.status === 200) {
+        const data = JSON.parse(this.responseText);
+  			emailWarning.classList.remove('hidden');
+        passwordWarning.classList.add('hidden');
+        console.log(data);
+        // Store the API data in sessionStorage
+        sessionStorage.setItem('userData', JSON.stringify(data));
+        // Redirect to the next HTML page
+        window.location.href = 'https://aanyajha.github.io/CharityLink.io/FrontendFiles/OrganizationDashboard';
+      } else {
+      	passwordWarning.classList.remove('hidden');
+        console.error("Request failed with status code", this.status);
+      }
+    };
+
+    xhr.onerror = function() {
+      console.error("Request failed");
+    };
+
+    xhr.send();
+  } else {
+ 		console.log("here");
+		emailWarning.classList.remove('hidden');
+    passwordWarning.classList.add('hidden');
   }
-  else {
-  	const username = document.querySelector('#password').value;
-    
-    const response = await fetch('/api/login', {
-    method: 'POST',
-    headers: {
-    	'Content-Type': 'application/json'
-    },
-    bosy: JSON.stringify({ username, password })
-		});
-  
-		const data = await response.json();
-  
-		console.log(data);
-  }
-});
+}
 </script>
 
 </body>
