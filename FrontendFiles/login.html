@@ -35,7 +35,7 @@
       <input type="password" id="password" class="input-class" placeHolder="Password" required>
       <p id="password-warning" class="hidden">Incorrect password</p>
     </div>
-    <div id="forgot-div">
+    <div id="forgot-div" onclick="forgotPage()>
       <a href="">Forgot Password?</a>
     </div>
 
@@ -228,6 +228,11 @@ function loginPage() {
 function registerPage() {
   //links register page
   window.location.href = '/CharityLink.io/FrontendFiles/register.html'
+}
+	  
+function forgotPage() {
+  //linnks forgot password page
+  window.location.href = '/CharityLink.io/FrontendFiles/reset_form.html'
 }
 
 function isValidEmail(email) {
