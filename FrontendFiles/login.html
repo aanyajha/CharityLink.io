@@ -287,6 +287,7 @@ function loginAuth() {
             		attempts.push(0);
           	} else {
           		var userAtt = attempts[username.indexOf(username)]++;
+			attemptDiv.innerHTML = "You have " + (10 - userAtt) + " more attempts to login with this email."
             		if (userAtt == 10) {
             			//TODO: send email
               			attemptDiv.innerHTML = "Email of suspicious activity sent"
