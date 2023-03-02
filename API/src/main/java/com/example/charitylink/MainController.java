@@ -239,4 +239,13 @@ public class MainController {
         locationRepository.save(location);
         return location.getId();
     }
+
+    @GetMapping(path = "/location/get")
+    public @ResponseBody Location getLocation(@@RequestParam Integer id) {
+        Location location = locationRepository.findById(id).get();
+        if (location == null) {
+            return new Location();
+        }
+        return location;
+    }
 }
