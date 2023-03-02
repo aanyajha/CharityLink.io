@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<head>
+<title>Your Profile</title>
+</head>
+
+<body>
+<div>
+<p id="org-name">Pseudo name</p>
+</div>
+<img src="this one image" id="initial-prof-pic">
+<img src="this one image" id="preview">
+<input type="file" id="file-upload">
+<p id="loc-word">
+Location
+</p>
+
+<input type="text" value="" id="vis-loc" readonly>
+
+<p class="edit-loc">Address Line 1</p>
+<input type="text" value="lorem ipsum" id="address1" class="edit-loc">
+<p class="edit-loc">Address Line 2</p>
+<input type="text" value="lorem ipsum" id="address2" class="edit-loc">
+<p class="edit-loc">City</p>
+<input type="text" value="lorem ipsum" id="city" class="edit-loc">
+<p class="edit-loc">State</p>
+<input type="text" value="lorem ipsum" id="state" class="edit-loc">
+<p class="edit-loc">Zip Code</p>
+<input type="text" value="lorem ipsum" id="zip" class="edit-loc">
+<p>
+Mission Statement
+</p>
+<textarea type="text" value="" id="mission-id" readonly>lorem ipsum</textarea>
+
+<button id="edit-button" onclick="editFunc()">Edit</button>
+<button id="save-button" onclick="saveFunc()">Save</button>
+
+</body>
+
+<style>
+#mission-id {
+  width: 100%;
+  height: 150px;
+  padding: 12px 20px;
+  box-sizing: border-box;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+  background-color: #f8f8f8;
+  font-size: 16px;
+  resize: none;
+}
+
+#vis-loc {
+  display: inline;
+}
+
+.edit-loc {
+  display: none;
+}
+
+#save-button {
+  display: none;
+}
+
+#file-upload {
+  display: none;
+}
+
+#preview {
+  display: none;
+}
+
+
+</style>
+
+
+<script>
+//TODO: add grey color to indicate if can edit or not
+
+function editFunc() {
+
+	//get the backend and then replace these document.get with the
+  //data from backend
+
+	var mission = document.getElementById("mission-id");
+  var addr1 = document.getElementById("address1");
+  var addr2 = document.getElementById("address2");
+  var city = document.getElementById("city");
+  var state = document.getElementById("state");
+  var zip = document.getElementById("zip");
+  
+  
+  document.getElementById("vis-loc").style.display = "none";
+	document.getElementById("loc-word").style.display = "none";
+  
+  var editable = document.getElementsByClassName("edit-loc");
+	for (var i = 0; i < editable.length; i++){
+  	editable[i].style.display = 'inline';
+	}
+  var editButton = document.getElementById("edit-button");
+  
+  mission.removeAttribute("readonly");
+  
+  document.getElementById("initial-prof-pic").style.display = "none";
+  document.getElementById("preview").style.display = "inline";
+  document.getElementById("file-upload").style.display = "inline";
+  
+  var fileTag = document.getElementById("file-upload")
+  var preview = document.getElementById("preview");
+    
+fileTag.addEventListener("change", function() {
+  changeImage(this);
+});
+  
+  editButton.style.display = "none";
+  document.getElementById("save-button").style.display = "inline";
+  
+}
+
+function saveFunc() {
+	//this still needs to connect to backend to send all the info
+	var mission = document.getElementById("mission-id");
+  var addr1 = document.getElementById("address1");
+  var addr2 = document.getElementById("address2");
+  var city = document.getElementById("city");
+  var state = document.getElementById("state");
+  var zip = document.getElementById("zip");
+  
+  var newImg = document.getElementById("preview");
+  document.getElementById("initial-prof-pic").src = newImg.src;
+  
+	document.getElementById("vis-loc").style.display = "inline";
+	document.getElementById("loc-word").style.display = "inline";
+  
+  var editable = document.getElementsByClassName("edit-loc");
+	for (var i = 0; i < editable.length; i++){
+  	editable[i].style.display = 'none';
+	}
+  
+  var location = document.getElementById("vis-loc");
+  var locationString = "";
+  if (!addr2) {
+  	locationString = addr1.value + ", " + city.value + ", " + state.value + " " + zip.value;
+  } else {
+  	locationString = addr1.value + ", " + addr2.value + ", " + city.value + ", " + state.value + " " + zip.value;
+  }
+  location.value = locationString;
+  
+  document.getElementById("initial-prof-pic").style.display = "inline";
+  document.getElementById("preview").style.display = "none";
+  document.getElementById("file-upload").style.display = "none";
+  
+  mission.setAttribute("readonly", "readonly");
+  
+	var editButton = document.getElementById("edit-button");
+	editButton.style.display="inline";
+  document.getElementById("save-button").style.display="none";
+  
+  //if everything is successful
+  alert("Save successful!")
+  
+  
+}
+
+
+//this code I used stackoverflow to help me
+//https://stackoverflow.com/questions/31710127/javascript-image-upload-and-display
+
+function changeImage(input) {
+  var reader;
+
+  if (input.files && input.files[0]) {
+    reader = new FileReader();
+
+    reader.onload = function(e) {
+      preview.setAttribute('src', e.target.result);
+    }
+
+    reader.readAsDataURL(input.files[0]);
+  }
+}
+
+</script>
