@@ -241,7 +241,7 @@ public class MainController {
     }
 
     @GetMapping(path = "/location/get")
-    public @ResponseBody Location getLocation(@@RequestParam Integer id) {
+    public @ResponseBody Location getLocation(@RequestParam Integer id) {
         Location location = locationRepository.findById(id).get();
         if (location == null) {
             return new Location();
