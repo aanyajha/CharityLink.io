@@ -9,8 +9,5 @@
     <SOURCES>
       <root url="jar://$MAVEN_REPOSITORY$/ch/qos/logback/logback-classic/1.4.5/logback-classic-1.4.5-sources.jar!/" />
     </SOURCES>
-    <excluded>
-      <root url="file://$USER_HOME$/Downloads/apache-maven-3.9.0" />
-    </excluded>
   </library>
 </component>

@@ -11,8 +11,10 @@ public class PasswordResetService {
 
     public void storeToken(String email) {
         User user = (User) userRepository.findUserIdByEmail(email);
-        String token = user.getPasswordResetToken();
-        userRepository.save(user);
+        if (user != null) {
+            String token = user.getPasswordResetToken();
+            user.setPasswordResetToken(token);
+            userRepository.save(user);
+        }
     }
-
 }

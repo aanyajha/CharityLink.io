@@ -96,8 +96,6 @@ public class MainController {
     }
 
 
-
-
     @GetMapping(path = "/user/login/username")
     public @ResponseBody User loginFromUsername(@RequestParam String username, @RequestParam String password) {
         List<Integer> userIdList = userRepository.findUserIdByUsername(username);
