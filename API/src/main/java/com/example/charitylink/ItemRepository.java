@@ -14,10 +14,8 @@ import java.util.List;
 public interface ItemRepository extends CrudRepository<Item, Integer>{
     @Query(value = "SELECT MAX(item.itemid) AS itemid FROM item WHERE item.userid = :userID GROUP BY item.userid", nativeQuery = true)
     List<Integer> findMaxItemIdByUser(@Param("userID") Integer userID);
-//    @Modifying
-//    @Transactional
-//    @Query(value = "DELETE FROM item WHERE item.itemid = :itemId AND item.userid = :userId", nativeQuery = true)
-//    void test(@Param("itemId") Integer itemId, @Param("userId") Integer userId);
     @Transactional
     void deleteByItemIDAndUserID(Integer itemId, Integer userId);
+//    @Query(value = "", nativeQuery = true)
+    List<Item> findItemsByUserID(Integer userID);
 }

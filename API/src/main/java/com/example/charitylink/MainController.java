@@ -146,6 +146,11 @@ public class MainController {
         return "Saved";
     }
 
+    @GetMapping(path = "/item/inventory")
+    public @ResponseBody Iterable<Item> getInventory(@RequestParam Integer userID) {
+        return itemRepository.findItemsByUserID(userID);
+    }
+
     @DeleteMapping(path = "/item/delete")
     public @ResponseBody String deleteItemById(@RequestParam Integer itemId, @RequestParam Integer userId) {
         long count = itemRepository.count();
