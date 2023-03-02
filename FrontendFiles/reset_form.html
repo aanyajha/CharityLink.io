@@ -1,17 +1,63 @@
 <!DOCTYPE html>
-<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Password Reset Form</title>
+    <title>Request Password Reset</title>
 </head>
 <body>
-    <h1>Password Reset Form</h1>
-    <form method="POST" action="/reset">
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" required><br><br>
-        <label for="password">New Password:</label>
-        <input type="password" id="password" name="password" required><br><br>
-        <button type="submit">Reset Password</button>
+    <h1>Request Password Reset</h1>
+    <form method="POST">
+        <label id="word">Email: </label>
+        <input type="email" id="email" required>
+        <br>
+        <p id="confirmation">
+        Email Sent!
+        </p>
+        <button type="submit" id="submit" onclick="sendPass()">Submit</button>
     </form>
-</body>
-</html>
+</body
+
+
+<style>
+#confirmation {
+  display: none;
+}
+</style>
+
+<script>
+    function sendPass() {
+
+	//email stuff, Aanya is figuring that out
+  
+  /*
+  if (email has error sending) {
+  	document.getElementById("confirmation").innerHTML = "Error with sending. Try again."
+  	return;
+  }
+  */
+  
+  document.getElementById("word").innerHTML = "Token: ";
+  
+  document.getElementById("confirmation").style.display = "inline";
+  
+  document.getElementById("submit").onclick = function () { verifyToken(); };
+
+}
+
+function verifyToken(token) {
+//let aanya return to me the right token
+/*
+	var correct = 
+*/
+var token = document.getElementById("email").value;
+alert(token); //this is just for testing purposes
+
+/*if (token != correct) {
+
+	document.getElementById("confirmation").innerHTML = "The password reset token is invalid or has expired. Please try again or request another password reset."
+
+}
+*/
+
+return;
+}
+</script>
