@@ -126,14 +126,12 @@ function onloadFunc() {
                 console.error("Request failed with status code", this.status);
               }
             };
-            
-          });
           xhr.onerror = function() {
             console.error("Request failed");
           };
         }
       }
-
+    }
     function openNav() {
       document.getElementById("mySidebar").style.display = "block";
     }
