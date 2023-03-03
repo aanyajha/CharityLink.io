@@ -125,7 +125,8 @@ function editFunc() {
 window.onload = onloadFunc();
 
 function onloadFunc() {
-  var companyId = 402;
+  var userData = JSON.parse(sessionStorage.getItem("userData"));
+  var companyId = userData.companyId;
   console.log(companyId);
   const eurl = `http://20.163.149.164:8080/api/profile/get?companyID=${companyId}`;
 
@@ -217,8 +218,9 @@ function saveFunc() {
   var city = document.getElementById("city");
   var state = document.getElementById("state");
   var zip = document.getElementById("zip");
-  //TODO: COOKIES
-  var companyId = 402;
+  
+  var userData = JSON.parse(sessionStorage.getItem("userData"));
+  var companyId = userData.companyId;
 
   var newImg = document.getElementById("preview");
   document.getElementById("initial-prof-pic").src = newImg.src;
@@ -280,7 +282,9 @@ function saveFunc() {
           //imgUrl.split(' ').join('+');
           console.log(imgUrl);
           var locId = this.responseText;
-          var link = `http://20.163.149.164:8080/api/profile/edit?companyID=${companyId}&statement=${mission}&logo=${imgUrl}`;
+          var userData = JSON.parse(sessionStorage.getItem("userData"));
+          var compId = userData.companyId;
+          var link = `http://20.163.149.164:8080/api/profile/edit?companyID=${compId}&statement=${mission1}&logo=${imgUrl}`;
           
           const qxhr = new XMLHttpRequest();
           qxhr.open("PUT", link, true);
