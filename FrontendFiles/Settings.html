@@ -126,12 +126,12 @@ function deleteFunc() {
         var durl = `http://20.163.149.164:8080/api/user/delete?email=${email}`;
         const dxhr = new XMLHttpRequest();
     		dxhr.open("DELETE", durl, true);
-
+		console.log("you're not insane");
     		dxhr.onload = function() {
-  				if (dxhr.responseText == "Invalid Email") {
+  				if (this.responseText == "Invalid Email") {
           
-          } else if (dxhr.responseText == "Error") {
-          
+          } else if (this.responseText == "Error") {
+          	console.log("Error");
           } else {
           	alert("Account successfully deleted.");
             window.location.href = "https://aanyajha.github.io/CharityLink.io/FrontendFiles/index.html";
