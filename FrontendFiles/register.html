@@ -306,7 +306,6 @@ function signUpFunc() {
             if (data1 != null) {
               // Store the API data in sessionStorage
               sessionStorage.setItem('userData', JSON.stringify(data1));
-              console.log(account_type);
             } else {
               alert("Email already taken");
               return;
@@ -343,7 +342,6 @@ function signUpFunc() {
         if (data != null) {
           // Store the API data in sessionStorage
           sessionStorage.setItem('userData', JSON.stringify(data));
-          console.log(account_type);
         } else {
           alert("Email already taken");
         }
