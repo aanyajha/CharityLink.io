@@ -24,7 +24,7 @@
 	<button onclick="rsvp()">Populate Rows</button>
 	<script>
 		
-			const eventDetails = JSON.parse(sessionStorage.getItem("eventDetails"));
+			const eventDetails = JSON.parse(sessionStorage.getItem("eventData"));
 			const url = `http://20.163.149.164:8080/api/location/get?id=${eventDetails.locationID}`;
   const xhr = new XMLHttpRequest();
   xhr.open("GET", url, true);
