@@ -28,6 +28,22 @@ public class MainController {
     @Autowired
     private ProfileRepository profileRepository;
 
+    @GetMapping(path = "/email/suspicious")
+    public @ResponseBody String suspicious(@RequestParam String email) {
+        List<Integer> userIdList = userRepository.findUserIdByEmail(email);
+        if (userIdList.size() == 0) {
+            return "Invalid Email";
+        }
+        try {
+            new SendEmail().sendMail(email, "Suspicious Activity on your Charity Link Account",
+                    "Someone has tried to login to your CharityLink account 10 times and failed.");
+            return "Sent";
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return "failed";
+        }
+    }
+
     @GetMapping(path = "/password/reset")
     public @ResponseBody String passwordReset(@RequestParam String email) {
         List<Integer> userIdList = userRepository.findUserIdByEmail(email);
