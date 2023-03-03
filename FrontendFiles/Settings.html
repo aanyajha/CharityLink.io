@@ -92,10 +92,8 @@ function deleteFunc() {
   //don't forget to include ifs for error flags
   var confirmation = prompt("Are you sure? \nEnter your password:");
 
-  var email = "example@gmail.com";
+  var email = localStorage.getItem('email');
   const url = `http://20.163.149.164:8080/api/user/login/email?email=${email}&password=${confirmation}`;
-  console.log(email);
-  console.log(confirmation);
 
   const xhr = new XMLHttpRequest();
   xhr.open("GET", url, true);
@@ -132,16 +130,14 @@ function deleteFunc() {
 }
 
 
-var username = "example@gmail.com";
-var password = "password";
+var username = localStorage.getItem('email');
+var password = localStorage.getItem('password');
 var typeData;
 var companyData;
 var joinData;
 window.onload = onloadFunc();
 
 function onloadFunc() {
-  console.log(username);
-  console.log(password);
   const eurl = `http://20.163.149.164:8080/api/user/login/email?email=${username}&password=${password}`;
 
   const exhr = new XMLHttpRequest();
@@ -203,8 +199,8 @@ function onloadFunc() {
 
 function editFunc() {
 
-  var username = "example@gmail.com";
-  var password = "password";
+var username = localStorage.getItem('email');
+var password = localStorage.getItem('password');
   const eurl = `http://20.163.149.164:8080/api/user/login/email?email=${username}&password=${password}`;
 
   const exhr = new XMLHttpRequest();
