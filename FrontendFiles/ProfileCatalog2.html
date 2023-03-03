@@ -54,10 +54,10 @@ img {
 
 <script>
 // Define data for catalog
-const userData = JSON.parse(sessionStorage.getItem('userData'));
-if (userData != null) {
+//const userData = JSON.parse(sessionStorage.getItem('userData'));
+//if (userData != null) {
   printData();
-}
+//}
 	
 function seeDetails() {
  
@@ -92,10 +92,10 @@ function printData() {
             
           const profileContainer = document.createElement('div');
           const profileName = document.createElement('h3');
-          const profileId = document.createElement('p');
+         
           const data1 = JSON.parse(this.responseText);
            console.log(data1);
-              profileName.textContent = data1.name;
+              
               profileId.textContent = data1.id;
               
           profileContainer.appendChild(profileName);
@@ -106,16 +106,19 @@ function printData() {
 
           // Add item container to catalog container
           largerContainer.appendChild(eventContainer);
+		  });
+      });
           }
           else {
             console.error("Request failed with status code", this.status);
           }
         };
+        xhr.onerror = function() {
+    	console.error("Request failed");
+  	};
         
+        xhr.send();
         
-        
-        });
-      });
     } else {
 
       console.error("Request failed with status code", this.status);
