@@ -142,10 +142,11 @@ function onloadFunc() {
       document.getElementById("initial-prof-pic").src = logo;
       document.getElementById("preview").src = logo;
       var companyName = document.getElementById("org-name");
-      companyName.innerHTML = data.name;
+      companyName.innerHTML = sessionStorage.getItem("name");
       console.log(data);
       var locId = sessionStorage.getItem("locationID");
       const lxhr = new XMLHttpRequest();
+      console.log(locId);
       var lurl = `http://20.163.149.164:8080/api/location/get?id=${locId}`;
       lxhr.open("GET", lurl, true);
       lxhr.send();
@@ -215,7 +216,7 @@ function saveFunc() {
   document.getElementById("initial-prof-pic").style.display = "inline";
   document.getElementById("preview").style.display = "none";
   document.getElementById("file-upload").style.display = "none";
-
+  var imgUrl;
   const file = document.getElementById("file-upload");
   var newImg = document.getElementById("preview");
   file.addEventListener("change", ev => {
@@ -230,7 +231,11 @@ function saveFunc() {
     }).then(data => data.json()).then(data => {
       newImg.src = data.data.link;
 
-      var imgUrl = data.data.link;
+      imgUrl = data.data.link;
+
+
+    })
+  })
 
       var addr1 = document.getElementById("address1").value;
       var addr2 = document.getElementById("address2").value;
@@ -298,10 +303,6 @@ function saveFunc() {
 
         }
       }
-
-    })
-  })
-
 
   mission.setAttribute("readonly", "readonly");
 
