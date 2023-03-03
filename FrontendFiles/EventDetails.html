@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Example</title>
+</head>
+<body>
+	<table>
+		<tr>
+			<td id="row1"></td>
+		</tr>
+		<tr>
+			<td id="row2"></td>
+		</tr>
+		<tr>
+			<td id="row3"></td>
+		</tr>
+		<tr>
+			<td id="row4"></td>
+		</tr>
+		<tr>
+			<td id="row5"></td>
+		</tr>
+		<tr>
+			<td id="row6"></td>
+		</tr>
+	</table>
+	<button onclick="populateRows()">Populate Rows</button>
+	<script>
+		function populateRows() {
+			document.getElementById("row1").innerHTML = "First row";
+			document.getElementById("row2").innerHTML = "Second row";
+			document.getElementById("row3").innerHTML = "Third row";
+			document.getElementById("row4").innerHTML = "Fourth row";
+			document.getElementById("row5").innerHTML = "Fifth row";
+			document.getElementById("row6").innerHTML = "Sixth row";
+		}
+	</script>
+</body>
+</html>
