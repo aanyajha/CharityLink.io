@@ -153,7 +153,7 @@ function printData() {
         employeeEmail.textContent = employee.email;
         employeeUsername.textContent = employee.username;
         //editButton.textContent = "Edit";
-        editButton.textContent = "Delete";
+    
         //itemImage.setAttribute('src', item.image);
         console.log(employee.userType);
         console.log(employee.name);
@@ -248,20 +248,18 @@ function editEmployee() {
     alert("Please select proper employee type");
   }
   const formattedDate = getFormattedDate();
-  const url = `http://20.163.149.164:8080/api/user/add?name=${name}&username=${username}&password=${password}&email=${email}&date=${formattedDate}&userType=1`;
-  console.log("Sent User Info");
+  const url = `http://20.163.149.164:8080/api/user/edit?name=${name}&username=${username}&password=${password}&email=${email}&userType=${type}`;
 
   const xhr = new XMLHttpRequest();
-  xhr.open("POST", url, true);
+  xhr.open("PUT", url, true);
 
   xhr.onload = function() {
     if (this.status === 200) {
       const data = JSON.parse(this.responseText);
-      console.log(data);
       if (data.name != undefined) {
         // Store the API data in sessionStorage
-        sessionStorage.setItem('userData', JSON.stringify(data));
-        window.location.href = 'https://aanyajha.github.io/CharityLink.io/FrontendFiles/DefaultDashboard';
+        alert("Success!")
+        printData();
       } else {
         alert("Email already taken");
       }
