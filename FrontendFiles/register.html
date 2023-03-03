@@ -239,17 +239,17 @@ body :-ms-input-placeholder {
   <script>
 function signUpFunc() {
 
-  var username = document.getElementById("username");
-  var name = document.getElementById("name");
-  var email = document.getElementById("email");
-  var password = document.getElementById("password");
-  var address1 = document.getElementById("address1");
-  var address2 = document.getElementById("address2");
-  var city = document.getElementById("city");
-  var state = document.getElementById("state");
-  var zip = document.getElementById("zip");
-  var checkbox = document.getElementById("check");
-    
+  var username = document.getElementById('username');
+  var name = document.getElementById('name');
+  var email = document.getElementById('email');
+  var password = document.getElementById('password');
+  var address1 = document.getElementById('address1');
+  var address2 = document.getElementById('address2');
+  var city = document.getElementById('city');
+  var state = document.getElementById('state');
+  var zip = document.getElementById('zip');
+  var checkbox = document.getElementbyId('check');
+  
   console.log(email);
   console.log(isValidEmail(email));
 
@@ -417,7 +417,6 @@ function getFormattedDate() {
 
   return formattedDate;
 }
-
   </script>
   
 </body>
