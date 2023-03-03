@@ -48,8 +48,51 @@
 
     <div class="w3-container">
       <p>Welcome to Manage Employees!</p>
-      <p>Here you are able to manage employees, delete employee accounts, delete manager accounts, add manager accounts, add employee accounts, edit employee accounts, edit manager accounts, and view employees.</p>
-      <p>This page will eventually display an organization's employee information.</p>
+      <p>Here you are able to delete employee accounts, delete manager accounts, add manager accounts, add employee accounts, edit employee accounts, edit manager accounts, and view employees.</p>
+      <p>Employee information is listed below.</p>
+    </div>
+    
+    <div class="w3-container w3-border id=deleteBox">
+        <text type="text">Email of Employee to Delete:</text>
+        <input type="text" id="emailBoxDelete" style="border: 1px solid black;"><br>
+        <button type="button" id="deleteButton" onclick="deleteEmployee()">
+         Delete
+        </button>
+    </div>
+    
+    <div class="w3-container w3-border id=editBox">
+        <text type="text">Email of Employee to Edit:</text>
+        <input type="text" id="emailBoxEdit" style="border: 1px solid black;"><br>
+        <text type="text">Name of Employee to Edit:</text>
+        <input type="text" id="nameBoxEdit" style="border: 1px solid black"><br>
+        <text type="text">Username of Employee to Edit:</text>
+        <input type="text" id="usernameBoxEdit" style="border: 1px solid black;"><br>
+        <text type="text">Temporary Password to Edit:</text>
+        <input type="text" id="passBoxEdit" style="border: 1px solid black;"><br>
+        <text type="text">Employee</text>
+        <input type="checkbox" id="empCheckEdit">
+        <text type="text">Manager</text>
+        <input type="checkbox" id="manCheckEdit"><br>
+        <button type="button" id="editButton" onclick="editEmployee()">
+         Edit
+        </button>
+    </div>
+    <div class="w3-container w3-border" id="addBox">
+        <text type="text">Email of Employee to Add:</text>
+        <input type="text" id="emailBoxAdd" style="border: 1px solid black;"><br>
+        <text type="text">Name of Employee to Add:</text>
+        <input type="text" id="nameBoxAdd" style="border: 1px solid black;"><br>
+        <text type="text">Username of Employee to Add:</text>
+        <input type="text" id="usernameBoxAdd" style="border: 1px solid black;"><br>
+        <text type="text">Temporary Password to Add:</text>
+        <input type="text" id="passBoxAdd" style="border: 1px solid black;"><br>
+        <text type="text">Employee</text>
+        <input type="checkbox" id="empCheckAdd">
+        <text type="text">Manager</text>
+        <input type="checkbox" id="manCheckAdd"><br>
+        <button type="button" id="addButton" onclick="addEmployee()">
+         Add
+        </button><br>
     </div>
     
     <div class="w3-container w3-border" id="employee"></div>
@@ -57,105 +100,223 @@
   </body>
 
   <script>
-    // Define data for catalog
-    var selectedContainer;
-    const userData = JSON.parse(sessionStorage.getItem('userData'));
-    if (userData != null) {
-      printData();
-    }
+  // Define data for catalog
+const userData = JSON.parse(sessionStorage.getItem('userData'));
+if (userData != null) {
+  printData();
+}
 
-    // Get reference to catalog container in HTML
-    const staffContainer = document.getElementById('employee');
-    staffContainer.addEventListener('click', (event) => {
-    	selectedContainer = event.target.closest('.container');
-      
-      console.log("First:" + selectedContainer);
-      
-    });
+// Get reference to catalog container in HTML
+const staffContainer = document.getElementById('employee');
 
-    var staffData;
+var staffData;
 
-    // Dynamically generate HTML elements for each item in the catalog
-    function printData() {
-      console.log(userData);
-      const email = userData.email;
+// Dynamically generate HTML elements for each item in the catalog
+function printData() {
+  var container = document.getElementById("employee");
+  container.remove();
+  console.log(userData);
+  const email = userData.email;
 
-      const url = `http://20.163.149.164:8080/api/user/find/company?email=${email}`;
-      const xhr = new XMLHttpRequest();
-      xhr.open("GET", url, true);
+  const url = `http://20.163.149.164:8080/api/user/find/company?email=${email}`;
+  const xhr = new XMLHttpRequest();
+  xhr.open("GET", url, true);
 
-      xhr.onload = function() {
-        if (this.status === 200) {
-          const data = this.responseText;
-          console.log(data);
-          staffData = JSON.parse(data);
-          staffData.forEach(employee => {
-            // Create elements for item
-            console.log(employee);
-            const employeeContainer = document.createElement('div');
-            const employeeType = document.createElement('h3');
-            const employeeName = document.createElement('p');
-            const employeeEmail = document.createElement('p');
-            const employeeUsername = document.createElement('p');
-            
-            const editButton = document.createElement('button');
-            const deleteButton = document.createElement('button');
-            //const itemImage = document.createElement('img');
+  xhr.onload = function() {
+    if (this.status === 200) {
+      const data = this.responseText;
+      console.log(data);
+      staffData = JSON.parse(data);
+      var num = 0;
+      staffData.forEach(employee => {
+        // Create elements for item
+        console.log(employee);
+        const employeeContainer = document.createElement('div');
+        const employeeType = document.createElement('h3');
+        const employeeName = document.createElement('p');
+        const employeeEmail = document.createElement('p');
+        const employeeUsername = document.createElement('p');
 
-            // Set content and attributes for elements
-            employeeType.textContent = employee.userType;
-            employeeName.textContent = employee.name;
-            employeeEmail.textContent = employee.email;
-            employeeUsername.textContent = employee.username;
-            //editButton.textContent = "Edit";
-            editButton.textContent = "Delete";
-            //itemImage.setAttribute('src', item.image);
-            console.log(employee.userType);
-            console.log(employee.name);
-            console.log(employee.email);
-            console.log(employee.username);
+        //const itemImage = document.createElement('img');
 
-            // Add elements to item container
-            employeeContainer.appendChild(employeeType);
-            employeeContainer.appendChild(employeeName);
-            employeeContainer.appendChild(employeeEmail);
-            employeeContainer.appendChild(employeeUsername);
-            //itemContainer.appendChild(itemImage);
+        // Set content and attributes for elements
+        employeeType.textContent = employee.userType;
+        employeeName.textContent = employee.name;
+        employeeEmail.textContent = employee.email;
+        employeeUsername.textContent = employee.username;
+        //editButton.textContent = "Edit";
+        editButton.textContent = "Delete";
+        //itemImage.setAttribute('src', item.image);
+        console.log(employee.userType);
+        console.log(employee.name);
+        console.log(employee.email);
+        console.log(employee.username);
 
-            employeeContainer.style.border = '1px solid black';
-
-            // Add item container to catalog container
-            staffContainer.appendChild(employeeContainer);
-
-            // Add click event listener to item container
-            employeeContainer.addEventListener('click', () => {
-              // Display more information about item
-              // Add code here to show a modal or expand the item container
-              console.log("Second:" + this.employeeType.value);
-              
-            });
-          });
+        // Add elements to item container
+        var typeStr;
+        if (employeeType == 2) {
+          typeStr = "Employee";
         } else {
-
-          console.error("Request failed with status code", this.status);
+          typeStr = "Manager";
         }
-      };
 
-      xhr.onerror = function() {
-        console.error("Request failed");
-      };
+        employeeContainer.appendChild(typeStr);
+        employeeContainer.appendChild(employeeName);
+        employeeContainer.appendChild(employeeEmail);
+        employeeContainer.appendChild(employeeUsername);
+        //itemContainer.appendChild(itemImage);
 
-      xhr.send();
+        employeeContainer.style.border = '1px solid black';
+
+        // Add item container to catalog container
+        staffContainer.appendChild(employeeContainer);
+
+        // Add click event listener to item container
+        employeeContainer.addEventListener('click', () => {
+          // Display more information about item
+          // Add code here to show a modal or expand the item container
+
+
+        });
+      });
+    } else {
+
+      console.error("Request failed with status code", this.status);
     }
+  };
 
-    function openNav() {
-      document.getElementById("mySidebar").style.display = "block";
+  xhr.onerror = function() {
+    console.error("Request failed");
+  };
+
+  xhr.send();
+}
+
+function openNav() {
+  document.getElementById("mySidebar").style.display = "block";
+}
+
+function closeNav() {
+  document.getElementById("mySidebar").style.display = "none";
+}
+
+function deleteEmployee() {
+  var email = document.getElementById("emailBoxDelete").value;
+
+  //check email in api system
+  const url = `http://20.163.149.164:8080/api/user/delete?email=${email}`;
+  console.log("Sent User Info");
+
+  const xhr = new XMLHttpRequest();
+  xhr.open("DELETE", url, true);
+
+  xhr.onload = function() {
+    if (this.status === 200) {
+      const data = this.responseText;
+      console.log(data);
+      if (data.name == "Invalid Email") {
+        alert("Invalid Email");
+      } else {
+        alert("Success");
+        printData();
+      }
+    } else {
+      console.error("Request failed with status code", this.status);
     }
+  };
 
-    function closeNav() {
-      document.getElementById("mySidebar").style.display = "none";
+  xhr.onerror = function() {
+    console.error("Request failed");
+  };
+
+  xhr.send();
+}
+
+function editEmployee() {
+  var email = document.getElementById("emailBoxEdit").value;
+  var username = document.getElementById("usernameBoxEdit").value;
+  var password = document.getElementById("passBoxEdit").value;
+  var name = document.getElementById("nameBoxEdit").value;
+  var type;
+  if (manCheckEdit.checked && !empCheckEdit.checked) {
+    type = 3;
+  } else if (!manCheckEdit.checked && empCheckEdit.checked) {
+    type = 2;
+  } else {
+    alert("Please select proper employee type");
+  }
+  const url = `http://20.163.149.164:8080/api/user/add?name=${name}&username=${username}&password=${password}&email=${email}&date=${formattedDate}&userType=1`;
+  console.log("Sent User Info");
+
+  const xhr = new XMLHttpRequest();
+  xhr.open("POST", url, true);
+
+  xhr.onload = function() {
+    if (this.status === 200) {
+      const data = JSON.parse(this.responseText);
+      console.log(data);
+      if (data.name != undefined) {
+        // Store the API data in sessionStorage
+        sessionStorage.setItem('userData', JSON.stringify(data));
+        window.location.href = 'https://aanyajha.github.io/CharityLink.io/FrontendFiles/DefaultDashboard';
+      } else {
+        alert("Email already taken");
+      }
+    } else {
+      console.error("Request failed with status code", this.status);
     }
+  };
 
+  xhr.onerror = function() {
+    console.error("Request failed");
+  };
+
+  xhr.send();
+}
+
+function addEmployee() {
+  var email = document.getElementById("emailBoxAdd").value;
+  var username = document.getElementById("usernameBoxAdd").value;
+  var password = document.getElementById("passBoxAdd").value;
+  var name = document.getElementById("nameBoxAdd").value;
+  var type;
+  if (manCheckAdd.checked && !empCheckAdd.checked) {
+    type = 3;
+  } else if (!manCheckAdd.checked && empCheckAdd.checked) {
+    type = 2;
+  } else {
+    alert("Please select proper employee type");
+  }
+
+  const url = `http://20.163.149.164:8080/api/user/add?name=${name}&username=${username}&password=${password}&email=${email}&date=${formattedDate}&userType=1`;
+  console.log("Sent User Info");
+
+  const xhr = new XMLHttpRequest();
+  xhr.open("POST", url, true);
+
+  xhr.onload = function() {
+    if (this.status === 200) {
+      const data = JSON.parse(this.responseText);
+      console.log(data);
+      if (data.name != undefined) {
+        // Store the API data in sessionStorage
+        sessionStorage.setItem('userData', JSON.stringify(data));
+        window.location.href = 'https://aanyajha.github.io/CharityLink.io/FrontendFiles/DefaultDashboard';
+      } else {
+        alert("Email already taken");
+      }
+    } else {
+      console.error("Request failed with status code", this.status);
+    }
+  };
+
+  xhr.onerror = function() {
+    console.error("Request failed");
+  };
+
+  xhr.send();
+}
+   
   </script>
 
 </html>
