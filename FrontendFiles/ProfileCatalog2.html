@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-<title>Browse Catalog</title>
+<title>Profile Catalog</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <body>
@@ -39,8 +39,8 @@ img {
   </div>
 
   <div class="w3-container">
-    <p>Welcome to Browse Catalog!</p>
-    <p>Here you can view items to order.</p>
+    <p>Welcome to Profile Catalog!</p>
+    <p>Here you can view organizations.</p>
   </div>
 	
   <div class="input-section">
@@ -59,18 +59,43 @@ img {
   printData();
 //}
 	
-function seeDetails() {
- 
-}
+/*function seeDetails() {
+  const eventId = document.getElementById("input-id").value;
+  const url = `http://20.163.149.164:8080/api/event/get?id=${eventId}`;
+  const xhr = new XMLHttpRequest();
+  xhr.open("GET", url, true);
+
+  xhr.onload = function() {
+    if (this.status === 200) {
+      const data = this.responseText;
+      console.log(data);
+      sessionStorage.setItem("eventData", data);
+      window.location.href = 'https://aanyajha.github.io/CharityLink.io/FrontendFiles/EventDetails.html';
+    } else {
+      console.error("Request failed with status code", this.status);
+    }
+  };
+  xhr.send();
+}*/
 
 // Get reference to catalog container in HTML
-const largerContainer = document.getElementById('catalog');
+const largerContainer = document.getElementById('profileCatalog');
 
 var catalogData;
 
 // Dynamically generate HTML elements for each item in the catalog
 function printData() {
-  
+  /*console.log(userData);
+  const userType = userData.userType;
+  var id = null;
+  if (userType == 2 || userType == 3) {
+    id = userData.companyID;
+  } else {
+    id = userData.id;
+  }
+  console.log(userData.companyID);
+  console.log(id);*/
+
   const url = `http://20.163.149.164:8080/api/profile/all`;
   const xhr = new XMLHttpRequest();
   xhr.open("GET", url, true);
@@ -82,43 +107,33 @@ function printData() {
       catalogData = JSON.parse(data);
       catalogData.forEach(profile => {
         // Create elements for item
-        console.log(profile);
-        
-        
-        const newXHR = new XMLHttpRequest();
-        newXHR.open("GET", `http://20.163.149.164:8080/api/user/get?companyID=${profile.companyID}`, true);
-        newXHR.onload = function() {
-          if (this.status === 200) {
-            
-          const profileContainer = document.createElement('div');
-          const profileName = document.createElement('h3');
-         
-          const data1 = JSON.parse(this.responseText);
-           console.log(data1);
-              
-              profileId.textContent = data1.id;
-              
-          profileContainer.appendChild(profileName);
-          profileContainer.appendChild(profileId);
-          //itemContainer.appendChild(itemImage);
+        console.log(event);
+        const eventContainer = document.createElement('div');
+        const companyID = document.createElement('p');
+        //const itemImage = document.createElement('img');
 
-          eventContainer.style.border = '1px solid black';
+        // Set content and attributes for elements
+        companyID.textContent = profile.id;
+        //itemImage.setAttribute('src', item.image);
+        /*console.log(event.title);
+        console.log(event.date);
+        console.log(event.id);*/
+        
+        // Add elements to item container
+        eventContainer.appendChild(companyID);
+        //itemContainer.appendChild(itemImage);
 
-          // Add item container to catalog container
-          largerContainer.appendChild(eventContainer);
-		  };
+        eventContainer.style.border = '1px solid black';
+
+        // Add item container to catalog container
+        largerContainer.appendChild(eventContainer);
+
+        // Add click event listener to item container
+        eventContainer.addEventListener('click', () => {
+          // Display more information about item
+          // Add code here to show a modal or expand the item container
+        });
       });
-          }
-          else {
-            console.error("Request failed with status code", this.status);
-          }
-        };
-        xhr.onerror = function() {
-    	console.error("Request failed");
-  	};
-        
-        xhr.send();
-        
     } else {
 
       console.error("Request failed with status code", this.status);
@@ -129,7 +144,7 @@ function printData() {
     console.error("Request failed");
   };
 
-  newXHR.send();
+  xhr.send();
 }
 
 function openNav() {
