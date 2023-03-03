@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-<title>Events Near Me</title>
+<title>Browse Catalog</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <body>
@@ -18,8 +18,8 @@ img {
 
     <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles" class="w3-bar-item w3-button">&#x27B2; Logout</a>
     <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/" class="w3-bar-item w3-button">Dashboard</a>
-    <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/BrowseCatalog" class="w3-bar-item w3-button">Browse Catalog</a>
     <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/UserRequest" class="w3-bar-item w3-button">Make a Request</a>
+    <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/UserEvents" class="w3-bar-item w3-button">Events Near Me</a>
      <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/ViewProfiles" class="w3-bar-item w3-button">View Organization Profiles</a>
      <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/Deliver" class="w3-bar-item w3-button">Make a Delivery</a>
     <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/UserSettings" class="w3-bar-item w3-button">&#9965; Settings</a>
@@ -33,33 +33,134 @@ img {
   
   <div class="w3-pale-blue">
   <div class="w3-container">
-      <h1 style="color: #009999">Events Near Me</h1>
+      <h1 style="color: #009999">Browse Catalog</h1>
       
       </div>
   </div>
 
   <div class="w3-container">
-    <p>Welcome to Events Near Me!</p>
-    <p>Here you can view events to attend.</p>
+    <p>Welcome to Browse Catalog!</p>
+    <p>Here you can view items to order.</p>
   </div>
+	
+  <div class="input-section">
+	  <input id="input-id"></input>
+	<button id="details-button" onclick="seeDetails()">See Details</button> 
+  </div>
+	
+  <div class="w3-container w3-border" id="catalog"></div>
 
 </body>
 
 <script>
-		function openNav() {
-      document.getElementById("mySidebar").style.display = "block";
-    }
+// Define data for catalog
+const userData = JSON.parse(sessionStorage.getItem('userData'));
+if (userData != null) {
+  printData();
+}
+	
+function seeDetails() {
+  const eventId = document.getElementById("input-id").value;
+  const url = `http://20.163.149.164:8080/api/event/get?id=${eventId}`;
+  const xhr = new XMLHttpRequest();
+  xhr.open("GET", url, true);
 
-    function closeNav() {
-      document.getElementById("mySidebar").style.display = "none";
+  xhr.onload = function() {
+    if (this.status === 200) {
+      const data = this.responseText;
+      console.log(data);
+      sessionStorage.setItem("eventData", data);
+      window.location.href = 'https://aanyajha.github.io/CharityLink.io/FrontendFiles/EventDetails.html';
+    } else {
+      console.error("Request failed with status code", this.status);
     }
-    
-    const userData = sessionStorage.getItem('userData');
-    
-    //const usernameTitle = userData.username;
-    
-    //document.getElementById("docTitle").innerHTML = "title" + ${usernameTitle};
-   	
+  };
+  xhr.send();
+}
+
+// Get reference to catalog container in HTML
+const largerContainer = document.getElementById('catalog');
+
+var catalogData;
+
+// Dynamically generate HTML elements for each item in the catalog
+function printData() {
+  /*console.log(userData);
+
+  const userType = userData.userType;
+  var id = null;
+  if (userType == 2 || userType == 3) {
+    id = userData.companyID;
+  } else {
+    id = userData.id;
+  }
+  console.log(userData.companyID);
+  console.log(id);*/
+
+  const url = `http://20.163.149.164:8080/api/event/all`;
+  const xhr = new XMLHttpRequest();
+  xhr.open("GET", url, true);
+
+  xhr.onload = function() {
+    if (this.status === 200) {
+      const data = this.responseText;
+      console.log(data);
+      catalogData = JSON.parse(data);
+      catalogData.forEach(event => {
+        // Create elements for item
+        console.log(event);
+        const eventContainer = document.createElement('div');
+        const eventTitle = document.createElement('h3');
+        const eventDate = document.createElement('p');
+        const eventID = document.createElement('p');
+        //const itemImage = document.createElement('img');
+
+        // Set content and attributes for elements
+        eventTitle.textContent = event.title;
+        eventDate.textContent = event.date;
+        eventID.textContent = event.id;
+        //itemImage.setAttribute('src', item.image);
+        console.log(event.title);
+        console.log(event.date);
+        console.log(event.id);
+        
+        // Add elements to item container
+        eventContainer.appendChild(eventTitle);
+        eventContainer.appendChild(eventDate);
+        eventContainer.appendChild(eventID);
+        //itemContainer.appendChild(itemImage);
+
+        eventContainer.style.border = '1px solid black';
+
+        // Add item container to catalog container
+        largerContainer.appendChild(eventContainer);
+
+        // Add click event listener to item container
+        eventContainer.addEventListener('click', () => {
+          // Display more information about item
+          // Add code here to show a modal or expand the item container
+        });
+      });
+    } else {
+
+      console.error("Request failed with status code", this.status);
+    }
+  };
+
+  xhr.onerror = function() {
+    console.error("Request failed");
+  };
+
+  xhr.send();
+}
+
+function openNav() {
+  document.getElementById("mySidebar").style.display = "block";
+}
+
+function closeNav() {
+  document.getElementById("mySidebar").style.display = "none";
+}
 </script>
 
 </html>

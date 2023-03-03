@@ -125,7 +125,7 @@ function editFunc() {
 window.onload = onloadFunc();
 
 function onloadFunc() {
-  var companyId = 102;
+  var companyId = 402;
   console.log(companyId);
   const eurl = `http://20.163.149.164:8080/api/profile/get?companyID=${companyId}`;
 
@@ -142,10 +142,11 @@ function onloadFunc() {
       document.getElementById("initial-prof-pic").src = logo;
       document.getElementById("preview").src = logo;
       var companyName = document.getElementById("org-name");
-      companyName.innerHTML = data.name;
-
-      var locId = data.locationID;
+      companyName.innerHTML = sessionStorage.getItem("name");
+      console.log(data);
+      var locId = sessionStorage.getItem("locationID");
       const lxhr = new XMLHttpRequest();
+      console.log(sessionStorage.getItem("userData"));
       var lurl = `http://20.163.149.164:8080/api/location/get?id=${locId}`;
       lxhr.open("GET", lurl, true);
       lxhr.send();
@@ -190,7 +191,7 @@ function saveFunc() {
   var state = document.getElementById("state");
   var zip = document.getElementById("zip");
   //TODO: COOKIES
-  var companyId = 102;
+  var companyId = 402;
 
   var newImg = document.getElementById("preview");
   document.getElementById("initial-prof-pic").src = newImg.src;
@@ -215,7 +216,7 @@ function saveFunc() {
   document.getElementById("initial-prof-pic").style.display = "inline";
   document.getElementById("preview").style.display = "none";
   document.getElementById("file-upload").style.display = "none";
-
+  var imgUrl;
   const file = document.getElementById("file-upload");
   var newImg = document.getElementById("preview");
   file.addEventListener("change", ev => {
@@ -230,7 +231,11 @@ function saveFunc() {
     }).then(data => data.json()).then(data => {
       newImg.src = data.data.link;
 
-      var imgUrl = data.data.link;
+      imgUrl = data.data.link;
+
+
+    })
+  })
 
       var addr1 = document.getElementById("address1").value;
       var addr2 = document.getElementById("address2").value;
@@ -274,13 +279,30 @@ function saveFunc() {
           axhr.onload = function() {
             if (this.status === 200) {}
           }
+          
+          var locId = this.responseText;
+          
+          var link = `http://20.163.149.164:8080/api/profile/edit?companyID=${companyId}&statement=${mission}&logo=${imgUrl}`;
+          
+          const qxhr = new XMLHttpRequest();
+          qxhr.open("PUT", link, true);
+          qxhr.send();
+          qxhr.onload = function() {
+            if (this.status === 200) {}
+          }
+          
+          var updateurl = `http://20.163.149.164:8080/api/user/update?email=${sessionStorage.getItem('email')}&locationId=${locId}`;
+          
+          updatexhr.open("PUT", updateurl, true);
+          updatexhr.send();
+            updatexhr.onload = function() {
+        if (this.status === 200) {
 
         }
       }
 
-    })
-  })
-
+        }
+      }
 
   mission.setAttribute("readonly", "readonly");
 

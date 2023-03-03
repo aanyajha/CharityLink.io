@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Event Details</title>
+</head>
+<body>
+	<table>
+		<tr>
+			<td id="row1"></td>
+		</tr>
+		<tr>
+			<td id="row2"></td>
+		</tr>
+		<tr>
+			<td id="row3"></td>
+		</tr>
+		<tr>
+			<td id="row4"></td>
+		</tr>
+		<tr>
+			<td id="row5"></td>
+		</tr>
+	</table>
+	<button onclick="rsvp()">RSVP</button>
+	<script>
+		
+			const eventDetails = JSON.parse(sessionStorage.getItem("eventData"));
+			const url = `http://20.163.149.164:8080/api/location/get?id=${eventDetails.locationID}`;
+  const xhr = new XMLHttpRequest();
+  xhr.open("GET", url, true);
+
+  xhr.onload = function() {
+    if (this.status === 200) {
+      const data = this.responseText;
+      console.log(data);
+      locationData = JSON.parse(data);
+	    const location = locationData.addressLine1 + ", " + locationData.addressLine2 + ", " + locationData.city + ", " + locationData.state + ", " + locationData.zip;
+      document.getElementById("row1").innerHTML = eventDetails.title;
+      document.getElementById("row2").innerHTML = eventDetails.date;
+		document.getElementById("row3").innerHTML = eventDetails.description;
+		document.getElementById("row4").innerHTML = location;
+		document.getElementById("row5").innerHTML = eventDetails.id;
+    } else {
+
+      console.error("Request failed with status code", this.status);
+    }
+  };
+
+  xhr.onerror = function() {
+    console.error("Request failed");
+  };
+
+  xhr.send();
+		function rsvp() {
+			const userData = JSON.parse(sessionStorage.getItem("userData"));
+			const url = `http://20.163.149.164:8080/api/event/rsvp?id=${eventDetails.id}&userIds=${userData.id}`;
+  const xhr = new XMLHttpRequest();
+  xhr.open("PUT", url, true);
+
+  xhr.onload = function() {
+    if (this.status === 200) {
+      const data = this.responseText;
+      console.log(data);
+      locationData = JSON.parse(data);
+	    if (locationData.id == undefined) {
+		    alert("error");
+	    } else {
+		    alert("success");
+	    }
+    } else {
+
+      console.error("Request failed with status code", this.status);
+    }
+  };
+
+  xhr.onerror = function() {
+    console.error("Request failed");
+  };
+
+  xhr.send();
+		}
+	</script>
+</body>
+</html>
