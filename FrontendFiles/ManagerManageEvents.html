@@ -47,14 +47,96 @@ img {
 </body>
 
 <script>
-		function openNav() {
-      document.getElementById("mySidebar").style.display = "block";
-    }
+// Define data for catalog
+const userData = JSON.parse(sessionStorage.getEvent('userData'));
+if (userData != null) {
+  printData();
+}
 
-    function closeNav() {
-      document.getElementById("mySidebar").style.display = "none";
-    }
+// Get reference to catalog container in HTML
+const eventCatalog = document.getElementById('eventCatalog');
 
+var eventCatalogData;
+
+// Dynamically generate HTML elements for each item in the catalog
+function printData() {
+  console.log(userData);
+
+  const userType = userData.userType;
+  var id = null;
+  if (userType == 2 || userType == 3) {
+    id = userData.companyID;
+  } else {
+    id = userData.id;
+  }
+  console.log(userData.companyID);
+  console.log(id);
+
+  const url = `http://20.163.149.164:8080/api/item/inventory?userID=${id}`;
+  const xhr = new XMLHttpRequest();
+  xhr.open("GET", url, true);
+
+  xhr.onload = function() {
+    if (this.status === 200) {
+      const data = this.responseText;
+      console.log(data);
+      catalogData = JSON.parse(data);
+      catalogData.forEach(event => {
+        // Create elements for item
+        console.log(event);
+        const eventContainer = document.createElement('div');
+        const eventName = document.createElement('h3');
+        const eventHashtags = document.createElement('p');
+        const eventQuantity = document.createElement('p');
+        //const itemImage = document.createElement('img');
+
+        // Set content and attributes for elements
+        eventName.textContent = event.name;
+        eventHashtags.textContent = event.hashtags;
+        eventQuantity.textContent = 'Quantity: [ ' + event.numItems + ' ]';
+        //itemImage.setAttribute('src', item.image);
+        console.log(event.name);
+        console.log(event.hashtags);
+        console.log(event.numItems);
+        
+        // Add elements to item container
+        eventContainer.appendChild(eventName);
+        eventContainer.appendChild(eventHashtags);
+        eventContainer.appendChild(eventQuantity);
+        //itemContainer.appendChild(itemImage);
+
+        eventContainer.style.border = '1px solid black';
+
+        // Add item container to catalog container
+        eventCatalog.appendChild(eventContainer);
+
+        // Add click event listener to item container
+        eventContainer.addEventListener('click', () => {
+          // Display more information about item
+          // Add code here to show a modal or expand the item container
+        });
+      });
+    } else {
+
+      console.error("Request failed with status code", this.status);
+    }
+  };
+
+  xhr.onerror = function() {
+    console.error("Request failed");
+  };
+
+  xhr.send();
+}
+
+function openNav() {
+  document.getElementById("mySidebar").style.display = "block";
+}
+
+function closeNav() {
+  document.getElementById("mySidebar").style.display = "none";
+}
+	
 </script>
 
 </html>
