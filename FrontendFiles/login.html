@@ -218,6 +218,8 @@
 </style>
   
 <script>  
+  var userArr = [];
+          var attempts = [];
 function loginPage() {
   //links to login
   window.location.href = '/CharityLink.io/FrontendFiles/login.html'
@@ -272,8 +274,6 @@ function loginAuth() {
         } else {
           console.log("Not valid");
           var attemptDiv = document.getElementById("attempts");
-          var userArr = [];
-          var attempts = [];
           
           console.log(userArr);
           console.log(attempts);
