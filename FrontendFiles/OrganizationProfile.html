@@ -269,7 +269,8 @@ function saveFunc() {
           const updatexhr = new XMLHttpRequest();
 
           mission = mission.innerHTML.split(' ').join('+');
-          imgUrl.split(' ').join('+');
+          //imgUrl.split(' ').join('+');
+          console.log(imgUrl);
           var locId = this.responseText;
           var link = `http://20.163.149.164:8080/api/profile/edit?companyID=${companyId}&statement=${mission}&logo=${imgUrl}&locationId=${locId}`;
 
