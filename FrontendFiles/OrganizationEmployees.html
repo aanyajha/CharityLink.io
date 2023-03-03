@@ -289,37 +289,123 @@ function addEmployee() {
   } else {
     alert("Please select proper employee type");
   }
+  
+  console.log(email);
+  console.log(isValidEmail(email));
 
-  const url = `http://20.163.149.164:8080/api/user/add?name=${name}&username=${username}&password=${password}&email=${email}&date=${formattedDate}&userType=1`;
-  console.log("Sent User Info");
+  if (!isValidEmail(email)) {
+    alert("This is not a valid email format");
+    return;
+  }
 
-  const xhr = new XMLHttpRequest();
-  xhr.open("POST", url, true);
+  if (!isStrongPassword(password)) {
+    alert("This is not a strong password. Minimum of 8 characters");
+    return;
+  }
 
-  xhr.onload = function() {
-    if (this.status === 200) {
-      const data = JSON.parse(this.responseText);
-      console.log(data);
-      if (data.name != undefined) {
-        // Store the API data in sessionStorage
-        sessionStorage.setItem('userData', JSON.stringify(data));
-        window.location.href = 'https://aanyajha.github.io/CharityLink.io/FrontendFiles/DefaultDashboard';
+  if (!isValidName(name)) {
+    alert("Name or Organization Name is not valid");
+    return;
+  }
+
+  if (!isValidUsername(username)) {
+    alert("Username is not valid");
+    return;
+  }
+
+  var formattedDate = getFormattedDate();
+  
+  const compData = JSON.parse(sessionStorage.getItem('userData'));
+  const locationId = compData.locationID;
+      
+    const url = `http://20.163.149.164:8080/api/user/add?name=${name}&username=${username}&password=${password}&email=${email}&date=${formattedDate}&userType=${type}&locationID=${locationId}`;
+    console.log("Sent User Info");
+
+    const xhr = new XMLHttpRequest();
+    xhr.open("POST", url, true);
+
+    xhr.onload = function() {
+      if (this.status === 200) {
+        const data = JSON.parse(this.responseText);
+        console.log(data);
+        if (data.name != undefined) {
+          // Store the API data in sessionStorage
+          alert("Success!");
+  				printData();
+        } else {
+          alert("Email already taken");
+        }
       } else {
-        alert("Email already taken");
+        console.error("Request failed with status code", this.status);
       }
-    } else {
-      console.error("Request failed with status code", this.status);
+    };
+
+    xhr.onerror = function() {
+      console.error("Request failed");
+    };
+
+    xhr.send();
+  }
+}
+
+function orgCheck() {
+  var editable = document.getElementsByClassName("edit-loc");
+  if (document.getElementById("check").checked) {
+    for (var i = 0; i < editable.length; i++) {
+      editable[i].style.display = 'inline';
     }
-  };
+  } else {
+    for (var i = 0; i < editable.length; i++) {
+      editable[i].style.display = 'none';
+    }
+  }
+}
 
-  xhr.onerror = function() {
-    console.error("Request failed");
-  };
+function isValidEmail(email) {
+  const pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return pattern.test(email);
+}
 
-  xhr.send();
+function isStrongPassword(password) {
+  if (password.length < 8) {
+    return false;
+  }
+  return true;
+}
+
+function isValidName(name) {
+  if (name.length < 1) {
+    return false;
+  }
+  return true;
+}
+
+function isValidUsername(username) {
+  if (username.length < 1) {
+    return false;
+  }
+  return true;
+}
+
+function getFormattedDate() {
+  var currentDate = new Date();
+  var year = currentDate.getFullYear();
+  var month = currentDate.getMonth() + 1;
+  var day = currentDate.getDate();
+
+  // Add leading zeros to month and day
+  if (month < 10) {
+    month = '0' + month;
+  }
+  if (day < 10) {
+    day = '0' + day;
+  }
+
+  var formattedDate = year + '-' + month + '-' + day;
+
+  return formattedDate;
 }
    
   </script>
 
 </html>
-
