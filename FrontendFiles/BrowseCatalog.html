@@ -1,79 +1,125 @@
 <!DOCTYPE html>
 <html>
-<title>Browse Catalog</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-<body>
+  <title>Manage Employees</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 
-<style>
-img {
-      max-width: 100%;
-      height: auto;
-    }
-</style>
+  <body>
 
-  <div class="w3-sidebar w3-bar-block w3-card w3-animate-right" style="display:none;right:0;" id="mySidebar">
+    <style>
+      img {
+        max-width: 100%;
+        height: auto;
+      }
 
-    <button onclick="closeNav()" class="w3-bar-item w3-button w3-large">&#10005; Close</button>
+    </style>
 
-    <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles" class="w3-bar-item w3-button">&#x27B2; Logout</a>
-    <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/" class="w3-bar-item w3-button">Dashboard</a>
-    <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/UserRequest" class="w3-bar-item w3-button">Make a Request</a>
-    <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/UserEvents" class="w3-bar-item w3-button">Events Near Me</a>
-     <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/ViewProfiles" class="w3-bar-item w3-button">View Organization Profiles</a>
-     <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/Deliver" class="w3-bar-item w3-button">Make a Delivery</a>
-    <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/UserSettings" class="w3-bar-item w3-button">&#9965; Settings</a>
-    <a href="https://aanyajha.github.io/CharityLink.io" class="w3-bar-item w3-button"><img src="https://i.postimg.cc/Zq3dkdkW/Charitylink-Logo-Updated.png" alt="Charity Link Logo" width="200" height="65"></a>
+    <div class="w3-sidebar w3-bar-block w3-card w3-animate-right" style="display:none;right:0;" id="mySidebar">
+
+      <button onclick="closeNav()" class="w3-bar-item w3-button w3-large">&#10005; Close</button>
+
+      <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles" class="w3-bar-item w3-button">&#x27B2; Logout</a>
+      <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/OrganizationDashboard" class="w3-bar-item w3-button">Dashboard</a>
+      <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/OrganizationManageRequests" class="w3-bar-item w3-button">Manage Requests</a>
+      <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/OrganizationInventory" class="w3-bar-item w3-button">Manage Inventory</a>
+      <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/OrganizationDeliveries" class="w3-bar-item w3-button">Manage Deliveries</a>
+      <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/OrganizationManageEvents" class="w3-bar-item w3-button">Manage Events</a>
+      <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/OrganizationSettings" class="w3-bar-item w3-button">&#9965; Settings</a>
+      <a href="https://aanyajha.github.io/CharityLink.io" class="w3-bar-item w3-button"><img src="https://i.postimg.cc/Zq3dkdkW/Charitylink-Logo-Updated.png" alt="Charity Link Logo" width="200" height="65"></a>
+    </div>
+
+    <div class="w3-pale-blue">
+      <button class="w3-button turquoise w3-xlarge w3-right" onclick="openNav()">&#9776;</button>
+
+      <!--
+    <div class="w3-container">
+      <img src="https://i.postimg.cc/Zq3dkdkW/Charitylink-Logo-Updated.png" alt="Charity Link Logo" width="200" height="65">
+    </div>
   </div>
+  -->
+    </div>
 
-  <div class="w3-pale-blue">
-    <button class="w3-button turquoise w3-xlarge w3-right" onclick="openNav()">&#9776;</button>
-    
-  </div>
-  
-  <div class="w3-pale-blue">
-  <div class="w3-container">
-      <h1 style="color: #009999">Browse Catalog</h1>
-      
+    <div class="w3-pale-blue">
+      <div class="w3-container">
+        <h1 style="color: #009999">Manage Employees</h1>
+
       </div>
-  </div>
+    </div>
 
-  <div class="w3-container">
-    <p>Welcome to Browse Catalog!</p>
-    <p>Here you can view items to order.</p>
-  </div>
-	
-  <div class="w3-container w3-border" id="catalog"></div>
+    <div class="w3-container">
+      <p>Welcome to Manage Employees!</p>
+      <p>Here you are able to delete employee accounts, delete manager accounts, add manager accounts, add employee accounts, edit employee accounts, edit manager accounts, and view employees.</p>
+      <p>Employee information is listed below.</p>
+    </div>
+    
+    <div class="w3-container w3-border id=deleteBox">
+        <text type="text">Email of Employee to Delete:</text>
+        <input type="text" id="emailBoxDelete" style="border: 1px solid black;"><br>
+        <button type="button" id="deleteButton" onclick="deleteEmployee()">
+         Delete
+        </button>
+    </div>
+    
+    <div class="w3-container w3-border id=editBox">
+        <text type="text">Email of Employee to Edit:</text>
+        <input type="text" id="emailBoxEdit" style="border: 1px solid black;"><br>
+        <text type="text">Name of Employee to Edit:</text>
+        <input type="text" id="nameBoxEdit" style="border: 1px solid black"><br>
+        <text type="text">Username of Employee to Edit:</text>
+        <input type="text" id="usernameBoxEdit" style="border: 1px solid black;"><br>
+        <text type="text">Temporary Password to Edit:</text>
+        <input type="text" id="passBoxEdit" style="border: 1px solid black;"><br>
+        <text type="text">Employee</text>
+        <input type="checkbox" id="empCheckEdit">
+        <text type="text">Manager</text>
+        <input type="checkbox" id="manCheckEdit"><br>
+        <button type="button" id="editButton" onclick="editEmployee()">
+         Edit
+        </button>
+    </div>
+    <div class="w3-container w3-border" id="addBox">
+        <text type="text">Email of Employee to Add:</text>
+        <input type="text" id="emailBoxAdd" style="border: 1px solid black;"><br>
+        <text type="text">Name of Employee to Add:</text>
+        <input type="text" id="nameBoxAdd" style="border: 1px solid black;"><br>
+        <text type="text">Username of Employee to Add:</text>
+        <input type="text" id="usernameBoxAdd" style="border: 1px solid black;"><br>
+        <text type="text">Temporary Password to Add:</text>
+        <input type="text" id="passBoxAdd" style="border: 1px solid black;"><br>
+        <text type="text">Employee</text>
+        <input type="checkbox" id="empCheckAdd">
+        <text type="text">Manager</text>
+        <input type="checkbox" id="manCheckAdd"><br>
+        <button type="button" id="addButton" onclick="addEmployee()">
+         Add
+        </button><br>
+    </div>
+    
+    <div class="w3-container w3-border" id="employee"></div>
 
-</body>
+  </body>
 
-<script>
-// Define data for catalog
+  <script>
+  // Define data for catalog
+const staffContainer = document.getElementById('employee');
+
+var staffData;
 const userData = JSON.parse(sessionStorage.getItem('userData'));
 if (userData != null) {
   printData();
 }
 
 // Get reference to catalog container in HTML
-const catalogContainer = document.getElementById('catalog');
-
-var catalogData;
 
 // Dynamically generate HTML elements for each item in the catalog
 function printData() {
-  console.log(userData);
-
-  const userType = userData.userType;
-  var id = null;
-  if (userType == 2 || userType == 3) {
-    id = userData.companyID;
-  } else {
-    id = userData.id;
+	while (staffContainer.firstChild) {
+  	staffContainer.removeChild(staffContainer.firstChild);
   }
-  console.log(userData.companyID);
-  console.log(id);
+  console.log(userData);
+  const email = userData.email;
 
-  const url = `http://20.163.149.164:8080/api/item/all`;
+  const url = `http://20.163.149.164:8080/api/user/find/company?email=${email}`;
   const xhr = new XMLHttpRequest();
   xhr.open("GET", url, true);
 
@@ -81,40 +127,58 @@ function printData() {
     if (this.status === 200) {
       const data = this.responseText;
       console.log(data);
-      catalogData = JSON.parse(data);
-      catalogData.forEach(item => {
+      staffData = JSON.parse(data);
+      var num = 0;
+      staffData.forEach(employee => {
         // Create elements for item
-        console.log(item);
-        const itemContainer = document.createElement('div');
-        const itemName = document.createElement('h3');
-        const itemHashtags = document.createElement('p');
-        const quantity = document.createElement('p');
+        console.log(employee);
+        const employeeContainer = document.createElement('div');
+        const employeeType = document.createElement('h3');
+        const employeeName = document.createElement('p');
+        const employeeEmail = document.createElement('p');
+        const employeeUsername = document.createElement('p');
+
         //const itemImage = document.createElement('img');
 
         // Set content and attributes for elements
-        itemName.textContent = item.name;
-        itemHashtags.textContent = item.hashtags;
-        quantity.textContent = 'Quantity: [ ' + item.numItems + ' ]';
-        //itemImage.setAttribute('src', item.image);
-        console.log(item.name);
-        console.log(item.hashtags);
-        console.log(item.numItems);
+  			var typeStr;
+        if (employee.userType == 2) {
+          typeStr = "Employee";
+        } else {
+          typeStr = "Manager";
+        }
         
+        employeeType.textContent = typeStr;
+        employeeName.textContent = employee.name;
+        employeeEmail.textContent = employee.email;
+        employeeUsername.textContent = employee.username;
+        //editButton.textContent = "Edit";
+        editButton.textContent = "Delete";
+        //itemImage.setAttribute('src', item.image);
+        console.log(employee.userType);
+        console.log(employee.name);
+        console.log(employee.email);
+        console.log(employee.username);
+
         // Add elements to item container
-        itemContainer.appendChild(itemName);
-        itemContainer.appendChild(itemHashtags);
-        itemContainer.appendChild(quantity);
+
+        employeeContainer.appendChild(employeeType);
+        employeeContainer.appendChild(employeeName);
+        employeeContainer.appendChild(employeeEmail);
+        employeeContainer.appendChild(employeeUsername);
         //itemContainer.appendChild(itemImage);
 
-        itemContainer.style.border = '1px solid black';
+        employeeContainer.style.border = '1px solid black';
 
         // Add item container to catalog container
-        catalogContainer.appendChild(itemContainer);
+        staffContainer.appendChild(employeeContainer);
 
         // Add click event listener to item container
-        itemContainer.addEventListener('click', () => {
+        employeeContainer.addEventListener('click', () => {
           // Display more information about item
           // Add code here to show a modal or expand the item container
+
+
         });
       });
     } else {
@@ -136,7 +200,212 @@ function openNav() {
 
 function closeNav() {
   document.getElementById("mySidebar").style.display = "none";
-}	
-</script>
+}
+
+function deleteEmployee() {
+  var email = document.getElementById("emailBoxDelete").value;
+
+  //check email in api system
+  const url = `http://20.163.149.164:8080/api/user/delete?email=${email}`;
+  console.log("Sent User Info");
+
+  const xhr = new XMLHttpRequest();
+  xhr.open("DELETE", url, true);
+
+  xhr.onload = function() {
+    if (this.status === 200) {
+      const data = this.responseText;
+      console.log(data);
+      if (data.name == "Invalid Email") {
+        alert("Invalid Email");
+      } else {
+        alert("Success");
+        printData();
+      }
+    } else {
+      console.error("Request failed with status code", this.status);
+    }
+  };
+
+  xhr.onerror = function() {
+    console.error("Request failed");
+  };
+
+  xhr.send();
+}
+
+function editEmployee() {
+  var email = document.getElementById("emailBoxEdit").value;
+  var username = document.getElementById("usernameBoxEdit").value;
+  var password = document.getElementById("passBoxEdit").value;
+  var name = document.getElementById("nameBoxEdit").value;
+  var type;
+  if (manCheckEdit.checked && !empCheckEdit.checked) {
+    type = 3;
+  } else if (!manCheckEdit.checked && empCheckEdit.checked) {
+    type = 2;
+  } else {
+    alert("Please select proper employee type");
+  }
+  const url = `http://20.163.149.164:8080/api/user/add?name=${name}&username=${username}&password=${password}&email=${email}&date=${formattedDate}&userType=1`;
+  console.log("Sent User Info");
+
+  const xhr = new XMLHttpRequest();
+  xhr.open("POST", url, true);
+
+  xhr.onload = function() {
+    if (this.status === 200) {
+      const data = JSON.parse(this.responseText);
+      console.log(data);
+      if (data.name != undefined) {
+        // Store the API data in sessionStorage
+        sessionStorage.setItem('userData', JSON.stringify(data));
+        window.location.href = 'https://aanyajha.github.io/CharityLink.io/FrontendFiles/DefaultDashboard';
+      } else {
+        alert("Email already taken");
+      }
+    } else {
+      console.error("Request failed with status code", this.status);
+    }
+  };
+
+  xhr.onerror = function() {
+    console.error("Request failed");
+  };
+
+  xhr.send();
+}
+
+function addEmployee() {
+  var email = document.getElementById("emailBoxAdd").value;
+  var username = document.getElementById("usernameBoxAdd").value;
+  var password = document.getElementById("passBoxAdd").value;
+  var name = document.getElementById("nameBoxAdd").value;
+  var type;
+  if (manCheckAdd.checked && !empCheckAdd.checked) {
+    type = 3;
+  } else if (!manCheckAdd.checked && empCheckAdd.checked) {
+    type = 2;
+  } else {
+    alert("Please select proper employee type");
+  }
+  
+  console.log(email);
+  console.log(isValidEmail(email));
+
+  if (!isValidEmail(email)) {
+    alert("This is not a valid email format");
+    return;
+  }
+
+  if (!isStrongPassword(password)) {
+    alert("This is not a strong password. Minimum of 8 characters");
+    return;
+  }
+
+  if (!isValidName(name)) {
+    alert("Name or Organization Name is not valid");
+    return;
+  }
+
+  if (!isValidUsername(username)) {
+    alert("Username is not valid");
+    return;
+  }
+
+  var formattedDate = getFormattedDate();
+  
+  const compData = JSON.parse(sessionStorage.getItem('userData'));
+  const locationId = compData.locationID;
+      
+    const url = `http://20.163.149.164:8080/api/user/add?name=${name}&username=${username}&password=${password}&email=${email}&date=${formattedDate}&userType=${type}&locationID=${locationId}`;
+    console.log("Sent User Info");
+
+    const xhr = new XMLHttpRequest();
+    xhr.open("POST", url, true);
+
+    xhr.onload = function() {
+      if (this.status === 200) {
+        const data = JSON.parse(this.responseText);
+        console.log(data);
+        if (data.name != undefined) {
+          // Store the API data in sessionStorage
+          alert("Success!");
+  				printData();
+        } else {
+          alert("Email already taken");
+        }
+      } else {
+        console.error("Request failed with status code", this.status);
+      }
+    };
+
+    xhr.onerror = function() {
+      console.error("Request failed");
+    };
+
+    xhr.send();
+  }
+}
+
+function orgCheck() {
+  var editable = document.getElementsByClassName("edit-loc");
+  if (document.getElementById("check").checked) {
+    for (var i = 0; i < editable.length; i++) {
+      editable[i].style.display = 'inline';
+    }
+  } else {
+    for (var i = 0; i < editable.length; i++) {
+      editable[i].style.display = 'none';
+    }
+  }
+}
+
+function isValidEmail(email) {
+  const pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return pattern.test(email);
+}
+
+function isStrongPassword(password) {
+  if (password.length < 8) {
+    return false;
+  }
+  return true;
+}
+
+function isValidName(name) {
+  if (name.length < 1) {
+    return false;
+  }
+  return true;
+}
+
+function isValidUsername(username) {
+  if (username.length < 1) {
+    return false;
+  }
+  return true;
+}
+
+function getFormattedDate() {
+  var currentDate = new Date();
+  var year = currentDate.getFullYear();
+  var month = currentDate.getMonth() + 1;
+  var day = currentDate.getDate();
+
+  // Add leading zeros to month and day
+  if (month < 10) {
+    month = '0' + month;
+  }
+  if (day < 10) {
+    day = '0' + day;
+  }
+
+  var formattedDate = year + '-' + month + '-' + day;
+
+  return formattedDate;
+}
+   
+  </script>
 
 </html>
