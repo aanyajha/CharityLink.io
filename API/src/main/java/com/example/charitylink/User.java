@@ -18,6 +18,7 @@ public class User {
     private Integer companyID;
     private Integer locationID;
     private Integer userType; //1=Normal,2=Employee,3=Manager,4=Org
+    private String passwordToken;
 
     public User() {
     }
@@ -40,6 +41,14 @@ public class User {
         this.email = email;
         this.joinDate = joinDate;
         this.companyID = -1;
+    }
+
+    public String getPasswordToken() {
+        return passwordToken;
+    }
+
+    public void setPasswordToken(String passwordToken) {
+        this.passwordToken = passwordToken;
     }
 
     public Integer getUserType() {

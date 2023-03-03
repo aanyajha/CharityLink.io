@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 
 @Controller
 @RequestMapping(path="/api")
@@ -26,6 +27,44 @@ public class MainController {
 
     @Autowired
     private ProfileRepository profileRepository;
+
+    @GetMapping(path = "/password/reset")
+    public @ResponseBody String passwordReset(@RequestParam String email) {
+        List<Integer> userIdList = userRepository.findUserIdByEmail(email);
+        if (userIdList.size() == 0) {
+            return "Invalid Email";
+        }
+        String resetCode = "";
+        Random random = new Random();
+        random.setSeed(System.currentTimeMillis());
+        for (int i = 0; i < 6; i++) {
+            resetCode += random.nextInt(10);
+        }
+        try {
+            new SendEmail().sendMail(email, "Password Reset", resetCode);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        User user = userRepository.findById(userIdList.get(0)).get();
+        user.setPasswordToken(resetCode);
+        userRepository.save(user);
+        return "Token Sent";
+    }
+
+    @GetMapping(path = "/password/check")
+    public @ResponseBody String checkToken(@RequestParam String email, @RequestParam String token) {
+        List<Integer> userIdList = userRepository.findUserIdByEmail(email);
+        if (userIdList.size() == 0) {
+            return "Invalid Email";
+        }
+        User user = userRepository.findById(userIdList.get(0)).get();
+        if (user.getPasswordToken().equals(token)) {
+            user.setPasswordToken("");
+            return "Valid";
+        } else {
+            return "Invalid";
+        }
+    }
 
     @PostMapping(path = "/profile/add")
     public @ResponseBody Profile addNewProfile(@RequestParam Integer companyID, @RequestParam String statement,
