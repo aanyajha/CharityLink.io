@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Example</title>
+	<title>Event Details</title>
 </head>
 <body>
 	<table>
@@ -20,19 +20,39 @@
 		<tr>
 			<td id="row5"></td>
 		</tr>
-		<tr>
-			<td id="row6"></td>
-		</tr>
 	</table>
-	<button onclick="populateRows()">Populate Rows</button>
+	<button onclick="rsvp()">Populate Rows</button>
 	<script>
-		function populateRows() {
-			document.getElementById("row1").innerHTML = "First row";
-			document.getElementById("row2").innerHTML = "Second row";
-			document.getElementById("row3").innerHTML = "Third row";
-			document.getElementById("row4").innerHTML = "Fourth row";
-			document.getElementById("row5").innerHTML = "Fifth row";
-			document.getElementById("row6").innerHTML = "Sixth row";
+		
+			const eventDetails = JSON.parse(sessionStorage.getItem("eventDetails"));
+			const url = `http://20.163.149.164:8080/api/location/get?id=${eventDetails.locationID}`;
+  const xhr = new XMLHttpRequest();
+  xhr.open("GET", url, true);
+
+  xhr.onload = function() {
+    if (this.status === 200) {
+      const data = this.responseText;
+      console.log(data);
+      locationData = JSON.parse(data);
+	    const location = locationData.addressLine1 + ", " + locationData.addressLine2 + ", " + locationData.city + ", " + locationData.state + ", " + locationData.zip;
+      document.getElementById("row1").innerHTML = eventDetails.title;
+      document.getElementById("row2").innerHTML = eventDetails.date;
+		document.getElementById("row3").innerHTML = eventDetails.description;
+		document.getElementById("row4").innerHTML = location;
+		document.getElementById("row5").innerHTML = eventDetails.id;
+    } else {
+
+      console.error("Request failed with status code", this.status);
+    }
+  };
+
+  xhr.onerror = function() {
+    console.error("Request failed");
+  };
+
+  xhr.send();
+		function rsvp() {
+			
 		}
 	</script>
 </body>
