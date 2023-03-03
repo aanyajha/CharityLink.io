@@ -140,6 +140,8 @@ var joinData;
 window.onload = onloadFunc();
 
 function onloadFunc() {
+  console.log(username);
+  console.log(password);
   const eurl = `http://20.163.149.164:8080/api/user/login/email?email=${username}&password=${password}`;
 
   const exhr = new XMLHttpRequest();
@@ -149,8 +151,8 @@ function onloadFunc() {
   exhr.onload = function() {
     if (this.status === 200) {
       const data = JSON.parse(this.responseText);
-      var username = document.getElementById("username");
-      username.innerHTML = data.username;
+      var mainName = document.getElementById("username");
+      mainName.innerHTML = data.username;
       var name = document.getElementById("real-name");
       name.value = data.name;
       var email = document.getElementById("email");
@@ -183,6 +185,8 @@ function onloadFunc() {
         zip.value = locData.zip;
         var location = document.getElementById("vis-loc");
         var locationString = "";
+        console.log(locData.city);
+        console.log(city.value);
         if (!locData.addressLine2) {
           locationString = locData.addressLine1 + ", " + locData.city + ", " + locData.state + " " + locData.zip;
         } else {
@@ -209,8 +213,8 @@ function editFunc() {
   exhr.onload = function() {
     if (this.status === 200) {
       const data = JSON.parse(this.responseText);
-      var username = document.getElementById("username");
-      username.innerHTML = data.username;
+      var mainName = document.getElementById("username");
+      mainName.innerHTML = data.username;
       var name = document.getElementById("real-name");
       name.value = data.name;
       var email = document.getElementById("email");
@@ -224,7 +228,7 @@ function editFunc() {
       var locId = data.locationID;
       const lxhr = new XMLHttpRequest();
       var lurl = `http://20.163.149.164:8080/api/location/get?id=${locId}`;
-      lxhr.open("GET", eurl, true);
+      lxhr.open("GET", lurl, true);
       lxhr.send();
       lxhr.onload = function() {
         const locData = JSON.parse(this.responseText);
@@ -277,13 +281,13 @@ function saveFunc() {
   const locxhr = new XMLHttpRequest();
   var locurl = "";
   if (!addr1 || !city || !state || !zip) {
-  	alert("Make sure to fill out every necessary box (Everything except for Address 2)");
+    alert("Make sure to fill out every necessary box (Everything except for Address 2)");
     return;
   }
   if (!addr2) {
-  locurl = `http://20.163.149.164:8080/api/location/add?addressLine1=${addr1}&city=${city}&state=${state}&zip=${zip}`;
+    locurl = `http://20.163.149.164:8080/api/location/add?addressLine1=${addr1}&city=${city}&state=${state}&zip=${zip}`;
   } else {
-  locurl = `http://20.163.149.164:8080/api/location/add?addressLine1=${addr1}&addressLine2=${addr2}&city=${city}&state=${state}&zip=${zip}`;
+    locurl = `http://20.163.149.164:8080/api/location/add?addressLine1=${addr1}&addressLine2=${addr2}&city=${city}&state=${state}&zip=${zip}`;
   }
 
   locxhr.open("POST", locurl, true);
@@ -344,5 +348,6 @@ function saveFunc() {
 
 
 }
+
 
 </script>
