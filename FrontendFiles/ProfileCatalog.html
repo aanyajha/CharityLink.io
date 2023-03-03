@@ -94,10 +94,10 @@ function onloadFunc() {
       axhr.send();
       axhr.onload = function() {
         if (this.status === 200) {
-          const data = JSON.parse(this.responseText);
+          const data = this.responseText;
           console.log(data);
-          
-          data.forEach(profile => {
+          for (profile of data) {
+          //data.forEach(profile => {
             // Create elements for item
             var profileDat = JSON.parse(profile);
             console.log(event);
