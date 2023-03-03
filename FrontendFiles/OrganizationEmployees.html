@@ -248,7 +248,7 @@ function editEmployee() {
     alert("Please select proper employee type");
   }
   const formattedDate = getFormattedDate();
-  const url = `http://20.163.149.164:8080/api/user/edit?name=${name}&username=${username}&password=${password}&email=${email}&userType=${type}`;
+  const url = `http://20.163.149.164:8080/api/user/update?name=${name}&username=${username}&password=${password}&email=${email}&userType=${type}`;
 
   const xhr = new XMLHttpRequest();
   xhr.open("PUT", url, true);
