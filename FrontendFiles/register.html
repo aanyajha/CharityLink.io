@@ -239,16 +239,16 @@ body :-ms-input-placeholder {
   <script>
 function signUpFunc() {
 
-  var username = document.getElementById('username');
-  var name = document.getElementById('name');
-  var email = document.getElementById('email');
-  var password = document.getElementById('password');
-  var address1 = document.getElementById('address1');
-  var address2 = document.getElementById('address2');
-  var city = document.getElementById('city');
-  var state = document.getElementById('state');
-  var zip = document.getElementById('zip');
-  var checkbox = document.getElementById('check');
+  var username = document.getElementById('username').value;
+  var name = document.getElementById('name').value;
+  var email = document.getElementById('email').value;
+  var password = document.getElementById('password').value;
+  var address1 = document.getElementById('address1').value;
+  var address2 = document.getElementById('address2').value;
+  var city = document.getElementById('city').value;
+  var state = document.getElementById('state').value;
+  var zip = document.getElementById('zip').value;
+  var checkbox = document.getElementById('check').value;
   
   console.log(email);
   console.log(isValidEmail(email));
