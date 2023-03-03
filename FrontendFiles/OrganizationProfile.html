@@ -246,11 +246,11 @@ function saveFunc() {
   const file = document.getElementById("file-upload");
   var newImg = document.getElementById("preview");
 
-      var addr1 = document.getElementById("address1").value;
-      var addr2 = document.getElementById("address2").value;
-      var city = document.getElementById("city").value;
-      var state = document.getElementById("state").value;
-      var zip = document.getElementById("zip").value;
+      addr1 = document.getElementById("address1").value;
+      addr2 = document.getElementById("address2").value;
+      city = document.getElementById("city").value;
+      state = document.getElementById("state").value;
+      zip = document.getElementById("zip").value;
 
       const locxhr = new XMLHttpRequest();
       var locurl = "";
@@ -280,17 +280,6 @@ function saveFunc() {
           //imgUrl.split(' ').join('+');
           console.log(imgUrl);
           var locId = this.responseText;
-          var link = `http://20.163.149.164:8080/api/profile/edit?companyID=${companyId}&statement=${mission1}&logo=${imgUrl}&locationId=${locId}`;
-
-          const axhr = new XMLHttpRequest();
-          axhr.open("PUT", link, true);
-          axhr.send();
-          axhr.onload = function() {
-            if (this.status === 200) {}
-          }
-          
-          var locId = this.responseText;
-          
           var link = `http://20.163.149.164:8080/api/profile/edit?companyID=${companyId}&statement=${mission}&logo=${imgUrl}`;
           
           const qxhr = new XMLHttpRequest();
