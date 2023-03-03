@@ -43,6 +43,11 @@ img {
     <p>Here you can view items to order.</p>
   </div>
 	
+  <div class="input-section">
+	  <input id="input-id"></input>
+	<button id="details-button" onclick="seeDetails()">See Details</button> 
+  </div>
+	
   <div class="w3-container w3-border" id="catalog"></div>
 
 </body>
@@ -52,6 +57,24 @@ img {
 const userData = JSON.parse(sessionStorage.getItem('userData'));
 if (userData != null) {
   printData();
+}
+	
+function seeDetails() {
+  const eventId = document.getElementById("input-id").value;
+  const url = `http://20.163.149.164:8080/api/event/get?id=${eventId}`;
+  const xhr = new XMLHttpRequest();
+  xhr.open("GET", url, true);
+
+  xhr.onload = function() {
+    if (this.status === 200) {
+      const data = this.responseText;
+      console.log(data);
+      sessionStorage.setItem("eventData", data);
+      window.location.href = 'https://aanyajha.github.io/CharityLink.io/FrontendFiles/EventDetails.html';
+    } else {
+      console.error("Request failed with status code", this.status);
+    }
+  };
 }
 
 // Get reference to catalog container in HTML
