@@ -49,17 +49,100 @@ img {
     <p>Here you can view your inventory.</p>
     <p>This page will eventually display an organization's inventory.</p>
   </div>
-
+	
+  <div class="w3-container w3-border" id="catalog"></div>
 </body>
 
 <script>
-		function openNav() {
-      document.getElementById("mySidebar").style.display = "block";
-    }
+// Define data for catalog
+const userData = JSON.parse(sessionStorage.getItem('userData'));
+if (userData != null) {
+  printData();
+}
 
-    function closeNav() {
-      document.getElementById("mySidebar").style.display = "none";
+// Get reference to catalog container in HTML
+const catalogContainer = document.getElementById('catalog');
+
+var catalogData;
+
+// Dynamically generate HTML elements for each item in the catalog
+function printData() {
+  console.log(userData);
+
+  const userType = userData.userType;
+  var id = null;
+  if (userType == 2 || userType == 3) {
+    id = userData.companyID;
+  } else {
+    id = userData.id;
+  }
+  console.log(userData.companyID);
+  console.log(id);
+
+  const url = `http://20.163.149.164:8080/api/item/inventory?userID=${id}`;
+  const xhr = new XMLHttpRequest();
+  xhr.open("GET", url, true);
+
+  xhr.onload = function() {
+    if (this.status === 200) {
+      const data = this.responseText;
+      console.log(data);
+      catalogData = JSON.parse(data);
+      catalogData.forEach(item => {
+        // Create elements for item
+        console.log(item);
+        const itemContainer = document.createElement('div');
+        const itemName = document.createElement('h3');
+        const itemHashtags = document.createElement('p');
+        const quantity = document.createElement('p');
+        //const itemImage = document.createElement('img');
+
+        // Set content and attributes for elements
+        itemName.textContent = item.name;
+        itemHashtags.textContent = item.hashtags;
+        quantity.textContent = 'Quantity: [ ' + item.numItems + ' ]';
+        //itemImage.setAttribute('src', item.image);
+        console.log(item.name);
+        console.log(item.hashtags);
+        console.log(item.numItems);
+        
+        // Add elements to item container
+        itemContainer.appendChild(itemName);
+        itemContainer.appendChild(itemHashtags);
+        itemContainer.appendChild(quantity);
+        //itemContainer.appendChild(itemImage);
+
+        itemContainer.style.border = '1px solid black';
+
+        // Add item container to catalog container
+        catalogContainer.appendChild(itemContainer);
+
+        // Add click event listener to item container
+        itemContainer.addEventListener('click', () => {
+          // Display more information about item
+          // Add code here to show a modal or expand the item container
+        });
+      });
+    } else {
+
+      console.error("Request failed with status code", this.status);
     }
+  };
+
+  xhr.onerror = function() {
+    console.error("Request failed");
+  };
+
+  xhr.send();
+}
+
+function openNav() {
+  document.getElementById("mySidebar").style.display = "block";
+}
+
+function closeNav() {
+  document.getElementById("mySidebar").style.display = "none";
+}
 
 </script>
 
