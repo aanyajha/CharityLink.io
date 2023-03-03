@@ -262,13 +262,13 @@ function loginAuth() {
         const account_type = data.userType;
         console.log(account_type);
         if (account_type == 1) {
-          window.location.href = 'https://aanyajha.github.io/CharityLink.io/FrontendFiles/OrganizationDashboard';
+          window.location.href = 'https://aanyajha.github.io/CharityLink.io/FrontendFiles/DefaultDashboard';
         } else if (account_type == 2) {
           window.location.href = 'https://aanyajha.github.io/CharityLink.io/FrontendFiles/EmployeeDashboard';
         } else if (account_type == 3) {
           window.location.href = 'https://aanyajha.github.io/CharityLink.io/FrontendFiles/ManagerDashboard';
         } else if (account_type == 4) {
-          window.location.href = 'https://aanyajha.github.io/CharityLink.io/FrontendFiles/DefaultDashboard';
+          window.location.href = 'https://aanyajha.github.io/CharityLink.io/FrontendFiles/OrganizationDashboard';
         } else {
           console.log("Not valid");
           var attemptDiv = document.getElementById("attempts");
