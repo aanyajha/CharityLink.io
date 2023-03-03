@@ -247,6 +247,7 @@ function editEmployee() {
   } else {
     alert("Please select proper employee type");
   }
+  const formattedDate = getFormattedDate();
   const url = `http://20.163.149.164:8080/api/user/add?name=${name}&username=${username}&password=${password}&email=${email}&date=${formattedDate}&userType=1`;
   console.log("Sent User Info");
 
