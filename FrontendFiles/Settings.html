@@ -113,17 +113,20 @@ function deleteFunc() {
 
     const xhr = new XMLHttpRequest();
     xhr.open("GET", url, true);
-
+	console.log("this shit");
     xhr.onload = function() {
+	    console.log("here shit");
       if (this.status == 200) {
       var data = JSON.parse(this.responseText);
 	      console.log(data);
+	      console.log("shit shit shit");
   			if (data.password == null) {
         	alert("Invalid password. Deletion aborted.");
           return;
         }
         
         var durl = `http://20.163.149.164:8080/api/user/delete?email=${email}`;
+	      console.log("what's going on");
         const dxhr = new XMLHttpRequest();
     		dxhr.open("DELETE", durl, true);
 		console.log("you're not insane");
