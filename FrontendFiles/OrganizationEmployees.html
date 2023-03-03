@@ -113,6 +113,9 @@ var staffData;
 
 // Dynamically generate HTML elements for each item in the catalog
 function printData() {
+	while (staffContainer.firstChild) {
+  	staffContainer.removeChild(staffContainer.firstChild);
+  }
   console.log(userData);
   const email = userData.email;
 
