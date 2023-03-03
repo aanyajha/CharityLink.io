@@ -78,7 +78,7 @@ Mission Statement
 
 <script>
 //TODO: add grey color to indicate if can edit or not
-
+var imgUrl;
 function editFunc() {
 
   //get the backend and then replace these document.get with the
@@ -146,7 +146,27 @@ function onloadFunc() {
       var companyName = document.getElementById("org-name");
       companyName.innerHTML = userData.name;
       console.log(data);
+      var newImg = document.getElementById("preview");
+  file.addEventListener("change", ev => {
+    const formdata = new FormData()
+    formdata.append("image", ev.target.files[0])
+    fetch("https://api.imgur.com/3/image/", {
+      method: "post",
+      headers: {
+        Authorization: "Client-ID 10f9b76f36bb0cb"
+      },
+      body: formdata
+    }).then(data => data.json()).then(data => {
+      newImg.src = data.data.link;
+
+      imgUrl = data.data.link;
+
+
+    })
+  })
+
       var locId = userData.locationID;
+      
       const lxhr = new XMLHttpRequest();
       var lurl = `http://20.163.149.164:8080/api/location/get?id=${locId}`;
       lxhr.open("GET", lurl, true);
@@ -217,26 +237,8 @@ function saveFunc() {
   document.getElementById("initial-prof-pic").style.display = "inline";
   document.getElementById("preview").style.display = "none";
   document.getElementById("file-upload").style.display = "none";
-  var imgUrl;
   const file = document.getElementById("file-upload");
   var newImg = document.getElementById("preview");
-  file.addEventListener("change", ev => {
-    const formdata = new FormData()
-    formdata.append("image", ev.target.files[0])
-    fetch("https://api.imgur.com/3/image/", {
-      method: "post",
-      headers: {
-        Authorization: "Client-ID 10f9b76f36bb0cb"
-      },
-      body: formdata
-    }).then(data => data.json()).then(data => {
-      newImg.src = data.data.link;
-
-      imgUrl = data.data.link;
-
-
-    })
-  })
 
       var addr1 = document.getElementById("address1").value;
       var addr2 = document.getElementById("address2").value;
