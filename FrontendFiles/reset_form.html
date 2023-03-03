@@ -24,7 +24,7 @@
 </style>
 
 <script>
-    function sendPass() {
+function sendPass() {
 
 	//email stuff, Aanya is figuring that out
   
@@ -34,10 +34,18 @@
   	return;
   }
   */
+  const email = document.getElementById("email").value;
+  const token = `http://20.163.149.164:8080/api/password/reset?email=${email}`;
+  const xhr = new XMLHttpRequest();
+  xhr.open("GET", token, true);
   
   document.getElementById("word").innerHTML = "Token: ";
   
   document.getElementById("confirmation").style.display = "inline";
+  
+  document.getElementById("email").value = "";
+  console.log(token);
+  xhr.send();
   
   document.getElementById("submit").onclick = function () { verifyToken(); };
 
