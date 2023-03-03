@@ -336,4 +336,22 @@ public class MainController {
         }
         return location;
     }
+
+    @PutMapping(path = "/location/update")
+    public @ResponseBody Location updateLocation(@RequestParam Integer id, @RequestParam(required = false) String addressLine1,
+                                                 @RequestParam(required = false) String addressLine2,
+                                                 @RequestParam(required = false) String city, @RequestParam(required = false) String state,
+                                                 @RequestParam(required = false) String zip) {
+        Location location = locationRepository.findById(id).get();
+        if (location == null) {
+            return new Location();
+        }
+        if (addressLine1 != null) location.setAddressLine1(addressLine1);
+        if (addressLine2 != null) location.setAddressLine2(addressLine2);
+        if (city != null) location.setCity(city);
+        if (state != null) location.setState(state);
+        if (zip != null) location.setZip(Integer.parseInt(zip));
+        locationRepository.save(location);
+        return location;
+    }
 }
