@@ -21,7 +21,7 @@
 			<td id="row5"></td>
 		</tr>
 	</table>
-	<button onclick="rsvp()">Populate Rows</button>
+	<button onclick="rsvp()">RSVP</button>
 	<script>
 		
 			const eventDetails = JSON.parse(sessionStorage.getItem("eventData"));
@@ -52,7 +52,32 @@
 
   xhr.send();
 		function rsvp() {
-			
+			const userData = JSON.parse(sessionStorage.getItem("userData"));
+			const url = `http://20.163.149.164:8080/api/event/rsvp?id=${eventDetails.id}&userIds=${userData.id}`;
+  const xhr = new XMLHttpRequest();
+  xhr.open("PUT", url, true);
+
+  xhr.onload = function() {
+    if (this.status === 200) {
+      const data = this.responseText;
+      console.log(data);
+      locationData = JSON.parse(data);
+	    if (locationData.id == undefined) {
+		    alert("error");
+	    } else {
+		    alert("success");
+	    }
+    } else {
+
+      console.error("Request failed with status code", this.status);
+    }
+  };
+
+  xhr.onerror = function() {
+    console.error("Request failed");
+  };
+
+  xhr.send();
 		}
 	</script>
 </body>
