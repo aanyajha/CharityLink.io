@@ -269,20 +269,19 @@ function loginAuth() {
           window.location.href = 'https://aanyajha.github.io/CharityLink.io/FrontendFiles/DefaultDashboard';
         } else if (account_type == 2) {
           localStorage.setItem("email", data.email);
-
+          localStorage.setItem("password", data.password);
           window.location.href = 'https://aanyajha.github.io/CharityLink.io/FrontendFiles/EmployeeDashboard';
         } else if (account_type == 3) {
           localStorage.setItem("email", data.email);
-
+          localStorage.setItem("password", data.password);
           window.location.href = 'https://aanyajha.github.io/CharityLink.io/FrontendFiles/ManagerDashboard';
         } else if (account_type == 4) {
           localStorage.setItem("email", data.email);
-
+          localStorage.setItem("password", data.password);
           window.location.href = 'https://aanyajha.github.io/CharityLink.io/FrontendFiles/OrganizationDashboard';
         } else {
           console.log("Not valid");
           var attemptDiv = document.getElementById("attempts");
-          
           console.log(userArr);
           console.log(attempts);
 
