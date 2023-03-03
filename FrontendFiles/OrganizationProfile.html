@@ -155,6 +155,26 @@ function saveFunc() {
   document.getElementById("preview").style.display = "none";
   document.getElementById("file-upload").style.display = "none";
   
+  const file = document.getElementById("file-upload");
+  var newImg = document.getElementById("preview");
+  file.addEventListener("change", ev => {
+  const formdata = new FormData()
+  formdata.append("image", ev.target.files[0])
+  fetch("https://api.imgur.com/3/image/", {
+       method: "post",
+                headers: {
+                    Authorization: "Client-ID 10f9b76f36bb0cb"
+                },
+                body: formdata
+            }).then(data => data.json()).then(data => {
+                newImg.src = data.data.link;
+                
+                var imgUrl = data.data.link;
+                
+            })
+        })
+  
+  
   mission.setAttribute("readonly", "readonly");
   
 	var editButton = document.getElementById("edit-button");
