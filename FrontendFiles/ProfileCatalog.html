@@ -47,9 +47,7 @@
 function onloadFunc() {
     const userData = JSON.parse(sessionStorage.getItem('userData'));
   console.log(userData);
-    if (userData == null) {
       printData();
-    }
 }
     /*
     function seeDetails() {
@@ -96,11 +94,11 @@ function onloadFunc() {
         if (this.status === 200) {
           const data = this.responseText;
           console.log(data);
-          for (profile of data) {
+          for (int i = 0; i < data.length; i++) {
           //data.forEach(profile => {
             // Create elements for item
-            console.log(profile);
-            var profileDat = JSON.parse(profile);
+            console.log(data[i]);
+            var profileDat = JSON.parse(data[i]);
             const profileContainer = document.createElement('div');
             const profileName = document.createElement('h3');
             const profileId = document.createElement('p');
