@@ -126,7 +126,7 @@ window.onload = onloadFunc();
 
 function onloadFunc() {
   var userData = JSON.parse(sessionStorage.getItem("userData"));
-  var companyId = userData.companyId;
+  var companyId = userData.id;
   console.log(companyId);
   const eurl = `http://20.163.149.164:8080/api/profile/get?companyID=${companyId}`;
 
@@ -220,7 +220,7 @@ function saveFunc() {
   var zip = document.getElementById("zip");
   
   var userData = JSON.parse(sessionStorage.getItem("userData"));
-  var companyId = userData.companyId;
+  var companyId = userData.id;
 
   var newImg = document.getElementById("preview");
   document.getElementById("initial-prof-pic").src = newImg.src;
@@ -283,7 +283,7 @@ function saveFunc() {
           console.log(imgUrl);
           var locId = this.responseText;
           var userData = JSON.parse(sessionStorage.getItem("userData"));
-          var compId = userData.companyId;
+          var compId = userData.id;
           var link = `http://20.163.149.164:8080/api/profile/edit?companyID=${compId}&statement=${mission1}&logo=${imgUrl}`;
           
           const qxhr = new XMLHttpRequest();
