@@ -99,8 +99,8 @@ function onloadFunc() {
           for (profile of data) {
           //data.forEach(profile => {
             // Create elements for item
+            console.log(profile);
             var profileDat = JSON.parse(profile);
-            console.log(event);
             const profileContainer = document.createElement('div');
             const profileName = document.createElement('h3');
             const profileId = document.createElement('p');
