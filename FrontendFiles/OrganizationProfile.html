@@ -144,7 +144,7 @@ function onloadFunc() {
       var companyName = document.getElementById("org-name");
       companyName.innerHTML = data.name;
       console.log(data);
-      var locId = data.locationID;
+      var locId = sessionStorage.getItem("locationID");
       const lxhr = new XMLHttpRequest();
       var lurl = `http://20.163.149.164:8080/api/location/get?id=${locId}`;
       lxhr.open("GET", lurl, true);
@@ -274,6 +274,27 @@ function saveFunc() {
           axhr.onload = function() {
             if (this.status === 200) {}
           }
+          
+          var locId = this.responseText;
+          
+          var link = `http://20.163.149.164:8080/api/profile/edit?companyID=${companyId}&statement=${mission}&logo=${imgUrl}`;
+          
+          const axhr = new XMLHttpRequest();
+          axhr.open("PUT", link, true);
+          axhr.send();
+          axhr.onload = function() {
+            if (this.status === 200) {}
+          }
+          
+          var updateurl = `http://20.163.149.164:8080/api/user/update?email=${sessionStorage.getItem('email')}&locationId=${locId}`;
+          
+          updatexhr.open("PUT", updateurl, true);
+          updatexhr.send();
+            updatexhr.onload = function() {
+        if (this.status === 200) {
+
+        }
+      }
 
         }
       }
