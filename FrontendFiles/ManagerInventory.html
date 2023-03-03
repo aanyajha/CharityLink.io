@@ -83,6 +83,7 @@ function printData() {
       catalogData = JSON.parse(data);
       catalogData.forEach(item => {
         // Create elements for item
+        console.log(item);
         const itemContainer = document.createElement('div');
         const itemName = document.createElement('h3');
         const itemHashtags = document.createElement('p');
@@ -94,7 +95,10 @@ function printData() {
         itemHashtags.textContent = item.hashtags;
         quantity.textContent = 'Quantity: [ ' + item.numItems + ' ]';
         //itemImage.setAttribute('src', item.image);
-
+        console.log(item.name);
+        console.log(item.hashtags);
+        console.log(item.numItems);
+        
         // Add elements to item container
         itemContainer.appendChild(itemName);
         itemContainer.appendChild(itemHashtags);
