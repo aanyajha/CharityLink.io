@@ -140,7 +140,14 @@ function printData() {
         //const itemImage = document.createElement('img');
 
         // Set content and attributes for elements
-        employeeType.textContent = employee.userType;
+  			var typeStr;
+        if (employee.userType == 2) {
+          typeStr = "Employee";
+        } else {
+          typeStr = "Manager";
+        }
+        
+        employeeType.textContent = typeStr;
         employeeName.textContent = employee.name;
         employeeEmail.textContent = employee.email;
         employeeUsername.textContent = employee.username;
@@ -153,14 +160,8 @@ function printData() {
         console.log(employee.username);
 
         // Add elements to item container
-        var typeStr;
-        if (employeeType == 2) {
-          typeStr = "Employee";
-        } else {
-          typeStr = "Manager";
-        }
 
-        employeeContainer.appendChild(typeStr);
+        employeeContainer.appendChild(employeeType);
         employeeContainer.appendChild(employeeName);
         employeeContainer.appendChild(employeeEmail);
         employeeContainer.appendChild(employeeUsername);
