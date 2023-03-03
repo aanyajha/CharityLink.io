@@ -36,7 +36,7 @@
       <p id="password-warning" class="hidden">Incorrect password</p>
     </div>
     <div id="forgot-div">
-      <a href="">Forgot Password?</a>
+      <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/reset_form.html">Forgot Password?</a>
     </div>
 
     <div id="button-div">
@@ -220,6 +220,7 @@
 
   <script>
     
+
 function loginPage() {
   //links to login
   window.location.href = '/CharityLink.io/FrontendFiles/login.html'
@@ -255,7 +256,7 @@ function loginAuth() {
     xhr.onload = function() {
       if (this.status === 200) {
         const data = JSON.parse(this.responseText);
-  			emailWarning.classList.remove('hidden');
+        emailWarning.classList.remove('hidden');
         passwordWarning.classList.add('hidden');
         console.log(data);
         // Store the API data in sessionStorage
@@ -264,22 +265,36 @@ function loginAuth() {
         const account_type = data.userType;
         console.log(account_type);
         if (account_type == 1) {
-       		window.location.href = 'https://aanyajha.github.io/CharityLink.io/FrontendFiles/OrganizationDashboard';
-        } 
-        else if (account_type == 2) {
-        	window.location.href = 'https://aanyajha.github.io/CharityLink.io/FrontendFiles/EmployeeDashboard';
-        }
-        else if (account_type == 3) {
-        	window.location.href = 'https://aanyajha.github.io/CharityLink.io/FrontendFiles/ManagerDashboard';
-        }
-        else if (account_type == 4) {
-        	window.location.href = 'https://aanyajha.github.io/CharityLink.io/FrontendFiles/DefaultDashboard';
-        }
-        else {
-        	console.log("Not valid");
+          window.location.href = 'https://aanyajha.github.io/CharityLink.io/FrontendFiles/OrganizationDashboard';
+        } else if (account_type == 2) {
+          window.location.href = 'https://aanyajha.github.io/CharityLink.io/FrontendFiles/EmployeeDashboard';
+        } else if (account_type == 3) {
+          window.location.href = 'https://aanyajha.github.io/CharityLink.io/FrontendFiles/ManagerDashboard';
+        } else if (account_type == 4) {
+          window.location.href = 'https://aanyajha.github.io/CharityLink.io/FrontendFiles/DefaultDashboard';
+        } else {
+          console.log("Not valid");
+          //TODO: SEND EMAIL
+          var attemptDiv = document.getElementById("attempts");
+          var userArr = [];
+          var attempts = [];
+
+          if (!userArr.includes(username)) {
+            userArr.push(username);
+            attempts.push(0);
+          } else {
+            var userAtt = attempts[username.indexOf(username)]++;
+            attemptDiv.innerHTML = "You have " + (10 - userAtt) + " more attempts to login with this email."
+            if (userAtt == 10) {
+              //TODO: send email
+              attemptDiv.innerHTML = "Email of suspicious activity sent"
+            } else if (userAtt > 10) {
+              attemptDiv.innerHTML = "Email already sent. Check your email or go to forgot password"
+            }
+          }
         }
       } else {
-      	passwordWarning.classList.remove('hidden');
+        passwordWarning.classList.remove('hidden');
         console.error("Request failed with status code", this.status);
       }
     };
@@ -290,11 +305,12 @@ function loginAuth() {
 
     xhr.send();
   } else {
- 		console.log("here");
-		emailWarning.classList.remove('hidden');
+    console.log("here");
+    emailWarning.classList.remove('hidden');
     passwordWarning.classList.add('hidden');
   }
 }
+
 
   </script>
 

@@ -6,6 +6,7 @@
 <body>
 <div>
 <p id="org-name">Pseudo name</p>
+<input type="text" value="" id="name-edit">
 </div>
 <img src="this one image" id="initial-prof-pic">
 <img src="this one image" id="preview">
@@ -17,15 +18,15 @@ Location
 <input type="text" value="" id="vis-loc" readonly>
 
 <p class="edit-loc">Address Line 1</p>
-<input type="text" value="lorem ipsum" id="address1" class="edit-loc">
+<input type="text" value="123 state street" id="address1" class="edit-loc">
 <p class="edit-loc">Address Line 2</p>
-<input type="text" value="lorem ipsum" id="address2" class="edit-loc">
+<input type="text" value="Apartment 2" id="address2" class="edit-loc">
 <p class="edit-loc">City</p>
-<input type="text" value="lorem ipsum" id="city" class="edit-loc">
+<input type="text" value="Lafayette" id="city" class="edit-loc">
 <p class="edit-loc">State</p>
-<input type="text" value="lorem ipsum" id="state" class="edit-loc">
+<input type="text" value="IN" id="state" class="edit-loc">
 <p class="edit-loc">Zip Code</p>
-<input type="text" value="lorem ipsum" id="zip" class="edit-loc">
+<input type="text" value="47905" id="zip" class="edit-loc">
 <p>
 Mission Statement
 </p>
@@ -69,7 +70,9 @@ Mission Statement
   display: none;
 }
 
-
+#name-edit {
+  display: none;
+}
 </style>
 
 
@@ -112,8 +115,11 @@ fileTag.addEventListener("change", function() {
 });
   
   editButton.style.display = "none";
-  document.getElementById("save-button").style.display = "inline";
   
+  document.getElementById("save-button").style.display = "inline";
+  document.getElementById("name-edit").style.display = "inline";
+  document.getElementById("name-edit").value = document.getElementById("org-name").innerHTML;
+  document.getElementById("org-name").style.display = "none";
 }
 
 function saveFunc() {
@@ -155,6 +161,11 @@ function saveFunc() {
 	editButton.style.display="inline";
   document.getElementById("save-button").style.display="none";
   
+  document.getElementById("org-name").innerHTML = document.getElementById("name-edit").value;
+  //TODO implement functionality with the API
+  document.getElementById("name-edit").style.display = "none";
+  document.getElementById("org-name").style.display = "inline";
+  
   //if everything is successful
   alert("Save successful!")
   
@@ -178,5 +189,4 @@ function changeImage(input) {
     reader.readAsDataURL(input.files[0]);
   }
 }
-
 </script>
