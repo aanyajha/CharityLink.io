@@ -141,7 +141,7 @@ function onloadFunc() {
       var mission = document.getElementById("mission-id");
       mission.value = data.statement;
       var logo = data.logo;
-      if (logo == undefined) {
+      if (!logo) {
         document.getElementById("initial-prof-pic").src = "https://i.postimg.cc/Zq3dkdkW/Charitylink-Logo-Updated.png";
         document.getElementById("preview").src = "https://i.postimg.cc/Zq3dkdkW/Charitylink-Logo-Updated.png";
       } else {
