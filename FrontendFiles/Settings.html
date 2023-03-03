@@ -145,14 +145,18 @@ function deleteFunc() {
 
 var username = "example@gmail.com";
 var password = "password";
+var typeData;
+var companyData;
+var joinData;
+window.onload = onloadFunc();
+
+function onloadFunc() {
 const eurl = `http://20.163.149.164:8080/api/user/login/email?email=${username}&password=${password}`;
 
 const exhr = new XMLHttpRequest();
 exhr.open("GET", eurl, true);
 exhr.send();
-var typeData;
-var companyData;
-var joinData;
+
 exhr.onload = function() {
   if (this.status === 200) {
     const data = JSON.parse(this.responseText);
@@ -191,6 +195,7 @@ exhr.onload = function() {
     }
   }
 
+}
 }
 
 //TODO: add grey color to indicate if can edit or not
@@ -327,6 +332,8 @@ function saveFunc() {
   //if everything is successful
   alert("Save successful!")
 
+
+}
 
 }
 
