@@ -271,7 +271,6 @@ function loginAuth() {
           window.location.href = 'https://aanyajha.github.io/CharityLink.io/FrontendFiles/DefaultDashboard';
         } else {
           console.log("Not valid");
-          //TODO: SEND EMAIL
           var attemptDiv = document.getElementById("attempts");
           var userArr = [];
           var attempts = [];
@@ -283,7 +282,13 @@ function loginAuth() {
             var userAtt = attempts[username.indexOf(username)]++;
             attemptDiv.innerHTML = "You have " + (10 - userAtt) + " more attempts to login with this email."
             if (userAtt == 10) {
-              //TODO: send email
+              
+              const sus = `http://20.163.149.164:8080/api/email/suspicious?email=${username}`;
+              const xhr = new XMLHttpRequest();
+              xhr.open("GET", sus, true);
+              xhr.send();
+              
+              
               attemptDiv.innerHTML = "Email of suspicious activity sent"
             } else if (userAtt > 10) {
               attemptDiv.innerHTML = "Email already sent. Check your email or go to forgot password"
