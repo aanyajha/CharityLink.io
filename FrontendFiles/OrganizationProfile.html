@@ -143,7 +143,7 @@ function onloadFunc() {
       document.getElementById("preview").src = logo;
       var companyName = document.getElementById("org-name");
       companyName.innerHTML = data.name;
-
+      console.log(data);
       var locId = data.locationID;
       const lxhr = new XMLHttpRequest();
       var lurl = `http://20.163.149.164:8080/api/location/get?id=${locId}`;
