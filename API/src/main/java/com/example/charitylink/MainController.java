@@ -127,6 +127,8 @@ public class MainController {
         if (user.getUserType() == 4) {
             user.setCompanyID(user.getId());
             userRepository.save(user);
+            Profile profile = new Profile(user.getCompanyID(), "", "");
+            profileRepository.save(profile);
         }
         return user;
     }
