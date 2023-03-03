@@ -218,6 +218,8 @@
 </style>
   
 <script>  
+  var userArr = [];
+          var attempts = [];
 function loginPage() {
   //links to login
   window.location.href = '/CharityLink.io/FrontendFiles/login.html'
@@ -262,24 +264,26 @@ function loginAuth() {
         const account_type = data.userType;
         console.log(account_type);
         if (account_type == 1) {
-          window.location.href = 'https://aanyajha.github.io/CharityLink.io/FrontendFiles/OrganizationDashboard';
+          window.location.href = 'https://aanyajha.github.io/CharityLink.io/FrontendFiles/DefaultDashboard';
         } else if (account_type == 2) {
           window.location.href = 'https://aanyajha.github.io/CharityLink.io/FrontendFiles/EmployeeDashboard';
         } else if (account_type == 3) {
           window.location.href = 'https://aanyajha.github.io/CharityLink.io/FrontendFiles/ManagerDashboard';
         } else if (account_type == 4) {
-          window.location.href = 'https://aanyajha.github.io/CharityLink.io/FrontendFiles/DefaultDashboard';
+          window.location.href = 'https://aanyajha.github.io/CharityLink.io/FrontendFiles/OrganizationDashboard';
         } else {
           console.log("Not valid");
           var attemptDiv = document.getElementById("attempts");
-          var userArr = [];
-          var attempts = [];
+          
+          console.log(userArr);
+          console.log(attempts);
 
           if (!userArr.includes(username)) {
             userArr.push(username);
             attempts.push(0);
           } else {
-            var userAtt = attempts[username.indexOf(username)]++;
+            var userAtt = attempts[userArr.indexOf(username)]++;
+            console.log(userAtt);
             attemptDiv.innerHTML = "You have " + (10 - userAtt) + " more attempts to login with this email."
             if (userAtt == 10) {
               
@@ -289,9 +293,9 @@ function loginAuth() {
               xhr.send();
               
               
-              attemptDiv.innerHTML = "Email of suspicious activity sent"
+              attemptDiv.innerHTML = "Email of suspicious activity sent";
             } else if (userAtt > 10) {
-              attemptDiv.innerHTML = "Email already sent. Check your email or go to forgot password"
+              attemptDiv.innerHTML = "Email already sent. Check your email or go to forgot password";
             }
           }
         }

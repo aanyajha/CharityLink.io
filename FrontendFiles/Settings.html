@@ -8,8 +8,8 @@
 <p id="username">Pseudo name</p>
 </div>
 <input type="text" value="" id="name-edit">
-<img src="this one image" id="initial-prof-pic">
-<img src="this one image" id="preview">
+<img src="https://i.imgur.com/zbqKf.jpg" id="initial-prof-pic">
+<img src="https://i.imgur.com/zbqKf.jpg" id="preview">
 <input type="file" id="file-upload">
 
 <label id="name-word">Name: </label>
@@ -100,47 +100,50 @@ Delete
 </style>
 
 <script>
-
-//code taken from 
-//https://stackoverflow.com/questions/16245767/creating-a-blob-from-a-base64-string-in-javascript
-
-/*
-const b64toBlob = (b64Data, contentType='', sliceSize=512) => {
-  const byteCharacters = atob(b64Data);
-  const byteArrays = [];
-
-  for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
-    const slice = byteCharacters.slice(offset, offset + sliceSize);
-
-    const byteNumbers = new Array(slice.length);
-    for (let i = 0; i < slice.length; i++) {
-      byteNumbers[i] = slice.charCodeAt(i);
-    }
-
-    const byteArray = new Uint8Array(byteNumbers);
-    byteArrays.push(byteArray);
-  }
-
-  const blob = new Blob(byteArrays, {type: contentType});
-  return blob;
-}
-*/
-
-
 function deleteFunc() {
 	
   //TODO: API IMPLEMENTATION
   //don't forget to include ifs for error flags
-  //var realPass = API IMPLEMENTATION
-  var confirmation = prompt("Are you sure? \nEnter your password:")
-  /*if (confirmation == realPass) {
-  	//stuff
-    alert("Account deleted. Returning to main page.")
-    window.location.replace("https://aanyajha.github.io/CharityLink.io/FrontendFiles/index.html");
-  }
-  else {
-  	alert("Password incorrect. Deletion aborted.")
-  } */
+  var confirmation = prompt("Are you sure? \nEnter your password:");
+  
+  var email = "example@gmail.com";
+  const url = `http://20.163.149.164:8080/api/user/login/email?email=${email}&password=${confirmation}`;
+    console.log(email);
+    console.log(confirmation);
+
+    const xhr = new XMLHttpRequest();
+    xhr.open("GET", url, true);
+	xhr.send();
+    xhr.onload = function() {
+	    console.log("here shit");
+      if (this.status === 200) {
+      var data = JSON.parse(this.responseText);
+  			if (data.password == null) {
+        	alert("Invalid password. Deletion aborted.");
+          return;
+        }
+        
+        var durl = `http://20.163.149.164:8080/api/user/delete?email=${email}`;
+        const dxhr = new XMLHttpRequest();
+    		dxhr.open("DELETE", durl, true);
+	      dxhr.send();
+    		dxhr.onload = function() {
+  				if (this.responseText == "Invalid Email") {
+          
+          } else if (this.responseText == "Error") {
+          	alert("HTTP Error");
+          } else {
+          	alert("Account successfully deleted.");
+            window.location.href = "https://aanyajha.github.io/CharityLink.io/FrontendFiles/index.html";
+            return;
+          }
+  			}
+  		} else {
+      	//error handling
+      	console.error("Request failed with status code", this.status);
+        return;
+      }
+    }
 }
 
 //TODO: add grey color to indicate if can edit or not
@@ -241,23 +244,6 @@ function saveFunc() {
   alert("Save successful!")
   
   
-  /*
-  var data = newImg.src;
-  var stringArr = data.split(",");
-  const contentType = 'image/png';
-	const b64Data = stringArr[1];
-  
-  const blob = b64toBlob(b64Data, contentType);
-  
-  //send over blob
-  
-	const blobUrl = URL.createObjectURL(blob);
-
-	console.log(blobUrl);
-  
-  */
-  
-  
 }
 
 
@@ -277,5 +263,6 @@ function changeImage(input) {
     reader.readAsDataURL(input.files[0]);
   }
 }
+
 
 </script>
