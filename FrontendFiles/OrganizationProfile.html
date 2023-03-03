@@ -146,7 +146,7 @@ function onloadFunc() {
       console.log(data);
       var locId = sessionStorage.getItem("locationID");
       const lxhr = new XMLHttpRequest();
-      console.log(locId);
+      console.log(userData);
       var lurl = `http://20.163.149.164:8080/api/location/get?id=${locId}`;
       lxhr.open("GET", lurl, true);
       lxhr.send();
