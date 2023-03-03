@@ -249,6 +249,9 @@ function signUpFunc() {
   var state = document.getElementById("state");
   var zip = document.getElementById("zip");
   var checkbox = document.getElementById("check");
+    
+  console.log(email);
+  console.log(isValidEmail(email));
 
   if (!isValidEmail(email)) {
     alert("This is not a valid email format");
