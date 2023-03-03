@@ -281,7 +281,6 @@ function saveFunc() {
           var mission1 = mission.value.split(' ').join('+');
           //imgUrl.split(' ').join('+');
           console.log(imgUrl);
-          var locId = this.responseText;
           var userData = JSON.parse(sessionStorage.getItem("userData"));
           var compId = userData.id;
           var link = `http://20.163.149.164:8080/api/profile/edit?companyID=${compId}&statement=${mission1}&logo=${imgUrl}`;
@@ -293,7 +292,7 @@ function saveFunc() {
             if (this.status === 200) {}
           }
           
-          var updateurl = `http://20.163.149.164:8080/api/user/update?email=${userData.email}&locationId=${locId}`;
+          var updateurl = `http://20.163.149.164:8080/api/user/update?email=${userData.email}&locationId=${locationId}`;
           
           updatexhr.open("PUT", updateurl, true);
           updatexhr.send();
