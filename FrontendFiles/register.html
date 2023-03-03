@@ -304,7 +304,7 @@ function signUpFunc() {
           if (this.status === 200) {
             const data1 = JSON.parse(this.responseText);
             console.log(data1);
-            if (data1 != null) {
+            if (data1.name != undefined) {
               // Store the API data in sessionStorage
               sessionStorage.setItem('userData', JSON.stringify(data1));
               window.location.href = 'https://aanyajha.github.io/CharityLink.io/FrontendFiles/OrganizationDashboard';
@@ -341,7 +341,7 @@ function signUpFunc() {
       if (this.status === 200) {
         const data = JSON.parse(this.responseText);
         console.log(data);
-        if (data != null) {
+        if (data.name != undefined) {
           // Store the API data in sessionStorage
           sessionStorage.setItem('userData', JSON.stringify(data));
           window.location.href = 'https://aanyajha.github.io/CharityLink.io/FrontendFiles/DefaultDashboard';
