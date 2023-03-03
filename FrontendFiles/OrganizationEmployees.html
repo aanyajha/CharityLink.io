@@ -101,15 +101,15 @@
 
   <script>
   // Define data for catalog
+const staffContainer = document.getElementById('employee');
+
+var staffData;
 const userData = JSON.parse(sessionStorage.getItem('userData'));
 if (userData != null) {
   printData();
 }
 
 // Get reference to catalog container in HTML
-const staffContainer = document.getElementById('employee');
-
-var staffData;
 
 // Dynamically generate HTML elements for each item in the catalog
 function printData() {
@@ -322,3 +322,4 @@ function addEmployee() {
   </script>
 
 </html>
+
