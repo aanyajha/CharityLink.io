@@ -1,26 +1,133 @@
 <!DOCTYPE html>
-
 <head>
-<title>Settings</title>
+<title>Your Profile</title>
 </head>
 
 <body>
-<button type="button" onclick="editFunc()" id="edit-button">
-Edit
-</button>
-<button type="button" onclick="deleteFunc()">
+<div>
+<p id="username">Pseudo name</p>
+</div>
+<input type="text" value="" id="name-edit">
+<img src="this one image" id="initial-prof-pic">
+<img src="this one image" id="preview">
+<input type="file" id="file-upload">
+
+<label id="name-word">Name: </label>
+<input type="text" value="pseudoname" id="real-name" readonly>
+
+<label id="email-word">Email: </label>
+<input type="text" value="pseudo email" id="email" readonly>
+
+<p id="type">
+User Type: pseudo type
+</p>
+
+<p id="company">
+Associated Company: pseudo comp
+</p>
+
+<p id="join-date">
+Join Date: pseudo date
+</p>
+
+<a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/reset_form.html">Change Password</a>
+
+<p id="loc-word">Location</p>
+<input type="text" value="" id="vis-loc" readonly>
+
+<p class="edit-loc">Address Line 1</p>
+<input type="text" value="123 state street" id="address1" class="edit-loc">
+<p class="edit-loc">Address Line 2</p>
+<input type="text" value="Apartment 2" id="address2" class="edit-loc">
+<p class="edit-loc">City</p>
+<input type="text" value="Lafayette" id="city" class="edit-loc">
+<p class="edit-loc">State</p>
+<input type="text" value="IN" id="state" class="edit-loc">
+<p class="edit-loc">Zip Code</p>
+<input type="text" value="47905" id="zip" class="edit-loc">
+
+<button id="edit-button" onclick="editFunc()">Edit</button>
+<button id="save-button" onclick="saveFunc()">Save</button>
+<button id="delete-button" type="button" onclick="deleteFunc()">
 Delete
 </button>
 </body>
 
 <style>
-  #edit-button {
+#mission-id {
+  width: 100%;
+  height: 150px;
+  padding: 12px 20px;
+  box-sizing: border-box;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+  background-color: #f8f8f8;
+  font-size: 16px;
+  resize: none;
+}
+
+#vis-loc {
+  display: inline;
+}
+
+.edit-loc {
+  display: none;
+}
+
+#save-button {
+  display: none;
+}
+
+#delete-button {
+  display: none;
+}
+
+#file-upload {
+  display: none;
+}
+
+#preview {
+  display: none;
+}
+
+#name-edit {
+  display: none;
+}
+
+#company {
   display: none;
 }
 </style>
 
 <script>
-  function deleteFunc() {
+
+//code taken from 
+//https://stackoverflow.com/questions/16245767/creating-a-blob-from-a-base64-string-in-javascript
+
+/*
+const b64toBlob = (b64Data, contentType='', sliceSize=512) => {
+  const byteCharacters = atob(b64Data);
+  const byteArrays = [];
+
+  for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+    const slice = byteCharacters.slice(offset, offset + sliceSize);
+
+    const byteNumbers = new Array(slice.length);
+    for (let i = 0; i < slice.length; i++) {
+      byteNumbers[i] = slice.charCodeAt(i);
+    }
+
+    const byteArray = new Uint8Array(byteNumbers);
+    byteArrays.push(byteArray);
+  }
+
+  const blob = new Blob(byteArrays, {type: contentType});
+  return blob;
+}
+*/
+
+
+function deleteFunc() {
 	
   //TODO: API IMPLEMENTATION
   //don't forget to include ifs for error flags
@@ -36,7 +143,139 @@ Delete
   } */
 }
 
+//TODO: add grey color to indicate if can edit or not
+
 function editFunc() {
 
+	//get the backend and then replace these document.get with the
+  //data from backend
+
+  var addr1 = document.getElementById("address1");
+  var addr2 = document.getElementById("address2");
+  var city = document.getElementById("city");
+  var state = document.getElementById("state");
+  var zip = document.getElementById("zip");
+  
+  
+  document.getElementById("vis-loc").style.display = "none";
+	document.getElementById("loc-word").style.display = "none";
+  
+  var editable = document.getElementsByClassName("edit-loc");
+	for (var i = 0; i < editable.length; i++){
+  	editable[i].style.display = 'inline';
+	}
+  var editButton = document.getElementById("edit-button");
+  
+  document.getElementById("initial-prof-pic").style.display = "none";
+  document.getElementById("preview").style.display = "inline";
+  document.getElementById("file-upload").style.display = "inline";
+  
+  var fileTag = document.getElementById("file-upload")
+  var preview = document.getElementById("preview");
+    
+fileTag.addEventListener("change", function() {
+  changeImage(this);
+});
+  
+  editButton.style.display = "none";
+  document.getElementById("save-button").style.display = "inline";
+  
+  document.getElementById("name-edit").style.display = "inline";
+  document.getElementById("name-edit").value = document.getElementById("username").innerHTML;
+  document.getElementById("username").style.display = "none";
+  document.getElementById("delete-button").style.display = "inline";
+  
+  document.getElementById("real-name").removeAttribute("readonly");
+  document.getElementById("email").removeAttribute("readonly");
 }
+
+function saveFunc() {
+	//this still needs to connect to backend to send all the info
+  var addr1 = document.getElementById("address1");
+  var addr2 = document.getElementById("address2");
+  var city = document.getElementById("city");
+  var state = document.getElementById("state");
+  var zip = document.getElementById("zip");
+  
+  var newImg = document.getElementById("preview");
+  document.getElementById("initial-prof-pic").src = newImg.src;
+  
+  console.log(newImg.src);
+  
+	document.getElementById("vis-loc").style.display = "inline";
+	document.getElementById("loc-word").style.display = "inline";
+  
+  var editable = document.getElementsByClassName("edit-loc");
+	for (var i = 0; i < editable.length; i++){
+  	editable[i].style.display = 'none';
+	}
+  
+  var location = document.getElementById("vis-loc");
+  var locationString = "";
+  if (!addr2) {
+  	locationString = addr1.value + ", " + city.value + ", " + state.value + " " + zip.value;
+  } else {
+  	locationString = addr1.value + ", " + addr2.value + ", " + city.value + ", " + state.value + " " + zip.value;
+  }
+  location.value = locationString;
+  
+  document.getElementById("initial-prof-pic").style.display = "inline";
+  document.getElementById("preview").style.display = "none";
+  document.getElementById("file-upload").style.display = "none";
+  
+	var editButton = document.getElementById("edit-button");
+	editButton.style.display="inline";
+  document.getElementById("save-button").style.display="none";
+  
+  document.getElementById("username").innerHTML = document.getElementById("name-edit").value;
+  //TODO implement functionality with the API
+  document.getElementById("name-edit").style.display = "none";
+  document.getElementById("username").style.display = "inline";
+  
+  
+  document.getElementById("real-name").setAttribute("readonly", "readonly");
+  document.getElementById("email").setAttribute("readonly", "readonly");
+  
+  
+  //if everything is successful
+  alert("Save successful!")
+  
+  
+  /*
+  var data = newImg.src;
+  var stringArr = data.split(",");
+  const contentType = 'image/png';
+	const b64Data = stringArr[1];
+  
+  const blob = b64toBlob(b64Data, contentType);
+  
+  //send over blob
+  
+	const blobUrl = URL.createObjectURL(blob);
+
+	console.log(blobUrl);
+  
+  */
+  
+  
+}
+
+
+//this code I used stackoverflow to help me
+//https://stackoverflow.com/questions/31710127/javascript-image-upload-and-display
+
+function changeImage(input) {
+  var reader;
+
+  if (input.files && input.files[0]) {
+    reader = new FileReader();
+
+    reader.onload = function(e) {
+      preview.setAttribute('src', e.target.result);
+    }
+
+    reader.readAsDataURL(input.files[0]);
+  }
+}
+
 </script>
