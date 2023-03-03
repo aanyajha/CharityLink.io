@@ -118,6 +118,15 @@ public class MainController {
         return profileRepository.findAll();
     }
 
+    @GetMapping(path = "/user/get")
+    public @ResponseBody User getUser(@RequestParam Integer id) {
+        User user = userRepository.findById(id).get();
+        if (user == null) {
+            return new User();
+        }
+        return user;
+    }
+
     @PostMapping(path="/user/add")
     public @ResponseBody User addNewUser(@RequestParam String name, @RequestParam String username,
                                            @RequestParam String password, @RequestParam String email,
