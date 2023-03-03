@@ -183,10 +183,10 @@ function onloadFunc() {
         zip.value = locData.zip;
         var location = document.getElementById("vis-loc");
         var locationString = "";
-        if (!addr2.value) {
-          locationString = addr1.value + ", " + city.value + ", " + state.value + " " + zip.value;
+        if (!locData.addressLine2) {
+          locationString = locData.addressLine1 + ", " + locData.city + ", " + locData.state + " " + locData.zip;
         } else {
-          locationString = addr1.value + ", " + addr2.value + ", " + city.value + ", " + state.value + " " + zip.value;
+          locationString = locData.addressLine1 + ", " + locData.addressLine2 + ", " + locData.city + ", " + locData.state + " " + locData.zip;
         }
         location.value = locationString;
       }
