@@ -47,82 +47,93 @@ img {
 </body>
 
 <script>
-
-function loginPage() {
-  //links to login
-  window.location.href = '/CharityLink.io/FrontendFiles/login.html'
+// Define data for catalog
+const userData = JSON.parse(sessionStorage.getItem('userData'));
+if (userData != null) {
+  printData();
 }
 
-function registerPage() {
-  //links register page
-  window.location.href = '/CharityLink.io/FrontendFiles/register.html'
-}
+// Get reference to catalog container in HTML
+const catalogContainer = document.getElementById('catalog');
 
-function isValidEmail(email) {
-  const pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  return pattern.test(email);
-}
+var catalogData;
 
-//const loginButton = document.querySelector('#login-button');
+// Dynamically generate HTML elements for each item in the catalog
+function printData() {
+  console.log(userData);
 
-function loginAuth() {
-  console.log("test");
-  const username = document.getElementById('username').value;
-  const password = document.getElementById('password').value;
-  const emailWarning = document.getElementById('email-warning');
-  const passwordWarning = document.getElementById('password-warning');
-
-  if (isValidEmail(username)) {
-    const url = `http://20.163.149.164:8080/api/user/login/email?email=${username}&password=${password}`;
-    console.log(username);
-    console.log(password);
-
-    const xhr = new XMLHttpRequest();
-    xhr.open("GET", url, true);
-
-    xhr.onload = function() {
-      if (this.status === 200) {
-        const data = JSON.parse(this.responseText);
-  			emailWarning.classList.remove('hidden');
-        passwordWarning.classList.add('hidden');
-        console.log(data);
-        // Store the API data in sessionStorage
-        sessionStorage.setItem('userData', JSON.stringify(data));
-        // Redirect to the next HTML page
-        const account_type = data.userType;
-        console.log(account_type);
-        if (account_type == 1) {
-       		window.location.href = 'https://aanyajha.github.io/CharityLink.io/FrontendFiles/OrganizationDashboard';
-        } 
-        else if (account_type == 2) {
-        	window.location.href = 'https://aanyajha.github.io/CharityLink.io/FrontendFiles/EmployeeDashboard';
-        }
-        else if (account_type == 3) {
-        	window.location.href = 'https://aanyajha.github.io/CharityLink.io/FrontendFiles/ManagerDashboard';
-        }
-        else if (account_type == 4) {
-        	window.location.href = 'https://aanyajha.github.io/CharityLink.io/FrontendFiles/DefaultDashboard';
-        }
-        else {
-        	console.log("Not valid");
-        }
-      } else {
-      	passwordWarning.classList.remove('hidden');
-        console.error("Request failed with status code", this.status);
-      }
-    };
-
-    xhr.onerror = function() {
-      console.error("Request failed");
-    };
-
-    xhr.send();
+  const userType = userData.userType;
+  var id = null;
+  if (userType == 2 || userType == 3) {
+    id = userData.companyID;
   } else {
- 		console.log("here");
-		emailWarning.classList.remove('hidden');
-    passwordWarning.classList.add('hidden');
+    id = userData.id;
   }
+  console.log(userData.companyID);
+  console.log(id);
+
+  const url = `http://20.163.149.164:8080/api/item/inventory?userID=${id}`;
+  const xhr = new XMLHttpRequest();
+  xhr.open("GET", url, true);
+
+  xhr.onload = function() {
+    if (this.status === 200) {
+      const data = this.responseText;
+      console.log(data);
+      catalogData = data.split(",");
+      catalogData.forEach(rawData => {
+        const item = JSON.parse(rawData);
+        // Create elements for item
+        const itemContainer = document.createElement('div');
+        const itemName = document.createElement('h3');
+        const itemHashtags = document.createElement('p');
+        const quantity = document.createElement('p');
+        //const itemImage = document.createElement('img');
+
+        // Set content and attributes for elements
+        itemName.textContent = item.name;
+        itemHashtags.textContent = item.hashtags;
+        quantity.textContent = 'Quantity: [ ' + item.numItems + ' ]';
+        //itemImage.setAttribute('src', item.image);
+
+        // Add elements to item container
+        itemContainer.appendChild(itemName);
+        itemContainer.appendChild(itemHashtags);
+        itemContainer.appendChild(quantity);
+        //itemContainer.appendChild(itemImage);
+
+        itemContainer.style.border = '1px solid black';
+
+        // Add item container to catalog container
+        catalogContainer.appendChild(itemContainer);
+
+        // Add click event listener to item container
+        itemContainer.addEventListener('click', () => {
+          // Display more information about item
+          // Add code here to show a modal or expand the item container
+        });
+      });
+    } else {
+
+      console.error("Request failed with status code", this.status);
+    }
+  };
+
+  xhr.onerror = function() {
+    console.error("Request failed");
+  };
+
+  xhr.send();
 }
+
+function openNav() {
+  document.getElementById("mySidebar").style.display = "block";
+}
+
+function closeNav() {
+  document.getElementById("mySidebar").style.display = "none";
+}
+
 </script>
 
 </html>
