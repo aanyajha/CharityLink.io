@@ -56,6 +56,8 @@ if (userData != null) {
 // Get reference to catalog container in HTML
 const catalogContainer = document.getElementById('catalog');
 
+var catalogData;
+
 // Dynamically generate HTML elements for each item in the catalog
 function printData() {
 	console.log(userData);
@@ -79,6 +81,7 @@ function printData() {
       if (this.status === 200) {
         const data = this.responseText;
         console.log(data);
+        catalogData = data.split(",");
       } else {
       
         console.error("Request failed with status code", this.status);
@@ -91,23 +94,24 @@ function printData() {
 
     xhr.send();
   
-  catalogData.forEach(item => {
+  catalogData.forEach(rawData => {
+  	const item = JSON.parse(rawData);
     // Create elements for item
     const itemContainer = document.createElement('div');
     const itemName = document.createElement('h3');
-    const itemDescription = document.createElement('p');
+    const itemHashtags = document.createElement('p');
     const quantity = document.createElement('p');
     //const itemImage = document.createElement('img');
 
     // Set content and attributes for elements
     itemName.textContent = item.name;
-    itemDescription.textContent = item.description;
-    quantity.textContent = 'Quantity: [ ' + item.quantity + ' ]';
+    itemHashtags.textContent = item.hashtags;
+    quantity.textContent = 'Quantity: [ ' + item.numItems + ' ]';
     //itemImage.setAttribute('src', item.image);
 
     // Add elements to item container
     itemContainer.appendChild(itemName);
-    itemContainer.appendChild(itemDescription);
+    itemContainer.appendChild(itemHashtags);
     itemContainer.appendChild(quantity);
     //itemContainer.appendChild(itemImage);
 
