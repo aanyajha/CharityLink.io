@@ -114,6 +114,7 @@ function deleteFunc() {
     const xhr = new XMLHttpRequest();
     xhr.open("GET", url, true);
 	console.log("this shit");
+	xhr.send();
     xhr.onload = function() {
 	    console.log("here shit");
       if (this.status === 200) {
@@ -129,6 +130,7 @@ function deleteFunc() {
 	      console.log("what's going on");
         const dxhr = new XMLHttpRequest();
     		dxhr.open("DELETE", durl, true);
+	      dxhr.send();
 		console.log("you're not insane");
     		dxhr.onload = function() {
   				if (this.responseText == "Invalid Email") {
