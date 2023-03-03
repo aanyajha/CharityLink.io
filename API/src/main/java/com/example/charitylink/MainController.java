@@ -113,6 +113,11 @@ public class MainController {
         return profile;
     }
 
+    @GetMapping(path = "/profile/all")
+    public @ResponseBody Iterable<Profile> getAllProfiles () {
+        return profileRepository.findAll();
+    }
+
     @PostMapping(path="/user/add")
     public @ResponseBody User addNewUser(@RequestParam String name, @RequestParam String username,
                                            @RequestParam String password, @RequestParam String email,
