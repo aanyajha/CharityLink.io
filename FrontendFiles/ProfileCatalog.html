@@ -92,7 +92,7 @@ function onloadFunc() {
       axhr.send();
       axhr.onload = function() {
         if (this.status === 200) {
-          const data = this.responseText;
+          var data = this.responseText.replace(/\[|\]/g,'').split(',');
           console.log(data);
           for (var i = 0; i < data.length; i++) {
           //data.forEach(profile => {
