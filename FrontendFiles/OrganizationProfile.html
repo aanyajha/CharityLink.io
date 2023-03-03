@@ -132,6 +132,8 @@ function onloadFunc() {
   const exhr = new XMLHttpRequest();
   exhr.open("GET", eurl, true);
   exhr.send();
+  
+  var userData = JSON.parse(sessionStorage.getItem("userData"));
 
   exhr.onload = function() {
     if (this.status === 200) {
@@ -142,11 +144,10 @@ function onloadFunc() {
       document.getElementById("initial-prof-pic").src = logo;
       document.getElementById("preview").src = logo;
       var companyName = document.getElementById("org-name");
-      companyName.innerHTML = sessionStorage.getItem("name");
+      companyName.innerHTML = userData.name;
       console.log(data);
-      var locId = sessionStorage.getItem("locationID");
+      var locId = userData.locationID;
       const lxhr = new XMLHttpRequest();
-      console.log(sessionStorage.getItem("userData"));
       var lurl = `http://20.163.149.164:8080/api/location/get?id=${locId}`;
       lxhr.open("GET", lurl, true);
       lxhr.send();
