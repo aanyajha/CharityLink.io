@@ -42,17 +42,21 @@
     <div class="w3-container w3-border" id="catalog"></div>
   <script>
     // Define data for catalog
+    window.onload = onloadFunc();
+
+function onloadFunc() {
     const userData = JSON.parse(sessionStorage.getItem('userData'));
     if (userData != null) {
       printData();
     }
+}
     /*
     function seeDetails() {
       const eventId = document.getElementById("input-id").value;
       const url = `http://20.163.149.164:8080/api//get?id=${eventId}`;
       const xhr = new XMLHttpRequest();
       xhr.open("GET", url, true);
-
+      xhr.send();
       xhr.onload = function() {
         if (this.status === 200) {
           const data = this.responseText;
@@ -63,7 +67,7 @@
           console.error("Request failed with status code", this.status);
         }
       };
-      xhr.send();
+      
     }
     */
     // Get reference to catalog container in HTML
