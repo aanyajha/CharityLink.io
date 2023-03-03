@@ -298,9 +298,9 @@ function signUpFunc() {
         console.log("Sent User Info");
 
         const xhr1 = new XMLHttpRequest();
-        xhr.open("POST", url, true);
+        xhr1.open("POST", url1, true);
 
-        xhr.onload = function() {
+        xhr1.onload = function() {
           if (this.status === 200) {
             const data1 = JSON.parse(this.responseText);
             console.log(data1);
@@ -317,11 +317,11 @@ function signUpFunc() {
           }
         };
 
-        xhr.onerror = function() {
+        xhr1.onerror = function() {
           console.error("Request failed");
         };
 
-        xhr.send();
+        xhr1.send();
       } else {
         console.error("Request failed with status code", this.status);
       }
@@ -418,6 +418,7 @@ function getFormattedDate() {
 
   return formattedDate;
 }
+
 </script>
   
 </body>
