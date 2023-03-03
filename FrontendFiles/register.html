@@ -2,8 +2,8 @@
 <head>
 <title>Sign Up</title>
 </head>
-<body>
 
+<body>
 <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/index.html"><img id="logo" src="https://i.postimg.cc/Zq3dkdkW/Charitylink-Logo-Updated.png" alt="Charity Link Logo" width="160" height="60"></a>
 
 <button type="button" id="signUpButtonUp" class="up-button" onclick="loginPage()">
@@ -21,6 +21,13 @@
     Username:
     </p>
     <input type="text" id="username" class="input-class" placeHolder="Username" required>
+</div>
+
+<div id="Name-div">
+    <p class="words">
+    Name or Organization Name:
+    </p>
+    <input type="text" id="name" class="input-class" placeHolder="Name" required>
 </div>
 
 <div id="email-div">
@@ -233,20 +240,121 @@ body :-ms-input-placeholder {
 function signUpFunc() {
 
   var username = document.getElementById("username");
+  var name = document.getElementById("name");
   var email = document.getElementById("email");
   var password = document.getElementById("password");
+  var address1 = document.getElementById("address1");
+  var address2 = document.getElementById("address2");
+  var city = document.getElementById("city");
+  var state = document.getElementById("state");
+  var zip = document.getElementaryById("zip");
+  var checkbox = document.getElementarybyId("check");
 
-	if (isValidEmail(email)) {
-  	if (isStrongPassword) {
-    	//TODO: API IMPLEMENTATION
-    } else {
-    	alert("This is not a strong password. Minimum of 8 characters.")
-    }
-  } else {
-  	alert("This is not a valid email format.");
+  if (!isValidEmail(email)) {
+    alert("This is not a valid email format");
     return;
   }
 
+  if (!isStrongPassword(password)) {
+    alert("This is not a strong password. Minimum of 8 characters");
+    return;
+  }
+
+  if (!isValidName(name)) {
+    alert("Name or Organization Name is not valid");
+    return;
+  }
+
+  if (!isValidUsername(username)) {
+    alert("Username is not valid");
+    return;
+  }
+
+  var formattedDate = getFormattedDate();
+
+  if (checkbox.checked) {
+    if (address1.length < 1 || city.length < 1 || state.length < 1 || zip.length < 1) {
+      alert("A location field is not valid");
+      return;
+    }
+
+    const url = `http://20.163.149.164:8080/api/location/add?addressLine1=${address1}&addressLine2=${address2}&city=${city}&state=${state}&zip=${zip}`;
+
+    console.log("sent location");
+
+    const xhr = new XMLHttpRequest();
+    xhr.open("POST", url, true);
+
+    xhr.onload = function() {
+      if (this.status === 200) {
+        const data = this.responseText;
+        console.log(data);
+        //start userdata
+        const url1 = `http://20.163.149.164:8080/api/user/add?name=${name}&username=${username}&password=${password}&email=${email}&date=${formattedDate}&userType=4&locationID=${data}`;
+        console.log("Sent User Info");
+
+        const xhr1 = new XMLHttpRequest();
+        xhr.open("POST", url, true);
+
+        xhr.onload = function() {
+          if (this.status === 200) {
+            const data1 = JSON.parse(this.responseText);
+            console.log(data1);
+            if (data1 != null) {
+              // Store the API data in sessionStorage
+              sessionStorage.setItem('userData', JSON.stringify(data1));
+              console.log(account_type);
+            } else {
+              alert("Email already taken");
+              return;
+            }
+          } else {
+            console.error("Request failed with status code", this.status);
+          }
+        };
+
+        xhr.onerror = function() {
+          console.error("Request failed");
+        };
+
+        xhr.send();
+      } else {
+        console.error("Request failed with status code", this.status);
+      }
+    };
+    xhr.onerror = function() {
+      console.error("Request failed");
+    };
+    xhr.send();
+  } else {
+    const url = `http://20.163.149.164:8080/api/user/add?name=${name}&username=${username}&password=${password}&email=${email}&date=${formattedDate}&userType=1`;
+    console.log("Sent User Info");
+
+    const xhr = new XMLHttpRequest();
+    xhr.open("POST", url, true);
+
+    xhr.onload = function() {
+      if (this.status === 200) {
+        const data = JSON.parse(this.responseText);
+        console.log(data);
+        if (data != null) {
+          // Store the API data in sessionStorage
+          sessionStorage.setItem('userData', JSON.stringify(data));
+          console.log(account_type);
+        } else {
+          alert("Email already taken");
+        }
+      } else {
+        console.error("Request failed with status code", this.status);
+      }
+    };
+
+    xhr.onerror = function() {
+      console.error("Request failed");
+    };
+
+    xhr.send();
+  }
 }
 
 function orgCheck() {
@@ -256,7 +364,7 @@ function orgCheck() {
       editable[i].style.display = 'inline';
     }
   } else {
-  	for (var i = 0; i < editable.length; i++) {
+    for (var i = 0; i < editable.length; i++) {
       editable[i].style.display = 'none';
     }
   }
@@ -268,11 +376,45 @@ function isValidEmail(email) {
 }
 
 function isStrongPassword(password) {
-	if (password.length < 8) {
-  	return false;
+  if (password.length < 8) {
+    return false;
   }
   return true;
 }
+
+function isValidName(name) {
+  if (name.length < 1) {
+    return false;
+  }
+  return true;
+}
+
+function isValidUsername(username) {
+  if (username.length < 1) {
+    return false;
+  }
+  return true;
+}
+
+function getFormattedDate() {
+  var currentDate = new Date();
+  var year = currentDate.getFullYear();
+  var month = currentDate.getMonth() + 1;
+  var day = currentDate.getDate();
+
+  // Add leading zeros to month and day
+  if (month < 10) {
+    month = '0' + month;
+  }
+  if (day < 10) {
+    day = '0' + day;
+  }
+
+  var formattedDate = year + '-' + month + '-' + day;
+
+  return formattedDate;
+}
+
   </script>
   
 </body>
