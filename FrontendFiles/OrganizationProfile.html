@@ -296,8 +296,10 @@ function saveFunc() {
           
           var updateurl = `http://20.163.149.164:8080/api/user/update?email=${userData.email}&locationID=${locationId}&name=${newName}`;
           console.log(userData.email);
-         sessionStorage.setItem("locationID", locationId);
-         sessionStorage.setItem("name", newName);
+         
+         userData.name = newName;
+         userData.locationID = locationId;
+         sessionStorage.setItem("userData", JSON.stringify(userData));
         
           updatexhr.open("PUT", updateurl, true);
           updatexhr.send();
