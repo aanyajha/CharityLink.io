@@ -8,8 +8,8 @@
 <p id="org-name">Pseudo name</p>
 <input type="text" value="" id="name-edit">
 </div>
-<img src="this one image" id="initial-prof-pic">
-<img src="this one image" id="preview">
+<img src="https://i.postimg.cc/Zq3dkdkW/Charitylink-Logo-Updated.png" id="initial-prof-pic">
+<img src="https://i.postimg.cc/Zq3dkdkW/Charitylink-Logo-Updated.png" id="preview">
 <input type="file" id="file-upload">
 <p id="loc-word">
 Location
@@ -81,115 +81,222 @@ Mission Statement
 
 function editFunc() {
 
-	//get the backend and then replace these document.get with the
+  //get the backend and then replace these document.get with the
   //data from backend
 
-	var mission = document.getElementById("mission-id");
+  var mission = document.getElementById("mission-id");
   var addr1 = document.getElementById("address1");
   var addr2 = document.getElementById("address2");
   var city = document.getElementById("city");
   var state = document.getElementById("state");
   var zip = document.getElementById("zip");
-  
-  
+
+
   document.getElementById("vis-loc").style.display = "none";
-	document.getElementById("loc-word").style.display = "none";
-  
+  document.getElementById("loc-word").style.display = "none";
+
   var editable = document.getElementsByClassName("edit-loc");
-	for (var i = 0; i < editable.length; i++){
-  	editable[i].style.display = 'inline';
-	}
+  for (var i = 0; i < editable.length; i++) {
+    editable[i].style.display = 'inline';
+  }
   var editButton = document.getElementById("edit-button");
-  
+
   mission.removeAttribute("readonly");
-  
+
   document.getElementById("initial-prof-pic").style.display = "none";
   document.getElementById("preview").style.display = "inline";
   document.getElementById("file-upload").style.display = "inline";
-  
+
   var fileTag = document.getElementById("file-upload")
   var preview = document.getElementById("preview");
-    
-fileTag.addEventListener("change", function() {
-  changeImage(this);
-});
-  
+
+  fileTag.addEventListener("change", function() {
+    changeImage(this);
+  });
+
   editButton.style.display = "none";
-  
+
   document.getElementById("save-button").style.display = "inline";
   document.getElementById("name-edit").style.display = "inline";
   document.getElementById("name-edit").value = document.getElementById("org-name").innerHTML;
   document.getElementById("org-name").style.display = "none";
 }
 
+window.onload = onloadFunc();
+
+function onloadFunc() {
+  var companyId = 102;
+  console.log(companyId);
+  const eurl = `http://20.163.149.164:8080/api/profile/get?companyID=${companyId}`;
+
+  const exhr = new XMLHttpRequest();
+  exhr.open("GET", eurl, true);
+  exhr.send();
+
+  exhr.onload = function() {
+    if (this.status === 200) {
+      const data = JSON.parse(this.responseText);
+      var mission = document.getElementById("mission-id");
+      mission.value = data.statement;
+      var logo = data.logo;
+      document.getElementById("initial-prof-pic").src = logo;
+      document.getElementById("preview").src = logo;
+      var companyName = document.getElementById("org-name");
+      companyName.innerHTML = data.name;
+
+      var locId = data.locationID;
+      const lxhr = new XMLHttpRequest();
+      var lurl = `http://20.163.149.164:8080/api/location/get?id=${locId}`;
+      lxhr.open("GET", lurl, true);
+      lxhr.send();
+      lxhr.onload = function() {
+        const locData = JSON.parse(this.responseText);
+        var addr1 = document.getElementById("address1");
+        addr1.value = locData.addressLine1;
+        var addr2 = document.getElementById("address2");
+        addr2.value = locData.addressLine2;
+        var city = document.getElementById("city");
+        city.value = locData.city;
+        var state = document.getElementById("state");
+        state.value = locData.state;
+        var zip = document.getElementById("zip");
+        zip.value = locData.zip;
+        var location = document.getElementById("vis-loc");
+        var locationString = "";
+        console.log(locData.city);
+        console.log(city.value);
+        if (!locData.addressLine2) {
+          locationString = locData.addressLine1 + ", " + locData.city + ", " + locData.state + " " + locData.zip;
+        } else {
+          locationString = locData.addressLine1 + ", " + locData.addressLine2 + ", " + locData.city + ", " + locData.state + " " + locData.zip;
+        }
+        location.value = locationString;
+      }
+    }
+
+  }
+}
+
+
+
+
+
 function saveFunc() {
-	//this still needs to connect to backend to send all the info
-	var mission = document.getElementById("mission-id");
+  //this still needs to connect to backend to send all the info
+  var mission = document.getElementById("mission-id");
   var addr1 = document.getElementById("address1");
   var addr2 = document.getElementById("address2");
   var city = document.getElementById("city");
   var state = document.getElementById("state");
   var zip = document.getElementById("zip");
-  
+  //TODO: COOKIES
+  var companyId = 102;
+
   var newImg = document.getElementById("preview");
   document.getElementById("initial-prof-pic").src = newImg.src;
-  
-	document.getElementById("vis-loc").style.display = "inline";
-	document.getElementById("loc-word").style.display = "inline";
-  
+
+  document.getElementById("vis-loc").style.display = "inline";
+  document.getElementById("loc-word").style.display = "inline";
+
   var editable = document.getElementsByClassName("edit-loc");
-	for (var i = 0; i < editable.length; i++){
-  	editable[i].style.display = 'none';
-	}
-  
+  for (var i = 0; i < editable.length; i++) {
+    editable[i].style.display = 'none';
+  }
+
   var location = document.getElementById("vis-loc");
   var locationString = "";
   if (!addr2) {
-  	locationString = addr1.value + ", " + city.value + ", " + state.value + " " + zip.value;
+    locationString = addr1.value + ", " + city.value + ", " + state.value + " " + zip.value;
   } else {
-  	locationString = addr1.value + ", " + addr2.value + ", " + city.value + ", " + state.value + " " + zip.value;
+    locationString = addr1.value + ", " + addr2.value + ", " + city.value + ", " + state.value + " " + zip.value;
   }
   location.value = locationString;
-  
+
   document.getElementById("initial-prof-pic").style.display = "inline";
   document.getElementById("preview").style.display = "none";
   document.getElementById("file-upload").style.display = "none";
-  
+
   const file = document.getElementById("file-upload");
   var newImg = document.getElementById("preview");
   file.addEventListener("change", ev => {
-  const formdata = new FormData()
-  formdata.append("image", ev.target.files[0])
-  fetch("https://api.imgur.com/3/image/", {
-       method: "post",
-                headers: {
-                    Authorization: "Client-ID 10f9b76f36bb0cb"
-                },
-                body: formdata
-            }).then(data => data.json()).then(data => {
-                newImg.src = data.data.link;
-                
-                var imgUrl = data.data.link;
-                
-            })
-        })
-  
-  
+    const formdata = new FormData()
+    formdata.append("image", ev.target.files[0])
+    fetch("https://api.imgur.com/3/image/", {
+      method: "post",
+      headers: {
+        Authorization: "Client-ID 10f9b76f36bb0cb"
+      },
+      body: formdata
+    }).then(data => data.json()).then(data => {
+      newImg.src = data.data.link;
+
+      var imgUrl = data.data.link;
+
+      var addr1 = document.getElementById("address1").value;
+      var addr2 = document.getElementById("address2").value;
+      var city = document.getElementById("city").value;
+      var state = document.getElementById("state").value;
+      var zip = document.getElementById("zip").value;
+
+      const locxhr = new XMLHttpRequest();
+      var locurl = "";
+      if (!addr1 || !city || !state || !zip) {
+        alert("Make sure to fill out every necessary box (Everything except for Address 2)");
+        return;
+      }
+      addr1.split(' ').join('+');
+      addr2.split(' ').join('+');
+      city.split(' ').join('+');
+      state.split(' ').join('+');
+      zip.split(' ').join('+');
+      if (!addr2) {
+        locurl = `http://20.163.149.164:8080/api/location/add?addressLine1=${addr1}&city=${city}&state=${state}&zip=${zip}`;
+      } else {
+        locurl = `http://20.163.149.164:8080/api/location/add?addressLine1=${addr1}&addressLine2=${addr2}&city=${city}&state=${state}&zip=${zip}`;
+      }
+
+      locxhr.open("POST", locurl, true);
+      locxhr.send();
+      locxhr.onload = function() {
+        var locationId = this.responseText;
+        if (this.status === 200) {
+          const updatexhr = new XMLHttpRequest();
+
+
+          mission.split(' ').join('+');
+          imgUrl.split(' ').join('+');
+          var locId = this.responseText;
+          var link = `http://20.163.149.164:8080/api/profile/edit?companyID=${companyId}&statement=${mission}&logo=${imgUrl}&locationId=${locId}`;
+
+          const axhr = new XMLHttpRequest();
+          axhr.open("PUT", link, true);
+          axhr.send();
+          axhr.onload = function() {
+            if (this.status === 200) {}
+          }
+
+        }
+      }
+
+    })
+  })
+
+
   mission.setAttribute("readonly", "readonly");
-  
-	var editButton = document.getElementById("edit-button");
-	editButton.style.display="inline";
-  document.getElementById("save-button").style.display="none";
-  
+
+  var editButton = document.getElementById("edit-button");
+  editButton.style.display = "inline";
+  document.getElementById("save-button").style.display = "none";
+
   document.getElementById("org-name").innerHTML = document.getElementById("name-edit").value;
   //TODO implement functionality with the API
   document.getElementById("name-edit").style.display = "none";
   document.getElementById("org-name").style.display = "inline";
-  
+
   //if everything is successful
   alert("Save successful!")
-  
-  
+
+
 }
 
 

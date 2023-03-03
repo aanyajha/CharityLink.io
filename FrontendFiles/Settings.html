@@ -286,6 +286,11 @@ function saveFunc() {
     alert("Make sure to fill out every necessary box (Everything except for Address 2)");
     return;
   }
+  addr1.split(' ').join('+');
+  addr2.split(' ').join('+');
+  city.split(' ').join('+');
+  state.split(' ').join('+');
+  zip.split(' ').join('+');
   if (!addr2) {
     locurl = `http://20.163.149.164:8080/api/location/add?addressLine1=${addr1}&city=${city}&state=${state}&zip=${zip}`;
   } else {
@@ -298,6 +303,15 @@ function saveFunc() {
     var locationId = this.responseText;
     if (this.status === 200) {
       const updatexhr = new XMLHttpRequest();
+      
+      email.split(' ').join('+');
+      nameReal.split(' ').join('+');
+  		username.split(' ').join('+');
+  		password.split(' ').join('+');
+  		locationId.split(' ').join('+');
+  		joinData.split(' ').join('+');
+      typeData.split(' ').join('+');
+      
       const updateurl = `http://20.163.149.164:8080/api/user/update?email=${email}&name=${nameReal}&username=${username}&password=${password}&locationID=${locationId}&date=${joinData}&userType=${typeData}`;
 
       updatexhr.open("PUT", updateurl, true);

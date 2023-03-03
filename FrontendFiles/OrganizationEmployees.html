@@ -1,70 +1,79 @@
 <!DOCTYPE html>
 <html>
-<title>Manage Employees</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-<body>
+  <title>Manage Employees</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 
-<style>
-img {
-      max-width: 100%;
-      height: auto;
-    }
-</style>
+  <body>
 
-  <div class="w3-sidebar w3-bar-block w3-card w3-animate-right" style="display:none;right:0;" id="mySidebar">
+    <style>
+      img {
+        max-width: 100%;
+        height: auto;
+      }
 
-    <button onclick="closeNav()" class="w3-bar-item w3-button w3-large">&#10005; Close</button>
+    </style>
 
-    <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles" class="w3-bar-item w3-button">&#x27B2; Logout</a>
-    <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/OrganizationDashboard" class="w3-bar-item w3-button">Dashboard</a>
-    <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/OrganizationManageRequests" class="w3-bar-item w3-button">Manage Requests</a>
-    <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/OrganizationInventory" class="w3-bar-item w3-button">Manage Inventory</a>
-    <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/OrganizationDeliveries" class="w3-bar-item w3-button">Manage Deliveries</a>
-    <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/OrganizationManageEvents" class="w3-bar-item w3-button">Manage Events</a>
-    <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/OrganizationSettings" class="w3-bar-item w3-button">&#9965; Settings</a>
-    <a href="https://aanyajha.github.io/CharityLink.io" class="w3-bar-item w3-button"><img src="https://i.postimg.cc/Zq3dkdkW/Charitylink-Logo-Updated.png" alt="Charity Link Logo" width="200" height="65"></a>
-  </div>
+    <div class="w3-sidebar w3-bar-block w3-card w3-animate-right" style="display:none;right:0;" id="mySidebar">
 
-  <div class="w3-pale-blue">
-    <button class="w3-button turquoise w3-xlarge w3-right" onclick="openNav()">&#9776;</button>
+      <button onclick="closeNav()" class="w3-bar-item w3-button w3-large">&#10005; Close</button>
 
-<!--
+      <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles" class="w3-bar-item w3-button">&#x27B2; Logout</a>
+      <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/OrganizationDashboard" class="w3-bar-item w3-button">Dashboard</a>
+      <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/OrganizationManageRequests" class="w3-bar-item w3-button">Manage Requests</a>
+      <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/OrganizationInventory" class="w3-bar-item w3-button">Manage Inventory</a>
+      <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/OrganizationDeliveries" class="w3-bar-item w3-button">Manage Deliveries</a>
+      <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/OrganizationManageEvents" class="w3-bar-item w3-button">Manage Events</a>
+      <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/OrganizationSettings" class="w3-bar-item w3-button">&#9965; Settings</a>
+      <a href="https://aanyajha.github.io/CharityLink.io" class="w3-bar-item w3-button"><img src="https://i.postimg.cc/Zq3dkdkW/Charitylink-Logo-Updated.png" alt="Charity Link Logo" width="200" height="65"></a>
+    </div>
+
+    <div class="w3-pale-blue">
+      <button class="w3-button turquoise w3-xlarge w3-right" onclick="openNav()">&#9776;</button>
+
+      <!--
     <div class="w3-container">
       <img src="https://i.postimg.cc/Zq3dkdkW/Charitylink-Logo-Updated.png" alt="Charity Link Logo" width="200" height="65">
     </div>
   </div>
   -->
-  </div>
-  
-  <div class="w3-pale-blue">
-  <div class="w3-container">
-      <h1 style="color: #009999">Manage Employees</h1>
-      
+    </div>
+
+    <div class="w3-pale-blue">
+      <div class="w3-container">
+        <h1 style="color: #009999">Manage Employees</h1>
+
       </div>
-  </div>
+    </div>
 
-  <div class="w3-container">
-    <p>Welcome to Manage Employees!</p>
-    <p>Here you are able to manage employees, delete employee accounts, delete manager accounts, add manager accounts, add employee accounts, edit employee accounts, edit manager accounts, and view employees.</p>
-    <p>This page will eventually display an organization's employee information.</p>
-  </div>
-	
-<div class="w3-container w3-border" id="employee"></div>
+    <div class="w3-container">
+      <p>Welcome to Manage Employees!</p>
+      <p>Here you are able to manage employees, delete employee accounts, delete manager accounts, add manager accounts, add employee accounts, edit employee accounts, edit manager accounts, and view employees.</p>
+      <p>This page will eventually display an organization's employee information.</p>
+    </div>
+    
+    <div class="w3-container w3-border" id="employee"></div>
 
-</body>
+  </body>
 
-<script>
-// Define data for catalog
+  <script>
+    // Define data for catalog
+    var selectedContainer;
     const userData = JSON.parse(sessionStorage.getItem('userData'));
     if (userData != null) {
       printData();
     }
 
     // Get reference to catalog container in HTML
-    const employeeContainer = document.getElementById('employee');
+    const staffContainer = document.getElementById('employee');
+    staffContainer.addEventListener('click', (event) => {
+    	selectedContainer = event.target.closest('.container');
+      
+      console.log("First:" + selectedContainer);
+      
+    });
 
-    var employeeData;
+    var staffData;
 
     // Dynamically generate HTML elements for each item in the catalog
     function printData() {
@@ -79,8 +88,8 @@ img {
         if (this.status === 200) {
           const data = this.responseText;
           console.log(data);
-          employeeData = JSON.parse(data);
-          employeeData.forEach(employee => {
+          staffData = JSON.parse(data);
+          staffData.forEach(employee => {
             // Create elements for item
             console.log(employee);
             const employeeContainer = document.createElement('div');
@@ -88,6 +97,9 @@ img {
             const employeeName = document.createElement('p');
             const employeeEmail = document.createElement('p');
             const employeeUsername = document.createElement('p');
+            
+            const editButton = document.createElement('button');
+            const deleteButton = document.createElement('button');
             //const itemImage = document.createElement('img');
 
             // Set content and attributes for elements
@@ -95,6 +107,8 @@ img {
             employeeName.textContent = employee.name;
             employeeEmail.textContent = employee.email;
             employeeUsername.textContent = employee.username;
+            //editButton.textContent = "Edit";
+            editButton.textContent = "Delete";
             //itemImage.setAttribute('src', item.image);
             console.log(employee.userType);
             console.log(employee.name);
@@ -111,12 +125,14 @@ img {
             employeeContainer.style.border = '1px solid black';
 
             // Add item container to catalog container
-            employeeContainer.appendChild(employeeContainer);
+            staffContainer.appendChild(employeeContainer);
 
             // Add click event listener to item container
             employeeContainer.addEventListener('click', () => {
               // Display more information about item
               // Add code here to show a modal or expand the item container
+              console.log("Second:" + this.employeeType.value);
+              
             });
           });
         } else {
@@ -140,7 +156,6 @@ img {
       document.getElementById("mySidebar").style.display = "none";
     }
 
-
-</script>
+  </script>
 
 </html>
