@@ -125,7 +125,7 @@ function editFunc() {
 window.onload = onloadFunc();
 
 function onloadFunc() {
-  var companyId = 102;
+  var companyId = 402;
   console.log(companyId);
   const eurl = `http://20.163.149.164:8080/api/profile/get?companyID=${companyId}`;
 
@@ -190,7 +190,7 @@ function saveFunc() {
   var state = document.getElementById("state");
   var zip = document.getElementById("zip");
   //TODO: COOKIES
-  var companyId = 102;
+  var companyId = 402;
 
   var newImg = document.getElementById("preview");
   document.getElementById("initial-prof-pic").src = newImg.src;
