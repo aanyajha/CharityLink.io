@@ -156,8 +156,8 @@ function onloadFunc() {
       var email = document.getElementById("email");
       email.value = data.email;
       var type = document.getElementById("type");
-      type.innerHTML = "User Type: " + data.type;
-      typeData = data.type;
+      type.innerHTML = "User Type: " + data.userType;
+      typeData = data.userType;
       var company = document.getElementById("company");
       company.innerHTML = "Associated Company: " + data.companyID;
       companyData = data.company;
@@ -208,7 +208,7 @@ function editFunc() {
       var email = document.getElementById("email");
       email.value = data.email;
       var type = document.getElementById("type");
-      type.innerHTML = "User Type: " + data.type;
+      type.innerHTML = "User Type: " + data.userType;
       var company = document.getElementById("company");
       company.innerHTML = "Associated Company: " + data.companyID;
       var join = document.getElementById("join-date");
