@@ -141,8 +141,13 @@ function onloadFunc() {
       var mission = document.getElementById("mission-id");
       mission.value = data.statement;
       var logo = data.logo;
-      document.getElementById("initial-prof-pic").src = logo;
-      document.getElementById("preview").src = logo;
+      if (logo == undefined) {
+        document.getElementById("initial-prof-pic").src = "https://i.postimg.cc/Zq3dkdkW/Charitylink-Logo-Updated.png";
+        document.getElementById("preview").src = "https://i.postimg.cc/Zq3dkdkW/Charitylink-Logo-Updated.png";
+      } else {
+        document.getElementById("initial-prof-pic").src = logo;
+        document.getElementById("preview").src = logo;
+      }
       var companyName = document.getElementById("org-name");
       companyName.innerHTML = userData.name;
       console.log(data);
