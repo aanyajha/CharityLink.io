@@ -163,6 +163,9 @@ function onloadFunc() {
       join.innerHTML = "Join Date: " + data.joinDate;
       joinData = data.joinDate;
       var locId = data.locationID;
+      if (locId == -1) {
+       return; 
+      }
       const lxhr = new XMLHttpRequest();
       var lurl = `http://20.163.149.164:8080/api/location/get?id=${locId}`;
       lxhr.open("GET", lurl, true);
