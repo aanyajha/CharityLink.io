@@ -104,7 +104,7 @@ function deleteFunc() {
 	
   //TODO: API IMPLEMENTATION
   //don't forget to include ifs for error flags
-  var confirmation = prompt("Are you sure? \nEnter your password:")
+  var confirmation = prompt("Are you sure? \nEnter your password:");
   
   var email = "example@gmail.com";
   const url = `http://20.163.149.164:8080/api/user/login/email?email=${email}&password=${confirmation}`;
@@ -116,7 +116,7 @@ function deleteFunc() {
 	console.log("this shit");
     xhr.onload = function() {
 	    console.log("here shit");
-      if (this.status == 200) {
+      if (this.status === 200) {
       var data = JSON.parse(this.responseText);
 	      console.log(data);
 	      console.log("shit shit shit");
@@ -146,7 +146,9 @@ function deleteFunc() {
       	console.error("Request failed with status code", this.status);
         return;
       }
+	    console.log("other stuff");
     }
+	console.log("stuff stuff stuff stuff");
 }
 
 //TODO: add grey color to indicate if can edit or not
