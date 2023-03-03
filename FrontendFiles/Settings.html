@@ -277,6 +277,8 @@ function saveFunc() {
 
   var username = document.getElementById("name-edit").value;
   var realName = document.getElementById("real-name").value;
+  var nameReal = document.getElementById("real-name").value;
+  var email = document.getElementById("email").value;
 
   const locxhr = new XMLHttpRequest();
   var locurl = "";
@@ -296,7 +298,7 @@ function saveFunc() {
     var locationId = this.responseText;
     if (this.status === 200) {
       const updatexhr = new XMLHttpRequest();
-      const updateurl = `http://20.163.149.164:8080/api/user/update?email=${email}&name=${realName}&username=${username}&password=${password}&locationID=${locationId}&date=${joinData}&companyID=${companyData}&userType=${typeData}`;
+      const updateurl = `http://20.163.149.164:8080/api/user/update?email=${email}&name=${nameReal}&username=${username}&password=${password}&locationID=${locationId}&date=${joinData}&userType=${typeData}`;
 
       updatexhr.open("PUT", updateurl, true);
       updatexhr.send();
@@ -348,6 +350,5 @@ function saveFunc() {
 
 
 }
-
 
 </script>
