@@ -47,7 +47,7 @@
 function onloadFunc() {
     const userData = JSON.parse(sessionStorage.getItem('userData'));
   console.log(userData);
-    if (userData != null) {
+    if (userData == null) {
       printData();
     }
 }
