@@ -94,7 +94,7 @@ function onloadFunc() {
       axhr.send();
       axhr.onload = function() {
         if (this.status === 200) {
-          const data = this.responseText;
+          const data = JSON.parse(this.responseText);
           console.log(data);
           
           data.forEach(profile => {
