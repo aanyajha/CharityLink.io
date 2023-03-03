@@ -152,9 +152,9 @@ function onloadFunc() {
       var username = document.getElementById("username");
       username.innerHTML = data.username;
       var name = document.getElementById("real-name");
-      name.innerHTML = data.name;
+      name.value = data.name;
       var email = document.getElementById("email");
-      email.innerHTML = data.email;
+      email.value = data.email;
       var type = document.getElementById("type");
       type.innerHTML = "User Type: " + data.type;
       typeData = data.type;
@@ -204,9 +204,9 @@ function editFunc() {
       var username = document.getElementById("username");
       username.innerHTML = data.username;
       var name = document.getElementById("real-name");
-      name.innerHTML = data.name;
+      name.value = data.name;
       var email = document.getElementById("email");
-      email.innerHTML = data.email;
+      email.value = data.email;
       var type = document.getElementById("type");
       type.innerHTML = "User Type: " + data.type;
       var company = document.getElementById("company");
@@ -253,7 +253,6 @@ function editFunc() {
   document.getElementById("delete-button").style.display = "inline";
 
   document.getElementById("real-name").removeAttribute("readonly");
-  document.getElementById("email").removeAttribute("readonly");
 }
 
 function saveFunc() {
@@ -264,7 +263,7 @@ function saveFunc() {
   var state = document.getElementById("state").value;
   var zip = document.getElementById("zip").value;
 
-  var username = document.getElementById("username").value;
+  var username = document.getElementById("name-edit").value;
   var realName = document.getElementById("real-name").value;
 
   const locxhr = new XMLHttpRequest();
@@ -315,7 +314,6 @@ function saveFunc() {
 
 
   document.getElementById("real-name").setAttribute("readonly", "readonly");
-  document.getElementById("email").setAttribute("readonly", "readonly");
 
 
   //if everything is successful
@@ -323,4 +321,5 @@ function saveFunc() {
 
 
 }
+
 </script>
