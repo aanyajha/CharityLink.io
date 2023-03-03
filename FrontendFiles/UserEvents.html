@@ -55,7 +55,7 @@ if (userData != null) {
 }
 
 // Get reference to catalog container in HTML
-const catalogContainer = document.getElementById('catalog');
+const eventContainer = document.getElementById('catalog');
 
 var catalogData;
 
@@ -109,7 +109,7 @@ function printData() {
         eventContainer.style.border = '1px solid black';
 
         // Add item container to catalog container
-        eventCatalog.appendChild(eventContainer);
+        eventContainer.appendChild(eventContainer);
 
         // Add click event listener to item container
         eventContainer.addEventListener('click', () => {
