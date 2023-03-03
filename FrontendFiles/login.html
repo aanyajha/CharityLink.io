@@ -311,9 +311,7 @@ function loginAuth() {
 
     xhr.send();
   } else {
-    console.log("here");
-    emailWarning.classList.remove('hidden');
-    passwordWarning.classList.add('hidden');
+    document.getElementById("attempts").innerHTML = "Invalid Email";
   }
 }
 </script>
