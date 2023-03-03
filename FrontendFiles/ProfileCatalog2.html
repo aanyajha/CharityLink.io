@@ -87,7 +87,7 @@ function printData() {
         
         const newXHR = new XMLHttpRequest();
         newXHR.open("GET", `http://20.163.149.164:8080/api/user/get?companyID=${profile.companyID}`, true);
-        newXHR.onload = function1() {
+        newXHR.onload = function() {
           if (this.status === 200) {
             
           const profileContainer = document.createElement('div');
