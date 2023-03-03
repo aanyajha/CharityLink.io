@@ -319,7 +319,7 @@ function addEmployee() {
   const compData = JSON.parse(sessionStorage.getItem('userData'));
   const locationId = compData.locationID;
       
-    const url = `http://20.163.149.164:8080/api/user/add?name=${name}&username=${username}&password=${password}&email=${email}&date=${formattedDate}&userType=${type}&locationID=${locationId}`;
+    const url = `http://20.163.149.164:8080/api/user/add?name=${name}&username=${username}&password=${password}&email=${email}&date=${formattedDate}&userType=${type}&locationID=${locationId}&companyID=${compData.id}`;
     console.log("Sent User Info");
 
     const xhr = new XMLHttpRequest();
