@@ -80,9 +80,8 @@ function printData() {
     if (this.status === 200) {
       const data = this.responseText;
       console.log(data);
-      catalogData = data.split(",");
-      catalogData.forEach(rawData => {
-        const item = JSON.parse(rawData);
+      catalogData = JSON.parse(data);
+      catalogData.forEach(item => {
         // Create elements for item
         const itemContainer = document.createElement('div');
         const itemName = document.createElement('h3');
