@@ -26,11 +26,11 @@ public class Location {
         this.city = city;
         this.state = state;
         this.zip = zip;
-        JOpenCageGeocoder jOpenCageGeocoder = new JOpenCageGeocoder("8ea9eae59cbf470b90604e16c30b8a0e");
-        JOpenCageForwardRequest request = new JOpenCageForwardRequest(this.addressLine1 + ", " + this.city + ", " + this.state + ", " + this.zip + ", USA");
-        request.setRestrictToCountryCode("us"); // restrict results to a specific country
-        JOpenCageResponse response = jOpenCageGeocoder.forward(request);
-        JOpenCageLatLng firstResultLatLng = response.getFirstPosition();
+//        JOpenCageGeocoder jOpenCageGeocoder = new JOpenCageGeocoder("8ea9eae59cbf470b90604e16c30b8a0e");
+//        JOpenCageForwardRequest request = new JOpenCageForwardRequest(this.addressLine1 + ", " + this.city + ", " + this.state + ", " + this.zip + ", USA");
+//        request.setRestrictToCountryCode("us"); // restrict results to a specific country
+//        JOpenCageResponse response = jOpenCageGeocoder.forward(request);
+//        JOpenCageLatLng firstResultLatLng = response.getFirstPosition();
 //        try {
 //            this.latitude = firstResultLatLng.getLat();
 //            this.longitude = firstResultLatLng.getLng();
@@ -45,11 +45,11 @@ public class Location {
         this.city = city;
         this.state = state;
         this.zip = zip;
-        JOpenCageGeocoder jOpenCageGeocoder = new JOpenCageGeocoder("8ea9eae59cbf470b90604e16c30b8a0e");
-        JOpenCageForwardRequest request = new JOpenCageForwardRequest(this.addressLine1 + ", " + this.city + ", " + this.state + ", " + this.zip + ", USA");
-        request.setRestrictToCountryCode("us"); // restrict results to a specific country
-        JOpenCageResponse response = jOpenCageGeocoder.forward(request);
-        JOpenCageLatLng firstResultLatLng = response.getFirstPosition();
+//        JOpenCageGeocoder jOpenCageGeocoder = new JOpenCageGeocoder("8ea9eae59cbf470b90604e16c30b8a0e");
+//        JOpenCageForwardRequest request = new JOpenCageForwardRequest(this.addressLine1 + ", " + this.city + ", " + this.state + ", " + this.zip + ", USA");
+//        request.setRestrictToCountryCode("us"); // restrict results to a specific country
+//        JOpenCageResponse response = jOpenCageGeocoder.forward(request);
+//        JOpenCageLatLng firstResultLatLng = response.getFirstPosition();
 //        try {
 //            this.latitude = firstResultLatLng.getLat();
 //            this.longitude = firstResultLatLng.getLng();
