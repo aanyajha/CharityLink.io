@@ -264,12 +264,16 @@ function loginAuth() {
         const account_type = data.userType;
         console.log(account_type);
         if (account_type == 1) {
+          document.cookie = "uemail=" + data.email;
           window.location.href = 'https://aanyajha.github.io/CharityLink.io/FrontendFiles/DefaultDashboard';
         } else if (account_type == 2) {
+          document.cookie = "uemail=" + data.email;
           window.location.href = 'https://aanyajha.github.io/CharityLink.io/FrontendFiles/EmployeeDashboard';
         } else if (account_type == 3) {
+          document.cookie = "uemail=" + data.email;
           window.location.href = 'https://aanyajha.github.io/CharityLink.io/FrontendFiles/ManagerDashboard';
         } else if (account_type == 4) {
+          document.cookie = "uemail=" + data.email;
           window.location.href = 'https://aanyajha.github.io/CharityLink.io/FrontendFiles/OrganizationDashboard';
         } else {
           console.log("Not valid");
