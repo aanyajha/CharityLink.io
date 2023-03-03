@@ -239,16 +239,16 @@ body :-ms-input-placeholder {
 <script>
 function signUpFunc() {
 
-  var username = document.getElementById('username').value;
-  var name = document.getElementById('name').value;
+  var username = document.getElementById('username').value.replace(" ", "+");
+  var name = document.getElementById('name').value.replace(" ", "+");
   var email = document.getElementById('email').value;
   var password = document.getElementById('password').value;
-  var address1 = document.getElementById('address1').value;
-  var address2 = document.getElementById('address2').value;
-  var city = document.getElementById('city').value;
+  var address1 = document.getElementById('address1').value.replace(" ", "+");
+  var address2 = document.getElementById('address2').value.replace(" ", "+");
+  var city = document.getElementById('city').value.replace(" ", "+");
   var state = document.getElementById('state').value;
   var zip = document.getElementById('zip').value;
-  var checkbox = document.getElementById('check').value;
+  var checkbox = document.getElementById('check');
   
   console.log(email);
   console.log(isValidEmail(email));
@@ -275,6 +275,7 @@ function signUpFunc() {
 
   var formattedDate = getFormattedDate();
 
+	
   if (checkbox.checked) {
     if (address1.length < 1 || city.length < 1 || state.length < 1 || zip.length < 1) {
       alert("A location field is not valid");
