@@ -152,7 +152,7 @@ window.onload = onloadFunc();
 
 function onloadFunc() {
 const eurl = `http://20.163.149.164:8080/api/user/login/email?email=${username}&password=${password}`;
-
+console.log("existing");
 const exhr = new XMLHttpRequest();
 exhr.open("GET", eurl, true);
 exhr.send();
@@ -160,12 +160,13 @@ exhr.send();
 exhr.onload = function() {
   if (this.status === 200) {
     const data = JSON.parse(this.responseText);
+    console.log(data);
     var username = document.getElementById("username");
     username.innerHTML = data.username;
     var name = document.getElementById("real-name");
-    name.innerHTML = data.name;
+    name.value = data.name;
     var email = document.getElementById("email");
-    email.innerHTML = data.email;
+    email.value = data.email;
     var type = document.getElementById("type");
     type.innerHTML = "User Type: " + data.type;
     typeData = data.type;
@@ -180,6 +181,7 @@ exhr.onload = function() {
     var lurl = `http://20.163.149.164:8080/api/location/get?id=${locId}`;
     lxhr.open("GET", eurl, true);
     lxhr.send();
+    console.log("location send");
     lxhr.onload = function() {
       const locData = JSON.parse(this.responseText);
       var addr1 = document.getElementById("address1");
