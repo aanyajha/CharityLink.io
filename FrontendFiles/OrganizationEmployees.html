@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-<title>W3.CSS</title>
+<title>Manage Employees</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <body>
@@ -49,17 +49,97 @@ img {
     <p>Here you are able to manage employees, delete employee accounts, delete manager accounts, add manager accounts, add employee accounts, edit employee accounts, edit manager accounts, and view employees.</p>
     <p>This page will eventually display an organization's employee information.</p>
   </div>
+	
+<div class="w3-container w3-border" id="employee"></div>
 
 </body>
 
 <script>
-		function openNav() {
+// Define data for catalog
+    const userData = JSON.parse(sessionStorage.getItem('userData'));
+    if (userData != null) {
+      printData();
+    }
+
+    // Get reference to catalog container in HTML
+    const employeeContainer = document.getElementById('employee');
+
+    var employeeData;
+
+    // Dynamically generate HTML elements for each item in the catalog
+    function printData() {
+      console.log(userData);
+      const email = userData.email;
+
+      const url = `http://20.163.149.164:8080/api/user/find/company?email=${email}`;
+      const xhr = new XMLHttpRequest();
+      xhr.open("GET", url, true);
+
+      xhr.onload = function() {
+        if (this.status === 200) {
+          const data = this.responseText;
+          console.log(data);
+          employeeData = JSON.parse(data);
+          employeeData.forEach(employee => {
+            // Create elements for item
+            console.log(employee);
+            const employeeContainer = document.createElement('div');
+            const employeeType = document.createElement('h3');
+            const employeeName = document.createElement('p');
+            const employeeEmail = document.createElement('p');
+            const employeeUsername = document.createElement('p');
+            //const itemImage = document.createElement('img');
+
+            // Set content and attributes for elements
+            employeeType.textContent = employee.userType;
+            employeeName.textContent = employee.name;
+            employeeEmail.textContent = employee.email;
+            employeeUsername.textContent = employee.username;
+            //itemImage.setAttribute('src', item.image);
+            console.log(employee.userType);
+            console.log(employee.name);
+            console.log(employee.email);
+            console.log(employee.username);
+
+            // Add elements to item container
+            employeeContainer.appendChild(employeeType);
+            employeeContainer.appendChild(employeeName);
+            employeeContainer.appendChild(employeeEmail);
+            employeeContainer.appendChild(employeeUsername);
+            //itemContainer.appendChild(itemImage);
+
+            employeeContainer.style.border = '1px solid black';
+
+            // Add item container to catalog container
+            employeeContainer.appendChild(employeeContainer);
+
+            // Add click event listener to item container
+            employeeContainer.addEventListener('click', () => {
+              // Display more information about item
+              // Add code here to show a modal or expand the item container
+            });
+          });
+        } else {
+
+          console.error("Request failed with status code", this.status);
+        }
+      };
+
+      xhr.onerror = function() {
+        console.error("Request failed");
+      };
+
+      xhr.send();
+    }
+
+    function openNav() {
       document.getElementById("mySidebar").style.display = "block";
     }
 
     function closeNav() {
       document.getElementById("mySidebar").style.display = "none";
     }
+
 
 </script>
 
