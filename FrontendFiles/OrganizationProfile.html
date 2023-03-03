@@ -291,9 +291,13 @@ function saveFunc() {
           qxhr.onload = function() {
             if (this.status === 200) {}
           }
+         
+         var newName = document.getElementById("name-edit").value;
           
-          var updateurl = `http://20.163.149.164:8080/api/user/update?email=${userData.email}&locationID=${locationId}`;
+          var updateurl = `http://20.163.149.164:8080/api/user/update?email=${userData.email}&locationID=${locationId}&name=${newName}`;
           console.log(userData.email);
+         sessionStorage.setItem("locationID", locationId);
+         sessionStorage.setItem("name", newName);
         
           updatexhr.open("PUT", updateurl, true);
           updatexhr.send();
@@ -306,6 +310,7 @@ function saveFunc() {
 
         }
       }
+ 
 
   mission.setAttribute("readonly", "readonly");
 
@@ -314,7 +319,6 @@ function saveFunc() {
   document.getElementById("save-button").style.display = "none";
 
   document.getElementById("org-name").innerHTML = document.getElementById("name-edit").value;
-  //TODO implement functionality with the API
   document.getElementById("name-edit").style.display = "none";
   document.getElementById("org-name").style.display = "inline";
 
