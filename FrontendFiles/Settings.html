@@ -167,7 +167,7 @@ function onloadFunc() {
       var locId = data.locationID;
       const lxhr = new XMLHttpRequest();
       var lurl = `http://20.163.149.164:8080/api/location/get?id=${locId}`;
-      lxhr.open("GET", lurl, true);
+      lxhr.open("GET", eurl, true);
       lxhr.send();
       lxhr.onload = function() {
         const locData = JSON.parse(this.responseText);
@@ -181,6 +181,14 @@ function onloadFunc() {
         state.value = locData.state;
         var zip = document.getElementById("zip");
         zip.value = locData.zip;
+        var location = document.getElementById("vis-loc");
+        var locationString = "";
+        if (!addr2.value) {
+          locationString = addr1.value + ", " + city.value + ", " + state.value + " " + zip.value;
+        } else {
+          locationString = addr1.value + ", " + addr2.value + ", " + city.value + ", " + state.value + " " + zip.value;
+        }
+        location.value = locationString;
       }
     }
 
@@ -216,7 +224,7 @@ function editFunc() {
       var locId = data.locationID;
       const lxhr = new XMLHttpRequest();
       var lurl = `http://20.163.149.164:8080/api/location/get?id=${locId}`;
-      lxhr.open("GET", lurl, true);
+      lxhr.open("GET", eurl, true);
       lxhr.send();
       lxhr.onload = function() {
         const locData = JSON.parse(this.responseText);
@@ -294,9 +302,15 @@ function saveFunc() {
     editable[i].style.display = 'none';
   }
 
+  var addr1 = document.getElementById("address1");
+  var addr2 = document.getElementById("address2");
+  var city = document.getElementById("city");
+  var state = document.getElementById("state");
+  var zip = document.getElementById("zip");
+
   var location = document.getElementById("vis-loc");
   var locationString = "";
-  if (!addr2) {
+  if (!addr2.value) {
     locationString = addr1.value + ", " + city.value + ", " + state.value + " " + zip.value;
   } else {
     locationString = addr1.value + ", " + addr2.value + ", " + city.value + ", " + state.value + " " + zip.value;
