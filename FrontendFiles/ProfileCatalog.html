@@ -96,9 +96,10 @@ function onloadFunc() {
         if (this.status === 200) {
           const data = this.responseText;
           console.log(data);
-          catalogData = JSON.parse(data);
-          catalogData.forEach(profile => {
+          
+          data.forEach(profile => {
             // Create elements for item
+            var profileDat = JSON.parse(profile);
             console.log(event);
             const profileContainer = document.createElement('div');
             const profileName = document.createElement('h3');
@@ -106,7 +107,7 @@ function onloadFunc() {
             //const itemImage = document.createElement('img');
             // Set content and attributes for elements
             const xhr1 = new XHMLHttpRequest();
-            const url1 = `http://20.163.149.164:8080/api/user/get?companyID=${profile.companyID}`;
+            const url1 = `http://20.163.149.164:8080/api/user/get?companyID=${profileDat.companyID}`;
             xhr1.open("GET", url1, true);
             xhr1.send();
             xhr1.onload = function() {
