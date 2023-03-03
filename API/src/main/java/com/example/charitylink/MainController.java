@@ -280,6 +280,15 @@ public class MainController {
         return itemRepository.findAll();
     }
 
+    @GetMapping(path = "/event/get")
+    public @ResponseBody Event getEvent(@RequestParam Integer id) {
+        Event event = eventRepository.findById(id).get();
+        if (event == null) {
+            return new Event();
+        }
+        return event;
+    }
+
     @PostMapping(path = "/event/add")
     public @ResponseBody String addNewEvent(@RequestParam String title, @RequestParam String description,
                                             @RequestParam Integer locationID, @RequestParam String date,
