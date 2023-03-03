@@ -43,6 +43,8 @@ img {
     <p>Welcome to Manage Inventory!</p>
     <p>This page will eventually display inventory of a manager's organization as well as options to add, edit, and delete items.</p>
   </div>
+      
+  <div class="w3-container w3-border" id="catalog">
 
 </body>
 
@@ -83,6 +85,7 @@ function printData() {
       catalogData = JSON.parse(data);
       catalogData.forEach(item => {
         // Create elements for item
+        console.log(item);
         const itemContainer = document.createElement('div');
         const itemName = document.createElement('h3');
         const itemHashtags = document.createElement('p');
@@ -94,7 +97,10 @@ function printData() {
         itemHashtags.textContent = item.hashtags;
         quantity.textContent = 'Quantity: [ ' + item.numItems + ' ]';
         //itemImage.setAttribute('src', item.image);
-
+        console.log(item.name);
+        console.log(item.hashtags);
+        console.log(item.numItems);
+        
         // Add elements to item container
         itemContainer.appendChild(itemName);
         itemContainer.appendChild(itemHashtags);
