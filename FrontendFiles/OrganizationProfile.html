@@ -147,7 +147,7 @@ function onloadFunc() {
       companyName.innerHTML = userData.name;
       console.log(data);
       var newImg = document.getElementById("preview");
-  file.addEventListener("change", ev => {
+  document.getElementById("file-upload").addEventListener("change", ev => {
     const formdata = new FormData()
     formdata.append("image", ev.target.files[0])
     fetch("https://api.imgur.com/3/image/", {
