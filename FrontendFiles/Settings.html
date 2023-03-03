@@ -115,8 +115,9 @@ function deleteFunc() {
     xhr.open("GET", url, true);
 
     xhr.onload = function() {
-      if (this.status === 200) {
+      if (this.status == 200) {
       var data = JSON.parse(this.responseText);
+	      console.log(data);
   			if (data.password == null) {
         	alert("Invalid password. Deletion aborted.");
           return;
@@ -126,7 +127,7 @@ function deleteFunc() {
         const dxhr = new XMLHttpRequest();
     		dxhr.open("DELETE", durl, true);
 
-    		xhr.onload = function() {
+    		dxhr.onload = function() {
   				if (dxhr.responseText == "Invalid Email") {
           
           } else if (dxhr.responseText == "Error") {
