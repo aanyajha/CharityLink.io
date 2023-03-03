@@ -60,6 +60,7 @@ public class MainController {
         User user = userRepository.findById(userIdList.get(0)).get();
         if (user.getPasswordToken().equals(token)) {
             user.setPasswordToken("");
+            userRepository.save(user);
             return "Valid";
         } else {
             return "Invalid";
