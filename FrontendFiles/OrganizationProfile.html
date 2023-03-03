@@ -279,10 +279,10 @@ function saveFunc() {
           
           var link = `http://20.163.149.164:8080/api/profile/edit?companyID=${companyId}&statement=${mission}&logo=${imgUrl}`;
           
-          const axhr = new XMLHttpRequest();
-          axhr.open("PUT", link, true);
-          axhr.send();
-          axhr.onload = function() {
+          const qxhr = new XMLHttpRequest();
+          qxhr.open("PUT", link, true);
+          qxhr.send();
+          qxhr.onload = function() {
             if (this.status === 200) {}
           }
           
