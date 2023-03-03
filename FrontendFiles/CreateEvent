@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Create Event</title>
+</head>
+<body>
+	<h1>Create Event</h1>
+	<form>
+		<label for="date">Date:</label>
+		<input type="text" id="date" name="date"><br><br>
+
+		<label for="description">Description:</label>
+		<input type="text" id="description" name="description"><br><br>
+
+		<label for="title">Title:</label>
+		<input type="text" id="title" name="title"><br><br>
+
+		<label for="addressLine1">Address Line 1:</label>
+		<input type="text" id="addressLine1" name="addressLine1"><br><br>
+
+		<label for="addressLine2">Address Line 2:</label>
+		<input type="text" id="addressLine2" name="addressLine2"><br><br>
+
+		<label for="city">City:</label>
+		<input type="text" id="city" name="city"><br><br>
+
+		<label for="state">State:</label>
+		<input type="text" id="state" name="state"><br><br>
+
+		<label for="zip">Zip:</label>
+		<input type="text" id="zip" name="zip"><br><br>
+
+		<button type="button" onclick="submitForm()">Submit</button>
+	</form>
+
+	<script>
+		function submitForm() {
+			let date = document.getElementById("date").value;
+			let description = document.getElementById("description").value;
+			let title = document.getElementById("title").value;
+			let addressLine1 = document.getElementById("addressLine1").value;
+			let addressLine2 = document.getElementById("addressLine2").value;
+			let city = document.getElementById("city").value;
+			let state = document.getElementById("state").value;
+			let zip = document.getElementById("zip").value;
+
+			console.log(date, description, title, addressLine1, addressLine2, city, state, zip);
+			// You can use the variables above to perform further operations
+			
+			const url = `http://20.163.149.164:8080/api/location/add?addressLine1=${addressLine1}&addressLine2=${addressLine2}&city=${city}&state=${state}&zip=${zip}`;
+		  console.log("Sent location Info");
+
+		  const xhr = new XMLHttpRequest();
+		  xhr.open("POST", url, true);
+
+		  xhr.onload = function() {
+			if (this.status === 200) {
+			  const locationID = this.responseText;
+			  const userData = JSON.parse(sessionStorage.getItem("userData"));
+			  const url1 = `http://20.163.149.164:8080/api/event/add?companyID=${userData.id}&locationID=${locationID}&description=${description}`;
+			  const xhr1 = new XMLHttpRequest();
+			  xhr1.open("POST", url1, true);
+			  xhr1.onload = function() {
+				if (this.status === 200) {
+					alert("Success");
+				} else {
+					console.log("error");
+				}
+			  }
+			} else {
+			  console.error("Request failed with status code", this.status);
+			}
+		  };
+
+		  xhr.onerror = function() {
+			console.error("Request failed");
+		  };
+
+		  xhr.send();
+		}
+	</script>
+</body>
+</html>
