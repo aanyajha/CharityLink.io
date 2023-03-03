@@ -293,9 +293,11 @@ function saveFunc() {
           }
           
           var updateurl = `http://20.163.149.164:8080/api/user/update?email=${userData.email}&locationID=${locationId}`;
-          
+          console.log(userData.email);
+        
           updatexhr.open("PUT", updateurl, true);
           updatexhr.send();
+         console.log(updateurl);
             updatexhr.onload = function() {
         if (this.status === 200) {
 
