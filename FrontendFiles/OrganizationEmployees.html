@@ -55,16 +55,16 @@ img {
 </body>
 
 <script>
-// Define data for catalog
+    // Define data for catalog
     const userData = JSON.parse(sessionStorage.getItem('userData'));
     if (userData != null) {
       printData();
     }
 
     // Get reference to catalog container in HTML
-    const employeeContainer = document.getElementById('employee');
+    const staffContainer = document.getElementById('employee');
 
-    var employeeData;
+    var staffData;
 
     // Dynamically generate HTML elements for each item in the catalog
     function printData() {
@@ -79,8 +79,8 @@ img {
         if (this.status === 200) {
           const data = this.responseText;
           console.log(data);
-          employeeData = JSON.parse(data);
-          employeeData.forEach(employee => {
+          staffData = JSON.parse(data);
+          staffData.forEach(employee => {
             // Create elements for item
             console.log(employee);
             const employeeContainer = document.createElement('div');
@@ -111,7 +111,7 @@ img {
             employeeContainer.style.border = '1px solid black';
 
             // Add item container to catalog container
-            employeeContainer.appendChild(employeeContainer);
+            staffContainer.appendChild(employeeContainer);
 
             // Add click event listener to item container
             employeeContainer.addEventListener('click', () => {
@@ -139,8 +139,6 @@ img {
     function closeNav() {
       document.getElementById("mySidebar").style.display = "none";
     }
-
-
 </script>
 
 </html>
