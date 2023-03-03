@@ -183,8 +183,10 @@ function onloadFunc() {
         zip.value = locData.zip;
         var location = document.getElementById("vis-loc");
         var locationString = "";
+        console.log(locData.addressLine2);
         if (!locData.addressLine2) {
           locationString = locData.addressLine1 + ", " + locData.city + ", " + locData.state + " " + locData.zip;
+          console.log("in here");
         } else {
           locationString = locData.addressLine1 + ", " + locData.addressLine2 + ", " + locData.city + ", " + locData.state + " " + locData.zip;
         }
@@ -238,6 +240,8 @@ function editFunc() {
         state.value = locData.state;
         var zip = document.getElementById("zip");
         zip.value = locData.zip;
+        
+        console.log(locData);
       }
     }
 
@@ -281,6 +285,7 @@ function saveFunc() {
   locxhr.send();
   locxhr.onload = function() {
     var locationId = this.responseText;
+    console.log(locationId);
     if (this.status === 200) {
       const updatexhr = new XMLHttpRequest();
       const updateurl = `http://20.163.149.164:8080/api/user/update?email=${email}&name=${realName}&username=${username}&password=${password}&locationID=${locationId}&date=${joinData}&companyID=${companyData}&userType=${typeData}`;
