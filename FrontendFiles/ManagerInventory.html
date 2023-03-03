@@ -47,8 +47,8 @@ img {
 </body>
 
 <script>
-	// Define data for catalog
-const userData = sessionStorage.getItem('userData');
+// Define data for catalog
+const userData = JSON.parse(sessionStorage.getItem('userData'));
 if (userData != null) {
 	printData();
 }
@@ -58,6 +58,8 @@ const catalogContainer = document.getElementById('catalog');
 
 // Dynamically generate HTML elements for each item in the catalog
 function printData() {
+	console.log(userData);
+  
 	const userType = userData.userType;
   var id = null;
   if (userType == 2 || userType == 3) {
@@ -66,6 +68,7 @@ function printData() {
   else {
   	id = userData.id;
   }
+  console.log(userData.companyID);
   console.log(id);
   
   const url = `http://20.163.149.164:8080/api/user/item/inventory?userID=${id}`;
@@ -128,7 +131,6 @@ function openNav() {
 function closeNav() {
   document.getElementById("mySidebar").style.display = "none";
 }
-
 
 </script>
 
