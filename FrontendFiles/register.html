@@ -236,7 +236,7 @@ body :-ms-input-placeholder {
 }
   </style>
   
-  <script>
+<script>
 function signUpFunc() {
 
   var username = document.getElementById('username').value;
@@ -306,6 +306,7 @@ function signUpFunc() {
             if (data1 != null) {
               // Store the API data in sessionStorage
               sessionStorage.setItem('userData', JSON.stringify(data1));
+              window.location.href = 'https://aanyajha.github.io/CharityLink.io/FrontendFiles/OrganizationDashboard';
             } else {
               alert("Email already taken");
               return;
@@ -342,6 +343,7 @@ function signUpFunc() {
         if (data != null) {
           // Store the API data in sessionStorage
           sessionStorage.setItem('userData', JSON.stringify(data));
+          window.location.href = 'https://aanyajha.github.io/CharityLink.io/FrontendFiles/DefaultDashboard';
         } else {
           alert("Email already taken");
         }
@@ -415,6 +417,6 @@ function getFormattedDate() {
 
   return formattedDate;
 }
-  </script>
+</script>
   
 </body>
