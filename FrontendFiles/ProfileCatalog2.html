@@ -54,11 +54,12 @@ img {
 
 <script>
 // Define data for catalog
-const userData = JSON.parse(sessionStorage.getItem('userData'));
+/*const userData = JSON.parse(sessionStorage.getItem('userData'));
 if (userData != null) {
   printData();
 }
-	
+	*/
+  printData();
 /*function seeDetails() {
   const eventId = document.getElementById("input-id").value;
   const url = `http://20.163.149.164:8080/api/event/get?id=${eventId}`;
@@ -110,7 +111,7 @@ function printData() {
         console.log(profile);
         const profileContainer = document.createElement('div');
 
-        
+
         const companyID = document.createElement('p');
         //const itemImage = document.createElement('img');
 
