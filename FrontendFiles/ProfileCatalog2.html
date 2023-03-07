@@ -33,7 +33,7 @@ img {
   
   <div class="w3-pale-blue">
   <div class="w3-container">
-      <h1 style="color: #009999">Browse Catalog</h1>
+      <h1 style="color: #009999">Profile Catalog</h1>
       
       </div>
   </div>
@@ -108,8 +108,10 @@ function printData() {
       catalogData.forEach(profile => {
         // Create elements for item
         console.log(profile);
-        const eventContainer = document.createElement('div');
-        const companyID = document.createElement('h3');
+        const profileContainer = document.createElement('div');
+
+        
+        const companyID = document.createElement('p');
         //const itemImage = document.createElement('img');
 
         // Set content and attributes for elements
@@ -119,17 +121,18 @@ function printData() {
         console.log(event.date);
         console.log(event.id);*/
         
+        console.log(profile.companyID);
         // Add elements to item container
-        eventContainer.appendChild(companyID);
+        profileContainer.appendChild(companyID);
         //itemContainer.appendChild(itemImage);
 
-        eventContainer.style.border = '1px solid black';
+        profileContainer.style.border = '1px solid black';
 
         // Add item container to catalog container
-        largerContainer.appendChild(eventContainer);
+        largerContainer.appendChild(profileContainer);
 
         // Add click event listener to item container
-        eventContainer.addEventListener('click', () => {
+        profileContainer.addEventListener('click', () => {
           // Display more information about item
           // Add code here to show a modal or expand the item container
         });
