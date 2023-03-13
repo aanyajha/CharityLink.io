@@ -62,6 +62,7 @@ public class Location {
     }
 
     public Double findDistance(Double latitude, Double longitude) {
+        // Distance distance
         double r = 3958.8;
         double latDistance = Math.toRadians(this.latitude - latitude);
         double lonDistance = Math.toRadians(this.longitude - longitude);
