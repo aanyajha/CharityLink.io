@@ -149,6 +149,16 @@ function printData() {
   xhr.send();
 }
 
+$(document).ready(function() {
+  $('#deleteButton').click(function() {
+    $('#my-list li').each(function() {
+      if ($(this).find('input[type="checkbox"]').is(':checked')) {
+        $(this).delete();
+      }
+    });
+  });
+});
+
 function openNav() {
   document.getElementById("mySidebar").style.display = "block";
 }
