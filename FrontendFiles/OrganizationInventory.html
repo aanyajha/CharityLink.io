@@ -49,6 +49,49 @@ img {
     <p>Here you can view your inventory.</p>
     <p>This page will eventually display an organization's inventory.</p>
   </div>
+  
+  <div class="w3-container w3-border id=deleteBox">
+        <text type="text">Email of Employee to Delete:</text>
+        <input type="text" id="emailBoxDelete" style="border: 1px solid black;"><br>
+        <button type="button" id="deleteButton" onclick="deleteEmployee()">
+         Delete
+        </button>
+    </div>
+    
+    <div class="w3-container w3-border id=editBox">
+        <text type="text">Email of Employee to Edit:</text>
+        <input type="text" id="emailBoxEdit" style="border: 1px solid black;"><br>
+        <text type="text">Name of Employee to Edit:</text>
+        <input type="text" id="nameBoxEdit" style="border: 1px solid black"><br>
+        <text type="text">Username of Employee to Edit:</text>
+        <input type="text" id="usernameBoxEdit" style="border: 1px solid black;"><br>
+        <text type="text">Temporary Password to Edit:</text>
+        <input type="text" id="passBoxEdit" style="border: 1px solid black;"><br>
+        <text type="text">Employee</text>
+        <input type="checkbox" id="empCheckEdit">
+        <text type="text">Manager</text>
+        <input type="checkbox" id="manCheckEdit"><br>
+        <button type="button" id="editButton" onclick="editEmployee()">
+         Edit
+        </button>
+    </div>
+    <div class="w3-container w3-border" id="addBox">
+        <text type="text">Email of Employee to Add:</text>
+        <input type="text" id="emailBoxAdd" style="border: 1px solid black;"><br>
+        <text type="text">Name of Employee to Add:</text>
+        <input type="text" id="nameBoxAdd" style="border: 1px solid black;"><br>
+        <text type="text">Username of Employee to Add:</text>
+        <input type="text" id="usernameBoxAdd" style="border: 1px solid black;"><br>
+        <text type="text">Temporary Password to Add:</text>
+        <input type="text" id="passBoxAdd" style="border: 1px solid black;"><br>
+        <text type="text">Employee</text>
+        <input type="checkbox" id="empCheckAdd">
+        <text type="text">Manager</text>
+        <input type="checkbox" id="manCheckAdd"><br>
+        <button type="button" id="addButton" onclick="addEmployee()">
+         Add
+        </button><br>
+    </div>
 	
   <div class="w3-container w3-border" id="catalog"></div>
 </body>
