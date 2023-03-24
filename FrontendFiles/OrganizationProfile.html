@@ -128,7 +128,7 @@ function onloadFunc() {
   var userData = JSON.parse(sessionStorage.getItem("userData"));
   var companyId = userData.id;
   console.log(companyId);
-  const eurl = `http://20.163.149.164:8080/api/profile/get?companyID=${companyId}`;
+  const eurl = `http://40.85.170.145:8080/api/profile/get?companyID=${companyId}`;
 
   const exhr = new XMLHttpRequest();
   exhr.open("GET", eurl, true);
@@ -175,7 +175,7 @@ function onloadFunc() {
       var locId = userData.locationID;
       
       const lxhr = new XMLHttpRequest();
-      var lurl = `http://20.163.149.164:8080/api/location/get?id=${locId}`;
+      var lurl = `http://40.85.170.145:8080/api/location/get?id=${locId}`;
       lxhr.open("GET", lurl, true);
       lxhr.send();
       lxhr.onload = function() {
@@ -266,9 +266,9 @@ function saveFunc() {
       state.split(' ').join('+');
       zip.split(' ').join('+');
       if (!addr2) {
-        locurl = `http://20.163.149.164:8080/api/location/add?addressLine1=${addr1}&city=${city}&state=${state}&zip=${zip}`;
+        locurl = `http://40.85.170.145:8080/api/location/add?addressLine1=${addr1}&city=${city}&state=${state}&zip=${zip}`;
       } else {
-        locurl = `http://20.163.149.164:8080/api/location/add?addressLine1=${addr1}&addressLine2=${addr2}&city=${city}&state=${state}&zip=${zip}`;
+        locurl = `http://40.85.170.145:8080/api/location/add?addressLine1=${addr1}&addressLine2=${addr2}&city=${city}&state=${state}&zip=${zip}`;
       }
 
       locxhr.open("POST", locurl, true);
@@ -283,7 +283,7 @@ function saveFunc() {
           console.log(imgUrl);
           var userData = JSON.parse(sessionStorage.getItem("userData"));
           var compId = userData.id;
-          var link = `http://20.163.149.164:8080/api/profile/edit?companyID=${compId}&statement=${mission1}&logo=${imgUrl}`;
+          var link = `http://40.85.170.145:8080/api/profile/edit?companyID=${compId}&statement=${mission1}&logo=${imgUrl}`;
           
           const qxhr = new XMLHttpRequest();
           qxhr.open("PUT", link, true);
@@ -294,7 +294,7 @@ function saveFunc() {
          
          var newName = document.getElementById("name-edit").value;
           
-          var updateurl = `http://20.163.149.164:8080/api/user/update?email=${userData.email}&locationID=${locationId}&name=${newName}`;
+          var updateurl = `http://40.85.170.145:8080/api/user/update?email=${userData.email}&locationID=${locationId}&name=${newName}`;
           console.log(userData.email);
          
          userData.name = newName;
