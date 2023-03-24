@@ -47,7 +47,7 @@
 			console.log(date, description, title, addressLine1, addressLine2, city, state, zip);
 			// You can use the variables above to perform further operations
 			
-			const url = `http://20.163.149.164:8080/api/location/add?addressLine1=${addressLine1}&addressLine2=${addressLine2}&city=${city}&state=${state}&zip=${zip}`;
+			const url = `http://40.85.170.145:8080/api/location/add?addressLine1=${addressLine1}&addressLine2=${addressLine2}&city=${city}&state=${state}&zip=${zip}`;
 		  console.log("Sent location Info");
 
 		  const xhr = new XMLHttpRequest();
@@ -57,7 +57,7 @@
 			if (this.status === 200) {
 			  const locationID = this.responseText;
 			  const userData = JSON.parse(sessionStorage.getItem("userData"));
-			  const url1 = `http://20.163.149.164:8080/api/event/add?companyID=${userData.id}&locationID=${locationID}&description=${description}&date=${date}&title=${title}`;
+			  const url1 = `http://40.85.170.145:8080/api/event/add?companyID=${userData.id}&locationID=${locationID}&description=${description}&date=${date}&title=${title}`;
 			  const xhr1 = new XMLHttpRequest();
 			  xhr1.open("POST", url1, true);
 			  xhr1.onload = function() {

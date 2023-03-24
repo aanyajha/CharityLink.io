@@ -93,7 +93,7 @@ function deleteFunc() {
   var confirmation = prompt("Are you sure? \nEnter your password:");
   var userData = JSON.parse(sessionStorage.getItem('userData'));
   var email = userData.email;
-  const url = `http://20.163.149.164:8080/api/user/login/email?email=${email}&password=${confirmation}`;
+  const url = `http://40.85.170.145:8080/api/user/login/email?email=${email}&password=${confirmation}`;
 
   const xhr = new XMLHttpRequest();
   xhr.open("GET", url, true);
@@ -106,7 +106,7 @@ function deleteFunc() {
         return;
       }
 
-      var durl = `http://20.163.149.164:8080/api/user/delete?email=${email}`;
+      var durl = `http://40.85.170.145:8080/api/user/delete?email=${email}`;
       const dxhr = new XMLHttpRequest();
       dxhr.open("DELETE", durl, true);
       dxhr.send();
@@ -138,7 +138,7 @@ var joinData;
 window.onload = onloadFunc();
 
 function onloadFunc() {
-  const eurl = `http://20.163.149.164:8080/api/user/login/email?email=${username}&password=${password}`;
+  const eurl = `http://40.85.170.145:8080/api/user/login/email?email=${username}&password=${password}`;
 
   const exhr = new XMLHttpRequest();
   exhr.open("GET", eurl, true);
@@ -167,7 +167,7 @@ function onloadFunc() {
        return; 
       }
       const lxhr = new XMLHttpRequest();
-      var lurl = `http://20.163.149.164:8080/api/location/get?id=${locId}`;
+      var lurl = `http://40.85.170.145:8080/api/location/get?id=${locId}`;
       lxhr.open("GET", lurl, true);
       lxhr.send();
       lxhr.onload = function() {
@@ -205,7 +205,7 @@ function editFunc() {
   var userData = JSON.parse(sessionStorage.getItem('userData'));
   var username = userData.email;
 var password = userData.password;
-  const eurl = `http://20.163.149.164:8080/api/user/login/email?email=${username}&password=${password}`;
+  const eurl = `http://40.85.170.145:8080/api/user/login/email?email=${username}&password=${password}`;
 
   const exhr = new XMLHttpRequest();
   exhr.open("GET", eurl, true);
@@ -227,7 +227,7 @@ var password = userData.password;
       join.innerHTML = "Join Date: " + data.joinDate;
       var locId = data.locationID;
       const lxhr = new XMLHttpRequest();
-      var lurl = `http://20.163.149.164:8080/api/location/get?id=${locId}`;
+      var lurl = `http://40.85.170.145:8080/api/location/get?id=${locId}`;
       lxhr.open("GET", lurl, true);
       lxhr.send();
       lxhr.onload = function() {
@@ -292,9 +292,9 @@ function saveFunc() {
   state.split(' ').join('+');
   zip.split(' ').join('+');
   if (!addr2) {
-    locurl = `http://20.163.149.164:8080/api/location/add?addressLine1=${addr1}&city=${city}&state=${state}&zip=${zip}`;
+    locurl = `http://40.85.170.145:8080/api/location/add?addressLine1=${addr1}&city=${city}&state=${state}&zip=${zip}`;
   } else {
-    locurl = `http://20.163.149.164:8080/api/location/add?addressLine1=${addr1}&addressLine2=${addr2}&city=${city}&state=${state}&zip=${zip}`;
+    locurl = `http://40.85.170.145:8080/api/location/add?addressLine1=${addr1}&addressLine2=${addr2}&city=${city}&state=${state}&zip=${zip}`;
   }
 
   locxhr.open("POST", locurl, true);
@@ -312,7 +312,7 @@ function saveFunc() {
   		joinData.split(' ').join('+');
       typeData.split(' ').join('+');
       
-      const updateurl = `http://20.163.149.164:8080/api/user/update?email=${email}&name=${nameReal}&username=${username}&password=${password}&locationID=${locationId}&date=${joinData}&userType=${typeData}`;
+      const updateurl = `http://40.85.170.145:8080/api/user/update?email=${email}&name=${nameReal}&username=${username}&password=${password}&locationID=${locationId}&date=${joinData}&userType=${typeData}`;
 
       updatexhr.open("PUT", updateurl, true);
       updatexhr.send();
