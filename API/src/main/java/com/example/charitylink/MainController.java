@@ -28,7 +28,8 @@ public class MainController {
     @Autowired
     private ProfileRepository profileRepository;
 
-    //Todo: hashtagging send data
+    //Todo: hashtagging autofill send data
+    //Todo: name/item id autofill data send
 
     @GetMapping(path = "/email/suspicious")
     public @ResponseBody String suspicious(@RequestParam String email) {
