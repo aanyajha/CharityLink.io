@@ -28,6 +28,8 @@ public class MainController {
     @Autowired
     private ProfileRepository profileRepository;
 
+    //Todo: hashtagging send data
+
     @GetMapping(path = "/email/suspicious")
     public @ResponseBody String suspicious(@RequestParam String email) {
         List<Integer> userIdList = userRepository.findUserIdByEmail(email);
