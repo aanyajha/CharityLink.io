@@ -30,6 +30,7 @@ public class MainController {
 
     //Todo: hashtagging autofill send data
     //Todo: name/item id autofill data send
+    //Todo: both of the above but company specific
 
     @GetMapping(path = "/email/suspicious")
     public @ResponseBody String suspicious(@RequestParam String email) {
