@@ -252,6 +252,20 @@ public class MainController {
         return names;
     }
 
+    @GetMapping(path = "/item/catalog/autofill/hashtag")
+    public @ResponseBody Iterable<String> getCatalogAuotfillHashtag() {
+        Iterable<Item> inventory = itemRepository.findAll();
+        ArrayList<String> hashtags = new ArrayList<>();
+        for (Item i : inventory) {
+            for (String hashtag : i.getHashtags().split(",")) {
+                if (!hashtags.contains(hashtag)) {
+                    hashtags.add(hashtag);
+                }
+            }
+        }
+        return hashtags;
+    }
+
     @PostMapping(path = "/item/add")
     public @ResponseBody String addNewItem(@RequestParam Integer userID, @RequestParam String name,
                                            @RequestParam Integer state, @RequestParam Integer numItems,
