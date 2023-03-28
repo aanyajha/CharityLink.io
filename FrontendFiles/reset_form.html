@@ -35,7 +35,7 @@ function sendPass() {
   }
   */
   const email = document.getElementById("email").value;
-  const token = `http://40.85.170.145:8080/api/password/reset?email=${email}`;
+  const token = `http://20.232.208.15:8080/api/password/reset?email=${email}`;
   const xhr = new XMLHttpRequest();
   xhr.open("GET", token, true);
   

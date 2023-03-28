@@ -61,7 +61,7 @@ if (userData != null) {
 	
 function seeDetails() {
   const eventId = document.getElementById("input-id").value;
-  const url = `http://40.85.170.145:8080/api/event/get?id=${eventId}`;
+  const url = `http://20.232.208.15:8080/api/event/get?id=${eventId}`;
   const xhr = new XMLHttpRequest();
   xhr.open("GET", url, true);
 
@@ -97,7 +97,7 @@ function printData() {
   console.log(userData.companyID);
   console.log(id);*/
 
-  const url = `http://40.85.170.145:8080/api/event/all`;
+  const url = `http://20.232.208.15:8080/api/event/all`;
   const xhr = new XMLHttpRequest();
   xhr.open("GET", url, true);
 

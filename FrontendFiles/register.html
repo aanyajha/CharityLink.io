@@ -282,7 +282,7 @@ function signUpFunc() {
       return;
     }
 
-    const url = `http://40.85.170.145:8080/api/location/add?addressLine1=${address1}&addressLine2=${address2}&city=${city}&state=${state}&zip=${zip}`;
+    const url = `http://20.232.208.15:8080/api/location/add?addressLine1=${address1}&addressLine2=${address2}&city=${city}&state=${state}&zip=${zip}`;
 
     console.log("sent location");
 
@@ -294,7 +294,7 @@ function signUpFunc() {
         const data = this.responseText;
         console.log(data);
         //start userdata
-        const url1 = `http://40.85.170.145:8080/api/user/add?name=${name}&username=${username}&password=${password}&email=${email}&date=${formattedDate}&userType=4&locationID=${data}`;
+        const url1 = `http://20.232.208.15:8080/api/user/add?name=${name}&username=${username}&password=${password}&email=${email}&date=${formattedDate}&userType=4&locationID=${data}`;
         console.log("Sent User Info");
 
         const xhr1 = new XMLHttpRequest();
@@ -331,7 +331,7 @@ function signUpFunc() {
     };
     xhr.send();
   } else {
-    const url = `http://40.85.170.145:8080/api/user/add?name=${name}&username=${username}&password=${password}&email=${email}&date=${formattedDate}&userType=1`;
+    const url = `http://20.232.208.15:8080/api/user/add?name=${name}&username=${username}&password=${password}&email=${email}&date=${formattedDate}&userType=1`;
     console.log("Sent User Info");
 
     const xhr = new XMLHttpRequest();

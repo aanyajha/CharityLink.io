@@ -119,7 +119,7 @@ function printData() {
   console.log(userData);
   const email = userData.email;
 
-  const url = `http://40.85.170.145:8080/api/user/find/company?email=${email}`;
+  const url = `http://20.232.208.15:8080/api/user/find/company?email=${email}`;
   const xhr = new XMLHttpRequest();
   xhr.open("GET", url, true);
 
@@ -206,7 +206,7 @@ function deleteEmployee() {
   var email = document.getElementById("emailBoxDelete").value;
 
   //check email in api system
-  const url = `http://40.85.170.145:8080/api/user/delete?email=${email}`;
+  const url = `http://20.232.208.15:8080/api/user/delete?email=${email}`;
   console.log("Sent User Info");
 
   const xhr = new XMLHttpRequest();
@@ -248,7 +248,7 @@ function editEmployee() {
     alert("Please select proper employee type");
   }
   const formattedDate = getFormattedDate();
-  const url = `http://40.85.170.145:8080/api/user/update?name=${name}&username=${username}&password=${password}&email=${email}&userType=${type}`;
+  const url = `http://20.232.208.15:8080/api/user/update?name=${name}&username=${username}&password=${password}&email=${email}&userType=${type}`;
 
   const xhr = new XMLHttpRequest();
   xhr.open("PUT", url, true);
@@ -317,7 +317,7 @@ function addEmployee() {
   const compData = JSON.parse(sessionStorage.getItem('userData'));
   const locationId = compData.locationID;
       
-    const url = `http://40.85.170.145:8080/api/user/add?name=${name}&username=${username}&password=${password}&email=${email}&date=${formattedDate}&userType=${type}&locationID=${locationId}&companyID=${compData.id}`;
+    const url = `http://20.232.208.15:8080/api/user/add?name=${name}&username=${username}&password=${password}&email=${email}&date=${formattedDate}&userType=${type}&locationID=${locationId}&companyID=${compData.id}`;
     console.log("Sent User Info");
 
     const xhr = new XMLHttpRequest();
