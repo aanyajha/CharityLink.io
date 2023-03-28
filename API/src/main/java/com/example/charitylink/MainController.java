@@ -253,7 +253,7 @@ public class MainController {
     }
 
     @GetMapping(path = "/item/catalog/autofill/hashtag")
-    public @ResponseBody Iterable<String> getCatalogAuotfillHashtag() {
+    public @ResponseBody Iterable<String> getCatalogAutofillHashtag() {
         Iterable<Item> inventory = itemRepository.findAll();
         ArrayList<String> hashtags = new ArrayList<>();
         for (Item i : inventory) {
@@ -264,6 +264,18 @@ public class MainController {
             }
         }
         return hashtags;
+    }
+
+    @GetMapping(path = "/item/catalog/autofill/name")
+    public @ResponseBody Iterable<String> getCatalogAutofillName() {
+        Iterable<Item> inventory = itemRepository.findAll();
+        ArrayList<String> names = new ArrayList<>();
+        for (Item i : inventory) {
+            if (!names.contains(i.getName())) {
+                names.add(i.getName());
+            }
+        }
+        return names;
     }
 
     @PostMapping(path = "/item/add")
