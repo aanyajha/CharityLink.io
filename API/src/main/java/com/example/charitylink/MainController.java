@@ -240,6 +240,18 @@ public class MainController {
         return hashtags;
     }
 
+    @GetMapping(path = "/item/inventory/autofill/name")
+    public @ResponseBody Iterable<String> getInventoryAutofillName(@RequestParam Integer userID) {
+        Iterable<Item> inventory = itemRepository.findItemsByUserID(userID);
+        ArrayList<String> names = new ArrayList<>();
+        for (Item i : inventory) {
+            if (!names.contains(i.getName())) {
+                names.add(i.getName());
+            }
+        }
+        return names;
+    }
+
     @PostMapping(path = "/item/add")
     public @ResponseBody String addNewItem(@RequestParam Integer userID, @RequestParam String name,
                                            @RequestParam Integer state, @RequestParam Integer numItems,
