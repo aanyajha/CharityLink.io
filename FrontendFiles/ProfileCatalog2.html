@@ -110,14 +110,12 @@ function printData() {
         // Create elements for item
         console.log(profile);
         const profileContainer = document.createElement('div');
-
-
         const companyID = document.createElement('p');
-        //const itemImage = document.createElement('img');
+        const itemImage = document.createElement('img');
 
         // Set content and attributes for elements
         companyID.textContent = profile.companyID;
-        //itemImage.setAttribute('src', item.image);
+        itemImage.setAttribute('src', item.image);
         /*console.log(event.title);
         console.log(event.date);
         console.log(event.id);*/
@@ -125,7 +123,7 @@ function printData() {
         console.log(profile.companyID);
         // Add elements to item container
         profileContainer.appendChild(companyID);
-        //itemContainer.appendChild(itemImage);
+        itemContainer.appendChild(itemImage);
 
         profileContainer.style.border = '1px solid black';
 
