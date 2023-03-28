@@ -98,7 +98,10 @@ function onloadFunc() {
           for (var i = 0; i < data.length; i++) {
           //data.forEach(profile => {
             // Create elements for item
+            console.log("stuff");
             console.log(data[i]);
+            console.log("stuff2");
+            //here is the syntax error
             var profileDat = JSON.parse(data[i]);
             const profileContainer = document.createElement('div');
             const profileName = document.createElement('h3');
