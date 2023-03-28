@@ -92,7 +92,7 @@ function printData() {
   console.log(userData.companyID);
   console.log(id);
 
-  const url = `http://20.232.208.15:8080/api/item/inventory?userID=${id}`;
+  const url = `http://20.163.149.164:8080/api/item/inventory?userID=${id}`;
   const xhr = new XMLHttpRequest();
   xhr.open("GET", url, true);
 
@@ -105,6 +105,9 @@ function printData() {
         // Create elements for item
         console.log(item);
         const itemContainer = document.createElement('div');
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.value = item.id;
         const itemName = document.createElement('h3');
         const itemHashtags = document.createElement('p');
         const quantity = document.createElement('p');
@@ -120,6 +123,7 @@ function printData() {
         console.log(item.numItems);
         
         // Add elements to item container
+        itemContainer.appendChild(checkbox);
         itemContainer.appendChild(itemName);
         itemContainer.appendChild(itemHashtags);
         itemContainer.appendChild(quantity);
@@ -129,13 +133,19 @@ function printData() {
 
         // Add item container to catalog container
         catalogContainer.appendChild(itemContainer);
-
-        // Add click event listener to item container
-        itemContainer.addEventListener('click', () => {
-          // Display more information about item
-          // Add code here to show a modal or expand the item container
-        });
       });
+
+      // Add click event listener to item container
+      const deleteButton = document.getElementById('deleteButton');
+      deleteButton.addEventListener('click', () => {
+      	  const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+          checkboxes.forEach(checkbox => {
+          	if (checkbox.checked) {
+        	    const div = checkbox.parentNode;
+              div.remove();
+            }
+          });
+        });
     } else {
 
       console.error("Request failed with status code", this.status);
@@ -148,16 +158,6 @@ function printData() {
 
   xhr.send();
 }
-
-$(document).ready(function() {
-  $('#deleteButton').click(function() {
-    $('#my-list li').each(function() {
-      if ($(this).find('input[type="checkbox"]').is(':checked')) {
-        $(this).delete();
-      }
-    });
-  });
-});
 
 function openNav() {
   document.getElementById("mySidebar").style.display = "block";
