@@ -1,13 +1,11 @@
 package com.example.charitylink;
 
+import com.google.api.client.util.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Random;
+import java.util.*;
 
 @Controller
 @RequestMapping(path="/api")
@@ -276,6 +274,83 @@ public class MainController {
             }
         }
         return names;
+    }
+
+    /*
+        Location String needs to come in format of:
+        {addressLine1};{addressLine2};{city};{state};{zip}
+     */
+    @GetMapping(path = "/item/search")
+    public @ResponseBody Iterable<Item> itemSearch(@RequestParam(required = false) String hashtags,
+                                                   @RequestParam(required = false) String name,
+                                                   @RequestParam(required = false) Integer itemID,
+                                                   @RequestParam(required = false) String location,
+                                                   @RequestParam(required = false) Integer userID) {
+        if (itemID != null && userID != null) {
+            ArrayList<Item> items = new ArrayList<>();
+            Item item = itemRepository.findItemByUserIDAndItemID(userID, itemID);
+            if (item != null) {
+                items.add(item);
+            }
+            return items;
+        }
+        ArrayList<Item> inventory = Lists.newArrayList(itemRepository.findAll());
+        ArrayList<Item> search = new ArrayList<>();
+        if (name != null) {
+            for (Item i : inventory) {
+                if (i.getName().equals(name)) {
+                    search.add(i);
+                }
+            }
+            inventory.clear();
+            inventory.addAll(search);
+            search.clear();
+        }
+        if (hashtags != null) {
+            String[] hashtagArr = hashtags.split(",");
+            for (Item i : inventory) {
+                List<String> itemHashtags = Arrays.asList(i.getHashtags().split(","));
+                for (int j = 0; j < hashtagArr.length; j++) {
+                    if (itemHashtags.contains(hashtagArr[j])) {
+                        search.add(i);
+                        continue;
+                    }
+                }
+            }
+            inventory.clear();
+            inventory.addAll(search);
+            search.clear();
+        }
+        if (location != null) {
+            String[] locationAttributes = location.split(";");
+            Location loc = new Location(locationAttributes[0], locationAttributes[1], locationAttributes[2], locationAttributes[3],
+            Integer.parseInt(locationAttributes[4]));
+            Double min = Double.MAX_VALUE;
+            int index = 0;
+            while (inventory.size() > 0) {
+                min = Double.MAX_VALUE;
+                for (int i = 0; i < inventory.size(); i++) {
+                    Integer locationID = inventory.get(i).getLocation();
+                    if (locationID == -1) {
+                        continue;
+                    }
+                    Location itemLoc = locationRepository.findById(locationID).get();
+                    if (itemLoc.getLongitude() == null || itemLoc.getLatitude() == null) {
+                        continue;
+                    }
+                    if (loc.findDistance(itemLoc.getLatitude(), itemLoc.getLongitude()) < min) {
+                        min = loc.findDistance(itemLoc.getLatitude(), itemLoc.getLongitude());
+                        index = i;
+                    }
+                }
+                search.add(inventory.get(index));
+                inventory.remove(index);
+            }
+            inventory.clear();
+            inventory.addAll(search);
+            search.clear();
+        }
+        return inventory;
     }
 
     @PostMapping(path = "/item/add")
