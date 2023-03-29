@@ -366,7 +366,8 @@ public class MainController {
     @PostMapping(path = "/item/add")
     public @ResponseBody String addNewItem(@RequestParam Integer userID, @RequestParam String name,
                                            @RequestParam Integer state, @RequestParam Integer numItems,
-                                           @RequestParam String hashtags, @RequestParam(required = false, defaultValue = "-1") String location) {
+                                           @RequestParam String hashtags, @RequestParam(required = false, defaultValue = "-1") String location,
+                                           @RequestParam(required = false, defaultValue = "") String img) {
         List<Integer> maxIndex = itemRepository.findMaxItemIdByUser(userID);
         Integer itemID = 0;
         if (maxIndex.size() > 0) {
@@ -382,7 +383,7 @@ public class MainController {
         } else {
             s = "UNKNOWN";
         }
-        Item item = new Item(userID, itemID + 1, name, s, numItems, hashtags, Integer.parseInt(location));
+        Item item = new Item(userID, itemID + 1, name, s, numItems, hashtags, Integer.parseInt(location), img);
         itemRepository.save(item);
         return "Saved";
     }

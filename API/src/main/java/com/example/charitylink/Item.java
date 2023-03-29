@@ -14,17 +14,19 @@ public class Item {
     private Integer numItems;
     private String hashtags;
     private Integer location;
+    private String img;
 
-    public Item(Integer userID, String name, String state, Integer numItems, String hashtags, Integer location) {
+    public Item(Integer userID, String name, String state, Integer numItems, String hashtags, Integer location, String img) {
         this.userID = userID;
         this.name = name;
         this.state = state;
         this.numItems = numItems;
         this.hashtags = hashtags;
         this.location = location;
+        this.img = img;
     }
 
-    public Item(Integer userID, Integer itemID, String name, String state, Integer numItems, String hashtags, Integer location) {
+    public Item(Integer userID, Integer itemID, String name, String state, Integer numItems, String hashtags, Integer location, String img) {
         this.userID = userID;
         this.itemID = itemID;
         this.name = name;
@@ -32,6 +34,7 @@ public class Item {
         this.numItems = numItems;
         this.hashtags = hashtags;
         this.location = location;
+        this.img = img;
     }
 
     public Item() {
