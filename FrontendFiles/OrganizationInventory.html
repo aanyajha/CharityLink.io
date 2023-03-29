@@ -141,9 +141,30 @@ function printData() {
       	  const checkboxes = document.querySelectorAll('input[type="checkbox"]');
           checkboxes.forEach(checkbox => {
           	if (checkbox.checked) {
-        	    const div = checkbox.parentNode;
-              div.remove();
-            }
+            		const url = `http://20.232.208.15:8080/api/item/delete?itemID={checkbox.value}&userID={id}`;
+            		console.log("Sent Item Deletion Info");
+
+            		const xhr = new XMLHttpRequest();
+            		xhr.open("DELETE", url, true);
+
+            		xhr.onload = function() {
+              			if (this.status === 200) {
+                			const data = this.responseText;
+                			console.log(data);
+                 			printData();
+              			} else {
+                			console.error("Request failed with status code", this.status);
+              			}
+            		};
+
+            		xhr.onerror = function() {
+              			console.error("Request failed");
+            		};
+
+            		xhr.send();
+        		const div = checkbox.parentNode;
+              		div.remove();
+            	}
           });
         });
     } else {
