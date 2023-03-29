@@ -337,23 +337,28 @@ public class MainController {
                 Double min = Double.MAX_VALUE;
                 int index = 0;
                 while (inventory.size() > 0) {
+                    index = -1;
                     min = Double.MAX_VALUE;
                     for (int i = 0; i < inventory.size(); i++) {
                         Integer locationID = inventory.get(i).getLocation();
                         if (locationID == -1) {
-                            continue;
+                            inventory.remove(i);
+                            break;
                         }
                         Location itemLoc = locationRepository.findById(locationID).get();
                         if (itemLoc.getLongitude() == null || itemLoc.getLatitude() == null) {
-                            continue;
+                            inventory.remove(i);
+                            break;
                         }
                         if (loc.findDistance(itemLoc.getLatitude(), itemLoc.getLongitude()) < min) {
                             min = loc.findDistance(itemLoc.getLatitude(), itemLoc.getLongitude());
                             index = i;
                         }
                     }
-                    search.add(inventory.get(index));
-                    inventory.remove(index);
+                    if (index != -1) {
+                        search.add(inventory.get(index));
+                        inventory.remove(index);
+                    }
                 }
                 inventory.clear();
                 inventory.addAll(search);
@@ -478,8 +483,49 @@ public class MainController {
     }
 
     @GetMapping(path = "/event/all")
-    public @ResponseBody Iterable<Event> getAllEvents() {
-        return eventRepository.findAll();
+    public @ResponseBody Iterable<Event> getAllEvents(@RequestParam(required = false) String location) {
+        ArrayList<Event> events = Lists.newArrayList(eventRepository.findAll());
+        ArrayList<Event> sorted = new ArrayList<>();
+        if (location != null) {
+            String[] locAttributes = location.split(";");
+            Location loc = null;
+            if (locAttributes.length == 5) {
+                loc = new Location(locAttributes[0], locAttributes[1], locAttributes[2], locAttributes[3], Integer.parseInt(locAttributes[4]));
+            } else if (locAttributes.length == 2) {
+                loc = new Location(Double.parseDouble(locAttributes[0]), Double.parseDouble(locAttributes[1]));
+            }
+            if (loc != null) {
+                Double min = Double.MAX_VALUE;
+                int index = 0;
+                while (events.size() > 0) {
+                    index = -1;
+                    min = Double.MAX_VALUE;
+                    for (int i = 0; i < events.size(); i++) {
+                        Integer locationID = events.get(i).getLocationID();
+                        if (locationID == -1) {
+                            events.remove(i);
+                            break;
+                        }
+                        Location itemLoc = locationRepository.findById(locationID).get();
+                        if (itemLoc.getLongitude() == null || itemLoc.getLatitude() == null) {
+                            events.remove(i);
+                            break;
+                        }
+                        if (loc.findDistance(itemLoc.getLatitude(), itemLoc.getLongitude()) < min) {
+                            min = loc.findDistance(itemLoc.getLatitude(), itemLoc.getLongitude());
+                            index = i;
+                        }
+                    }
+                    if (index != -1) {
+                        sorted.add(events.get(index));
+                        events.remove(index);
+                    }
+                }
+                events.clear();
+                events.addAll(sorted);
+            }
+        }
+        return events;
     }
 
     @PostMapping(path = "/location/add")
