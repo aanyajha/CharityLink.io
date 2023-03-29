@@ -103,7 +103,7 @@ function onloadFunc() {
             console.log("stuff2");
             //here is the syntax error
             var profileDat = data[i];
-            const profileContainer = document.createElement('div');
+            
             //const profileName = document.createElement('h3');
             //const profileId = document.createElement('p');
             //const itemImage = document.createElement('img');
@@ -116,14 +116,15 @@ function onloadFunc() {
               if (this.status === 200) {
                 const data1 = JSON.parse(this.responseText);
                 console.log(data1);
+                var profileContainer = document.createElement("p");
                 var profileName = document.createTextNode(data1.name);
-                var profileId = document.createTextNode(data1.id);
+                //var profileId = document.createTextNode(data1.id);
 
-                profileId.textContent = data1.id;
+                //profileId.textContent = data1.id;
                 profileContainer.appendChild(profileName);
-                profileContainer.appendChild(profileId);
-                var catalog = document.getElementById("catalog");
-                document.body.insertBefore(profileContainer, catalog);
+                //profileContainer.appendChild(profileId);
+                //var catalog = document.getElementById("catalog");
+                document.body.appendChild(profileContainer);
                 //
                 //
                 //itemContainer.appendChild(itemImage);
