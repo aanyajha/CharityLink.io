@@ -294,7 +294,7 @@ public class MainController {
             }
             return items;
         }
-        ArrayList<Item> inventory = Lists.newArrayList(itemRepository.findAll());
+        ArrayList<Item> inventory = (userID == null) ? Lists.newArrayList(itemRepository.findAll()) : Lists.newArrayList(itemRepository.findItemsByUserID(userID));
         ArrayList<Item> search = new ArrayList<>();
         if (name != null) {
             for (Item i : inventory) {
