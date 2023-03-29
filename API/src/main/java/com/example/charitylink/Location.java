@@ -58,6 +58,11 @@ public class Location {
         }
     }
 
+    public Location(Double latitude, Double longitude) {
+        this.latitude = latitude;
+        this.longitude = longitude;
+    }
+
     public Location() {
     }
 
