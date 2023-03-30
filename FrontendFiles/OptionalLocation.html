@@ -79,11 +79,11 @@ var joinData;
     alert("Make sure to fill out every necessary box (Everything except for Address 2)");
     return;
   }
-  addr1.split(' ').join('+');
-  addr2.split(' ').join('+');
-  city.split(' ').join('+');
-  state.split(' ').join('+');
-  zip.split(' ').join('+');
+  addr1 = addr1.split(' ').join('+');
+  addr2 = addr2.split(' ').join('+');
+  city = city.split(' ').join('+');
+  state = state.split(' ').join('+');
+  zip = zip.split(' ').join('+');
     console.log(addr1);
   if (!addr2) {
     locurl = `http://20.232.208.15:8080/api/location/add?addressLine1=${addr1}&city=${city}&state=${state}&zip=${zip}`;
@@ -104,7 +104,6 @@ console.log(locurl);
   		password.split(' ').join('+');
   		locationId.split(' ').join('+');
   		joinData.split(' ').join('+');
-      typeData.split(' ').join('+');
       
       console.log(locationId);
       
