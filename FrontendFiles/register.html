@@ -345,6 +345,7 @@ function signUpFunc() {
           // Store the API data in sessionStorage
           sessionStorage.setItem('userData', JSON.stringify(data));
           window.location.href = 'https://aanyajha.github.io/CharityLink.io/FrontendFiles/DefaultDashboard';
+	  alert("Successful account creation! Look in your settings to see what information we store.");
         } else {
           alert("Email already taken");
         }
