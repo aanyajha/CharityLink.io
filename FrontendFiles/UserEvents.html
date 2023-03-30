@@ -88,7 +88,7 @@
           navigator.geolocation.getCurrentPosition(showPosition);
           const eurl2 = `http://20.232.208.15:8080/api/user/login/email?email=${username}&password=${password}`;
           const exhr2 = new XMLHttpRequest();
-          exhr2.open("GET", eurl, true);
+          exhr2.open("GET", eurl2, true);
           exhr2.send();
           exhr2.onload = function() {
             var durl2 = `http://20.232.208.15:8080/api/event/all?location={latitude};{longitude}`;
