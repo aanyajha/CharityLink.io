@@ -91,8 +91,10 @@
           exhr2.open("GET", eurl2, true);
           exhr2.send();
           exhr2.onload = function() {
+            console.log("LATITUDE AND LOGITUDE");
             console.log(latitude);
             console.log(longitude);
+            console.log("end");
             var durl2 = `http://20.232.208.15:8080/api/event/all?location=${latitude};${longitude}`;
             const dxhr2 = new XMLHttpRequest();
             dxhr2.open("GET", durl2, true);
