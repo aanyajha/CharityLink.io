@@ -287,7 +287,6 @@ public class MainController {
                                                    @RequestParam(required = false) String name,
                                                    @RequestParam(required = false) Integer itemID,
                                                    @RequestParam(required = false) String location,
-
                                                    @RequestParam(required = false) Integer userID) {
         if (itemID != null && userID != null) {
             ArrayList<Item> items = new ArrayList<>();
