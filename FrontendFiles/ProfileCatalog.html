@@ -114,8 +114,8 @@ function onloadFunc() {
                 
                 var logoContainer = document.createElement("img");
                 console.log("stuff");
-                console.log(profileDat.logo);
-                logoContainer.src = profileDat.logo;
+                console.log(data[i].logo);
+                logoContainer.src = data[i].logo;
                 
                 var profileContainer = document.createElement("p");
                 var profileName = document.createElement("H1");
@@ -124,7 +124,7 @@ function onloadFunc() {
                 profileContainer.appendChild(profileName);
                 
                 var statementContainer = document.createElement("p");
-                var statement = document.createTextNode(profileDat.statement);
+                var statement = document.createTextNode(data[i].statement);
                 statementContainer.appendChild(statement);
                 
                 document.body.appendChild(logoContainer);
