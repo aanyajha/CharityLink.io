@@ -86,7 +86,7 @@ var joinData;
   } else {
     locurl = `http://20.232.208.15:8080/api/location/add?addressLine1=${addr1}&addressLine2=${addr2}&city=${city}&state=${state}&zip=${zip}`;
   }
-
+console.log(locurl);
   locxhr.open("POST", locurl, true);
   locxhr.send();
   locxhr.onload = function() {
@@ -102,6 +102,9 @@ var joinData;
   		joinData.split(' ').join('+');
       typeData.split(' ').join('+');
       
+      console.log(locationId);
+      
+      
       const updateurl = `http://20.232.208.15:8080/api/user/update?email=${email}&name=${nameReal}&username=${username}&password=${password}&locationID=${locationId}&date=${joinData}&userType=${typeData}`;
 
       updatexhr.open("PUT", updateurl, true);
@@ -113,6 +116,7 @@ var joinData;
       }
     }
   }
+    
 
     
     //window.location.href = 'https://aanyajha.github.io/CharityLink.io/FrontendFiles/DefaultDashboard';
