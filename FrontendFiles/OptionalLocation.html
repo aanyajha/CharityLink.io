@@ -24,12 +24,96 @@
 </body>
 
 <script>
+  
   function skipFunc() {
-    
+    window.location.href = 'https://aanyajha.github.io/CharityLink.io/FrontendFiles/DefaultDashboard';
   }
   
+  
+  var userData = JSON.parse(sessionStorage.getItem('userData'));
+var username = userData.email;
+var password = userData.password;
+var typeData;
+var companyData;
+var joinData;
+  
+  
   function submitFunc() {
+    var addr1 = document.getElementById("address1").value;
+  var addr2 = document.getElementById("address2").value;
+  var city = document.getElementById("city").value;
+  var state = document.getElementById("state").value;
+  var zip = document.getElementById("zip").value;
     
+    const eurl = `http://20.232.208.15:8080/api/user/login/email?email=${username}&password=${password}`;
+
+  const exhr = new XMLHttpRequest();
+  exhr.open("GET", eurl, true);
+  exhr.send();
+
+  exhr.onload = function() {
+    if (this.status === 200) {
+      const data = JSON.parse(this.responseText);
+      
+      //var username = data.username;
+  var nameReal = data.name;
+  var email = data.email;
+      var typeData = data.userType;
+      var joinData = data.joinDate;
+      //var password = userData.password;
+
+    }
+  }
+
+
+
+  const locxhr = new XMLHttpRequest();
+  var locurl = "";
+  if (!addr1 || !city || !state || !zip) {
+    alert("Make sure to fill out every necessary box (Everything except for Address 2)");
+    return;
+  }
+  addr1.split(' ').join('+');
+  addr2.split(' ').join('+');
+  city.split(' ').join('+');
+  state.split(' ').join('+');
+  zip.split(' ').join('+');
+  if (!addr2) {
+    locurl = `http://20.232.208.15:8080/api/location/add?addressLine1=${addr1}&city=${city}&state=${state}&zip=${zip}`;
+  } else {
+    locurl = `http://20.232.208.15:8080/api/location/add?addressLine1=${addr1}&addressLine2=${addr2}&city=${city}&state=${state}&zip=${zip}`;
+  }
+
+  locxhr.open("POST", locurl, true);
+  locxhr.send();
+  locxhr.onload = function() {
+    var locationId = this.responseText;
+    if (this.status === 200) {
+      const updatexhr = new XMLHttpRequest();
+      
+      email.split(' ').join('+');
+      nameReal.split(' ').join('+');
+  		username.split(' ').join('+');
+  		password.split(' ').join('+');
+  		locationId.split(' ').join('+');
+  		joinData.split(' ').join('+');
+      typeData.split(' ').join('+');
+      
+      const updateurl = `http://20.232.208.15:8080/api/user/update?email=${email}&name=${nameReal}&username=${username}&password=${password}&locationID=${locationId}&date=${joinData}&userType=${typeData}`;
+
+      updatexhr.open("PUT", updateurl, true);
+      updatexhr.send();
+      updatexhr.onload = function() {
+        if (this.status === 200) {
+
+        }
+      }
+    }
+  }
+
+    
+    window.location.href = 'https://aanyajha.github.io/CharityLink.io/FrontendFiles/DefaultDashboard';
+
   }
 </script>
 
