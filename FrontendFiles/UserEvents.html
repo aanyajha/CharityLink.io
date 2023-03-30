@@ -58,8 +58,6 @@
     var city;
     var state;
     var zip;
-    
-    
     if (userData != null) {
       printData();
     }
@@ -81,12 +79,11 @@
       };
       xhr.send();
     }
-    
     // Dynamically generate HTML elements for each item in the catalog
     function printData() {
       var check = document.getElementById("check");
       while (largerContainer.hasChildNodes()) {
-                largerContainer.removeChild(largerContainer.children[0]);
+        largerContainer.removeChild(largerContainer.children[0]);
       }
       if (userData.locationID == -1 && check.checked) {
         //request geolocation
@@ -101,7 +98,6 @@
             console.log(latitude);
             console.log(longitude);
             console.log("end");
-            
             var durl2 = `http://20.232.208.15:8080/api/event/all?location=${latitude};${longitude}`;
             const dxhr2 = new XMLHttpRequest();
             dxhr2.open("GET", durl2, true);
@@ -115,19 +111,23 @@
                   // Create elements for item
                   console.log(event);
                   const eventContainer = document.createElement('div');
+                  const eventDist = document.createElement('h2');
                   const eventTitle = document.createElement('h3');
                   const eventDate = document.createElement('p');
                   const eventID = document.createElement('p');
                   //const itemImage = document.createElement('img');
                   // Set content and attributes for elements
+                  eventDist.textContent = event.distance.toFixed(2) + " mi";
                   eventTitle.textContent = event.title;
                   eventDate.textContent = event.date;
                   eventID.textContent = event.id;
                   //itemImage.setAttribute('src', item.image);
+                  console.log(event.distance);
                   console.log(event.title);
                   console.log(event.date);
                   console.log(event.id);
                   // Add elements to item container
+                  eventContainer.appendChild(eventDist);
                   eventContainer.appendChild(eventTitle);
                   eventContainer.appendChild(eventDate);
                   eventContainer.appendChild(eventID);
@@ -143,76 +143,84 @@
                 });
               }
             }
-          } 
-        }else {
-            alert("Geolocation is not supported by this browser.");
           }
-        } else if (userData.locationID != -1 && check.checked) {
-          const eurl = `http://20.232.208.15:8080/api/user/login/email?email=${username}&password=${password}`;
-          const exhr = new XMLHttpRequest();
-          exhr.open("GET", eurl, true);
-          exhr.send();
-          exhr.onload = function() {
-            if (this.status === 200) {
-              const data = JSON.parse(this.responseText);
-              const lxhr = new XMLHttpRequest();
-              var lurl = `http://20.232.208.15:8080/api/location/get?id=${data.locationID}`;
-              lxhr.open("GET", lurl, true);
-              lxhr.send();
-              lxhr.onload = function() {
-                const locData = JSON.parse(this.responseText);
-                addr1 = locData.addressLine1;
-                addr2 = locData.addressLine2;
-                city = locData.city;
-                state = locData.state;
-                zip = locData.zip;
-                console.log(locData.city);
-                const durl = `http://20.232.208.15:8080/api/event/all?location=${addr1};${addr2};${city};${state};${zip}`;
-                const dxhr = new XMLHttpRequest();
-                dxhr.open("GET", durl, true);
-                dxhr.send();
-                dxhr.onload = function() {
-                  if (this.status === 200) {
-                    const data = this.responseText;
-                    console.log(data);
-                    catalogData = JSON.parse(data);
-                    catalogData.forEach(event => {
-                      // Create elements for item
-                      console.log(event);
-                      const eventContainer = document.createElement('div');
-                      const eventTitle = document.createElement('h3');
-                      const eventDate = document.createElement('p');
-                      const eventID = document.createElement('p');
-                      //const itemImage = document.createElement('img');
-                      // Set content and attributes for elements
-                      eventTitle.textContent = event.title;
-                      eventDate.textContent = event.date;
-                      eventID.textContent = event.id;
-                      //itemImage.setAttribute('src', item.image);
-                      console.log(event.title);
-                      console.log(event.date);
-                      console.log(event.id);
-                      // Add elements to item container
-                      eventContainer.appendChild(eventTitle);
-                      eventContainer.appendChild(eventDate);
-                      eventContainer.appendChild(eventID);
-                      //itemContainer.appendChild(itemImage);
-                      eventContainer.style.border = '1px solid black';
-                      // Add item container to catalog container
-                      
-                      largerContainer.appendChild(eventContainer);
-                      // Add click event listener to item container
-                      eventContainer.addEventListener('click', () => {
-                        // Display more information about item
-                        // Add code here to show a modal or expand the item container
-                      });
+        } else {
+          alert("Geolocation is not supported by this browser.");
+        }
+      } else if (userData.locationID != -1 && check.checked) {
+        const eurl = `http://20.232.208.15:8080/api/user/login/email?email=${username}&password=${password}`;
+        const exhr = new XMLHttpRequest();
+        exhr.open("GET", eurl, true);
+        exhr.send();
+        exhr.onload = function() {
+          if (this.status === 200) {
+            const data = JSON.parse(this.responseText);
+            const lxhr = new XMLHttpRequest();
+            var lurl = `http://20.232.208.15:8080/api/location/get?id=${data.locationID}`;
+            lxhr.open("GET", lurl, true);
+            lxhr.send();
+            lxhr.onload = function() {
+              const locData = JSON.parse(this.responseText);
+              addr1 = locData.addressLine1;
+              addr2 = locData.addressLine2;
+              city = locData.city;
+              state = locData.state;
+              zip = locData.zip;
+              console.log(locData.city);
+              const durl = `http://20.232.208.15:8080/api/event/all?location=${addr1};${addr2};${city};${state};${zip}`;
+              const dxhr = new XMLHttpRequest();
+              dxhr.open("GET", durl, true);
+              dxhr.send();
+              dxhr.onload = function() {
+                if (this.status === 200) {
+                  const data = this.responseText;
+                  console.log(data);
+                  catalogData = JSON.parse(data);
+                  catalogData.forEach(event => {
+                    // Create elements for item
+                    console.log(event);
+                    // Create elements for item
+                    console.log(event);
+                    const eventContainer = document.createElement('div');
+                    const eventDist = document.createElement('h2');
+                    const eventTitle = document.createElement('h3');
+                    const eventDate = document.createElement('p');
+                    const eventID = document.createElement('p');
+                    //const itemImage = document.createElement('img');
+                    // Set content and attributes for elements
+                    eventDist.textContent = event.distance.toFixed(2) + " mi";
+                    eventTitle.textContent = event.title;
+                    eventDate.textContent = event.date;
+                    eventID.textContent = event.id;
+                    //itemImage.setAttribute('src', item.image);
+                    console.log(event.distance);
+                    console.log(event.title);
+                    console.log(event.date);
+                    console.log(event.id);
+                    // Add elements to item container
+                    eventContainer.appendChild(eventDist);
+                    eventContainer.appendChild(eventTitle);
+                    eventContainer.appendChild(eventDate);
+                    eventContainer.appendChild(eventID);
+                    //itemContainer.appendChild(itemImage);
+                    eventContainer.style.border = '1px solid black';
+                    // Add item container to catalog container
+                    largerContainer.appendChild(eventContainer);
+                    eventContainer.style.border = '1px solid black';
+                    // Add item container to catalog container
+                    largerContainer.appendChild(eventContainer);
+                    // Add click event listener to item container
+                    eventContainer.addEventListener('click', () => {
+                      // Display more information about item
+                      // Add code here to show a modal or expand the item container
                     });
-                  }
+                  });
                 }
               }
             }
           }
         }
+      }
       const url = `http://20.232.208.15:8080/api/event/all`;
       const xhr = new XMLHttpRequest();
       xhr.open("GET", url, true);
