@@ -92,16 +92,13 @@ function onloadFunc() {
       axhr.open("GET", url, true);
       axhr.send();
       axhr.onload = function() {
-        //THIS DOES NOT WORK BECAUSE OF VARUN'S BACKEND!!! ASK HIM TO CHANGE IT PLEASE
         if (this.status === 200) {
           var data = JSON.parse(this.responseText);
           console.log(data);
           for (var i = 0; i < data.length; i++) {
           //data.forEach(profile => {
             // Create elements for item
-            console.log("stuff");
             console.log(data[i]);
-            console.log("stuff2");
             //here is the syntax error
             var profileDat = data[i];
             
@@ -117,15 +114,28 @@ function onloadFunc() {
               if (this.status === 200) {
                 const data1 = JSON.parse(this.responseText);
                 console.log(data1);
+                
+                var logoContainer = document.createElement("img");
+                logoContainer.src = profileDat.logo;
+                
                 var profileContainer = document.createElement("p");
-                var profileName = document.createTextNode(data1.name);
+                var profileName = document.createElement("H1");
+                var secondName = document.createTextNode(data1.name);
+                profileName.appendChild(secondName);
                 //var profileId = document.createTextNode(data1.id);
-
+                
                 //profileId.textContent = data1.id;
                 profileContainer.appendChild(profileName);
                 //profileContainer.appendChild(profileId);
                 //var catalog = document.getElementById("catalog");
+                
+                var statementContainer = document.createElement("p");
+                var statement = document.createTextNode(profileDat.statement);
+                statementContainer.appendChild(statement);
+                
+                document.body.appendChild(logoContainer);
                 document.body.appendChild(profileContainer);
+                document.body.appendChild(statementContainer);
                 //
                 //
                 //
