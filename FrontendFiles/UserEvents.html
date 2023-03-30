@@ -43,6 +43,8 @@ img {
     <p>Here you can view events.</p>
   </div>
 	
+	<div id="no-loc">Go to your settings and input your location to see events near you.</div>
+	
   <div class="input-section">
 	  <input id="input-id"></input>
 	<button id="details-button" onclick="seeDetails()">See Details</button> 
@@ -96,6 +98,12 @@ function printData() {
   }
   console.log(userData.companyID);
   console.log(id);*/
+	var noLoc = document.getElementByID("no-loc");
+	  noLoc.style.display = "none";
+  if (userData.locationID == -1) {
+	  noLoc.style.display = "inline";
+	  return;
+  }
 
   const url = `http://20.232.208.15:8080/api/event/all`;
   const xhr = new XMLHttpRequest();
