@@ -219,6 +219,9 @@
       xhr.onload = function() {
         if (this.status === 200) {
           const data = this.responseText;
+          while (largerContainer.hasChildNodes()) {
+                largerContainer.removeChild(largerContainer.children[0]);
+          }
           console.log(data);
           catalogData = JSON.parse(data);
           catalogData.forEach(event => {
