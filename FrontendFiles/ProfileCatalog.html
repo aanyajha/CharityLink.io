@@ -102,6 +102,17 @@ function onloadFunc() {
             //here is the syntax error
             var profileDat = data[i];
             
+                var logoContainer = document.createElement("img");
+                console.log("stuff");
+                console.log(data[i].logo);
+                logoContainer.src = data[i].logo;
+            
+                var statementContainer = document.createElement("p");
+                var statement = document.createTextNode(data[i].statement);
+                statementContainer.appendChild(statement);
+               
+                document.body.appendChild(logoContainer);
+            
             // Set content and attributes for elements
             const xhr1 = new XMLHttpRequest();
             const url1 = `http://20.232.208.15:8080/api/user/get?id=${profileDat.companyID}`;
@@ -112,10 +123,7 @@ function onloadFunc() {
                 const data1 = JSON.parse(this.responseText);
                 console.log(data1);
                 
-                var logoContainer = document.createElement("img");
-                console.log("stuff");
-                console.log(data[i].logo);
-                logoContainer.src = data[i].logo;
+                
                 
                 var profileContainer = document.createElement("p");
                 var profileName = document.createElement("H1");
@@ -123,13 +131,8 @@ function onloadFunc() {
                 profileName.appendChild(secondName);
                 profileContainer.appendChild(profileName);
                 
-                var statementContainer = document.createElement("p");
-                var statement = document.createTextNode(data[i].statement);
-                statementContainer.appendChild(statement);
                 
-                document.body.appendChild(logoContainer);
                 document.body.appendChild(profileContainer);
-                document.body.appendChild(statementContainer);
               } else {
                 console.error("Request failed with status code", this.status);
               }
@@ -137,6 +140,8 @@ function onloadFunc() {
           xhr1.onerror = function() {
             console.error("Request failed");
           };
+            
+                document.body.appendChild(statementContainer);
         }
       }
     }
