@@ -99,7 +99,7 @@
             console.log(longitude);
             console.log("end");
             while (largerContainer.hasChildNodes()) {
-                        largerContainer.removeChild();
+                largerContainer.removeChild(largerContainer.children[0]);
             }
             var durl2 = `http://20.232.208.15:8080/api/event/all?location=${latitude};${longitude}`;
             const dxhr2 = new XMLHttpRequest();
