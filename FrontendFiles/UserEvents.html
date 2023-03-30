@@ -91,7 +91,7 @@
           exhr2.open("GET", eurl2, true);
           exhr2.send();
           exhr2.onload = function() {
-            var durl2 = `http://20.232.208.15:8080/api/event/all?location={latitude};{longitude}`;
+            var durl2 = `http://20.232.208.15:8080/api/event/all?location={latitude;longitude}`;
             const dxhr2 = new XMLHttpRequest();
             dxhr2.open("GET", durl2, true);
             dxhr2.send();
@@ -156,7 +156,7 @@
                 state = locData.state;
                 zip = locData.zip;
                 console.log(locData.city);
-                const durl = `http://20.232.208.15:8080/api/event/all?location={addr1};{addr2};{city};{state};{zip}`;
+                const durl = `http://20.232.208.15:8080/api/event/all?location={addr1;addr2;city;state;zip}`;
                 const dxhr = new XMLHttpRequest();
                 dxhr.open("GET", durl, true);
                 dxhr.send();
