@@ -102,9 +102,6 @@ function onloadFunc() {
             //here is the syntax error
             var profileDat = data[i];
             
-            //const profileName = document.createElement('h3');
-            //const profileId = document.createElement('p');
-            //const itemImage = document.createElement('img');
             // Set content and attributes for elements
             const xhr1 = new XMLHttpRequest();
             const url1 = `http://20.232.208.15:8080/api/user/get?id=${profileDat.companyID}`;
@@ -116,18 +113,15 @@ function onloadFunc() {
                 console.log(data1);
                 
                 var logoContainer = document.createElement("img");
+                console.log("stuff");
+                console.log(profileDat.logo);
                 logoContainer.src = profileDat.logo;
                 
                 var profileContainer = document.createElement("p");
                 var profileName = document.createElement("H1");
                 var secondName = document.createTextNode(data1.name);
                 profileName.appendChild(secondName);
-                //var profileId = document.createTextNode(data1.id);
-                
-                //profileId.textContent = data1.id;
                 profileContainer.appendChild(profileName);
-                //profileContainer.appendChild(profileId);
-                //var catalog = document.getElementById("catalog");
                 
                 var statementContainer = document.createElement("p");
                 var statement = document.createTextNode(profileDat.statement);
@@ -136,13 +130,6 @@ function onloadFunc() {
                 document.body.appendChild(logoContainer);
                 document.body.appendChild(profileContainer);
                 document.body.appendChild(statementContainer);
-                //
-                //
-                //
-                //itemContainer.appendChild(itemImage);
-                //eventContainer.style.border = '1px solid black';
-                // Add item container to catalog container
-                //largerContainer.appendChild(eventContainer);
               } else {
                 console.error("Request failed with status code", this.status);
               }
