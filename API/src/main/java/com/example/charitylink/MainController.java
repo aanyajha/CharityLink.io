@@ -523,6 +523,10 @@ public class MainController {
                 events.clear();
                 events.addAll(sorted);
             }
+            for (int i = 0; i < events.size(); i++) {
+                Location itemLoc = locationRepository.findById(events.get(i).getLocationID()).get();
+                events.get(i).setDistance(loc.findDistance(itemLoc.getLatitude(), itemLoc.getLongitude()));
+            }
         }
         return events;
     }

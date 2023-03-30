@@ -15,6 +15,8 @@ public class Item {
     private String hashtags;
     private Integer location;
     private String img;
+    @Transient
+    private Double distance;
 
     public Item(Integer userID, String name, String state, Integer numItems, String hashtags, Integer location, String img) {
         this.userID = userID;
@@ -38,6 +40,22 @@ public class Item {
     }
 
     public Item() {
+    }
+
+    public String getImg() {
+        return img;
+    }
+
+    public void setImg(String img) {
+        this.img = img;
+    }
+
+    public Double getDistance() {
+        return distance;
+    }
+
+    public void setDistance(Double distance) {
+        this.distance = distance;
     }
 
     public Integer getUserID() {

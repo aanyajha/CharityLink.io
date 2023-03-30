@@ -16,6 +16,8 @@ public class Event {
     private Date date;
     private Integer companyId;
     private String userList;
+    @Transient
+    private Double distance;
 
     public Event(String title, String description, Integer locationID, Date date, Integer companyId, String userList) {
         this.title = title;
@@ -26,8 +28,26 @@ public class Event {
         this.userList = userList;
     }
 
+    public Event(Integer id, String title, String description, Integer locationID, Date date, Integer companyId, String userList) {
+        this.id = id;
+        this.title = title;
+        this.description = description;
+        this.locationID = locationID;
+        this.date = date;
+        this.companyId = companyId;
+        this.userList = userList;
+    }
+
     public Event() {
 
+    }
+
+    public Double getDistance() {
+        return distance;
+    }
+
+    public void setDistance(Double distance) {
+        this.distance = distance;
     }
 
     public String getUserList() {
