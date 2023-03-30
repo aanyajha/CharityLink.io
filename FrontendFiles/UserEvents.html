@@ -98,6 +98,9 @@
             console.log(latitude);
             console.log(longitude);
             console.log("end");
+            while (largerContainer.hasChildNodes()) {
+                        largerContainer.removeChild();
+            }
             var durl2 = `http://20.232.208.15:8080/api/event/all?location=${latitude};${longitude}`;
             const dxhr2 = new XMLHttpRequest();
             dxhr2.open("GET", durl2, true);
@@ -195,6 +198,7 @@
                       //itemContainer.appendChild(itemImage);
                       eventContainer.style.border = '1px solid black';
                       // Add item container to catalog container
+                      
                       largerContainer.appendChild(eventContainer);
                       // Add click event listener to item container
                       eventContainer.addEventListener('click', () => {
