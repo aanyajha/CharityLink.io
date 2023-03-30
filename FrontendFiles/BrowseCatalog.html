@@ -262,7 +262,11 @@
           navigator.geolocation.getCurrentPosition(function (position) {
             console.log("Latitude: " + position.coords.latitude);
             console.log("Longitude: " + position.coords.longitude);
-            url = `http://20.232.208.15:8080/api/item/search?hashtags=${hashtag}&location=${position.coords.latitude};${position.coords.longitude}`;
+            if (hashtag == "") {
+              url = `http://20.232.208.15:8080/api/item/search?location=${position.coords.latitude};${position.coords.longitude}`;
+            } else {
+              url = `http://20.232.208.15:8080/api/item/search?hashtags=${hashtag}&location=${position.coords.latitude};${position.coords.longitude}`;
+            }
             xhr.open("GET", url, true);
             xhr.send();
             return;
@@ -284,7 +288,11 @@
             console.log(location.latitude);
             console.log(location.latitude != null && location.longitude != null);
             if (location.latitude != null && location.longitude != null) {
-              url = `http://20.232.208.15:8080/api/item/search?hashtags=${hashtag}&location=${location.latitude};${location.longitude}`;
+              if (hashtag == "") {
+                url = `http://20.232.208.15:8080/api/item/search?location=${position.coords.latitude};${position.coords.longitude}`;
+              } else {
+                url = `http://20.232.208.15:8080/api/item/search?hashtags=${hashtag}&location=${position.coords.latitude};${position.coords.longitude}`;
+              }
             }
             xhr.open("GET", url, true);
             xhr.send();
