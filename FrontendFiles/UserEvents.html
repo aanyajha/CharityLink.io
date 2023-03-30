@@ -1,166 +1,265 @@
 <!DOCTYPE html>
 <html>
-<title>Browse Catalog</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-<body>
-
-<style>
-img {
-      max-width: 100%;
-      height: auto;
-    }
-</style>
-
-  <div class="w3-sidebar w3-bar-block w3-card w3-animate-right" style="display:none;right:0;" id="mySidebar">
-
-    <button onclick="closeNav()" class="w3-bar-item w3-button w3-large">&#10005; Close</button>
-
-    <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles" class="w3-bar-item w3-button">&#x27B2; Logout</a>
-    <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/" class="w3-bar-item w3-button">Dashboard</a>
-    <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/UserRequest" class="w3-bar-item w3-button">Make a Request</a>
-    <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/UserEvents" class="w3-bar-item w3-button">Events Near Me</a>
-     <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/ViewProfiles" class="w3-bar-item w3-button">View Organization Profiles</a>
-     <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/Deliver" class="w3-bar-item w3-button">Make a Delivery</a>
-    <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/UserSettings" class="w3-bar-item w3-button">&#9965; Settings</a>
-    <a href="https://aanyajha.github.io/CharityLink.io" class="w3-bar-item w3-button"><img src="https://i.postimg.cc/Zq3dkdkW/Charitylink-Logo-Updated.png" alt="Charity Link Logo" width="200" height="65"></a>
-  </div>
-
-  <div class="w3-pale-blue">
-    <button class="w3-button turquoise w3-xlarge w3-right" onclick="openNav()">&#9776;</button>
-    
-  </div>
-  
-  <div class="w3-pale-blue">
-  <div class="w3-container">
-      <h1 style="color: #009999">Browse Events</h1>
-      
+  <title>Browse Catalog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+  <body>
+    <style>
+      img {
+        max-width: 100%;
+        height: auto;
+      }
+    </style>
+    <div class="w3-sidebar w3-bar-block w3-card w3-animate-right" style="display:none;right:0;" id="mySidebar">
+      <button onclick="closeNav()" class="w3-bar-item w3-button w3-large">&#10005; Close</button>
+      <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles" class="w3-bar-item w3-button">&#x27B2; Logout</a>
+      <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/" class="w3-bar-item w3-button">Dashboard</a>
+      <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/UserRequest" class="w3-bar-item w3-button">Make a Request</a>
+      <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/UserEvents" class="w3-bar-item w3-button">Events Near Me</a>
+      <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/ViewProfiles" class="w3-bar-item w3-button">View Organization Profiles</a>
+      <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/Deliver" class="w3-bar-item w3-button">Make a Delivery</a>
+      <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/UserSettings" class="w3-bar-item w3-button">&#9965; Settings</a>
+      <a href="https://aanyajha.github.io/CharityLink.io" class="w3-bar-item w3-button">
+        <img src="https://i.postimg.cc/Zq3dkdkW/Charitylink-Logo-Updated.png" alt="Charity Link Logo" width="200" height="65">
+      </a>
+    </div>
+    <div class="w3-pale-blue">
+      <button class="w3-button turquoise w3-xlarge w3-right" onclick="openNav()">&#9776;</button>
+    </div>
+    <div class="w3-pale-blue">
+      <div class="w3-container">
+        <h1 style="color: #009999">Browse Events</h1>
       </div>
-  </div>
-
-  <div class="w3-container">
-    <p>Welcome to Browse Events!</p>
-    <p>Here you can view events.</p>
-  </div>
-	
-  <div class="input-section">
-	  <input id="input-id"></input>
-	<button id="details-button" onclick="seeDetails()">See Details</button> 
-  </div>
-	
-  <div class="w3-container w3-border" id="catalog"></div>
-
-</body>
-
-<script>
-// Define data for catalog
-const userData = JSON.parse(sessionStorage.getItem('userData'));
-if (userData != null) {
-  printData();
-}
-	
-function seeDetails() {
-  const eventId = document.getElementById("input-id").value;
-  const url = `http://20.232.208.15:8080/api/event/get?id=${eventId}`;
-  const xhr = new XMLHttpRequest();
-  xhr.open("GET", url, true);
-
-  xhr.onload = function() {
-    if (this.status === 200) {
-      const data = this.responseText;
-      console.log(data);
-      sessionStorage.setItem("eventData", data);
-      window.location.href = 'https://aanyajha.github.io/CharityLink.io/FrontendFiles/EventDetails.html';
-    } else {
-      console.error("Request failed with status code", this.status);
+    </div>
+    <div class="w3-container">
+      <p>Welcome to Browse Events!</p>
+      <p>Here you can view events.</p>
+    </div>
+    <div class="input-section">
+      <input id="input-id"></input>
+      <button id="details-button" onclick="seeDetails()">See Details</button>
+    </div>
+    <label>Sort by distance?</label>
+    <input type="checkbox" id="check" onclick="printData()">
+    <div class="w3-container w3-border" id="catalog"></div>
+  </body>
+  <script>
+    // Define data for catalog
+    const userData = JSON.parse(sessionStorage.getItem('userData'));
+    var username = userData.email;
+    var password = userData.password;
+    if (userData != null) {
+      printData();
     }
-  };
-  xhr.send();
-}
 
-// Get reference to catalog container in HTML
-const largerContainer = document.getElementById('catalog');
-
-var catalogData;
-
-// Dynamically generate HTML elements for each item in the catalog
-function printData() {
-  /*console.log(userData);
-
-  const userType = userData.userType;
-  var id = null;
-  if (userType == 2 || userType == 3) {
-    id = userData.companyID;
-  } else {
-    id = userData.id;
-  }
-  console.log(userData.companyID);
-  console.log(id);*/
-
-  const url = `http://20.232.208.15:8080/api/event/all`;
-  const xhr = new XMLHttpRequest();
-  xhr.open("GET", url, true);
-
-  xhr.onload = function() {
-    if (this.status === 200) {
-      const data = this.responseText;
-      console.log(data);
-      catalogData = JSON.parse(data);
-      catalogData.forEach(event => {
-        // Create elements for item
-        console.log(event);
-        const eventContainer = document.createElement('div');
-        const eventTitle = document.createElement('h3');
-        const eventDate = document.createElement('p');
-        const eventID = document.createElement('p');
-        //const itemImage = document.createElement('img');
-
-        // Set content and attributes for elements
-        eventTitle.textContent = event.title;
-        eventDate.textContent = event.date;
-        eventID.textContent = event.id;
-        //itemImage.setAttribute('src', item.image);
-        console.log(event.title);
-        console.log(event.date);
-        console.log(event.id);
-        
-        // Add elements to item container
-        eventContainer.appendChild(eventTitle);
-        eventContainer.appendChild(eventDate);
-        eventContainer.appendChild(eventID);
-        //itemContainer.appendChild(itemImage);
-
-        eventContainer.style.border = '1px solid black';
-
-        // Add item container to catalog container
-        largerContainer.appendChild(eventContainer);
-
-        // Add click event listener to item container
-        eventContainer.addEventListener('click', () => {
-          // Display more information about item
-          // Add code here to show a modal or expand the item container
-        });
-      });
-    } else {
-
-      console.error("Request failed with status code", this.status);
+    function seeDetails() {
+      const eventId = document.getElementById("input-id").value;
+      const url = `http://20.232.208.15:8080/api/event/get?id=${eventId}`;
+      const xhr = new XMLHttpRequest();
+      xhr.open("GET", url, true);
+      xhr.onload = function() {
+        if (this.status === 200) {
+          const data = this.responseText;
+          console.log(data);
+          sessionStorage.setItem("eventData", data);
+          window.location.href = 'https://aanyajha.github.io/CharityLink.io/FrontendFiles/EventDetails.html';
+        } else {
+          console.error("Request failed with status code", this.status);
+        }
+      };
+      xhr.send();
     }
-  };
+    // Get reference to catalog container in HTML
+    const largerContainer = document.getElementById('catalog');
+    var catalogData;
+    var latitude = -1;
+    var longitude = -1;
+    var addr1;
+    var addr2;
+    var city;
+    var state;
+    var zip;
+    // Dynamically generate HTML elements for each item in the catalog
+    function printData() {
+      var check = document.getElementById("check");
+      if (userData.locationID == -1 && check.checked) {
+        //request geolocation
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(showPosition);
+          const eurl2 = `http://20.232.208.15:8080/api/user/login/email?email=${username}&password=${password}`;
+          const exhr2 = new XMLHttpRequest();
+          exhr2.open("GET", eurl, true);
+          exhr2.send();
+          exhr2.onload = function() {
+            var durl2 = `http://20.232.208.15:8080/api/event/all?location={latitude};{longitude}`;
+            const dxhr2 = new XMLHttpRequest();
+            dxhr2.open("GET", durl2, true);
+            dxhr2.send();
+            dxhr2.onload = function() {
+              if (this.status === 200) {
+                const data = this.responseText;
+                console.log(data);
+                catalogData = JSON.parse(data);
+                catalogData.forEach(event => {
+                  // Create elements for item
+                  console.log(event);
+                  const eventContainer = document.createElement('div');
+                  const eventTitle = document.createElement('h3');
+                  const eventDate = document.createElement('p');
+                  const eventID = document.createElement('p');
+                  //const itemImage = document.createElement('img');
+                  // Set content and attributes for elements
+                  eventTitle.textContent = event.title;
+                  eventDate.textContent = event.date;
+                  eventID.textContent = event.id;
+                  //itemImage.setAttribute('src', item.image);
+                  console.log(event.title);
+                  console.log(event.date);
+                  console.log(event.id);
+                  // Add elements to item container
+                  eventContainer.appendChild(eventTitle);
+                  eventContainer.appendChild(eventDate);
+                  eventContainer.appendChild(eventID);
+                  //itemContainer.appendChild(itemImage);
+                  eventContainer.style.border = '1px solid black';
+                  // Add item container to catalog container
+                  largerContainer.appendChild(eventContainer);
+                  // Add click event listener to item container
+                  eventContainer.addEventListener('click', () => {
+                    // Display more information about item
+                    // Add code here to show a modal or expand the item container
+                  });
+                });
+              }
+            }
+          } 
+        }else {
+            alert("Geolocation is not supported by this browser.");
+          }
+        } else if (userData.locationID != -1 && check.checked) {
+          const eurl = `http://20.232.208.15:8080/api/user/login/email?email=${username}&password=${password}`;
+          const exhr = new XMLHttpRequest();
+          exhr.open("GET", eurl, true);
+          exhr.send();
+          exhr.onload = function() {
+            if (this.status === 200) {
+              const data = JSON.parse(this.responseText);
+              const lxhr = new XMLHttpRequest();
+              var lurl = `http://20.232.208.15:8080/api/location/get?id=${data.locationID}`;
+              lxhr.open("GET", lurl, true);
+              lxhr.send();
+              lxhr.onload = function() {
+                const locData = JSON.parse(this.responseText);
+                addr1 = locData.addressLine1;
+                addr2 = locData.addressLine2;
+                city = locData.city;
+                state = locData.state;
+                zip = locData.zip;
+                console.log(locData.city);
+                const durl = `http://20.232.208.15:8080/api/event/all?location={addr1};{addr2};{city};{state};{zip}`;
+                const dxhr = new XMLHttpRequest();
+                dxhr.open("GET", durl, true);
+                dxhr.send();
+                dxhr.onload = function() {
+                  if (this.status === 200) {
+                    const data = this.responseText;
+                    console.log(data);
+                    catalogData = JSON.parse(data);
+                    catalogData.forEach(event => {
+                      // Create elements for item
+                      console.log(event);
+                      const eventContainer = document.createElement('div');
+                      const eventTitle = document.createElement('h3');
+                      const eventDate = document.createElement('p');
+                      const eventID = document.createElement('p');
+                      //const itemImage = document.createElement('img');
+                      // Set content and attributes for elements
+                      eventTitle.textContent = event.title;
+                      eventDate.textContent = event.date;
+                      eventID.textContent = event.id;
+                      //itemImage.setAttribute('src', item.image);
+                      console.log(event.title);
+                      console.log(event.date);
+                      console.log(event.id);
+                      // Add elements to item container
+                      eventContainer.appendChild(eventTitle);
+                      eventContainer.appendChild(eventDate);
+                      eventContainer.appendChild(eventID);
+                      //itemContainer.appendChild(itemImage);
+                      eventContainer.style.border = '1px solid black';
+                      // Add item container to catalog container
+                      largerContainer.appendChild(eventContainer);
+                      // Add click event listener to item container
+                      eventContainer.addEventListener('click', () => {
+                        // Display more information about item
+                        // Add code here to show a modal or expand the item container
+                      });
+                    });
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+      const url = `http://20.232.208.15:8080/api/event/all`;
+      const xhr = new XMLHttpRequest();
+      xhr.open("GET", url, true);
+      xhr.onload = function() {
+        if (this.status === 200) {
+          const data = this.responseText;
+          console.log(data);
+          catalogData = JSON.parse(data);
+          catalogData.forEach(event => {
+            // Create elements for item
+            console.log(event);
+            const eventContainer = document.createElement('div');
+            const eventTitle = document.createElement('h3');
+            const eventDate = document.createElement('p');
+            const eventID = document.createElement('p');
+            //const itemImage = document.createElement('img');
+            // Set content and attributes for elements
+            eventTitle.textContent = event.title;
+            eventDate.textContent = event.date;
+            eventID.textContent = event.id;
+            //itemImage.setAttribute('src', item.image);
+            console.log(event.title);
+            console.log(event.date);
+            console.log(event.id);
+            // Add elements to item container
+            eventContainer.appendChild(eventTitle);
+            eventContainer.appendChild(eventDate);
+            eventContainer.appendChild(eventID);
+            //itemContainer.appendChild(itemImage);
+            eventContainer.style.border = '1px solid black';
+            // Add item container to catalog container
+            largerContainer.appendChild(eventContainer);
+            // Add click event listener to item container
+            eventContainer.addEventListener('click', () => {
+              // Display more information about item
+              // Add code here to show a modal or expand the item container
+            });
+          });
+        } else {
+          console.error("Request failed with status code", this.status);
+        }
+      };
+      xhr.onerror = function() {
+        console.error("Request failed");
+      };
+      xhr.send();
+    }
 
-  xhr.onerror = function() {
-    console.error("Request failed");
-  };
+    function showPosition(position) {
+      var latitude = position.coords.latitude;
+      var longitude = position.coords.longitude;
+    }
 
-  xhr.send();
-}
+    function openNav() {
+      document.getElementById("mySidebar").style.display = "block";
+    }
 
-function openNav() {
-  document.getElementById("mySidebar").style.display = "block";
-}
-
-function closeNav() {
-  document.getElementById("mySidebar").style.display = "none";
-}
-</script>
-
-</html>
+    function closeNav() {
+      document.getElementById("mySidebar").style.display = "none";
+    }
+  </script>
