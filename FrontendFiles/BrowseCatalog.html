@@ -231,7 +231,7 @@
   function searchByHashtag() {
     const hashtag = document.getElementById("myInputHashtag").value;
     console.log("name: " + name);
-    var url = `http://20.232.208.15:8080/api/item/search?hashtags=${name}`;
+    var url = `http://20.232.208.15:8080/api/item/search?hashtags=${hashtag}`;
     var xhr = new XMLHttpRequest();
 
     xhr.onload = function () {

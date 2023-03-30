@@ -16,16 +16,18 @@ public class Event {
     private Date date;
     private Integer companyId;
     private String userList;
+    private String ownerList;
     @Transient
     private Double distance;
 
-    public Event(String title, String description, Integer locationID, Date date, Integer companyId, String userList) {
+    public Event(String title, String description, Integer locationID, Date date, Integer companyId, String userList, String ownerList) {
         this.title = title;
         this.description = description;
         this.locationID = locationID;
         this.date = date;
         this.companyId = companyId;
         this.userList = userList;
+        this.ownerList = ownerList;
     }
 
     public Event(Integer id, String title, String description, Integer locationID, Date date, Integer companyId, String userList) {
@@ -40,6 +42,14 @@ public class Event {
 
     public Event() {
 
+    }
+
+    public String getOwnerList() {
+        return ownerList;
+    }
+
+    public void setOwnerList(String ownerList) {
+        this.ownerList = ownerList;
     }
 
     public Double getDistance() {

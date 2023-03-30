@@ -452,9 +452,16 @@ public class MainController {
     @PostMapping(path = "/event/add")
     public @ResponseBody String addNewEvent(@RequestParam String title, @RequestParam String description,
                                             @RequestParam Integer locationID, @RequestParam String date,
-                                            @RequestParam Integer companyID) {
-        Event event = new Event(title, description, locationID, java.sql.Date.valueOf(date), companyID, "");
+                                            @RequestParam Integer companyID, @RequestParam String owners) {
+        Event event = new Event(title, description, locationID, java.sql.Date.valueOf(date), companyID, "", owners);
         eventRepository.save(event);
+        return "Saved";
+    }
+
+    @PutMapping(path = "/event/owner")
+    public @ResponseBody String addNewOwner(@RequestParam Integer id, @RequestParam Integer owner) {
+        Event event = eventRepository.findById(id).get();
+        event.setOwnerList(event.getOwnerList() + "," + owner);
         return "Saved";
     }
 
