@@ -42,6 +42,11 @@ var typeData;
 var companyData;
 var joinData;
     
+    var nameReal;
+    var email;
+    var typeData;
+    var joinData;
+    
     var addr1 = document.getElementById("address1").value;
   var addr2 = document.getElementById("address2").value;
   var city = document.getElementById("city").value;
@@ -58,12 +63,10 @@ var joinData;
     if (this.status === 200) {
       const data = JSON.parse(this.responseText);
       
-      //var username = data.username;
-  var nameReal = data.name;
-  var email = data.email;
-      var typeData = data.userType;
-      var joinData = data.joinDate;
-      //var password = userData.password;
+  nameReal = data.name;
+  email = data.email;
+      typeData = data.userType;
+      joinData = data.joinDate;
 
     }
   }
@@ -81,6 +84,7 @@ var joinData;
   city.split(' ').join('+');
   state.split(' ').join('+');
   zip.split(' ').join('+');
+    console.log(addr1);
   if (!addr2) {
     locurl = `http://20.232.208.15:8080/api/location/add?addressLine1=${addr1}&city=${city}&state=${state}&zip=${zip}`;
   } else {
