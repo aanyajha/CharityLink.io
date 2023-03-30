@@ -30,15 +30,18 @@
   }
   
   
-  var userData = JSON.parse(sessionStorage.getItem('userData'));
+
+  
+  
+  function submitFunc() {
+    
+      var userData = JSON.parse(sessionStorage.getItem('userData'));
 var username = userData.email;
 var password = userData.password;
 var typeData;
 var companyData;
 var joinData;
-  
-  
-  function submitFunc() {
+    
     var addr1 = document.getElementById("address1").value;
   var addr2 = document.getElementById("address2").value;
   var city = document.getElementById("city").value;
@@ -105,14 +108,14 @@ var joinData;
       updatexhr.send();
       updatexhr.onload = function() {
         if (this.status === 200) {
-
+          
         }
       }
     }
   }
 
     
-    window.location.href = 'https://aanyajha.github.io/CharityLink.io/FrontendFiles/DefaultDashboard';
+    //window.location.href = 'https://aanyajha.github.io/CharityLink.io/FrontendFiles/DefaultDashboard';
 
   }
 </script>
