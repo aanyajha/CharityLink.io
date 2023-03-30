@@ -95,23 +95,12 @@ function onloadFunc() {
         if (this.status === 200) {
           var data = JSON.parse(this.responseText);
           console.log(data);
-          for (var i = 0; i < data.length; i++) {
+          
           //data.forEach(profile => {
             // Create elements for item
-            console.log(data[i]);
-            var profileDat = data[i];
             
-                var logoContainer = document.createElement("img");
-                console.log("stuff");
-                console.log(data[i].logo);
-                logoContainer.src = data[i].logo;
             
-                var statementContainer = document.createElement("p");
-                var statement = document.createTextNode(data[i].statement);
-                statementContainer.appendChild(statement);
-               
-                document.body.appendChild(logoContainer);
-                document.body.appendChild(statementContainer);
+                
             // Set content and attributes for elements
             const xhr1 = new XMLHttpRequest();
             const url1 = `http://20.232.208.15:8080/api/user/get?id=${profileDat.companyID}`;
@@ -119,10 +108,17 @@ function onloadFunc() {
             xhr1.send();
             xhr1.onload = function() {
               if (this.status === 200) {
+                for (var i = 0; i < data.length; i++) {
+                  console.log(data[i]);
+                  var profileDat = data[i];
+                  
                 const data1 = JSON.parse(this.responseText);
                 console.log(data1);
                 
-                
+                var logoContainer = document.createElement("img");
+                console.log("stuff");
+                console.log(data[i].logo);
+                logoContainer.src = data[i].logo;
                 
                 var profileContainer = document.createElement("p");
                 var profileName = document.createElement("H1");
@@ -130,9 +126,15 @@ function onloadFunc() {
                 profileName.appendChild(secondName);
                 profileContainer.appendChild(profileName);
                 
-                
+                var statementContainer = document.createElement("p");
+                var statement = document.createTextNode(data[i].statement);
+                statementContainer.appendChild(statement);
+               
+                document.body.appendChild(logoContainer);
                 document.body.appendChild(profileContainer);
+                document.body.appendChild(statementContainer);
                 
+                }
               } else {
                 console.error("Request failed with status code", this.status);
               }
@@ -141,8 +143,6 @@ function onloadFunc() {
             console.error("Request failed");
           };
             
-                
-        }
       }
     }
     }
