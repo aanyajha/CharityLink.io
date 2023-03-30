@@ -82,6 +82,8 @@
     // Dynamically generate HTML elements for each item in the catalog
     function printData() {
       var check = document.getElementById("check");
+      console.log("THE CHILDREN");
+      console.log(largerContainer.children);
       while (largerContainer.hasChildNodes()) {
         largerContainer.removeChild(largerContainer.children[0]);
       }
