@@ -362,6 +362,10 @@ public class MainController {
                 inventory.clear();
                 inventory.addAll(search);
                 search.clear();
+                for (int i = 0; i < inventory.size(); i++) {
+                    Location itemLoc = locationRepository.findById(inventory.get(i).getLocation()).get();
+                    inventory.get(i).setDistance(loc.findDistance(itemLoc.getLatitude(), itemLoc.getLongitude()));
+                }
             }
         }
         return inventory;
