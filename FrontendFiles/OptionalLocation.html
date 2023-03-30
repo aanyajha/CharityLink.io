@@ -108,8 +108,8 @@ console.log(locurl);
       console.log(locationId);
       
       
-      const updateurl = `http://20.232.208.15:8080/api/user/update?email=${email}&name=${nameReal}&username=${username}&password=${password}&locationID=${locationId}&date=${joinData}&userType=${typeData}`;
-
+      const updateurl = `http://20.232.208.15:8080/api/user/update?email=${email}&locationID=${locationId}`;
+	console.log(updateurl);
       updatexhr.open("PUT", updateurl, true);
       updatexhr.send();
       updatexhr.onload = function() {
@@ -119,7 +119,8 @@ console.log(locurl);
         if (data.name != undefined) {
           // Store the API data in sessionStorage
           sessionStorage.setItem('userData', JSON.stringify(data));
-	        window.location.href = 'https://aanyajha.github.io/CharityLink.io/FrontendFiles/DefaultDashboard';
+		
+	        //window.location.href = 'https://aanyajha.github.io/CharityLink.io/FrontendFiles/DefaultDashboard';
         }
         }
       }
@@ -128,7 +129,7 @@ console.log(locurl);
     //
 
     
-    window.location.href = 'https://aanyajha.github.io/CharityLink.io/FrontendFiles/DefaultDashboard';
+    //window.location.href = 'https://aanyajha.github.io/CharityLink.io/FrontendFiles/DefaultDashboard';
 
   }
 </script>
