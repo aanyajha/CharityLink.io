@@ -99,7 +99,10 @@ function onloadFunc() {
           //data.forEach(profile => {
             // Create elements for item
             
-            
+            for (var i = 0; i < data.length; i++) {
+              var counter = 0;
+                  console.log(data[i]);
+                  var profileDat = data[i];
                 
             // Set content and attributes for elements
             const xhr1 = new XMLHttpRequest();
@@ -108,17 +111,15 @@ function onloadFunc() {
             xhr1.send();
             xhr1.onload = function() {
               if (this.status === 200) {
-                for (var i = 0; i < data.length; i++) {
-                  console.log(data[i]);
-                  var profileDat = data[i];
+                
                   
                 const data1 = JSON.parse(this.responseText);
                 console.log(data1);
                 
                 var logoContainer = document.createElement("img");
                 console.log("stuff");
-                console.log(data[i].logo);
-                logoContainer.src = data[i].logo;
+                console.log(data[counter].logo);
+                logoContainer.src = data[counter].logo;
                 
                 var profileContainer = document.createElement("p");
                 var profileName = document.createElement("H1");
@@ -127,14 +128,14 @@ function onloadFunc() {
                 profileContainer.appendChild(profileName);
                 
                 var statementContainer = document.createElement("p");
-                var statement = document.createTextNode(data[i].statement);
+                var statement = document.createTextNode(data[counter].statement);
                 statementContainer.appendChild(statement);
                
                 document.body.appendChild(logoContainer);
                 document.body.appendChild(profileContainer);
                 document.body.appendChild(statementContainer);
+                counter++;
                 
-                }
               } else {
                 console.error("Request failed with status code", this.status);
               }
@@ -142,9 +143,9 @@ function onloadFunc() {
           xhr1.onerror = function() {
             console.error("Request failed");
           };
-            
+        }
+        }
       }
-    }
     }
     function openNav() {
       document.getElementById("mySidebar").style.display = "block";
