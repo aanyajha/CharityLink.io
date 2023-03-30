@@ -123,25 +123,25 @@
   </div>
 
   <blockquote>
-    <form autocomplete="off">
+    <form id="nameForm" autocomplete="off">
       <div class="autocomplete" style="width:300px;">
         <input id="myInputName" type="text" name="searchName" placeholder="Search By Name">
       </div>
-      <input type="submit">
+      <input type="submit" onclick="searchByName()">
     </form><br>
 
-    <form autocomplete="off">
+    <form id="hashtagForm" autocomplete="off">
       <div class="autocomplete" style="width:300px;">
         <input id="myInputHashtag" type="text" name="searchHashtags" placeholder="Search By Hashtag">
       </div>
-      <input type="submit">
+      <input type="submit" onclick="searchByHashtag()">
     </form><br>
 
-    <form autocomplete="off">
+    <form id="idForm" autocomplete="off">
       <div class="autocomplete" style="width:300px;">
-        <input id="myInput" type="text" name="searchIDs" placeholder="Search By ID">
+        <input id="myInputID" type="text" name="searchIDs" placeholder="Search By ID">
       </div>
-      <input type="submit">
+      <input type="submit" onclick="searchByID()">
     </form><br>
   </blockquote>
 
@@ -187,9 +187,11 @@
   var nameList = [];
   autocomplete(document.getElementById("myInputName"), nameList);
   autocomplete(document.getElementById("myInputHashtag"), hashtagList);
+  document.getElementById("nameForm").addEventListener('submit', submitForm);
+  document.getElementById("hashtagForm").addEventListener('submit', submitForm);
+  document.getElementById("idForm").addEventListener('submit', submitForm);
 
-  var catalogData;
-  // Define data for catalog
+
   var userData = JSON.parse(sessionStorage.getItem('userData'));
   if (userData != null) {
     printData();
@@ -198,6 +200,238 @@
     userData = { companyID: 102, email: "default1@gmail.com", id: 102, joinDate: "2023-02-28", locationID: 102, name: "org", password: "project", passwordToken: null, userType: 4, username: "default" };
     printData();
   }
+  const id = userData.companyID;
+
+  // Add click event listener to item container
+  const deleteButton = document.getElementById('deleteButton');
+  deleteButton.addEventListener('click', () => {
+    const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+    checkboxes.forEach(checkboxVal => {
+      console.log(checkboxVal.value);
+      if (checkboxVal.checked) {
+        const url = `http://20.232.208.15:8080/api/item/delete?itemID=${checkboxVal.value}&userID=${userData.companyID}`;
+        console.log("Sent Item Deletion Info");
+
+        const xhr1 = new XMLHttpRequest();
+        xhr1.open("DELETE", url, true);
+
+        xhr1.onload = function () {
+          if (this.status === 200) {
+            const data = this.responseText;
+            console.log(data);
+            printData();
+          } else {
+            console.error("Request failed with status code", this.status);
+          }
+        };
+
+        xhr1.onerror = function () {
+          console.error("Request failed");
+        };
+
+        xhr1.send();
+        const div = checkboxVal.parentNode;
+        div.remove();
+      }
+    });
+  });
+
+
+  const addButton = document.getElementById('addButton');
+  addButton.addEventListener('click', function (event) {
+    // Get the popup element and the form element
+    const popup = document.getElementById('popup');
+    const form = document.getElementById('addItem');
+
+    popup.classList.add('show');
+
+
+    // Send the form data to the API endpoint when the form is submitted
+    form.addEventListener('submit', function (event) {
+      event.preventDefault(); // Prevent the default form submission
+
+      const itemName = form.elements['itemName'].value;
+      const hashtags = form.elements['hashtags'].value;
+      var quantity = form.elements['quantity'].value;
+
+      const url = `http://20.232.208.15:8080/api/item/add?userID=${userData.companyID}&name=${itemName}&state=1&numItems=${quantity}&hashtags=${hashtags}&location=${locationID}`;
+      console.log("Sent User Info");
+
+      const xhr2 = new XMLHttpRequest();
+      xhr2.open("POST", url, true);
+
+      xhr2.onload = function () {
+        if (this.status === 200) {
+          console.log(this.responseText);
+          popup.classList.remove('show');
+          printData();
+        } else {
+          popup.classList.remove('show');
+          console.error("Request failed with status code", this.status);
+        }
+      };
+
+      xhr2.onerror = function () {
+        console.error("Request failed");
+      };
+
+      xhr2.send();
+
+      // close the popup
+      popup.classList.remove('show');
+      printData();
+    });
+  });
+
+  const editButton = document.getElementById('editButton');
+  editButton.addEventListener('click', () => {
+    const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+    var checked = 0;
+    var tempItemID;
+    checkboxes.forEach(checkboxVal => {
+      if (checkboxVal.checked) {
+        checked++;
+        tempItemID = checkboxVal.value;
+      }
+    });
+
+    if (checked == 1) {
+      const popup = document.getElementById('popup');
+      const form = document.getElementById('addItem');
+
+      popup.classList.add('show');
+
+      form.addEventListener('submit', function (event) {
+        event.preventDefault(); // Prevent the default form submission
+
+        const itemName = form.elements['itemName'].value;
+        const hashtags = form.elements['hashtags'].value;
+        var quantity = form.elements['quantity'].value;
+
+        const url = `http://20.232.208.15:8080/api/item/edit?itemID=${tempItemID}&userID=${userData.companyID}&name=${itemName}&state=1&numItems=${quantity}&hashtags=${hashtags}&location=${locationID}`;
+        console.log("Sent User Info");
+
+        const xhr2 = new XMLHttpRequest();
+        xhr2.open("PUT", url, true);
+
+        xhr2.onload = function () {
+          if (this.status === 200) {
+            console.log(this.responseText);
+            popup.classList.remove('show');
+            printData();
+          } else {
+            popup.classList.remove('show');
+            console.error("Request failed with status code", this.status);
+          }
+        };
+
+        xhr2.onerror = function () {
+          console.error("Request failed");
+        };
+
+        xhr2.send();
+
+        // close the popup
+        popup.classList.remove('show');
+        printData();
+      });
+    }
+
+    //else {
+    //alert("No item selected");
+
+    //}
+    //});
+  });
+
+  var catalogData;
+  // Define data for catalog
+
+  function submitForm(event) {
+    event.preventDefault();
+  }
+
+  function searchByName() {
+    const name = document.getElementById("myInputName").value;
+    console.log("name: " + name);
+    var url = `http://20.232.208.15:8080/api/item/search?userID=${userData.companyID}&name=${name}`;
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", url, true);
+
+    xhr.onload = function () {
+      if (this.status === 200) {
+        const catalogData = JSON.parse(this.responseText);
+        console.log(catalogData);
+        if (catalogData.length == 0) {
+          alert("No items with name");
+        }
+        printCatalog(catalogData);
+      } else {
+        console.error("Request failed with status code", this.status);
+      }
+    }
+
+    xhr.onerror = function () {
+      console.error("Request failed");
+    };
+
+    xhr.send();
+  }
+
+  function searchByHashtag() {
+    const hashtag = document.getElementById("myInputHashtag").value;
+    console.log("hashtag: " + hashtag);
+    var url = `http://20.232.208.15:8080/api/item/search?userID=${userData.companyID}&hashtags=${hashtag}`;
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", url, true);
+
+    xhr.onload = function () {
+      if (this.status === 200) {
+        const catalogData = JSON.parse(this.responseText);
+        console.log(catalogData);
+        if (catalogData.length == 0) {
+          alert("No items in category");
+        }
+        printCatalog(catalogData);
+      } else {
+        console.error("Request failed with status code", this.status);
+      }
+    }
+
+    xhr.onerror = function () {
+      console.error("Request failed");
+    };
+
+    xhr.send();
+  }
+
+  function searchByID() {
+    const itemID = document.getElementById("myInputID").value;
+    console.log("id: " + itemID);
+    var url = `http://20.232.208.15:8080/api/item/search?userID=${userData.companyID}&itemID=${itemID}`;
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", url, true);
+
+    xhr.onload = function () {
+      if (this.status === 200) {
+        const catalogData = JSON.parse(this.responseText);
+        console.log(catalogData);
+        if (catalogData.length == 0) {
+          alert("No items with id");
+        }
+        printCatalog(catalogData);
+      } else {
+        console.error("Request failed with status code", this.status);
+      }
+    }
+
+    xhr.onerror = function () {
+      console.error("Request failed");
+    };
+
+    xhr.send();
+  }
+
 
   function search() {
     const searchInput = document.getElementById('search');
@@ -226,25 +460,64 @@
     });
   }
 
-  // Dynamically generate HTML elements for each item in the catalog
-  function printData() {
+  function printCatalog(catalogData) {
     console.log(userData);
     while (catalogContainer.firstChild) {
       catalogContainer.removeChild(catalogContainer.firstChild);
     }
+    catalogData.forEach(item => {
+      // Create elements for item
+      console.log(item);
+      const itemContainer = document.createElement('div');
+      const checkbox = document.createElement('input');
+      checkbox.type = 'checkbox';
+      checkbox.value = item.itemID;
+      console.log(checkbox.value);
+      const itemName = document.createElement('h3');
+      const itemHashtags = document.createElement('p');
+      const itemID = document.createElement('p');
+      const quantity = document.createElement('p');
+      //const itemImage = document.createElement('img');
+
+      // Set content and attributes for elements
+      itemName.textContent = item.name;
+      itemHashtags.textContent = item.hashtags;
+      itemID.textContent = 'Item ID: ' + item.itemID;
+      quantity.textContent = 'Quantity: [ ' + item.numItems + ' ]';
+      //itemImage.setAttribute('src', item.image);
+      console.log(item.name);
+      console.log(item.hashtags);
+      console.log(item.numItems);
+
+      // Add elements to item container
+      itemContainer.appendChild(checkbox);
+      itemContainer.appendChild(itemName);
+      itemContainer.appendChild(itemHashtags);
+      itemContainer.appendChild(itemID);
+      itemContainer.appendChild(quantity);
+      //itemContainer.appendChild(itemImage);
+
+      itemContainer.style.border = '1px solid black';
+
+      // Add item container to catalog container
+      catalogContainer.appendChild(itemContainer);
+    });
+  }
+
+  // Dynamically generate HTML elements for each item in the catalog
+  function printData() {
 
     const userType = userData.userType;
-    var id = null;
-    if (userType == 2 || userType == 3) {
-      id = userData.companyID;
-    } else {
-      id = userData.id;
-    }
+    // var id = null;
+    // if (userType == 2 || userType == 3) {
+    //   id = userData.companyID;
+    // } else {
+    //   id = userData.id;
+    // }
     console.log(userData.companyID);
-    console.log(id);
     var locationID = userData.locationID;
 
-    var url = `http://20.232.208.15:8080/api/item/inventory?userID=${id}`;
+    var url = `http://20.232.208.15:8080/api/item/inventory?userID=${userData.companyID}`;
     var xhr = new XMLHttpRequest();
     xhr.open("GET", url, true);
 
@@ -253,186 +526,7 @@
         const data = this.responseText;
         console.log(data);
         catalogData = JSON.parse(data);
-        catalogData
-        catalogData.forEach(item => {
-          // Create elements for item
-          console.log(item);
-          const itemContainer = document.createElement('div');
-          const checkbox = document.createElement('input');
-          checkbox.type = 'checkbox';
-          checkbox.value = item.itemID;
-          console.log(checkbox.value);
-          const itemName = document.createElement('h3');
-          const itemHashtags = document.createElement('p');
-          const itemID = document.createElement('p');
-          const quantity = document.createElement('p');
-          //const itemImage = document.createElement('img');
-
-          // Set content and attributes for elements
-          itemName.textContent = item.name;
-          itemHashtags.textContent = item.hashtags;
-          itemID.textContent = 'Item ID: ' + item.itemID;
-          quantity.textContent = 'Quantity: [ ' + item.numItems + ' ]';
-          //itemImage.setAttribute('src', item.image);
-          console.log(item.name);
-          console.log(item.hashtags);
-          console.log(item.numItems);
-
-          // Add elements to item container
-          itemContainer.appendChild(checkbox);
-          itemContainer.appendChild(itemName);
-          itemContainer.appendChild(itemHashtags);
-          itemContainer.appendChild(itemID);
-          itemContainer.appendChild(quantity);
-          //itemContainer.appendChild(itemImage);
-
-          itemContainer.style.border = '1px solid black';
-
-          // Add item container to catalog container
-          catalogContainer.appendChild(itemContainer);
-        });
-
-        // Add click event listener to item container
-        const deleteButton = document.getElementById('deleteButton');
-        deleteButton.addEventListener('click', () => {
-          const checkboxes = document.querySelectorAll('input[type="checkbox"]');
-          checkboxes.forEach(checkboxVal => {
-            console.log(checkboxVal.value);
-            if (checkboxVal.checked) {
-              const url = `http://20.232.208.15:8080/api/item/delete?itemID=${checkboxVal.value}&userID=${id}`;
-              console.log("Sent Item Deletion Info");
-
-              const xhr1 = new XMLHttpRequest();
-              xhr1.open("DELETE", url, true);
-
-              xhr1.onload = function () {
-                if (this.status === 200) {
-                  const data = this.responseText;
-                  console.log(data);
-                  printData();
-                } else {
-                  console.error("Request failed with status code", this.status);
-                }
-              };
-
-              xhr1.onerror = function () {
-                console.error("Request failed");
-              };
-
-              xhr1.send();
-              const div = checkboxVal.parentNode;
-              div.remove();
-            }
-          });
-        });
-
-
-        const addButton = document.getElementById('addButton');
-        addButton.addEventListener('click', function (event) {
-          // Get the popup element and the form element
-          const popup = document.getElementById('popup');
-          const form = document.getElementById('addItem');
-
-          popup.classList.add('show');
-
-
-          // Send the form data to the API endpoint when the form is submitted
-          form.addEventListener('submit', function (event) {
-            event.preventDefault(); // Prevent the default form submission
-
-            const itemName = form.elements['itemName'].value;
-            const hashtags = form.elements['hashtags'].value;
-            var quantity = form.elements['quantity'].value;
-
-            const url = `http://20.232.208.15:8080/api/item/add?userID=${id}&name=${itemName}&state=1&numItems=${quantity}&hashtags=${hashtags}&location=${locationID}`;
-            console.log("Sent User Info");
-
-            const xhr2 = new XMLHttpRequest();
-            xhr2.open("POST", url, true);
-
-            xhr2.onload = function () {
-              if (this.status === 200) {
-                console.log(this.responseText);
-                popup.classList.remove('show');
-                printData();
-              } else {
-                popup.classList.remove('show');
-                console.error("Request failed with status code", this.status);
-              }
-            };
-
-            xhr2.onerror = function () {
-              console.error("Request failed");
-            };
-
-            xhr2.send();
-
-            // close the popup
-            popup.classList.remove('show');
-            printData();
-          });
-        });
-
-        const editButton = document.getElementById('editButton');
-        editButton.addEventListener('click', () => {
-          const checkboxes = document.querySelectorAll('input[type="checkbox"]');
-          var checked = 0;
-          var tempItemID;
-          checkboxes.forEach(checkboxVal => {
-            if (checkboxVal.checked) {
-              checked++;
-              tempItemID = checkboxVal.value;
-            }
-          });
-
-          if (checked == 1) {
-            const popup = document.getElementById('popup');
-            const form = document.getElementById('addItem');
-
-            popup.classList.add('show');
-
-            form.addEventListener('submit', function (event) {
-              event.preventDefault(); // Prevent the default form submission
-
-              const itemName = form.elements['itemName'].value;
-              const hashtags = form.elements['hashtags'].value;
-              var quantity = form.elements['quantity'].value;
-
-              const url = `http://20.232.208.15:8080/api/item/edit?itemID=${tempItemID}&userID=${id}&name=${itemName}&state=1&numItems=${quantity}&hashtags=${hashtags}&location=${locationID}`;
-              console.log("Sent User Info");
-
-              const xhr2 = new XMLHttpRequest();
-              xhr2.open("PUT", url, true);
-
-              xhr2.onload = function () {
-                if (this.status === 200) {
-                  console.log(this.responseText);
-                  popup.classList.remove('show');
-                  printData();
-                } else {
-                  popup.classList.remove('show');
-                  console.error("Request failed with status code", this.status);
-                }
-              };
-
-              xhr2.onerror = function () {
-                console.error("Request failed");
-              };
-
-              xhr2.send();
-
-              // close the popup
-              popup.classList.remove('show');
-              printData();
-            });
-          }
-
-          //else {
-          //alert("No item selected");
-
-          //}
-          //});
-        });
+        printCatalog(catalogData);
 
       } else {
         console.error("Request failed with status code", this.status);
@@ -445,7 +539,7 @@
 
     xhr.send();
 
-    url = `http://20.232.208.15:8080/api/item/inventory/autofill/hashtag?userID=${id}`;
+    url = `http://20.232.208.15:8080/api/item/inventory/autofill/hashtag?userID=${userData.companyID}`;
     xhr = new XMLHttpRequest();
     xhr.open("GET", url, true);
     // console.log("test");
@@ -464,7 +558,7 @@
 
     xhr.send();
 
-    url = `http://20.232.208.15:8080/api/item/inventory/autofill/name?userID=${id}`;
+    url = `http://20.232.208.15:8080/api/item/inventory/autofill/name?userID=${userData.companyID}`;
     xhr = new XMLHttpRequest();
     xhr.open("GET", url, true);
     // console.log("test");
