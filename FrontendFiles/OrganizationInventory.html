@@ -1,83 +1,169 @@
 <!DOCTYPE html>
 <html>
-  <title>Organization Inventory</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<title>Organization Inventory</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 
-  <body>
+<body>
 
-    <style>
-      img {
-        max-width: 100%;
-        height: auto;
-      }
+  <style>
+    img {
+      max-width: 100%;
+      height: auto;
+    }
 
     #popup {
-        display: none;
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        background-color: #fff;
-        padding: 20px;
-        z-index: 9999;
-        border: 1px solid #ccc;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-      }
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: #fff;
+      padding: 20px;
+      z-index: 9999;
+      border: 1px solid #ccc;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    }
 
-      #popup.show {
-        display: block;
-      }
-      
+    #popup.show {
+      display: block;
+    }
 
-    </style>
+    .autocomplete {
+      /*the container must be positioned relative:*/
+      position: relative;
+      display: inline-block;
+    }
 
-    <div class="w3-sidebar w3-bar-block w3-card w3-animate-right" style="display:none;right:0;" id="mySidebar">
+    input {
+      border: 1px solid transparent;
+      background-color: #f1f1f1;
+      padding: 10px;
+      font-size: 16px;
+    }
 
-      <button onclick="closeNav()" class="w3-bar-item w3-button w3-large">&#10005; Close</button>
+    input[type=text] {
+      background-color: #f1f1f1;
+      width: 100%;
+    }
 
-      <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles" class="w3-bar-item w3-button">&#x27B2; Logout</a>
-      <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/OrganizationDashboard" class="w3-bar-item w3-button">Dashboard</a>
-      <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/OrganizationManageRequests" class="w3-bar-item w3-button">Manage Requests</a>
-      <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/OrganizationDeliveries" class="w3-bar-item w3-button">Manage Deliveries</a>
-      <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/OrganizationEmployees" class="w3-bar-item w3-button">Manage Employees</a>
-      <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/OrganizationManageEvents" class="w3-bar-item w3-button">Manage Events</a>
-      <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/OrganizationSettings" class="w3-bar-item w3-button">&#9965; Settings</a>
-      <a href="https://aanyajha.github.io/CharityLink.io" class="w3-bar-item w3-button"><img src="https://i.postimg.cc/Zq3dkdkW/Charitylink-Logo-Updated.png" alt="Charity Link Logo" width="200" height="65"></a>
-    </div>
+    input[type=submit] {
+      background-color: #009999;
+      color: #fff;
+    }
 
-    <div class="w3-pale-blue">
-      <button class="w3-button turquoise w3-xlarge w3-right" onclick="openNav()">&#9776;</button>
+    .autocomplete-items {
+      position: absolute;
+      border: 1px solid #d4d4d4;
+      border-bottom: none;
+      border-top: none;
+      z-index: 99;
+      /*position the autocomplete items to be the same width as the container:*/
+      top: 100%;
+      left: 0;
+      right: 0;
+    }
 
-    </div>
+    .autocomplete-items div {
+      padding: 10px;
+      cursor: pointer;
+      background-color: #fff;
+      border-bottom: 1px solid #d4d4d4;
+    }
 
-    <div class="w3-pale-blue">
-      <div class="w3-container">
-        <h1 style="color: #009999">Manage Inventory</h1>
+    .autocomplete-items div:hover {
+      /*when hovering an item:*/
+      background-color: #e9e9e9;
+    }
 
-      </div>
-    </div>
+    .autocomplete-active {
+      /*when navigating through the items using the arrow keys:*/
+      background-color: #009999 !important;
+      color: #ffffff;
+    }
+  </style>
 
+  <div class="w3-sidebar w3-bar-block w3-card w3-animate-right" style="display:none;right:0;" id="mySidebar">
+
+    <button onclick="closeNav()" class="w3-bar-item w3-button w3-large">&#10005; Close</button>
+
+    <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles" class="w3-bar-item w3-button">&#x27B2; Logout</a>
+    <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/OrganizationDashboard"
+      class="w3-bar-item w3-button">Dashboard</a>
+    <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/OrganizationManageRequests"
+      class="w3-bar-item w3-button">Manage Requests</a>
+    <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/OrganizationDeliveries"
+      class="w3-bar-item w3-button">Manage Deliveries</a>
+    <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/OrganizationEmployees"
+      class="w3-bar-item w3-button">Manage Employees</a>
+    <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/OrganizationManageEvents"
+      class="w3-bar-item w3-button">Manage Events</a>
+    <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/OrganizationSettings"
+      class="w3-bar-item w3-button">&#9965; Settings</a>
+    <a href="https://aanyajha.github.io/CharityLink.io" class="w3-bar-item w3-button"><img
+        src="https://i.postimg.cc/Zq3dkdkW/Charitylink-Logo-Updated.png" alt="Charity Link Logo" width="200"
+        height="65"></a>
+  </div>
+
+  <div class="w3-pale-blue">
+    <button class="w3-button turquoise w3-xlarge w3-right" onclick="openNav()">&#9776;</button>
+
+  </div>
+
+  <div class="w3-pale-blue">
     <div class="w3-container">
-      <p>Welcome to Manage Inventory!</p>
-      <p>Here you can view your inventory.</p>
-      <p>This page will eventually display an organization's inventory.</p>
-    </div>
+      <h1 style="color: #009999">Manage Inventory</h1>
 
-    <div class="w3-container w3-border id=add-edit-delete">
-      <text type="text">Select the Following:</text>
-      <button type="button" id="addButton">
-        Add
-      </button>
-      <button type="button" id="editButton" onclick="editEmployee()">
-        Edit
-      </button>
-      <button type="button" id="deleteButton">
-        Delete
-      </button>
     </div>
-    
-    <div id="popup">
+  </div>
+
+  <div class="w3-container">
+    <p>Welcome to Manage Inventory!</p>
+    <p>Here you can view your inventory.</p>
+  </div>
+
+  <blockquote>
+    <form autocomplete="off">
+      <div class="autocomplete" style="width:300px;">
+        <input id="myInputName" type="text" name="searchName" placeholder="Search By Name">
+      </div>
+      <input type="submit">
+    </form><br>
+
+    <form autocomplete="off">
+      <div class="autocomplete" style="width:300px;">
+        <input id="myInputHashtag" type="text" name="searchHashtags" placeholder="Search By Hashtag">
+      </div>
+      <input type="submit">
+    </form><br>
+
+    <form autocomplete="off">
+      <div class="autocomplete" style="width:300px;">
+        <input id="myInput" type="text" name="searchIDs" placeholder="Search By ID">
+      </div>
+      <input type="submit">
+    </form><br>
+  </blockquote>
+
+  <div class="w3-container w3-border id=add-edit-delete">
+    <text type="text">Select the Following:</text>
+    <button type="button" id="addButton">
+      Add
+    </button>
+    <button type="button" id="editButton">
+      Edit
+    </button>
+    <button type="button" id="deleteButton">
+      Delete
+    </button>
+  </div>
+
+  <datalist id="nameSuggestions">
+  </datalist>
+  <datalist id="hashtagSuggestions">
+  </datalist>
+
+  <div id="popup">
     <form id="addItem">
       <br><label for="itemName">Item Name:</label>
       <input type="text" id="itemName" name="itemName" required><br><br>
@@ -90,146 +176,138 @@
     </form>
   </div><br>
 
-    <div class="w3-container w3-border" id="catalog"></div>
-  </body>
+  <div class="w3-container w3-border" id="catalog"></div>
+</body>
 
 
-  <script>
-    // Define data for catalog
-    const userData = JSON.parse(sessionStorage.getItem('userData'));
-    if (userData != null) {
-      printData();
+<script>
+  // Get reference to catalog container in HTML
+  const catalogContainer = document.getElementById('catalog');
+  var hashtagList = [];
+  var nameList = [];
+  autocomplete(document.getElementById("myInputName"), nameList);
+  autocomplete(document.getElementById("myInputHashtag"), hashtagList);
+
+  var catalogData;
+  // Define data for catalog
+  var userData = JSON.parse(sessionStorage.getItem('userData'));
+  if (userData != null) {
+    printData();
+  }
+  else {
+    userData = { companyID: 102, email: "default1@gmail.com", id: 102, joinDate: "2023-02-28", locationID: 102, name: "org", password: "project", passwordToken: null, userType: 4, username: "default" };
+    printData();
+  }
+
+  function search() {
+    const searchInput = document.getElementById('search');
+    const suggestionsList = document.getElementById('suggestions');
+
+    fetch(`http://example.com/search?q=${searchTerm}`)
+      .then(response => response.json())
+      .then(data => {
+      })
+      .catch(error => console.error(error));
+
+    //put API DATA into array
+
+    var nameArray;
+
+
+    searchInput.addEventListener('input', function () {
+      const searchTerm = searchInput.value;
+
+      suggestionsList.innerHTML = ''; // Clear previous suggestions
+      data.forEach(item => {
+        const option = document.createElement('option');
+        option.value = item;
+        suggestionsList.appendChild(option);
+      });
+    });
+  }
+
+  // Dynamically generate HTML elements for each item in the catalog
+  function printData() {
+    console.log(userData);
+    while (catalogContainer.firstChild) {
+      catalogContainer.removeChild(catalogContainer.firstChild);
     }
 
-    // Get reference to catalog container in HTML
-    const catalogContainer = document.getElementById('catalog');
+    const userType = userData.userType;
+    var id = null;
+    if (userType == 2 || userType == 3) {
+      id = userData.companyID;
+    } else {
+      id = userData.id;
+    }
+    console.log(userData.companyID);
+    console.log(id);
+    var locationID = userData.locationID;
 
-    var catalogData;
+    var url = `http://20.232.208.15:8080/api/item/inventory?userID=${id}`;
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", url, true);
 
-    // Dynamically generate HTML elements for each item in the catalog
-    function printData() {
-      console.log(userData);
+    xhr.onload = function () {
+      if (this.status === 200) {
+        const data = this.responseText;
+        console.log(data);
+        catalogData = JSON.parse(data);
+        catalogData
+        catalogData.forEach(item => {
+          // Create elements for item
+          console.log(item);
+          const itemContainer = document.createElement('div');
+          const checkbox = document.createElement('input');
+          checkbox.type = 'checkbox';
+          checkbox.value = item.itemID;
+          console.log(checkbox.value);
+          const itemName = document.createElement('h3');
+          const itemHashtags = document.createElement('p');
+          const itemID = document.createElement('p');
+          const quantity = document.createElement('p');
+          //const itemImage = document.createElement('img');
 
-      const userType = userData.userType;
-      var id = null;
-      if (userType == 2 || userType == 3) {
-        id = userData.companyID;
-      } else {
-        id = userData.id;
-      }
-      console.log(userData.companyID);
-      console.log(id);
+          // Set content and attributes for elements
+          itemName.textContent = item.name;
+          itemHashtags.textContent = item.hashtags;
+          itemID.textContent = 'Item ID: ' + item.itemID;
+          quantity.textContent = 'Quantity: [ ' + item.numItems + ' ]';
+          //itemImage.setAttribute('src', item.image);
+          console.log(item.name);
+          console.log(item.hashtags);
+          console.log(item.numItems);
 
-      const url = `http://20.232.208.15:8080/api/item/inventory?userID=${id}`;
-      const xhr = new XMLHttpRequest();
-      xhr.open("GET", url, true);
+          // Add elements to item container
+          itemContainer.appendChild(checkbox);
+          itemContainer.appendChild(itemName);
+          itemContainer.appendChild(itemHashtags);
+          itemContainer.appendChild(itemID);
+          itemContainer.appendChild(quantity);
+          //itemContainer.appendChild(itemImage);
 
-      xhr.onload = function() {
-        if (this.status === 200) {
-          const data = this.responseText;
-          console.log(data);
-          catalogData = JSON.parse(data);
-          catalogData.forEach(item => {
-            // Create elements for item
-            console.log(item);
-            const itemContainer = document.createElement('div');
-            const checkbox = document.createElement('input');
-            checkbox.type = 'checkbox';
-            checkbox.value = item.id;
-            const itemName = document.createElement('h3');
-            const itemHashtags = document.createElement('p');
-            const quantity = document.createElement('p');
-            //const itemImage = document.createElement('img');
+          itemContainer.style.border = '1px solid black';
 
-            // Set content and attributes for elements
-            itemName.textContent = item.name;
-            itemHashtags.textContent = item.hashtags;
-            quantity.textContent = 'Quantity: [ ' + item.numItems + ' ]';
-            //itemImage.setAttribute('src', item.image);
-            console.log(item.name);
-            console.log(item.hashtags);
-            console.log(item.numItems);
+          // Add item container to catalog container
+          catalogContainer.appendChild(itemContainer);
+        });
 
-            // Add elements to item container
-            itemContainer.appendChild(checkbox);
-            itemContainer.appendChild(itemName);
-            itemContainer.appendChild(itemHashtags);
-            itemContainer.appendChild(quantity);
-            //itemContainer.appendChild(itemImage);
+        // Add click event listener to item container
+        const deleteButton = document.getElementById('deleteButton');
+        deleteButton.addEventListener('click', () => {
+          const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+          checkboxes.forEach(checkboxVal => {
+            console.log(checkboxVal.value);
+            if (checkboxVal.checked) {
+              const url = `http://20.232.208.15:8080/api/item/delete?itemID=${checkboxVal.value}&userID=${id}`;
+              console.log("Sent Item Deletion Info");
 
-            itemContainer.style.border = '1px solid black';
+              const xhr1 = new XMLHttpRequest();
+              xhr1.open("DELETE", url, true);
 
-            // Add item container to catalog container
-            catalogContainer.appendChild(itemContainer);
-          });
-
-          // Add click event listener to item container
-          const deleteButton = document.getElementById('deleteButton');
-          deleteButton.addEventListener('click', () => {
-            const checkboxes = document.querySelectorAll('input[type="checkbox"]');
-            checkboxes.forEach(checkbox => {
-              if (checkbox.checked) {
-                const url = `http://20.232.208.15:8080/api/item/delete?itemID=${checkbox.value}&userID=${id}`;
-                console.log("Sent Item Deletion Info");
-
-                const xhr1 = new XMLHttpRequest();
-                xhr1.open("DELETE", url, true);
-
-                xhr1.onload = function() {
-                  if (this.status === 200) {
-                    const data = this.responseText;
-                    console.log(data);
-                    printData();
-                  } else {
-                    console.error("Request failed with status code", this.status);
-                  }
-                };
-
-                xhr1.onerror = function() {
-                  console.error("Request failed");
-                };
-
-                xhr1.send();
-                const div = checkbox.parentNode;
-                div.remove();
-              }
-            });
-          });
-
-
-          const addButton = document.getElementById('addButton');
-          addButton.addEventListener('click', function(event) {
-            // Get the popup element and the form element
-            const popup = document.getElementById('popup');
-            const form = document.getElementById('addItem');
-
-            // Show the popup when the button is clicked
-            document.getElementById('openPopup').addEventListener('click', function() {
-              popup.classList.add('show');
-            });
-
-            // Hide the popup when the close button is clicked
-            document.getElementById('closePopup').addEventListener('click', function() {
-              popup.classList.remove('show');
-            });
-
-            // Send the form data to the API endpoint when the form is submitted
-            form.addEventListener('submit', function(event) {
-              event.preventDefault(); // Prevent the default form submission
-              
-              const itemName = form.elements['itemName'].value;
-              const hashtags = form.elements['hashtags'].value;
-              var quantity = form.elements['quantity'].value;
-              
-              const url = `http://20.232.208.15:8080/api/item/add?userID=${id}&name=${itemName}&state=${1}&numItems=${quantity}&hashtags=${hashtags}`;
-              console.log("Sent User Info");
-
-              const xhr2 = new XMLHttpRequest();
-              xhr2.open("POST", url, true);
-
-              xhr2.onload = function() {
+              xhr1.onload = function () {
                 if (this.status === 200) {
-                  const data = JSON.parse(this.responseText);
+                  const data = this.responseText;
                   console.log(data);
                   printData();
                 } else {
@@ -237,7 +315,107 @@
                 }
               };
 
-              xhr2.onerror = function() {
+              xhr1.onerror = function () {
+                console.error("Request failed");
+              };
+
+              xhr1.send();
+              const div = checkboxVal.parentNode;
+              div.remove();
+            }
+          });
+        });
+
+
+        const addButton = document.getElementById('addButton');
+        addButton.addEventListener('click', function (event) {
+          // Get the popup element and the form element
+          const popup = document.getElementById('popup');
+          const form = document.getElementById('addItem');
+
+          popup.classList.add('show');
+
+
+          // Send the form data to the API endpoint when the form is submitted
+          form.addEventListener('submit', function (event) {
+            event.preventDefault(); // Prevent the default form submission
+
+            const itemName = form.elements['itemName'].value;
+            const hashtags = form.elements['hashtags'].value;
+            var quantity = form.elements['quantity'].value;
+
+            const url = `http://20.232.208.15:8080/api/item/add?userID=${id}&name=${itemName}&state=1&numItems=${quantity}&hashtags=${hashtags}&location=${locationID}`;
+            console.log("Sent User Info");
+
+            const xhr2 = new XMLHttpRequest();
+            xhr2.open("POST", url, true);
+
+            xhr2.onload = function () {
+              if (this.status === 200) {
+                console.log(this.responseText);
+                popup.classList.remove('show');
+                printData();
+              } else {
+                popup.classList.remove('show');
+                console.error("Request failed with status code", this.status);
+              }
+            };
+
+            xhr2.onerror = function () {
+              console.error("Request failed");
+            };
+
+            xhr2.send();
+
+            // close the popup
+            popup.classList.remove('show');
+            printData();
+          });
+        });
+
+        const editButton = document.getElementById('editButton');
+        editButton.addEventListener('click', () => {
+          const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+          var checked = 0;
+          var tempItemID;
+          checkboxes.forEach(checkboxVal => {
+            if (checkboxVal.checked) {
+              checked++;
+              tempItemID = checkboxVal.value;
+            }
+          });
+
+          if (checked == 1) {
+            const popup = document.getElementById('popup');
+            const form = document.getElementById('addItem');
+
+            popup.classList.add('show');
+
+            form.addEventListener('submit', function (event) {
+              event.preventDefault(); // Prevent the default form submission
+
+              const itemName = form.elements['itemName'].value;
+              const hashtags = form.elements['hashtags'].value;
+              var quantity = form.elements['quantity'].value;
+
+              const url = `http://20.232.208.15:8080/api/item/edit?itemID=${tempItemID}&userID=${id}&name=${itemName}&state=1&numItems=${quantity}&hashtags=${hashtags}&location=${locationID}`;
+              console.log("Sent User Info");
+
+              const xhr2 = new XMLHttpRequest();
+              xhr2.open("PUT", url, true);
+
+              xhr2.onload = function () {
+                if (this.status === 200) {
+                  console.log(this.responseText);
+                  popup.classList.remove('show');
+                  printData();
+                } else {
+                  popup.classList.remove('show');
+                  console.error("Request failed with status code", this.status);
+                }
+              };
+
+              xhr2.onerror = function () {
                 console.error("Request failed");
               };
 
@@ -247,27 +425,172 @@
               popup.classList.remove('show');
               printData();
             });
+          }
+
+          //else {
+          //alert("No item selected");
+
+          //}
+          //});
+        });
+
+      } else {
+        console.error("Request failed with status code", this.status);
+      }
+    };
+
+    xhr.onerror = function () {
+      console.error("Request failed");
+    };
+
+    xhr.send();
+
+    url = `http://20.232.208.15:8080/api/item/inventory/autofill/hashtag?userID=${id}`;
+    xhr = new XMLHttpRequest();
+    xhr.open("GET", url, true);
+    // console.log("test");
+    xhr.onload = function () {
+      if (this.status === 200) {
+        hashtagList = JSON.parse(this.responseText);
+        autocomplete(document.getElementById("myInputHashtag"), hashtagList);
+      } else {
+        console.error("Request failed with status code", this.status);
+      }
+    }
+
+    xhr.onerror = function () {
+      console.error("Request failed");
+    };
+
+    xhr.send();
+
+    url = `http://20.232.208.15:8080/api/item/inventory/autofill/name?userID=${id}`;
+    xhr = new XMLHttpRequest();
+    xhr.open("GET", url, true);
+    // console.log("test");
+    xhr.onload = function () {
+      if (this.status === 200) {
+        nameList = JSON.parse(this.responseText);
+        autocomplete(document.getElementById("myInputName"), nameList);
+      } else {
+        console.error("Request failed with status code", this.status);
+      }
+    }
+
+    xhr.onerror = function () {
+      console.error("Request failed");
+    };
+
+    xhr.send();
+  }
+
+  function openNav() {
+    document.getElementById("mySidebar").style.display = "block";
+  }
+
+  function closeNav() {
+    document.getElementById("mySidebar").style.display = "none";
+  }
+
+  function autocomplete(inp, arr) {
+    console.log(arr);
+    /*the autocomplete function takes two arguments,
+    the text field element and an array of possible autocompleted values:*/
+    var currentFocus;
+    /*execute a function when someone writes in the text field:*/
+    inp.addEventListener("input", function (e) {
+      var a, b, i, val = this.value;
+      /*close any already open lists of autocompleted values*/
+      closeAllLists();
+      if (!val) { return false; }
+      currentFocus = -1;
+      /*create a DIV element that will contain the items (values):*/
+      a = document.createElement("DIV");
+      a.setAttribute("id", this.id + "autocomplete-list");
+      a.setAttribute("class", "autocomplete-items");
+      /*append the DIV element as a child of the autocomplete container:*/
+      this.parentNode.appendChild(a);
+      /*for each item in the array...*/
+      for (i = 0; i < arr.length; i++) {
+        /*check if the item starts with the same letters as the text field value:*/
+        if (arr[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
+          /*create a DIV element for each matching element:*/
+          b = document.createElement("DIV");
+          /*make the matching letters bold:*/
+          b.innerHTML = "<strong>" + arr[i].substr(0, val.length) + "</strong>";
+          b.innerHTML += arr[i].substr(val.length);
+          /*insert a input field that will hold the current array item's value:*/
+          b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
+          /*execute a function when someone clicks on the item value (DIV element):*/
+          b.addEventListener("click", function (e) {
+            /*insert the value for the autocomplete text field:*/
+            inp.value = this.getElementsByTagName("input")[0].value;
+            /*close the list of autocompleted values,
+            (or any other open lists of autocompleted values:*/
+            closeAllLists();
           });
-        } else {
-          console.error("Request failed with status code", this.status);
+          a.appendChild(b);
         }
-      };
-
-      xhr.onerror = function() {
-        console.error("Request failed");
-      };
-
-      xhr.send();
+      }
+    });
+    /*execute a function presses a key on the keyboard:*/
+    inp.addEventListener("keydown", function (e) {
+      var x = document.getElementById(this.id + "autocomplete-list");
+      if (x) x = x.getElementsByTagName("div");
+      if (e.keyCode == 40) {
+        /*If the arrow DOWN key is pressed,
+        increase the currentFocus variable:*/
+        currentFocus++;
+        /*and and make the current item more visible:*/
+        addActive(x);
+      } else if (e.keyCode == 38) { //up
+        /*If the arrow UP key is pressed,
+        decrease the currentFocus variable:*/
+        currentFocus--;
+        /*and and make the current item more visible:*/
+        addActive(x);
+      } else if (e.keyCode == 13) {
+        /*If the ENTER key is pressed, prevent the form from being submitted,*/
+        e.preventDefault();
+        if (currentFocus > -1) {
+          /*and simulate a click on the "active" item:*/
+          if (x) x[currentFocus].click();
+        }
+      }
+    });
+    function addActive(x) {
+      /*a function to classify an item as "active":*/
+      if (!x) return false;
+      /*start by removing the "active" class on all items:*/
+      removeActive(x);
+      if (currentFocus >= x.length) currentFocus = 0;
+      if (currentFocus < 0) currentFocus = (x.length - 1);
+      /*add class "autocomplete-active":*/
+      x[currentFocus].classList.add("autocomplete-active");
     }
-
-    function openNav() {
-      document.getElementById("mySidebar").style.display = "block";
+    function removeActive(x) {
+      /*a function to remove the "active" class from all autocomplete items:*/
+      for (var i = 0; i < x.length; i++) {
+        x[i].classList.remove("autocomplete-active");
+      }
     }
-
-    function closeNav() {
-      document.getElementById("mySidebar").style.display = "none";
+    function closeAllLists(elmnt) {
+      /*close all autocomplete lists in the document,
+      except the one passed as an argument:*/
+      var x = document.getElementsByClassName("autocomplete-items");
+      for (var i = 0; i < x.length; i++) {
+        if (elmnt != x[i] && elmnt != inp) {
+          x[i].parentNode.removeChild(x[i]);
+        }
+      }
     }
+    /*execute a function when someone clicks in the document:*/
+    document.addEventListener("click", function (e) {
+      closeAllLists(e.target);
+    });
+  }
 
-  </script>
+
+</script>
 
 </html>
