@@ -48,6 +48,18 @@
     const userData = JSON.parse(sessionStorage.getItem('userData'));
     var username = userData.email;
     var password = userData.password;
+    // Get reference to catalog container in HTML
+    const largerContainer = document.getElementById('catalog');
+    var catalogData;
+    var latitude = -1;
+    var longitude = -1;
+    var addr1;
+    var addr2;
+    var city;
+    var state;
+    var zip;
+    
+    
     if (userData != null) {
       printData();
     }
@@ -69,16 +81,7 @@
       };
       xhr.send();
     }
-    // Get reference to catalog container in HTML
-    const largerContainer = document.getElementById('catalog');
-    var catalogData;
-    var latitude = -1;
-    var longitude = -1;
-    var addr1;
-    var addr2;
-    var city;
-    var state;
-    var zip;
+    
     // Dynamically generate HTML elements for each item in the catalog
     function printData() {
       var check = document.getElementById("check");
@@ -254,8 +257,8 @@
     }
 
     function showPosition(position) {
-      var latitude = position.coords.latitude;
-      var longitude = position.coords.longitude;
+      latitude = position.coords.latitude;
+      longitude = position.coords.longitude;
     }
 
     function openNav() {
