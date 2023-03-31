@@ -341,9 +341,9 @@ function signUpFunc() {
     xhr.send();
   } else {
 	  var donorCheck = document.getElementById("donor-check").checked;
-	const url1 = `http://20.232.208.15:8080/api/user/add?name=${name}&username=${username}&password=${password}&email=${email}&date=${formattedDate}&userType=1&locationID=${data}`      
+	var url = `http://20.232.208.15:8080/api/user/add?name=${name}&username=${username}&password=${password}&email=${email}&date=${formattedDate}&userType=1`;   
 	if (donorCheck) {
-		url1 = `http://20.232.208.15:8080/api/user/add?name=${name}&username=${username}&password=${password}&email=${email}&date=${formattedDate}&userType=5&locationID=${data}`
+		url = `http://20.232.208.15:8080/api/user/add?name=${name}&username=${username}&password=${password}&email=${email}&date=${formattedDate}&userType=5`;
 	}
     console.log("Sent User Info");
 
