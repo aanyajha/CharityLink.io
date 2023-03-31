@@ -308,6 +308,7 @@ function signUpFunc() {
 	} else {
 		donorBool = 1;
 	}
+	      alert(donorBool);
         const url1 = `http://20.232.208.15:8080/api/user/add?name=${name}&username=${username}&password=${password}&email=${email}&date=${formattedDate}&userType=4&locationID=${data}&donor=${donorBool}`;
         console.log("Sent User Info");
 
@@ -353,6 +354,7 @@ function signUpFunc() {
 	} else {
 		donorBool = 1;
 	}
+	  alert(donorBool);
     const url = `http://20.232.208.15:8080/api/user/add?name=${name}&username=${username}&password=${password}&email=${email}&date=${formattedDate}&userType=1&donor=${donorBool}`;
     console.log("Sent User Info");
 
