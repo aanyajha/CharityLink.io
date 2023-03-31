@@ -289,7 +289,7 @@
             console.log(location.latitude != null && location.longitude != null);
             if (location.latitude != null && location.longitude != null) {
               if (hashtag == "") {
-                url = `http://20.232.208.15:8080/api/item/search?location=${position.coords.latitude};${position.coords.longitude}`;
+                url = `http://20.232.208.15:8080/api/item/search?location=${location.latitude};${location.longitude}`;
               } else {
                 url = `http://20.232.208.15:8080/api/item/search?hashtags=${hashtag}&location=${position.coords.latitude};${position.coords.longitude}`;
               }
