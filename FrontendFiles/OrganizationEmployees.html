@@ -146,12 +146,12 @@ function printData() {
         // Set content and attributes for elements
   	var typeStr;
         if (employee.userType == 2) {
-	  if (!employeeCheck.check) {
+	  if (!employeeCheck.checked) {
 		  return;
 	  }
           typeStr = "Employee";
         } else {
-	  if (!managerCheck.check) {
+	  if (!managerCheck.checked) {
 		  return;
 	  }
           typeStr = "Manager";
