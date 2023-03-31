@@ -59,9 +59,9 @@
     var city;
     var state;
     var zip;
-    if (userData != null) {
+    window.onload = (event) => {
       printData();
-    }
+    };
 
     function seeDetails() {
       const eventId = document.getElementById("input-id").value;
@@ -98,6 +98,12 @@
       while (largerContainer.firstChild) {
         console.log(largerContainer.children);
         largerContainer.removeChild(largerContainer.firstChild);
+      }
+      if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(showPosition);
+          console.log("the stuffs");
+          console.log(latitude);
+          console.log(longitude);
       }
       if (userData.locationID == -1 && check.checked) {
         //request geolocation
