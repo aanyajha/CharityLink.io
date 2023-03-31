@@ -63,7 +63,7 @@ img {
       document.getElementById("mySidebar").style.display = "none";
     }
     var donorReceiver = document.getElementById("donor-receiver");
-    var userData1 = JSON.parse(sessionStorage.getItem('userData'));
+    var userData = JSON.parse(sessionStorage.getItem('userData'));
 	if (userData.userType == 5) {
 		donorReceiver.innerHTML = "Donor Dashboard";
 	} else {
