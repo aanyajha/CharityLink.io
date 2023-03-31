@@ -129,6 +129,7 @@ function printData() {
 	
   var employeeCheck = document.getElementById("employee-search");
   var managerCheck = document.getElementById("manager-search");
+	console.log(employeeCheck.check);
 
   const url = `http://20.232.208.15:8080/api/user/find/company?email=${email}`;
   const xhr = new XMLHttpRequest();
