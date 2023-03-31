@@ -79,6 +79,16 @@
       };
       xhr.send();
     }
+    
+    function showPosition(position) {
+      latitude = position.coords.latitude;
+      longitude = position.coords.longitude;
+      console.log("the show lats");
+      console.log(latitude);
+      console.log(longitude);
+    }
+    
+    
     // Dynamically generate HTML elements for each item in the catalog
     function printData() {
       var check = document.getElementById("check");
@@ -92,6 +102,9 @@
         //request geolocation
         if (navigator.geolocation) {
           navigator.geolocation.getCurrentPosition(showPosition);
+          console.log("the stuffs");
+          console.log(latitude);
+          console.log(longitude);
           const eurl2 = `http://20.232.208.15:8080/api/user/login/email?email=${username}&password=${password}`;
           const exhr2 = new XMLHttpRequest();
           exhr2.open("GET", eurl2, true);
@@ -100,7 +113,6 @@
             console.log("LATITUDE AND LOGITUDE");
             console.log(latitude);
             console.log(longitude);
-            console.log("end");
             var durl2 = `http://20.232.208.15:8080/api/event/all?location=${latitude};${longitude}`;
             const dxhr2 = new XMLHttpRequest();
             dxhr2.open("GET", durl2, true);
@@ -273,13 +285,7 @@
       }
     }
 
-    function showPosition(position) {
-      latitude = position.coords.latitude;
-      longitude = position.coords.longitude;
-      console.log("the show lats");
-      console.log(latitude);
-      console.log(longitude);
-    }
+    
 
     function openNav() {
       document.getElementById("mySidebar").style.display = "block";
