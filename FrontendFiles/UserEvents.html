@@ -146,7 +146,6 @@
                 });
               }
             }
-            return;
           }
         } else {
           alert("Geolocation is not supported by this browser.");
@@ -221,11 +220,10 @@
                   });
                 }
               }
-              return;
             }
           }
         }
-      }
+      } else {
       const url = `http://20.232.208.15:8080/api/event/all`;
       const xhr = new XMLHttpRequest();
       xhr.open("GET", url, true);
@@ -272,6 +270,7 @@
         console.error("Request failed");
       };
       xhr.send();
+      }
     }
 
     function showPosition(position) {
