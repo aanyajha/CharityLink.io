@@ -394,7 +394,10 @@ function saveFunc() {
   document.getElementById("name-edit").style.display = "none";
   document.getElementById("username").style.display = "inline";
 
-if (typeData == 5) {
+  var type = document.getElementById("type");
+      type.innerHTML = "User Type: " + typeData;
+      
+      if (typeData == 5) {
         document.getElementById("donor-check").checked = true;
         document.getElementById("receiver-check").setAttribute("disabled", "");
       } else {
