@@ -26,6 +26,7 @@
 <script>
   
   function skipFunc() {
+	  alert("Successful account creation! Look in your settings to see what information we store.");
     window.location.href = 'https://aanyajha.github.io/CharityLink.io/FrontendFiles/DefaultDashboard';
   }
   
@@ -119,7 +120,7 @@ console.log(locurl);
         if (data.name != undefined) {
           // Store the API data in sessionStorage
           sessionStorage.setItem('userData', JSON.stringify(data));
-		
+		alert("Successful account creation! Look in your settings to see what information we store.");
 	        window.location.href = 'https://aanyajha.github.io/CharityLink.io/FrontendFiles/DefaultDashboard';
         }
         }
