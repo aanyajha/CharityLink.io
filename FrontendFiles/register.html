@@ -45,9 +45,9 @@
     <input type="text" id="password" class="input-class" placeHolder="Password" required>
 </div>
 <div>
-  <label>Donor-oriented</label><br>	 
+  <label>Donor-oriented</label>	 
   <input type="radio" id="donor-check" name="donor-or-receiver" value="donor">
-  <label>Receiver-oriented</label><br>
+  <label>Receiver-oriented</label>
   <input type="radio" id="receiver-check" name="donor-or-receiver" value="receiver">
   
 </div>
@@ -301,7 +301,14 @@ function signUpFunc() {
         const data = this.responseText;
         console.log(data);
         //start userdata
-        const url1 = `http://20.232.208.15:8080/api/user/add?name=${name}&username=${username}&password=${password}&email=${email}&date=${formattedDate}&userType=4&locationID=${data}`;
+	var donorCheck = document.getElementById("donor-check").checked;
+	var donorBool;
+	if (donorCheck) {
+		donorBool = 0;
+	} else {
+		donorBool = 1;
+	}
+        const url1 = `http://20.232.208.15:8080/api/user/add?name=${name}&username=${username}&password=${password}&email=${email}&date=${formattedDate}&userType=4&locationID=${data}&donor=${donorBool}`;
         console.log("Sent User Info");
 
         const xhr1 = new XMLHttpRequest();
@@ -339,7 +346,14 @@ function signUpFunc() {
     };
     xhr.send();
   } else {
-    const url = `http://20.232.208.15:8080/api/user/add?name=${name}&username=${username}&password=${password}&email=${email}&date=${formattedDate}&userType=1`;
+	  var donorCheck = document.getElementById("donor-check").checked;
+	var donorBool;
+	if (donorCheck) {
+		donorBool = 0;
+	} else {
+		donorBool = 1;
+	}
+    const url = `http://20.232.208.15:8080/api/user/add?name=${name}&username=${username}&password=${password}&email=${email}&date=${formattedDate}&userType=1&donor=${donorBool}`;
     console.log("Sent User Info");
 
     const xhr = new XMLHttpRequest();
