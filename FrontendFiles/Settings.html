@@ -341,6 +341,7 @@ function saveFunc() {
   		joinData.split(' ').join('+');
       var updateurl;
       console.log(typeData);
+      console.log(document.getElementById("donor-check").checked);
       if (document.getElementById("donor-check").checked == true) {
         updateurl = `http://20.232.208.15:8080/api/user/update?email=${email}&name=${nameReal}&username=${username}&password=${password}&locationID=${locationId}&date=${joinData}&userType=5`;
         typeData = 5;
