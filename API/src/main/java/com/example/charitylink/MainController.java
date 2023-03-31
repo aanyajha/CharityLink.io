@@ -129,12 +129,13 @@ public class MainController {
     public @ResponseBody User addNewUser(@RequestParam String name, @RequestParam String username,
                                            @RequestParam String password, @RequestParam String email,
                                            @RequestParam(required = false, defaultValue = "-1") String locationID, @RequestParam String date,
-                                           @RequestParam(required = false, defaultValue = "-1") String companyID, @RequestParam Integer userType) {
+                                           @RequestParam(required = false, defaultValue = "-1") String companyID, @RequestParam Integer userType,
+                                         @RequestParam(required = false, defaultValue = "-1") Integer donor) {
         List<Integer> userIdList = userRepository.findUserIdByEmail(email);
         if (userIdList.size() > 0) {
             return new User();
         }
-        User user = new User(name, username, password, email, java.sql.Date.valueOf(date), Integer.parseInt(companyID), Integer.parseInt(locationID), userType);
+        User user = new User(name, username, password, email, java.sql.Date.valueOf(date), Integer.parseInt(companyID), Integer.parseInt(locationID), userType, donor == 0);
         userRepository.save(user);
         if (user.getUserType() == 4) {
             user.setCompanyID(user.getId());
@@ -456,6 +457,18 @@ public class MainController {
         Event event = new Event(title, description, locationID, java.sql.Date.valueOf(date), companyID, "", owners);
         eventRepository.save(event);
         return "Saved";
+    }
+
+    @GetMapping(path = "/event/owned")
+    public @ResponseBody Iterable<Event> getOwnedEvents(@RequestParam Integer userID) {
+        Iterable<Event> events = eventRepository.findAll();
+        ArrayList<Event> owned = new ArrayList<>();
+        for (Event e : events) {
+            if (Arrays.asList(e.getOwnerList().split(",")).contains(userID) || e.getCompanyId() == userID) {
+                owned.add(e);
+            }
+        }
+        return owned;
     }
 
     @PutMapping(path = "/event/owner")

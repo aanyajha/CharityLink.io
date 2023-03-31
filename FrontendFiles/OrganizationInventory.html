@@ -254,7 +254,7 @@
       const hashtags = form.elements['hashtags'].value;
       var quantity = form.elements['quantity'].value;
 
-      const url = `http://20.232.208.15:8080/api/item/add?userID=${userData.companyID}&name=${itemName}&state=1&numItems=${quantity}&hashtags=${hashtags}&location=${locationID}`;
+      const url = `http://20.232.208.15:8080/api/item/add?userID=${userData.companyID}&name=${itemName}&state=1&numItems=${quantity}&hashtags=${hashtags}&location=${userData.locationID}`;
       console.log("Sent User Info");
 
       const xhr2 = new XMLHttpRequest();
