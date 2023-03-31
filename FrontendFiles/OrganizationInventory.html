@@ -158,7 +158,7 @@
         <input id="myInputID" type="text" name="searchIDs" placeholder="Search By ID">
       </div>
       <input type="submit" onclick="searchByID()">
-    </form><br>
+    </form><br>hashtags
   </blockquote>
 
   <div class="w3-container w3-border id=add-edit-delete">
@@ -204,6 +204,7 @@
   var nameList = [];
   autocomplete(document.getElementById("myInputName"), nameList);
   autocomplete(document.getElementById("myInputHashtag"), hashtagList);
+  autocomplete(document.getElementById("hashtags"), hashtagList);
   document.getElementById("nameForm").addEventListener('submit', submitForm);
   document.getElementById("hashtagForm").addEventListener('submit', submitForm);
   document.getElementById("idForm").addEventListener('submit', submitForm);
@@ -632,6 +633,7 @@
       if (this.status === 200) {
         hashtagList = JSON.parse(this.responseText);
         autocomplete(document.getElementById("myInputHashtag"), hashtagList);
+        autocomplete(document.getElementById("hashtags"), hashtagList);
       } else {
         console.error("Request failed with status code", this.status);
       }
