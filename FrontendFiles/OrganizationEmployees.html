@@ -94,6 +94,14 @@
          Add
         </button><br>
     </div>
+	  
+	  <div>
+		  <p>Search by: </p>
+		  <text type="text">Employee</text>
+        <input type="checkbox" id="employee-search">
+        <text type="text">Manager</text>
+        <input type="checkbox" id="manager-search"><br>
+	  </div>
     
     <div class="w3-container w3-border" id="employee"></div>
 
@@ -118,6 +126,9 @@ function printData() {
   }
   console.log(userData);
   const email = userData.email;
+	
+  var employeeCheck = document.getElementById("employee-search");
+  var managerCheck = document.getElementById("manager-search");
 
   const url = `http://20.232.208.15:8080/api/user/find/company?email=${email}`;
   const xhr = new XMLHttpRequest();
@@ -131,7 +142,21 @@ function printData() {
       var num = 0;
       staffData.forEach(employee => {
         // Create elements for item
-        console.log(employee);
+        // Set content and attributes for elements
+  			var typeStr;
+        if (employee.userType == 2) {
+	  if (!employeeCheck.check) {
+		  continue;
+	  }
+          typeStr = "Employee";
+        } else {
+	  if (!managerCheck.check) {
+		  continue;
+	  }
+          typeStr = "Manager";
+        }
+	      
+	console.log(employee);
         const employeeContainer = document.createElement('div');
         const employeeType = document.createElement('h3');
         const employeeName = document.createElement('p');
@@ -140,13 +165,7 @@ function printData() {
 
         //const itemImage = document.createElement('img');
 
-        // Set content and attributes for elements
-  			var typeStr;
-        if (employee.userType == 2) {
-          typeStr = "Employee";
-        } else {
-          typeStr = "Manager";
-        }
+        
         
         employeeType.textContent = typeStr;
         employeeName.textContent = employee.name;
