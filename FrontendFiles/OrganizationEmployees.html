@@ -146,12 +146,12 @@ function printData() {
   			var typeStr;
         if (employee.userType == 2) {
 	  if (!employeeCheck.check) {
-		  continue;
+		  return;
 	  }
           typeStr = "Employee";
         } else {
 	  if (!managerCheck.check) {
-		  continue;
+		  return;
 	  }
           typeStr = "Manager";
         }
