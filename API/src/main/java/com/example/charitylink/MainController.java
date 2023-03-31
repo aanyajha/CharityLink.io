@@ -135,7 +135,7 @@ public class MainController {
         if (userIdList.size() > 0) {
             return new User();
         }
-        User user = new User(name, username, password, email, java.sql.Date.valueOf(date), Integer.parseInt(companyID), Integer.parseInt(locationID), userType, donor == 0);
+        User user = new User(name, username, password, email, java.sql.Date.valueOf(date), Integer.parseInt(companyID), Integer.parseInt(locationID), userType);
         userRepository.save(user);
         if (user.getUserType() == 4) {
             user.setCompanyID(user.getId());

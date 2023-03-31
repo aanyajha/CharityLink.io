@@ -17,14 +17,13 @@ public class User {
     private Date joinDate;
     private Integer companyID;
     private Integer locationID;
-    private Integer userType; //1=Normal,2=Employee,3=Manager,4=Org
+    private Integer userType; //1=Normal,2=Employee,3=Manager,4=Org,5=donor
     private String passwordToken;
-    private Boolean donor;
 
     public User() {
     }
 
-    public User(String name, String username, String password, String email, Date joinDate, Integer companyID, Integer locationID, Integer userType, Boolean donor) {
+    public User(String name, String username, String password, String email, Date joinDate, Integer companyID, Integer locationID, Integer userType) {
         this.name = name;
         this.username = username;
         this.password = password;
@@ -33,7 +32,6 @@ public class User {
         this.companyID = companyID;
         this.locationID = locationID;
         this.userType = userType;
-        this.donor = donor;
     }
 
     public User(String name, String username, String password, String email, Date joinDate) {
