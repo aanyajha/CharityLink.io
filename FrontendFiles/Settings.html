@@ -17,6 +17,14 @@
 
 <label id="email-word">Email: </label>
 <input type="text" value="pseudo email" id="email" readonly>
+  
+  <div>
+  <label>Donor-oriented</label>	 
+  <input type="radio" id="donor-check" name="donor-or-receiver" value="donor">
+  <label>Receiver-oriented</label>
+  <input type="radio" id="receiver-check" name="donor-or-receiver" value="receiver">
+  
+</div>
 
 <p id="type">
 User Type: pseudo type
@@ -159,6 +167,14 @@ function onloadFunc() {
       var type = document.getElementById("type");
       type.innerHTML = "User Type: " + data.userType;
       typeData = data.userType;
+      
+      if (data.userType == 5) {
+        document.getElementById("donor-check").checked = true;
+        document.getElementById("receiver-check").setAttribute("disabled", "");
+      } else {
+        document.getElementById("receiver-check").checked = true;
+        document.getElementById("donor-check").setAttribute("disabled", "");
+      }
       var company = document.getElementById("company");
       company.innerHTML = "Associated Company: " + data.companyID;
       companyData = data.company;
@@ -224,6 +240,15 @@ var password = userData.password;
       email.value = data.email;
       var type = document.getElementById("type");
       type.innerHTML = "User Type: " + data.userType;
+      
+      if (data.userType == 5) {
+        document.getElementById("donor-check").checked = true;
+        document.getElementById("receiver-check").removeAttribute("disabled");
+      } else {
+        document.getElementById("receiver-check").checked = true;
+        document.getElementById("donor-check").removeAttribute("disabled");
+      }
+      
       var company = document.getElementById("company");
       company.innerHTML = "Associated Company: " + data.companyID;
       var join = document.getElementById("join-date");
@@ -282,6 +307,7 @@ function saveFunc() {
   var realName = document.getElementById("real-name").value;
   var nameReal = document.getElementById("real-name").value;
   var email = document.getElementById("email").value;
+  
 
   const locxhr = new XMLHttpRequest();
   var locurl = "";
@@ -314,9 +340,13 @@ function saveFunc() {
   		locationId.split(' ').join('+');
   		joinData.split(' ').join('+');
       typeData.split(' ').join('+');
-      
-      const updateurl = `http://20.232.208.15:8080/api/user/update?email=${email}&name=${nameReal}&username=${username}&password=${password}&locationID=${locationId}&date=${joinData}&userType=${typeData}`;
-
+      var updateurl;
+      if (document.getElementById("donor-check").checked == true) {
+        updateurl = `http://20.232.208.15:8080/api/user/update?email=${email}&name=${nameReal}&username=${username}&password=${password}&locationID=${locationId}&date=${joinData}&userType=${5}`;
+        typeData = 5;
+      } else {
+        updateurl = `http://20.232.208.15:8080/api/user/update?email=${email}&name=${nameReal}&username=${username}&password=${password}&locationID=${locationId}&date=${joinData}&userType=${typeData}`;
+      }
       updatexhr.open("PUT", updateurl, true);
       updatexhr.send();
       updatexhr.onload = function() {
@@ -358,10 +388,13 @@ function saveFunc() {
   document.getElementById("name-edit").style.display = "none";
   document.getElementById("username").style.display = "inline";
 
-
-  document.getElementById("real-name").setAttribute("readonly", "readonly");
-
-
+``if (typeData == 5) {
+        document.getElementById("donor-check").checked = true;
+        document.getElementById("receiver-check").setAttribute("disabled", "");
+      } else {
+        document.getElementById("receiver-check").checked = true;
+        document.getElementById("donor-check").setAttribute("disabled", "");
+      }
   //if everything is successful
   alert("Save successful!")
 
