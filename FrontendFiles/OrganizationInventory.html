@@ -8,8 +8,8 @@
 
   <style>
     img {
-      max-width: 100%;
-      height: auto;
+      height: 200px;
+      width: 200px;
     }
 
     #popup {
@@ -81,6 +81,22 @@
       background-color: #009999 !important;
       color: #ffffff;
     }
+
+    input[type="checkbox"] {
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+      width: 30px;
+      height: 30px;
+      border: 2px solid #555;
+      border-radius: 4px;
+      outline: none;
+      cursor: pointer;
+    }
+
+    input[type="checkbox"]:checked {
+      background-color: #555;
+    }
   </style>
 
   <div class="w3-sidebar w3-bar-block w3-card w3-animate-right" style="display:none;right:0;" id="mySidebar">
@@ -132,7 +148,7 @@
 
     <form id="hashtagForm" autocomplete="off">
       <div class="autocomplete" style="width:300px;">
-        <input id="myInputHashtag" type="text" name="searchHashtags" placeholder="Search By Hashtag">
+        <input id="myInputHashtag" type="text" name="searchHashtags" placeholder="Search By Category">
       </div>
       <input type="submit" onclick="searchByHashtag()">
     </form><br>
@@ -167,6 +183,7 @@
     <form id="addItem">
       <br><label for="itemName">Item Name:</label>
       <input type="text" id="itemName" name="itemName" required><br><br>
+      <input type="file" id="myFileInput">
       <text>Use commas to separate hashtags, no spaces</text><br>
       <label for="hashtags">Hashtags:</label>
       <input type="hashtags" id="hashtags" name="hashtags" required><br><br>
@@ -247,6 +264,7 @@
 
 
     // Send the form data to the API endpoint when the form is submitted
+    var fileInput = document.getElementById('myFileInput');
     form.addEventListener('submit', function (event) {
       event.preventDefault(); // Prevent the default form submission
 
@@ -254,7 +272,36 @@
       const hashtags = form.elements['hashtags'].value;
       var quantity = form.elements['quantity'].value;
 
-      const url = `http://20.232.208.15:8080/api/item/add?userID=${userData.companyID}&name=${itemName}&state=1&numItems=${quantity}&hashtags=${hashtags}&location=${userData.locationID}`;
+      var file = fileInput.files[0];
+      console.log(file);
+      var formData = new FormData();
+
+      var imgUrl;
+
+      //var reader = new FileReader();
+
+      // reader.onload = function (e) {
+      //   preview.setAttribute('src', e.target.result);
+      //   console.log(e.target.result);
+      // }
+
+      formData.append("image", file);
+
+
+
+      fetch("https://api.imgur.com/3/image/", {
+        method: "post",
+        headers: {
+          Authorization: "Client-ID 10f9b76f36bb0cb"
+        },
+        body: formData
+      }).then(data => data.json()).then(data => {
+
+        imgUrl = data.data.link;
+
+        console.log(imgUrl);
+
+      const url = `http://20.232.208.15:8080/api/item/add?userID=${userData.companyID}&name=${itemName}&state=1&numItems=${quantity}&hashtags=${hashtags}&location=${userData.locationID}&img=${imgUrl}`;
       console.log("Sent User Info");
 
       const xhr2 = new XMLHttpRequest();
@@ -276,6 +323,10 @@
       };
 
       xhr2.send();
+    
+      })
+
+    
 
       // close the popup
       popup.classList.remove('show');
@@ -308,7 +359,7 @@
         const hashtags = form.elements['hashtags'].value;
         var quantity = form.elements['quantity'].value;
 
-        const url = `http://20.232.208.15:8080/api/item/edit?itemID=${tempItemID}&userID=${userData.companyID}&name=${itemName}&state=1&numItems=${quantity}&hashtags=${hashtags}&location=${locationID}`;
+        const url = `http://20.232.208.15:8080/api/item/edit?itemID=${tempItemID}&userID=${userData.companyID}&name=${itemName}&state=1&numItems=${quantity}&hashtags=${hashtags}&location=${userData.locationID}`;
         console.log("Sent User Info");
 
         const xhr2 = new XMLHttpRequest();
@@ -476,6 +527,11 @@
       var itemName;
       var itemHashtags;
       var itemID;
+      var itemImage = document.createElement('img');
+      var srcAttr = document.createAttribute('src');
+      if (item.img != null) {
+        srcAttr.value = item.img;
+      }
       if (searchtype == 0) {
         itemName = document.createElement('h3');
         itemHashtags = document.createElement('p');
@@ -485,40 +541,41 @@
         itemHashtags = document.createElement('h3');
         itemName = document.createElement('p');
         itemID = document.createElement('p');
-        
+
       }
       else if (searchtype == 2) {
         itemID = document.createElement('h3');
         itemName = document.createElement('p');
         itemHashtags = document.createElement('p');
       }
-    
-        const quantity = document.createElement('p');
-        //const itemImage = document.createElement('img');
+
+      const quantity = document.createElement('p');
+      //const itemImage = document.createElement('img');
 
       // Set content and attributes for elements
       itemName.textContent = item.name;
       itemHashtags.textContent = item.hashtags;
       itemID.textContent = 'Item ID: ' + item.itemID;
       quantity.textContent = 'Quantity: [ ' + item.numItems + ' ]';
-      //itemImage.setAttribute('src', item.image);
+      itemImage.setAttributeNode(srcAttr);
       console.log(item.name);
       console.log(item.hashtags);
       console.log(item.numItems);
 
       // Add elements to item container
       itemContainer.appendChild(checkbox);
-      if(searchtype == 0) {
+      itemContainer.appendChild(itemImage);
+      if (searchtype == 0) {
         itemContainer.appendChild(itemName);
         itemContainer.appendChild(itemHashtags);
         itemContainer.appendChild(itemID);
       }
-      else if(searchtype == 1) {
+      else if (searchtype == 1) {
         itemContainer.appendChild(itemHashtags);
         itemContainer.appendChild(itemName);
         itemContainer.appendChild(itemID);
       }
-      else if(searchtype == 2) {
+      else if (searchtype == 2) {
         itemContainer.appendChild(itemID);
         itemContainer.appendChild(itemName);
         itemContainer.appendChild(itemHashtags);
@@ -544,174 +601,173 @@
     //   id = userData.id;
     // }
     console.log(userData.companyID);
-    var locationID = userData.locationID;
 
     var url = `http://20.232.208.15:8080/api/item/inventory?userID=${userData.companyID}`;
-        var xhr = new XMLHttpRequest();
-        xhr.open("GET", url, true);
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", url, true);
 
-        xhr.onload = function () {
-          if (this.status === 200) {
-            const data = this.responseText;
-            console.log(data);
-            catalogData = JSON.parse(data);
-            printCatalog(catalogData, 0);
+    xhr.onload = function () {
+      if (this.status === 200) {
+        const data = this.responseText;
+        console.log(data);
+        catalogData = JSON.parse(data);
+        printCatalog(catalogData, 0);
 
-          } else {
-            console.error("Request failed with status code", this.status);
-          }
-        };
-
-        xhr.onerror = function () {
-          console.error("Request failed");
-        };
-
-        xhr.send();
-
-        url = `http://20.232.208.15:8080/api/item/inventory/autofill/hashtag?userID=${userData.companyID}`;
-        xhr = new XMLHttpRequest();
-        xhr.open("GET", url, true);
-        // console.log("test");
-        xhr.onload = function () {
-          if (this.status === 200) {
-            hashtagList = JSON.parse(this.responseText);
-            autocomplete(document.getElementById("myInputHashtag"), hashtagList);
-          } else {
-            console.error("Request failed with status code", this.status);
-          }
-        }
-
-        xhr.onerror = function () {
-          console.error("Request failed");
-        };
-
-        xhr.send();
-
-        url = `http://20.232.208.15:8080/api/item/inventory/autofill/name?userID=${userData.companyID}`;
-        xhr = new XMLHttpRequest();
-        xhr.open("GET", url, true);
-        // console.log("test");
-        xhr.onload = function () {
-          if (this.status === 200) {
-            nameList = JSON.parse(this.responseText);
-            autocomplete(document.getElementById("myInputName"), nameList);
-          } else {
-            console.error("Request failed with status code", this.status);
-          }
-        }
-
-        xhr.onerror = function () {
-          console.error("Request failed");
-        };
-
-        xhr.send();
+      } else {
+        console.error("Request failed with status code", this.status);
       }
+    };
 
-      function openNav() {
-        document.getElementById("mySidebar").style.display = "block";
-      }
+    xhr.onerror = function () {
+      console.error("Request failed");
+    };
 
-      function closeNav() {
-        document.getElementById("mySidebar").style.display = "none";
-      }
+    xhr.send();
 
-      function autocomplete(inp, arr) {
-        console.log(arr);
-        /*the autocomplete function takes two arguments,
-        the text field element and an array of possible autocompleted values:*/
-        var currentFocus;
-        /*execute a function when someone writes in the text field:*/
-        inp.addEventListener("input", function (e) {
-          var a, b, i, val = this.value;
-          /*close any already open lists of autocompleted values*/
-          closeAllLists();
-          if (!val) { return false; }
-          currentFocus = -1;
-          /*create a DIV element that will contain the items (values):*/
-          a = document.createElement("DIV");
-          a.setAttribute("id", this.id + "autocomplete-list");
-          a.setAttribute("class", "autocomplete-items");
-          /*append the DIV element as a child of the autocomplete container:*/
-          this.parentNode.appendChild(a);
-          /*for each item in the array...*/
-          for (i = 0; i < arr.length; i++) {
-            /*check if the item starts with the same letters as the text field value:*/
-            if (arr[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
-              /*create a DIV element for each matching element:*/
-              b = document.createElement("DIV");
-              /*make the matching letters bold:*/
-              b.innerHTML = "<strong>" + arr[i].substr(0, val.length) + "</strong>";
-              b.innerHTML += arr[i].substr(val.length);
-              /*insert a input field that will hold the current array item's value:*/
-              b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
-              /*execute a function when someone clicks on the item value (DIV element):*/
-              b.addEventListener("click", function (e) {
-                /*insert the value for the autocomplete text field:*/
-                inp.value = this.getElementsByTagName("input")[0].value;
-                /*close the list of autocompleted values,
-                (or any other open lists of autocompleted values:*/
-                closeAllLists();
-              });
-              a.appendChild(b);
-            }
-          }
-        });
-        /*execute a function presses a key on the keyboard:*/
-        inp.addEventListener("keydown", function (e) {
-          var x = document.getElementById(this.id + "autocomplete-list");
-          if (x) x = x.getElementsByTagName("div");
-          if (e.keyCode == 40) {
-            /*If the arrow DOWN key is pressed,
-            increase the currentFocus variable:*/
-            currentFocus++;
-            /*and and make the current item more visible:*/
-            addActive(x);
-          } else if (e.keyCode == 38) { //up
-            /*If the arrow UP key is pressed,
-            decrease the currentFocus variable:*/
-            currentFocus--;
-            /*and and make the current item more visible:*/
-            addActive(x);
-          } else if (e.keyCode == 13) {
-            /*If the ENTER key is pressed, prevent the form from being submitted,*/
-            e.preventDefault();
-            if (currentFocus > -1) {
-              /*and simulate a click on the "active" item:*/
-              if (x) x[currentFocus].click();
-            }
-          }
-        });
-        function addActive(x) {
-          /*a function to classify an item as "active":*/
-          if (!x) return false;
-          /*start by removing the "active" class on all items:*/
-          removeActive(x);
-          if (currentFocus >= x.length) currentFocus = 0;
-          if (currentFocus < 0) currentFocus = (x.length - 1);
-          /*add class "autocomplete-active":*/
-          x[currentFocus].classList.add("autocomplete-active");
-        }
-        function removeActive(x) {
-          /*a function to remove the "active" class from all autocomplete items:*/
-          for (var i = 0; i < x.length; i++) {
-            x[i].classList.remove("autocomplete-active");
-          }
-        }
-        function closeAllLists(elmnt) {
-          /*close all autocomplete lists in the document,
-          except the one passed as an argument:*/
-          var x = document.getElementsByClassName("autocomplete-items");
-          for (var i = 0; i < x.length; i++) {
-            if (elmnt != x[i] && elmnt != inp) {
-              x[i].parentNode.removeChild(x[i]);
-            }
-          }
-        }
-        /*execute a function when someone clicks in the document:*/
-        document.addEventListener("click", function (e) {
-          closeAllLists(e.target);
-        });
+    url = `http://20.232.208.15:8080/api/item/inventory/autofill/hashtag?userID=${userData.companyID}`;
+    xhr = new XMLHttpRequest();
+    xhr.open("GET", url, true);
+    // console.log("test");
+    xhr.onload = function () {
+      if (this.status === 200) {
+        hashtagList = JSON.parse(this.responseText);
+        autocomplete(document.getElementById("myInputHashtag"), hashtagList);
+      } else {
+        console.error("Request failed with status code", this.status);
       }
+    }
+
+    xhr.onerror = function () {
+      console.error("Request failed");
+    };
+
+    xhr.send();
+
+    url = `http://20.232.208.15:8080/api/item/inventory/autofill/name?userID=${userData.companyID}`;
+    xhr = new XMLHttpRequest();
+    xhr.open("GET", url, true);
+    // console.log("test");
+    xhr.onload = function () {
+      if (this.status === 200) {
+        nameList = JSON.parse(this.responseText);
+        autocomplete(document.getElementById("myInputName"), nameList);
+      } else {
+        console.error("Request failed with status code", this.status);
+      }
+    }
+
+    xhr.onerror = function () {
+      console.error("Request failed");
+    };
+
+    xhr.send();
+  }
+
+  function openNav() {
+    document.getElementById("mySidebar").style.display = "block";
+  }
+
+  function closeNav() {
+    document.getElementById("mySidebar").style.display = "none";
+  }
+
+  function autocomplete(inp, arr) {
+    console.log(arr);
+    /*the autocomplete function takes two arguments,
+    the text field element and an array of possible autocompleted values:*/
+    var currentFocus;
+    /*execute a function when someone writes in the text field:*/
+    inp.addEventListener("input", function (e) {
+      var a, b, i, val = this.value;
+      /*close any already open lists of autocompleted values*/
+      closeAllLists();
+      if (!val) { return false; }
+      currentFocus = -1;
+      /*create a DIV element that will contain the items (values):*/
+      a = document.createElement("DIV");
+      a.setAttribute("id", this.id + "autocomplete-list");
+      a.setAttribute("class", "autocomplete-items");
+      /*append the DIV element as a child of the autocomplete container:*/
+      this.parentNode.appendChild(a);
+      /*for each item in the array...*/
+      for (i = 0; i < arr.length; i++) {
+        /*check if the item starts with the same letters as the text field value:*/
+        if (arr[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
+          /*create a DIV element for each matching element:*/
+          b = document.createElement("DIV");
+          /*make the matching letters bold:*/
+          b.innerHTML = "<strong>" + arr[i].substr(0, val.length) + "</strong>";
+          b.innerHTML += arr[i].substr(val.length);
+          /*insert a input field that will hold the current array item's value:*/
+          b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
+          /*execute a function when someone clicks on the item value (DIV element):*/
+          b.addEventListener("click", function (e) {
+            /*insert the value for the autocomplete text field:*/
+            inp.value = this.getElementsByTagName("input")[0].value;
+            /*close the list of autocompleted values,
+            (or any other open lists of autocompleted values:*/
+            closeAllLists();
+          });
+          a.appendChild(b);
+        }
+      }
+    });
+    /*execute a function presses a key on the keyboard:*/
+    inp.addEventListener("keydown", function (e) {
+      var x = document.getElementById(this.id + "autocomplete-list");
+      if (x) x = x.getElementsByTagName("div");
+      if (e.keyCode == 40) {
+        /*If the arrow DOWN key is pressed,
+        increase the currentFocus variable:*/
+        currentFocus++;
+        /*and and make the current item more visible:*/
+        addActive(x);
+      } else if (e.keyCode == 38) { //up
+        /*If the arrow UP key is pressed,
+        decrease the currentFocus variable:*/
+        currentFocus--;
+        /*and and make the current item more visible:*/
+        addActive(x);
+      } else if (e.keyCode == 13) {
+        /*If the ENTER key is pressed, prevent the form from being submitted,*/
+        e.preventDefault();
+        if (currentFocus > -1) {
+          /*and simulate a click on the "active" item:*/
+          if (x) x[currentFocus].click();
+        }
+      }
+    });
+    function addActive(x) {
+      /*a function to classify an item as "active":*/
+      if (!x) return false;
+      /*start by removing the "active" class on all items:*/
+      removeActive(x);
+      if (currentFocus >= x.length) currentFocus = 0;
+      if (currentFocus < 0) currentFocus = (x.length - 1);
+      /*add class "autocomplete-active":*/
+      x[currentFocus].classList.add("autocomplete-active");
+    }
+    function removeActive(x) {
+      /*a function to remove the "active" class from all autocomplete items:*/
+      for (var i = 0; i < x.length; i++) {
+        x[i].classList.remove("autocomplete-active");
+      }
+    }
+    function closeAllLists(elmnt) {
+      /*close all autocomplete lists in the document,
+      except the one passed as an argument:*/
+      var x = document.getElementsByClassName("autocomplete-items");
+      for (var i = 0; i < x.length; i++) {
+        if (elmnt != x[i] && elmnt != inp) {
+          x[i].parentNode.removeChild(x[i]);
+        }
+      }
+    }
+    /*execute a function when someone clicks in the document:*/
+    document.addEventListener("click", function (e) {
+      closeAllLists(e.target);
+    });
+  }
 
 
 </script>
