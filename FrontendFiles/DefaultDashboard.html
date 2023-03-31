@@ -33,7 +33,7 @@ img {
   
   <div class="w3-pale-blue">
   <div class="w3-container">
-      <h1 style="color: #009999">User Dashboard</h1>
+      <h1 style="color: #009999" id="donor-receiver">User Dashboard</h1>
       
       </div>
   </div>
@@ -52,6 +52,9 @@ img {
 </body>
 
 <script>
+	
+	
+	
 		function openNav() {
       document.getElementById("mySidebar").style.display = "block";
     }
@@ -59,8 +62,13 @@ img {
     function closeNav() {
       document.getElementById("mySidebar").style.display = "none";
     }
-    
+    var donorReceiver = document.getElementById("donor-receiver");
     const userData = sessionStorage.getItem('userData');
+	if (userData.userType == 5) {
+		donorReceiver.innerHTML = "Donor Dashboard";
+	} else {
+		donorReceiver.innerHTML = "Receiver Dashboard";
+	}
     
     //const usernameTitle = userData.username;
     
