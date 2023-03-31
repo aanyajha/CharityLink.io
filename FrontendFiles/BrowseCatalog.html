@@ -8,8 +8,8 @@
 
   <style>
     img {
-      max-width: 100%;
-      height: auto;
+      height: 200px;
+      width: 200px;
     }
 
     .autocomplete {
@@ -114,7 +114,7 @@
 
     <form id="hashtagForm" autocomplete="off">
       <div class="autocomplete" style="width:300px;">
-        <input id="myInputHashtag" type="text" name="searchHashtags" placeholder="Search By Hashtag">
+        <input id="myInputHashtag" type="text" name="searchHashtags" placeholder="Search By Category">
       </div>
       <input type="submit" onclick="searchByHashtag()">
     </form><br>
@@ -331,6 +331,13 @@
       var itemHashtags;
       var itemID;
       var distance;
+
+      var itemImage = document.createElement('img');
+      var srcAttr = document.createAttribute('src');
+      if (item.img != null) {
+        srcAttr.value = item.img;
+      }
+
       if (searchtype == 0) {
         itemName = document.createElement('h3');
         itemHashtags = document.createElement('p');
@@ -361,15 +368,13 @@
       itemHashtags.textContent = item.hashtags;
       itemID.textContent = 'Item ID: ' + item.itemID;
       quantity.textContent = 'Quantity: [ ' + item.numItems + ' ]';
-      //itemImage.setAttribute('src', item.image);
+      itemImage.setAttributeNode(srcAttr);
       if (searchtype == 3) {
         distance.textContent = item.distance.toFixed(2) + " mi";
       }
-      console.log(item.name);
-      console.log(item.hashtags);
-      console.log(item.numItems);
 
       // Add elements to item container
+      itemContainer.appendChild(itemImage);
       if (searchtype == 0) {
         itemContainer.appendChild(itemName);
         itemContainer.appendChild(itemHashtags);
