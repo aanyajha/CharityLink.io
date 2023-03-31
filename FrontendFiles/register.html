@@ -301,15 +301,8 @@ function signUpFunc() {
         const data = this.responseText;
         console.log(data);
         //start userdata
-	var donorCheck = document.getElementById("donor-check").checked;
-	var donorBool;
-	if (donorCheck) {
-		donorBool = 0;
-	} else {
-		donorBool = 1;
-	}
-	      alert(donorBool);
-        const url1 = `http://20.232.208.15:8080/api/user/add?name=${name}&username=${username}&password=${password}&email=${email}&date=${formattedDate}&userType=4&locationID=${data}&donor=${donorBool}`;
+	const url1 = `http://20.232.208.15:8080/api/user/add?name=${name}&username=${username}&password=${password}&email=${email}&date=${formattedDate}&userType=4&locationID=${data}`      
+
         console.log("Sent User Info");
 
         const xhr1 = new XMLHttpRequest();
@@ -348,14 +341,10 @@ function signUpFunc() {
     xhr.send();
   } else {
 	  var donorCheck = document.getElementById("donor-check").checked;
-	var donorBool;
+	const url1 = `http://20.232.208.15:8080/api/user/add?name=${name}&username=${username}&password=${password}&email=${email}&date=${formattedDate}&userType=1&locationID=${data}`      
 	if (donorCheck) {
-		donorBool = 0;
-	} else {
-		donorBool = 1;
+		url1 = `http://20.232.208.15:8080/api/user/add?name=${name}&username=${username}&password=${password}&email=${email}&date=${formattedDate}&userType=5&locationID=${data}`
 	}
-	  alert(donorBool);
-    const url = `http://20.232.208.15:8080/api/user/add?name=${name}&username=${username}&password=${password}&email=${email}&date=${formattedDate}&userType=1&donor=${donorBool}`;
     console.log("Sent User Info");
 
     const xhr = new XMLHttpRequest();
