@@ -240,7 +240,7 @@
         const catalogData = JSON.parse(this.responseText);
         console.log(catalogData);
         if (catalogData.length == 0) {
-          alert("No items with name");
+          alert("No items in category");
         }
         if (document.getElementById("locationCheckbox").checked) {
           printCatalog(catalogData, 3);
