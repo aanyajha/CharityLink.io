@@ -256,9 +256,11 @@ public class MainController {
         Iterable<Item> inventory = itemRepository.findAll();
         ArrayList<String> hashtags = new ArrayList<>();
         for (Item i : inventory) {
-            for (String hashtag : i.getHashtags().split(",")) {
-                if (!hashtags.contains(hashtag)) {
-                    hashtags.add(hashtag);
+            if (i.getState().equals("INSTOCK")) {
+                for (String hashtag : i.getHashtags().split(",")) {
+                    if (!hashtags.contains(hashtag)) {
+                        hashtags.add(hashtag);
+                    }
                 }
             }
         }
@@ -270,8 +272,10 @@ public class MainController {
         Iterable<Item> inventory = itemRepository.findAll();
         ArrayList<String> names = new ArrayList<>();
         for (Item i : inventory) {
-            if (!names.contains(i.getName())) {
-                names.add(i.getName());
+            if (i.getState().equals("INSTOCK")) {
+                if (!names.contains(i.getName())) {
+                    names.add(i.getName());
+                }
             }
         }
         return names;
@@ -288,7 +292,8 @@ public class MainController {
                                                    @RequestParam(required = false) String name,
                                                    @RequestParam(required = false) Integer itemID,
                                                    @RequestParam(required = false) String location,
-                                                   @RequestParam(required = false) Integer userID) {
+                                                   @RequestParam(required = false) Integer userID,
+                                                   @RequestParam Integer state) {
         if (itemID != null && userID != null) {
             ArrayList<Item> items = new ArrayList<>();
             Item item = itemRepository.findItemByUserIDAndItemID(userID, itemID);
@@ -299,6 +304,25 @@ public class MainController {
         }
         ArrayList<Item> inventory = (userID == null) ? Lists.newArrayList(itemRepository.findAll()) : Lists.newArrayList(itemRepository.findItemsByUserID(userID));
         ArrayList<Item> search = new ArrayList<>();
+        if (state == 0) {
+            for (Item i : inventory) {
+                if (i.getState().equals("REQUESTED")) {
+                    search.add(i);
+                }
+            }
+            inventory.clear();
+            inventory.addAll(search);
+            search.clear();
+        } else if (state == 1) {
+            for (Item i : inventory) {
+                if (i.getState().equals("INSTOCK")) {
+                    search.add(i);
+                }
+            }
+            inventory.clear();
+            inventory.addAll(search);
+            search.clear();
+        }
         if (name != null) {
             for (Item i : inventory) {
                 if (i.getName().equals(name)) {
