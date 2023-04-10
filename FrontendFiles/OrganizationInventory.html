@@ -227,7 +227,7 @@
     checkboxes.forEach(checkboxVal => {
       console.log(checkboxVal.value);
       if (checkboxVal.checked) {
-        const url = `http://20.232.208.15:8080/api/item/delete?itemID=${checkboxVal.value}&userID=${userData.companyID}`;
+        const url = `http://172.174.33.35:8080/api/item/delete?itemID=${checkboxVal.value}&userID=${userData.companyID}`;
         console.log("Sent Item Deletion Info");
 
         const xhr1 = new XMLHttpRequest();
@@ -302,7 +302,7 @@
 
         console.log(imgUrl);
 
-      const url = `http://20.232.208.15:8080/api/item/add?userID=${userData.companyID}&name=${itemName}&state=1&numItems=${quantity}&hashtags=${hashtags}&location=${userData.locationID}&img=${imgUrl}`;
+      const url = `http://172.174.33.35:8080/api/item/add?userID=${userData.companyID}&name=${itemName}&state=1&numItems=${quantity}&hashtags=${hashtags}&location=${userData.locationID}&img=${imgUrl}`;
       console.log("Sent User Info");
 
       const xhr2 = new XMLHttpRequest();
@@ -360,7 +360,7 @@
         const hashtags = form.elements['hashtags'].value;
         var quantity = form.elements['quantity'].value;
 
-        const url = `http://20.232.208.15:8080/api/item/edit?itemID=${tempItemID}&userID=${userData.companyID}&name=${itemName}&state=1&numItems=${quantity}&hashtags=${hashtags}&location=${userData.locationID}`;
+        const url = `http://172.174.33.35:8080/api/item/edit?itemID=${tempItemID}&userID=${userData.companyID}&name=${itemName}&state=1&numItems=${quantity}&hashtags=${hashtags}&location=${userData.locationID}`;
         console.log("Sent User Info");
 
         const xhr2 = new XMLHttpRequest();
@@ -406,7 +406,7 @@
   function searchByName() {
     const name = document.getElementById("myInputName").value;
     console.log("name: " + name);
-    var url = `http://20.232.208.15:8080/api/item/search?userID=${userData.companyID}&name=${name}`;
+    var url = `http://172.174.33.35:8080/api/item/search?userID=${userData.companyID}&name=${name}`;
     var xhr = new XMLHttpRequest();
     xhr.open("GET", url, true);
 
@@ -433,7 +433,7 @@
   function searchByHashtag() {
     const hashtag = document.getElementById("myInputHashtag").value;
     console.log("hashtag: " + hashtag);
-    var url = `http://20.232.208.15:8080/api/item/search?userID=${userData.companyID}&hashtags=${hashtag}`;
+    var url = `http://172.174.33.35:8080/api/item/search?userID=${userData.companyID}&hashtags=${hashtag}`;
     var xhr = new XMLHttpRequest();
     xhr.open("GET", url, true);
 
@@ -460,7 +460,7 @@
   function searchByID() {
     const itemID = document.getElementById("myInputID").value;
     console.log("id: " + itemID);
-    var url = `http://20.232.208.15:8080/api/item/search?userID=${userData.companyID}&itemID=${itemID}`;
+    var url = `http://172.174.33.35:8080/api/item/search?userID=${userData.companyID}&itemID=${itemID}`;
     var xhr = new XMLHttpRequest();
     xhr.open("GET", url, true);
 
@@ -603,7 +603,7 @@
     // }
     console.log(userData.companyID);
 
-    var url = `http://20.232.208.15:8080/api/item/inventory?userID=${userData.companyID}`;
+    var url = `http://172.174.33.35:8080/api/item/inventory?userID=${userData.companyID}`;
     var xhr = new XMLHttpRequest();
     xhr.open("GET", url, true);
 
@@ -625,7 +625,7 @@
 
     xhr.send();
 
-    url = `http://20.232.208.15:8080/api/item/inventory/autofill/hashtag?userID=${userData.companyID}`;
+    url = `http://172.174.33.35:8080/api/item/inventory/autofill/hashtag?userID=${userData.companyID}`;
     xhr = new XMLHttpRequest();
     xhr.open("GET", url, true);
     // console.log("test");
@@ -645,7 +645,7 @@
 
     xhr.send();
 
-    url = `http://20.232.208.15:8080/api/item/inventory/autofill/name?userID=${userData.companyID}`;
+    url = `http://172.174.33.35:8080/api/item/inventory/autofill/name?userID=${userData.companyID}`;
     xhr = new XMLHttpRequest();
     xhr.open("GET", url, true);
     // console.log("test");

@@ -154,7 +154,7 @@
   function searchByName() {
     const name = document.getElementById("myInputName").value;
     console.log("name: " + name);
-    var url = `http://20.232.208.15:8080/api/item/search?name=${name}&state=0`;
+    var url = `http://172.174.33.35:8080/api/item/search?name=${name}&state=0`;
     var xhr = new XMLHttpRequest();
 
     xhr.onload = function () {
@@ -185,7 +185,7 @@
           navigator.geolocation.getCurrentPosition(function (position) {
             console.log("Latitude: " + position.coords.latitude);
             console.log("Longitude: " + position.coords.longitude);
-            url = `http://20.232.208.15:8080/api/item/search?name=${name}&location=${position.coords.latitude};${position.coords.longitude}&state=0`;
+            url = `http://172.174.33.35:8080/api/item/search?name=${name}&location=${position.coords.latitude};${position.coords.longitude}&state=0`;
             xhr.open("GET", url, true);
             xhr.send();
             return;
@@ -197,7 +197,7 @@
         }
       } else {
         var location;
-        var url1 = `http://20.232.208.15:8080/api/location/get?id=${userData.locationID}`;
+        var url1 = `http://172.174.33.35:8080/api/location/get?id=${userData.locationID}`;
         var xhr1 = new XMLHttpRequest();
         xhr1.open("GET", url1, true);
         xhr1.onload = function () {
@@ -207,7 +207,7 @@
             console.log(location.latitude);
             console.log(location.latitude != null && location.longitude != null);
             if (location.latitude != null && location.longitude != null) {
-              url = `http://20.232.208.15:8080/api/item/search?name=${name}&location=${location.latitude};${location.longitude}&state=0`;
+              url = `http://172.174.33.35:8080/api/item/search?name=${name}&location=${location.latitude};${location.longitude}&state=0`;
             }
             xhr.open("GET", url, true);
             xhr.send();
@@ -232,7 +232,7 @@
   function searchByHashtag() {
     const hashtag = document.getElementById("myInputHashtag").value;
     console.log("name: " + name);
-    var url = `http://20.232.208.15:8080/api/item/search?hashtags=${hashtag}&state=0`;
+    var url = `http://172.174.33.35:8080/api/item/search?hashtags=${hashtag}&state=0`;
     var xhr = new XMLHttpRequest();
 
     xhr.onload = function () {
@@ -264,9 +264,9 @@
             console.log("Latitude: " + position.coords.latitude);
             console.log("Longitude: " + position.coords.longitude);
             if (hashtag == "") {
-              url = `http://20.232.208.15:8080/api/item/search?location=${position.coords.latitude};${position.coords.longitude}&state=0`;
+              url = `http://172.174.33.35:8080/api/item/search?location=${position.coords.latitude};${position.coords.longitude}&state=0`;
             } else {
-              url = `http://20.232.208.15:8080/api/item/search?hashtags=${hashtag}&location=${position.coords.latitude};${position.coords.longitude}&state=0`;
+              url = `http://172.174.33.35:8080/api/item/search?hashtags=${hashtag}&location=${position.coords.latitude};${position.coords.longitude}&state=0`;
             }
             xhr.open("GET", url, true);
             xhr.send();
@@ -279,7 +279,7 @@
         }
       } else {
         var location;
-        var url1 = `http://20.232.208.15:8080/api/location/get?id=${userData.locationID}`;
+        var url1 = `http://172.174.33.35:8080/api/location/get?id=${userData.locationID}`;
         var xhr1 = new XMLHttpRequest();
         xhr1.open("GET", url1, true);
         xhr1.onload = function () {
@@ -290,9 +290,9 @@
             console.log(location.latitude != null && location.longitude != null);
             if (location.latitude != null && location.longitude != null) {
               if (hashtag == "") {
-                url = `http://20.232.208.15:8080/api/item/search?location=${location.latitude};${location.longitude}&state=0`;
+                url = `http://172.174.33.35:8080/api/item/search?location=${location.latitude};${location.longitude}&state=0`;
               } else {
-                url = `http://20.232.208.15:8080/api/item/search?hashtags=${hashtag}&location=${position.coords.latitude};${position.coords.longitude}&state=0`;
+                url = `http://172.174.33.35:8080/api/item/search?hashtags=${hashtag}&location=${position.coords.latitude};${position.coords.longitude}&state=0`;
               }
             }
             xhr.open("GET", url, true);
@@ -410,7 +410,7 @@
   function printData() {
     console.log(userData);
 
-    var url = `http://20.232.208.15:8080/api/item/search?state=0`;
+    var url = `http://172.174.33.35:8080/api/item/search?state=0`;
     var xhr = new XMLHttpRequest();
     xhr.open("GET", url, true);
 
@@ -431,7 +431,7 @@
 
     xhr.send();
 
-    url = `http://20.232.208.15:8080/api/item/catalog/autofill/hashtag`;
+    url = `http://172.174.33.35:8080/api/item/catalog/autofill/hashtag`;
     xhr = new XMLHttpRequest();
     xhr.open("GET", url, true);
 
@@ -450,7 +450,7 @@
 
     xhr.send();
 
-    url = `http://20.232.208.15:8080/api/item/catalog/autofill/name`;
+    url = `http://172.174.33.35:8080/api/item/catalog/autofill/name`;
     xhr = new XMLHttpRequest();
     xhr.open("GET", url, true);
 

@@ -25,7 +25,7 @@
 	<script>
 		
 			const eventDetails = JSON.parse(sessionStorage.getItem("eventData"));
-			const url = `http://20.232.208.15:8080/api/location/get?id=${eventDetails.locationID}`;
+			const url = `http://172.174.33.35:8080/api/location/get?id=${eventDetails.locationID}`;
   const xhr = new XMLHttpRequest();
   xhr.open("GET", url, true);
 
@@ -53,7 +53,7 @@
   xhr.send();
 		function rsvp() {
 			const userData = JSON.parse(sessionStorage.getItem("userData"));
-			const url = `http://20.232.208.15:8080/api/event/rsvp?id=${eventDetails.id}&userIds=${userData.id}`;
+			const url = `http://172.174.33.35:8080/api/event/rsvp?id=${eventDetails.id}&userIds=${userData.id}`;
   const xhr = new XMLHttpRequest();
   xhr.open("PUT", url, true);
 

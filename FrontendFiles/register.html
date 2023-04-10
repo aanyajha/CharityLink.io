@@ -82,7 +82,7 @@ Sign Up
 
 <style>
 @import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300);
-{
+body {
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
   margin: 0;
@@ -289,7 +289,7 @@ function signUpFunc() {
       return;
     }
 
-    const url = `http://20.232.208.15:8080/api/location/add?addressLine1=${address1}&addressLine2=${address2}&city=${city}&state=${state}&zip=${zip}`;
+    const url = `http://172.174.33.35:8080/api/location/add?addressLine1=${address1}&addressLine2=${address2}&city=${city}&state=${state}&zip=${zip}`;
 
     console.log("sent location");
 
@@ -301,7 +301,7 @@ function signUpFunc() {
         const data = this.responseText;
         console.log(data);
         //start userdata
-	const url1 = `http://20.232.208.15:8080/api/user/add?name=${name}&username=${username}&password=${password}&email=${email}&date=${formattedDate}&userType=4&locationID=${data}`      
+	const url1 = `http://172.174.33.35:8080/api/user/add?name=${name}&username=${username}&password=${password}&email=${email}&date=${formattedDate}&userType=4&locationID=${data}`      
 
         console.log("Sent User Info");
 
@@ -342,9 +342,9 @@ function signUpFunc() {
     xhr.send();
   } else {
 	  var donorCheck = document.getElementById("donor-check").checked;
-	var url = `http://20.232.208.15:8080/api/user/add?name=${name}&username=${username}&password=${password}&email=${email}&date=${formattedDate}&userType=1`;   
+	var url = `http://172.174.33.35:8080/api/user/add?name=${name}&username=${username}&password=${password}&email=${email}&date=${formattedDate}&userType=1`;   
 	if (donorCheck) {
-		url = `http://20.232.208.15:8080/api/user/add?name=${name}&username=${username}&password=${password}&email=${email}&date=${formattedDate}&userType=5`;
+		url = `http://172.174.33.35:8080/api/user/add?name=${name}&username=${username}&password=${password}&email=${email}&date=${formattedDate}&userType=5`;
 	}
     console.log("Sent User Info");
 
