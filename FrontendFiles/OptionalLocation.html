@@ -54,7 +54,7 @@ var joinData;
   var state = document.getElementById("state").value;
   var zip = document.getElementById("zip").value;
     
-    const eurl = `http://20.232.208.15:8080/api/user/login/email?email=${username}&password=${password}`;
+    const eurl = `http://172.174.33.35:8080/api/user/login/email?email=${username}&password=${password}`;
 
   const exhr = new XMLHttpRequest();
   exhr.open("GET", eurl, true);
@@ -87,9 +87,9 @@ var joinData;
   zip = zip.split(' ').join('+');
     console.log(addr1);
   if (!addr2) {
-    locurl = `http://20.232.208.15:8080/api/location/add?addressLine1=${addr1}&city=${city}&state=${state}&zip=${zip}`;
+    locurl = `http://172.174.33.35:8080/api/location/add?addressLine1=${addr1}&city=${city}&state=${state}&zip=${zip}`;
   } else {
-    locurl = `http://20.232.208.15:8080/api/location/add?addressLine1=${addr1}&addressLine2=${addr2}&city=${city}&state=${state}&zip=${zip}`;
+    locurl = `http://172.174.33.35:8080/api/location/add?addressLine1=${addr1}&addressLine2=${addr2}&city=${city}&state=${state}&zip=${zip}`;
   }
 console.log(locurl);
   locxhr.open("POST", locurl, true);
@@ -109,7 +109,7 @@ console.log(locurl);
       console.log(locationId);
       
       
-      const updateurl = `http://20.232.208.15:8080/api/user/update?email=${email}&locationID=${locationId}`;
+      const updateurl = `http://172.174.33.35:8080/api/user/update?email=${email}&locationID=${locationId}`;
 	console.log(updateurl);
       updatexhr.open("PUT", updateurl, true);
       updatexhr.send();

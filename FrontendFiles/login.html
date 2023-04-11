@@ -58,7 +58,7 @@
 <style>
     @import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300);
 
-      {
+      body {
       -webkit-box-sizing: border-box;
       box-sizing: border-box;
       margin: 0;
@@ -245,7 +245,7 @@ function loginAuth() {
   const passwordWarning = document.getElementById('password-warning');
 
   if (isValidEmail(username)) {
-    const url = `http://20.232.208.15:8080/api/user/login/email?email=${username}&password=${password}`;
+    const url = `http://172.174.33.35:8080/api/user/login/email?email=${username}&password=${password}`;
     console.log(username);
     console.log(password);
 
@@ -288,7 +288,7 @@ function loginAuth() {
             attemptDiv.innerHTML = "You have " + (10 - userAtt) + " more attempts to login with this email."
             if (userAtt == 10) {
               
-              const sus = `http://20.232.208.15:8080/api/email/suspicious?email=${username}`;
+              const sus = `http://172.174.33.35:8080/api/email/suspicious?email=${username}`;
               const xhr = new XMLHttpRequest();
               xhr.open("GET", sus, true);
               xhr.send();

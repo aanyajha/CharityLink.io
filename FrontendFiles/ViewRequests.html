@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-<title>Organization Inventory</title>
+<title>View Requests</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 
@@ -10,23 +10,6 @@
     img {
       height: 200px;
       width: 200px;
-    }
-
-    #popup {
-      display: none;
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background-color: #fff;
-      padding: 20px;
-      z-index: 9999;
-      border: 1px solid #ccc;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-    }
-
-    #popup.show {
-      display: block;
     }
 
     .autocomplete {
@@ -81,22 +64,6 @@
       background-color: #009999 !important;
       color: #ffffff;
     }
-
-    input[type="checkbox"] {
-      -webkit-appearance: none;
-      -moz-appearance: none;
-      appearance: none;
-      width: 30px;
-      height: 30px;
-      border: 2px solid #555;
-      border-radius: 4px;
-      outline: none;
-      cursor: pointer;
-    }
-
-    input[type="checkbox"]:checked {
-      background-color: #555;
-    }
   </style>
 
   <div class="w3-sidebar w3-bar-block w3-card w3-animate-right" style="display:none;right:0;" id="mySidebar">
@@ -104,18 +71,18 @@
     <button onclick="closeNav()" class="w3-bar-item w3-button w3-large">&#10005; Close</button>
 
     <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles" class="w3-bar-item w3-button">&#x27B2; Logout</a>
-    <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/OrganizationDashboard"
-      class="w3-bar-item w3-button">Dashboard</a>
-    <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/OrganizationManageRequests"
-      class="w3-bar-item w3-button">Manage Requests</a>
-    <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/OrganizationDeliveries"
-      class="w3-bar-item w3-button">Manage Deliveries</a>
-    <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/OrganizationEmployees"
-      class="w3-bar-item w3-button">Manage Employees</a>
-    <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/OrganizationManageEvents"
-      class="w3-bar-item w3-button">Manage Events</a>
-    <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/OrganizationSettings"
-      class="w3-bar-item w3-button">&#9965; Settings</a>
+    <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/" class="w3-bar-item w3-button">Dashboard</a>
+    <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/UserRequest" class="w3-bar-item w3-button">Make a
+      Request</a>
+    <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/BrowseCatalog" class="w3-bar-item w3-button">Browse Catalog</a>
+    <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/UserEvents" class="w3-bar-item w3-button">Events
+      Near Me</a>
+    <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/ViewProfiles" class="w3-bar-item w3-button">View
+      Organization Profiles</a>
+    <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/Deliver" class="w3-bar-item w3-button">Make a
+      Delivery</a>
+    <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/UserSettings" class="w3-bar-item w3-button">&#9965;
+      Settings</a>
     <a href="https://aanyajha.github.io/CharityLink.io" class="w3-bar-item w3-button"><img
         src="https://i.postimg.cc/Zq3dkdkW/Charitylink-Logo-Updated.png" alt="Charity Link Logo" width="200"
         height="65"></a>
@@ -128,14 +95,14 @@
 
   <div class="w3-pale-blue">
     <div class="w3-container">
-      <h1 style="color: #009999">Manage Inventory</h1>
+      <h1 style="color: #009999">View Requests</h1>
 
     </div>
   </div>
 
   <div class="w3-container">
-    <p>Welcome to Manage Inventory!</p>
-    <p>Here you can view your inventory.</p>
+    <p>Welcome to View Requests!</p>
+    <p>Here you can view requests to fulfill.</p>
   </div>
 
   <blockquote>
@@ -152,326 +119,135 @@
       </div>
       <input type="submit" onclick="searchByHashtag()">
     </form><br>
-
-    <form id="idForm" autocomplete="off">
-      <div class="autocomplete" style="width:300px;">
-        <input id="myInputID" type="text" name="searchIDs" placeholder="Search By ID">
-      </div>
-      <input type="submit" onclick="searchByID()">
-    </form><br>hashtags
+    <label>
+      <input id="locationCheckbox" type="checkbox" name="locationCheckbox">
+      Sort by Location
+    </label>
   </blockquote>
 
-  <div class="w3-container w3-border id=add-edit-delete">
-    <text type="text">Select the Following:</text>
-    <button type="button" id="addButton">
-      Add
-    </button>
-    <button type="button" id="editButton">
-      Edit
-    </button>
-    <button type="button" id="deleteButton">
-      Delete
-    </button>
-  </div>
-
-  <datalist id="nameSuggestions">
-  </datalist>
-  <datalist id="hashtagSuggestions">
-  </datalist>
-
-  <div id="popup">
-    <form id="addItem">
-      <br><label for="itemName">Item Name:</label>
-      <input type="text" id="itemName" name="itemName" required><br><br>
-      <input type="file" id="myFileInput">
-      <text>Use commas to separate hashtags, no spaces</text><br>
-      <label for="hashtags">Hashtags:</label>
-      <input type="hashtags" id="hashtags" name="hashtags" required><br><br>
-      <label for="quantity">Quantity:</label>
-      <input type="number" id="quantity" name="quantity" min="0" step="1" required><br><br>
-      <input type="submit" value="Add Item">
-    </form>
-  </div><br>
-
   <div class="w3-container w3-border" id="catalog"></div>
+
 </body>
 
-
 <script>
-  // Get reference to catalog container in HTML
   const catalogContainer = document.getElementById('catalog');
   var hashtagList = [];
   var nameList = [];
   autocomplete(document.getElementById("myInputName"), nameList);
   autocomplete(document.getElementById("myInputHashtag"), hashtagList);
-  autocomplete(document.getElementById("hashtags"), hashtagList);
   document.getElementById("nameForm").addEventListener('submit', submitForm);
   document.getElementById("hashtagForm").addEventListener('submit', submitForm);
-  document.getElementById("idForm").addEventListener('submit', submitForm);
 
-
+  // Define data for catalog
   var userData = JSON.parse(sessionStorage.getItem('userData'));
   if (userData != null) {
     printData();
-  }
-  else {
-    userData = { companyID: 102, email: "default1@gmail.com", id: 102, joinDate: "2023-02-28", locationID: 102, name: "org", password: "project", passwordToken: null, userType: 4, username: "default" };
+  } else {
+    userData = { companyID: -1, email: "vjasti@purdue.edu", id: 1, joinDate: "2023-02-27", locationID: -1, name: "Varun", password: "passwordtest", passwordToken: null, userType: 1, username: "vjasti" };
     printData();
   }
-  const id = userData.companyID;
 
-  // Add click event listener to item container
-  const deleteButton = document.getElementById('deleteButton');
-  deleteButton.addEventListener('click', () => {
-    const checkboxes = document.querySelectorAll('input[type="checkbox"]');
-    checkboxes.forEach(checkboxVal => {
-      console.log(checkboxVal.value);
-      if (checkboxVal.checked) {
-        const url = `http://172.174.33.35:8080/api/item/delete?itemID=${checkboxVal.value}&userID=${userData.companyID}`;
-        console.log("Sent Item Deletion Info");
+  // Get reference to catalog container in HTML
 
-        const xhr1 = new XMLHttpRequest();
-        xhr1.open("DELETE", url, true);
+  var catalogData;
 
+  function searchByName() {
+    const name = document.getElementById("myInputName").value;
+    console.log("name: " + name);
+    var url = `http://172.174.33.35:8080/api/item/search?name=${name}&state=0`;
+    var xhr = new XMLHttpRequest();
+
+    xhr.onload = function () {
+      if (this.status === 200) {
+        console.log(url);
+        const catalogData = JSON.parse(this.responseText);
+        console.log(catalogData);
+        if (catalogData.length == 0) {
+          alert("No items with name");
+        }
+        if (document.getElementById("locationCheckbox").checked) {
+          printCatalog(catalogData, 3);
+        } else {
+          printCatalog(catalogData, 0);
+        }
+      } else {
+        console.error("Request failed with status code", this.status);
+      }
+    }
+
+    xhr.onerror = function () {
+      console.error("Request failed");
+    };
+    if (document.getElementById("locationCheckbox").checked) {
+      if (userData.locationID == -1) {
+        //TODO: request location from browser
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(function (position) {
+            console.log("Latitude: " + position.coords.latitude);
+            console.log("Longitude: " + position.coords.longitude);
+            url = `http://172.174.33.35:8080/api/item/search?name=${name}&location=${position.coords.latitude};${position.coords.longitude}&state=0`;
+            xhr.open("GET", url, true);
+            xhr.send();
+            return;
+          }, function (error) {
+            console.error("Error getting location: " + error.message);
+          });
+        } else {
+          console.error("Geolocation is not supported by this browser.");
+        }
+      } else {
+        var location;
+        var url1 = `http://172.174.33.35:8080/api/location/get?id=${userData.locationID}`;
+        var xhr1 = new XMLHttpRequest();
+        xhr1.open("GET", url1, true);
         xhr1.onload = function () {
           if (this.status === 200) {
-            const data = this.responseText;
-            console.log(data);
-            printData();
+            location = JSON.parse(this.responseText);
+            console.log(location);
+            console.log(location.latitude);
+            console.log(location.latitude != null && location.longitude != null);
+            if (location.latitude != null && location.longitude != null) {
+              url = `http://172.174.33.35:8080/api/item/search?name=${name}&location=${location.latitude};${location.longitude}&state=0`;
+            }
+            xhr.open("GET", url, true);
+            xhr.send();
+            return;
           } else {
             console.error("Request failed with status code", this.status);
           }
-        };
+        }
 
         xhr1.onerror = function () {
           console.error("Request failed");
         };
 
         xhr1.send();
-        const div = checkboxVal.parentNode;
-        div.remove();
       }
-    });
-  });
-
-
-  const addButton = document.getElementById('addButton');
-  addButton.addEventListener('click', function (event) {
-    // Get the popup element and the form element
-    const popup = document.getElementById('popup');
-    const form = document.getElementById('addItem');
-
-    popup.classList.add('show');
-
-
-    // Send the form data to the API endpoint when the form is submitted
-    var fileInput = document.getElementById('myFileInput');
-    form.addEventListener('submit', function (event) {
-      event.preventDefault(); // Prevent the default form submission
-
-      const itemName = form.elements['itemName'].value;
-      const hashtags = form.elements['hashtags'].value;
-      var quantity = form.elements['quantity'].value;
-
-      var file = fileInput.files[0];
-      console.log(file);
-      var formData = new FormData();
-
-      var imgUrl;
-
-      //var reader = new FileReader();
-
-      // reader.onload = function (e) {
-      //   preview.setAttribute('src', e.target.result);
-      //   console.log(e.target.result);
-      // }
-
-      formData.append("image", file);
-
-
-
-      fetch("https://api.imgur.com/3/image/", {
-        method: "post",
-        headers: {
-          Authorization: "Client-ID 10f9b76f36bb0cb"
-        },
-        body: formData
-      }).then(data => data.json()).then(data => {
-
-        imgUrl = data.data.link;
-
-        console.log(imgUrl);
-
-      const url = `http://172.174.33.35:8080/api/item/add?userID=${userData.companyID}&name=${itemName}&state=1&numItems=${quantity}&hashtags=${hashtags}&location=${userData.locationID}&img=${imgUrl}`;
-      console.log("Sent User Info");
-
-      const xhr2 = new XMLHttpRequest();
-      xhr2.open("POST", url, true);
-
-      xhr2.onload = function () {
-        if (this.status === 200) {
-          console.log(this.responseText);
-          popup.classList.remove('show');
-          printData();
-        } else {
-          popup.classList.remove('show');
-          console.error("Request failed with status code", this.status);
-        }
-      };
-
-      xhr2.onerror = function () {
-        console.error("Request failed");
-      };
-
-      xhr2.send();
-    
-      })
-
-    
-
-      // close the popup
-      popup.classList.remove('show');
-      printData();
-    });
-  });
-
-  const editButton = document.getElementById('editButton');
-  editButton.addEventListener('click', () => {
-    const checkboxes = document.querySelectorAll('input[type="checkbox"]');
-    var checked = 0;
-    var tempItemID;
-    checkboxes.forEach(checkboxVal => {
-      if (checkboxVal.checked) {
-        checked++;
-        tempItemID = checkboxVal.value;
-      }
-    });
-
-    if (checked == 1) {
-      const popup = document.getElementById('popup');
-      const form = document.getElementById('addItem');
-
-      popup.classList.add('show');
-
-      form.addEventListener('submit', function (event) {
-        event.preventDefault(); // Prevent the default form submission
-
-        const itemName = form.elements['itemName'].value;
-        const hashtags = form.elements['hashtags'].value;
-        var quantity = form.elements['quantity'].value;
-
-        const url = `http://172.174.33.35:8080/api/item/edit?itemID=${tempItemID}&userID=${userData.companyID}&name=${itemName}&state=1&numItems=${quantity}&hashtags=${hashtags}&location=${userData.locationID}`;
-        console.log("Sent User Info");
-
-        const xhr2 = new XMLHttpRequest();
-        xhr2.open("PUT", url, true);
-
-        xhr2.onload = function () {
-          if (this.status === 200) {
-            console.log(this.responseText);
-            popup.classList.remove('show');
-            printData();
-          } else {
-            popup.classList.remove('show');
-            console.error("Request failed with status code", this.status);
-          }
-        };
-
-        xhr2.onerror = function () {
-          console.error("Request failed");
-        };
-
-        xhr2.send();
-
-        // close the popup
-        popup.classList.remove('show');
-        printData();
-      });
+    } else {
+      xhr.open("GET", url, true);
+      xhr.send();
     }
-
-    //else {
-    //alert("No item selected");
-
-    //}
-    //});
-  });
-
-  var catalogData;
-  // Define data for catalog
-
-  function submitForm(event) {
-    event.preventDefault();
-  }
-
-  function searchByName() {
-    const name = document.getElementById("myInputName").value;
-    console.log("name: " + name);
-    var url = `http://172.174.33.35:8080/api/item/search?userID=${userData.companyID}&name=${name}`;
-    var xhr = new XMLHttpRequest();
-    xhr.open("GET", url, true);
-
-    xhr.onload = function () {
-      if (this.status === 200) {
-        const catalogData = JSON.parse(this.responseText);
-        console.log(catalogData);
-        if (catalogData.length == 0) {
-          alert("No items with name");
-        }
-        printCatalog(catalogData, 0);
-      } else {
-        console.error("Request failed with status code", this.status);
-      }
-    }
-
-    xhr.onerror = function () {
-      console.error("Request failed");
-    };
-
-    xhr.send();
   }
 
   function searchByHashtag() {
     const hashtag = document.getElementById("myInputHashtag").value;
-    console.log("hashtag: " + hashtag);
-    var url = `http://172.174.33.35:8080/api/item/search?userID=${userData.companyID}&hashtags=${hashtag}`;
+    console.log("name: " + name);
+    var url = `http://172.174.33.35:8080/api/item/search?hashtags=${hashtag}&state=0`;
     var xhr = new XMLHttpRequest();
-    xhr.open("GET", url, true);
 
     xhr.onload = function () {
       if (this.status === 200) {
+        console.log(url);
         const catalogData = JSON.parse(this.responseText);
         console.log(catalogData);
         if (catalogData.length == 0) {
           alert("No items in category");
         }
-        printCatalog(catalogData, 1);
-      } else {
-        console.error("Request failed with status code", this.status);
-      }
-    }
-
-    xhr.onerror = function () {
-      console.error("Request failed");
-    };
-
-    xhr.send();
-  }
-
-  function searchByID() {
-    const itemID = document.getElementById("myInputID").value;
-    console.log("id: " + itemID);
-    var url = `http://172.174.33.35:8080/api/item/search?userID=${userData.companyID}&itemID=${itemID}`;
-    var xhr = new XMLHttpRequest();
-    xhr.open("GET", url, true);
-
-    xhr.onload = function () {
-      if (this.status === 200) {
-        const catalogData = JSON.parse(this.responseText);
-        console.log(catalogData);
-        if (catalogData.length == 2) {
-          alert("No items with id");
+        if (document.getElementById("locationCheckbox").checked) {
+          printCatalog(catalogData, 3);
+        } else {
+          printCatalog(catalogData, 1);
         }
-        printCatalog(catalogData, 2);
       } else {
         console.error("Request failed with status code", this.status);
       }
@@ -480,36 +256,67 @@
     xhr.onerror = function () {
       console.error("Request failed");
     };
+    if (document.getElementById("locationCheckbox").checked) {
+      if (userData.locationID == -1) {
+        //TODO: request location from browser
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(function (position) {
+            console.log("Latitude: " + position.coords.latitude);
+            console.log("Longitude: " + position.coords.longitude);
+            if (hashtag == "") {
+              url = `http://172.174.33.35:8080/api/item/search?location=${position.coords.latitude};${position.coords.longitude}&state=0`;
+            } else {
+              url = `http://172.174.33.35:8080/api/item/search?hashtags=${hashtag}&location=${position.coords.latitude};${position.coords.longitude}&state=0`;
+            }
+            xhr.open("GET", url, true);
+            xhr.send();
+            return;
+          }, function (error) {
+            console.error("Error getting location: " + error.message);
+          });
+        } else {
+          console.error("Geolocation is not supported by this browser.");
+        }
+      } else {
+        var location;
+        var url1 = `http://172.174.33.35:8080/api/location/get?id=${userData.locationID}`;
+        var xhr1 = new XMLHttpRequest();
+        xhr1.open("GET", url1, true);
+        xhr1.onload = function () {
+          if (this.status === 200) {
+            location = JSON.parse(this.responseText);
+            console.log(location);
+            console.log(location.latitude);
+            console.log(location.latitude != null && location.longitude != null);
+            if (location.latitude != null && location.longitude != null) {
+              if (hashtag == "") {
+                url = `http://172.174.33.35:8080/api/item/search?location=${location.latitude};${location.longitude}&state=0`;
+              } else {
+                url = `http://172.174.33.35:8080/api/item/search?hashtags=${hashtag}&location=${position.coords.latitude};${position.coords.longitude}&state=0`;
+              }
+            }
+            xhr.open("GET", url, true);
+            xhr.send();
+            return;
+          } else {
+            console.error("Request failed with status code", this.status);
+          }
+        }
 
-    xhr.send();
+        xhr1.onerror = function () {
+          console.error("Request failed");
+        };
+
+        xhr1.send();
+      }
+    } else {
+      xhr.open("GET", url, true);
+      xhr.send();
+    }
   }
 
-
-  function search() {
-    const searchInput = document.getElementById('search');
-    const suggestionsList = document.getElementById('suggestions');
-
-    fetch(`http://example.com/search?q=${searchTerm}`)
-      .then(response => response.json())
-      .then(data => {
-      })
-      .catch(error => console.error(error));
-
-    //put API DATA into array
-
-    var nameArray;
-
-
-    searchInput.addEventListener('input', function () {
-      const searchTerm = searchInput.value;
-
-      suggestionsList.innerHTML = ''; // Clear previous suggestions
-      data.forEach(item => {
-        const option = document.createElement('option');
-        option.value = item;
-        suggestionsList.appendChild(option);
-      });
-    });
+  function submitForm(event) {
+    event.preventDefault();
   }
 
   function printCatalog(catalogData, searchtype) {
@@ -521,18 +328,17 @@
       // Create elements for item
       console.log(item);
       const itemContainer = document.createElement('div');
-      const checkbox = document.createElement('input');
-      checkbox.type = 'checkbox';
-      checkbox.value = item.itemID;
-      console.log(checkbox.value);
       var itemName;
       var itemHashtags;
       var itemID;
+      var distance;
+
       var itemImage = document.createElement('img');
       var srcAttr = document.createAttribute('src');
       if (item.img != null) {
         srcAttr.value = item.img;
       }
+
       if (searchtype == 0) {
         itemName = document.createElement('h3');
         itemHashtags = document.createElement('p');
@@ -548,6 +354,11 @@
         itemID = document.createElement('h3');
         itemName = document.createElement('p');
         itemHashtags = document.createElement('p');
+      } else if (searchtype == 3) {
+        distance = document.createElement('h3');
+        itemID = document.createElement('p');
+        itemName = document.createElement('p');
+        itemHashtags = document.createElement('p');
       }
 
       const quantity = document.createElement('p');
@@ -559,12 +370,11 @@
       itemID.textContent = 'Item ID: ' + item.itemID;
       quantity.textContent = 'Quantity: [ ' + item.numItems + ' ]';
       itemImage.setAttributeNode(srcAttr);
-      console.log(item.name);
-      console.log(item.hashtags);
-      console.log(item.numItems);
+      if (searchtype == 3) {
+        distance.textContent = item.distance.toFixed(2) + " mi";
+      }
 
       // Add elements to item container
-      itemContainer.appendChild(checkbox);
       itemContainer.appendChild(itemImage);
       if (searchtype == 0) {
         itemContainer.appendChild(itemName);
@@ -577,6 +387,11 @@
         itemContainer.appendChild(itemID);
       }
       else if (searchtype == 2) {
+        itemContainer.appendChild(itemID);
+        itemContainer.appendChild(itemName);
+        itemContainer.appendChild(itemHashtags);
+      } else if (searchtype == 3) {
+        itemContainer.appendChild(distance);
         itemContainer.appendChild(itemID);
         itemContainer.appendChild(itemName);
         itemContainer.appendChild(itemHashtags);
@@ -593,17 +408,9 @@
 
   // Dynamically generate HTML elements for each item in the catalog
   function printData() {
+    console.log(userData);
 
-    const userType = userData.userType;
-    // var id = null;
-    // if (userType == 2 || userType == 3) {
-    //   id = userData.companyID;
-    // } else {
-    //   id = userData.id;
-    // }
-    console.log(userData.companyID);
-
-    var url = `http://172.174.33.35:8080/api/item/inventory?userID=${userData.companyID}`;
+    var url = `http://172.174.33.35:8080/api/item/search?state=0`;
     var xhr = new XMLHttpRequest();
     xhr.open("GET", url, true);
 
@@ -613,7 +420,6 @@
         console.log(data);
         catalogData = JSON.parse(data);
         printCatalog(catalogData, 0);
-
       } else {
         console.error("Request failed with status code", this.status);
       }
@@ -625,19 +431,18 @@
 
     xhr.send();
 
-    url = `http://172.174.33.35:8080/api/item/inventory/autofill/hashtag?userID=${userData.companyID}`;
+    url = `http://172.174.33.35:8080/api/item/catalog/autofill/hashtag`;
     xhr = new XMLHttpRequest();
     xhr.open("GET", url, true);
-    // console.log("test");
+
     xhr.onload = function () {
       if (this.status === 200) {
         hashtagList = JSON.parse(this.responseText);
         autocomplete(document.getElementById("myInputHashtag"), hashtagList);
-        autocomplete(document.getElementById("hashtags"), hashtagList);
       } else {
         console.error("Request failed with status code", this.status);
       }
-    }
+    };
 
     xhr.onerror = function () {
       console.error("Request failed");
@@ -645,10 +450,10 @@
 
     xhr.send();
 
-    url = `http://172.174.33.35:8080/api/item/inventory/autofill/name?userID=${userData.companyID}`;
+    url = `http://172.174.33.35:8080/api/item/catalog/autofill/name`;
     xhr = new XMLHttpRequest();
     xhr.open("GET", url, true);
-    // console.log("test");
+
     xhr.onload = function () {
       if (this.status === 200) {
         nameList = JSON.parse(this.responseText);
@@ -656,7 +461,7 @@
       } else {
         console.error("Request failed with status code", this.status);
       }
-    }
+    };
 
     xhr.onerror = function () {
       console.error("Request failed");
@@ -770,8 +575,6 @@
       closeAllLists(e.target);
     });
   }
-
-
 </script>
 
 </html>
