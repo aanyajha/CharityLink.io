@@ -293,7 +293,8 @@ public class MainController {
                                                    @RequestParam(required = false) Integer itemID,
                                                    @RequestParam(required = false) String location,
                                                    @RequestParam(required = false) Integer userID,
-                                                   @RequestParam Integer state) {
+                                                   @RequestParam Integer state,
+                                                   @RequestParam(required = false) Integer maxDistance) {
         if (itemID != null && userID != null) {
             ArrayList<Item> items = new ArrayList<>();
             Item item = itemRepository.findItemByUserIDAndItemID(userID, itemID);
@@ -374,7 +375,12 @@ public class MainController {
                             inventory.remove(i);
                             break;
                         }
-                        if (loc.findDistance(itemLoc.getLatitude(), itemLoc.getLongitude()) < min) {
+                        Double distance = loc.findDistance(itemLoc.getLatitude(), itemLoc.getLongitude());
+                        if (maxDistance != null && distance >= maxDistance) {
+                            inventory.remove(i);
+                            break;
+                        }
+                        if (distance < min) {
                             min = loc.findDistance(itemLoc.getLatitude(), itemLoc.getLongitude());
                             index = i;
                         }
