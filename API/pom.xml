@@ -2,14 +2,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 
-
-         <Connector
-  protocol="org.apache.coyote.http11.Http11NioProtocol"
-  port="8443" maxThreads="200"
-  scheme="https" secure="true" SSLEnabled="true"
-  keystoreFile="${user.home}/.keystore" keystorePass="changeit"
-  clientAuth="false" sslProtocol="TLS" sslEnabledProtocols="TLSv1.2"/>
-
+    
 
     <modelVersion>4.0.0</modelVersion>
     <parent>
