@@ -158,7 +158,7 @@
         <input id="myInputID" type="text" name="searchIDs" placeholder="Search By ID">
       </div>
       <input type="submit" onclick="searchByID()">
-    </form><br>hashtags
+    </form><br>
   </blockquote>
 
   <div class="w3-container w3-border id=add-edit-delete">
@@ -550,6 +550,7 @@
         itemHashtags = document.createElement('p');
       }
 
+      const itemState = document.createElement('p');
       const quantity = document.createElement('p');
       //const itemImage = document.createElement('img');
 
@@ -557,6 +558,7 @@
       itemName.textContent = item.name;
       itemHashtags.textContent = item.hashtags;
       itemID.textContent = 'Item ID: ' + item.itemID;
+      itemID.textContent = item.state;
       quantity.textContent = 'Quantity: [ ' + item.numItems + ' ]';
       itemImage.setAttributeNode(srcAttr);
       console.log(item.name);
@@ -581,6 +583,7 @@
         itemContainer.appendChild(itemName);
         itemContainer.appendChild(itemHashtags);
       }
+      itemContainer.appendChild(itemState);
       itemContainer.appendChild(quantity);
       //itemContainer.appendChild(itemImage);
 
