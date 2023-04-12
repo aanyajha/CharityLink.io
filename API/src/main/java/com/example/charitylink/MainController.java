@@ -26,6 +26,34 @@ public class MainController {
     @Autowired
     private ProfileRepository profileRepository;
 
+    @Autowired
+    private DonationRepository donationRepository;
+
+    @PostMapping(path = "/donation/add")
+    public @ResponseBody Donation addDonation(@RequestParam Integer itemID, @RequestParam Integer requester,
+                                            @RequestParam Integer donator, @RequestParam Integer quantity,
+                                            @RequestParam Integer state) {
+        String temp = "";
+        if (state == 0) {
+            temp = "INPROGRESS";
+        } else if (state == 1) {
+            temp = "DELIVERED";
+        }
+        Donation d = new Donation(itemID, requester, donator, quantity, temp);
+        donationRepository.save(d);
+        return d;
+    }
+
+    @GetMapping(path = "/donation/requester")
+    public @ResponseBody Iterable<Donation> donationByRequester(@RequestParam Integer requester) {
+        return donationRepository.findAllByRequester(requester);
+    }
+
+    @GetMapping(path = "/donation/donator")
+    public @ResponseBody Iterable<Donation> donationByDonator(@RequestParam Integer donator) {
+        return donationRepository.findAllByDonator(donator);
+    }
+
     @GetMapping(path = "/email/suspicious")
     public @ResponseBody String suspicious(@RequestParam String email) {
         List<Integer> userIdList = userRepository.findUserIdByEmail(email);
