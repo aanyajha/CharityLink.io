@@ -74,7 +74,8 @@
     <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/" class="w3-bar-item w3-button">Dashboard</a>
     <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/UserRequest" class="w3-bar-item w3-button">Make a
       Request</a>
-    <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/BrowseCatalog" class="w3-bar-item w3-button">Browse Catalog</a>
+    <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/BrowseCatalog" class="w3-bar-item w3-button">Browse
+      Catalog</a>
     <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/UserEvents" class="w3-bar-item w3-button">Events
       Near Me</a>
     <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/ViewProfiles" class="w3-bar-item w3-button">View
@@ -119,10 +120,13 @@
       </div>
       <input type="submit" onclick="searchByHashtag()">
     </form><br>
-    <label>
-      <input id="locationCheckbox" type="checkbox" name="locationCheckbox">
-      Sort by Location
-    </label>
+
+    <label for="maxDistance">Filter By Distance:</label>
+    <input type="number" id="maxDistance" name="maxDistance" style="width:80px" value="20" min="0" step="1" required> mi
+    <button type="button" id="goMaxDistance"
+      style="width:50px; background-color:#009999; color:white; border-color: white;" onClick="sortByMaxDistance()">
+      Go!
+    </button>
   </blockquote>
 
   <div class="w3-container w3-border" id="catalog"></div>
@@ -317,6 +321,39 @@
 
   function submitForm(event) {
     event.preventDefault();
+  }
+
+  function sortByMaxDistance() {
+    var xhr = new XMLHttpRequest();
+    xhr.onload = function () {
+      if (this.status === 200) {
+        console.log(url);
+        const catalogData = JSON.parse(this.responseText);
+        console.log(catalogData);
+        if (catalogData.length == 0) {
+          alert("No items within filtered distance");
+        }
+        printCatalog(catalogData, 3);
+      } else {
+        console.error("Request failed with status code", this.status);
+      }
+    }
+
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(function (position) {
+        console.log("Latitude: " + position.coords.latitude);
+        console.log("Longitude: " + position.coords.longitude);
+        const maxDist = document.getElementById("maxDistance");
+        url = `http://172.174.33.35:8080/api/item/search?location=${position.coords.latitude};${position.coords.longitude}&state=0&maxDistance=${maxDist.value}`;
+        xhr.open("GET", url, true);
+        xhr.send();
+        return;
+      }, function (error) {
+        console.error("Error getting location: " + error.message);
+      });
+    } else {
+      console.error("Geolocation is not supported by this browser.");
+    }
   }
 
   function printCatalog(catalogData, searchtype) {
