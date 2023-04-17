@@ -4,21 +4,27 @@
 </head>
 
 <body>
-  <button style="height:50px;width:200px">Go Back to Dashboard</button>
+  <button onclick="goToDashboard()" style="height:50px;width:200px;position: fixed;top: 10px;right: 10px;padding: 10px 20px;background-color: #009999;
+font-size: 15px;color: #fff;border-radius: 5px;border-color: #009999;z-index: 999">Go Back to Dashboard</button>
+
   <h1>Settings</h1>
   <p><b>NOTICE: </b> Your data will be stored in the CharityLink database and used for various functionality. Other CharityLink users will know your username, name, user type, and join date, but not your password, location, or email. Putting in your location is optional, however there will be limited functionality. The following is the personal information we have on you. Your username, name, password, and address can be changed, but your email, join date, and user type cannot. </p>
   
 <div>
 <p id="username">Pseudo name</p>
+
+<h3>Update Username and Email</h3>
 </div>
-<input type="text" value="" id="name-edit" style="height:50px;width:300px">
+<input type="text" value="" id="name-edit">
 
 <label id="name-word">Name: </label>
-<input type="text" value="pseudoname" id="real-name" readonly>
+<input type="text" value="pseudoname" id="real-name" readonly style="height:20px; width:300px;"><br><br>
 
 <label id="email-word">Email: </label>
-<input type="text" value="pseudo email" id="email" readonly>
+<input type="text" value="pseudo email" id="email" readonly style="height:20px;width:300px">
   
+<br>
+<h3>Update User Type</h3>
   <div>
   <label>Donor-oriented</label>	 
   <input type="radio" id="donor-check" name="donor-or-receiver" value="donor">
@@ -41,8 +47,8 @@ Join Date: pseudo date
 
 <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/RequestPasswordReset.html">Change Password</a>
 
-<p id="loc-word">Location</p>
-<input type="text" value="" id="vis-loc" readonly>
+<h3 id="loc-word">Location</h3>
+<input type="text" value="" id="vis-loc" readonly style="height:20px;width:300px">
 
 <p class="edit-loc">Address Line 1</p>
 <input type="text" value="123 state street" id="address1" class="edit-loc">
@@ -156,6 +162,10 @@ function deleteFunc() {
       return;
     }
   }
+}
+
+function goToDashboard() {
+  window.location.href = 'https://aanyajha.github.io/CharityLink.io/FrontendFiles/DefaultDashboard';
 }
 
 var userData = JSON.parse(sessionStorage.getItem('userData'));
