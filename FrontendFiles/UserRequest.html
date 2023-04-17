@@ -110,22 +110,67 @@ img {
 
 <script>
 	
-	function mainSubmit() {
+function mainSubmit(locID) {
+	//this is where we implement new request functionality
+  //send api request for a new item creation
 
-	
 
 }
 
 function oldAddressFunc() {
 
-	//add the code from location to this
-	mainSubmit();
+  //add the code from location to this
+  var userData = JSON.parse(sessionStorage.getItem('userData'));
+
+  if (userData.locationID == -1) {
+    alert("You do not have a saved location. Change this in your settings.");
+    return;
+  }
+
+  mainSubmit(userData.locationID);
 
 }
 
 function newAddressFunc() {
-	//add the code from location to this
-  mainSubmit();
+  //add the code from location to this
+
+  var userData = JSON.parse(sessionStorage.getItem('userData'));
+
+  var addr1 = document.getElementById("addr1").value;
+  var addr2 = document.getElementById("addr2").value;
+  var city = document.getElementById("city").value;
+  var state = document.getElementById("state").value;
+  var zip = document.getElementById("zip").value;
+
+  if (addr1.length == 0 || city.length == 0 || state.length == 0 || zip.length == 0) {
+    alert("Please fill out all of the following: Address 1, city, state, and zip code.");
+    return;
+
+  }
+
+  //this is the start of api functionality for location, copied from our settings
+  //TODO: FIXME (basically doesn't work because we don't know how we're gonna implement it yet)
+  
+
+  const locxhr = new XMLHttpRequest();
+  var locurl = "";
+
+  if (addr2.length == 0) {
+    locurl = `http://172.174.33.35:8080/api/location/add?addressLine1=${addr1}&city=${city}&state=${state}&zip=${zip}`;
+  } else {
+    locurl = `http://172.174.33.35:8080/api/location/add?addressLine1=${addr1}&addressLine2=${addr2}&city=${city}&state=${state}&zip=${zip}`;
+  }
+
+  locxhr.open("POST", locurl, true);
+  locxhr.send();
+  locxhr.onload = function() {
+    var locationId = this.responseText;
+    if (this.status === 200) {
+      mainSubmit(locationId);
+    }
+  }
+
+  
 }
 
 
@@ -133,34 +178,34 @@ function check() {
 
   //this function is used to check if everything is valid
   //so Varun's server doesn't die
-  
-  var name = document.getElementById("name");
-  var desc = document.getElementById("description");
-  
+
+  var name = document.getElementById("name").value;
+  var desc = document.getElementById("description").value;
+
   var ftf = document.getElementById("ftf");
   var deli = document.getElementById("delivery");
   var public = document.getElementById("public");
-  
+
   var oldAddress = document.getElementById("use-old");
   var newAddress = document.getElementById("use-new");
-  
+
   if (name.length == 0 || desc.length == 0) {
-  	alert("Fill in all input fields.");
-  	return -1;
+    alert("Fill in all input fields.");
+    return -1;
   }
   if (!ftf.checked && !deli.checked && !public.checked) {
-  	alert("Fill in all input fields.");
-  	return -1;
+    alert("Fill in all input fields.");
+    return -1;
   }
   if (!oldAddress.checked && !newAddress.checked) {
-  	alert("Fill in all input fields.");
-  	return -1;
+    alert("Fill in all input fields.");
+    return -1;
   }
-  
+
   if (oldAddress.checked) {
-  	newAddressFunc();
+    newAddressFunc();
   } else if (newAddress.checked) {
-  	oldAddressFunc();
+    oldAddressFunc();
   }
 
 }
@@ -176,15 +221,12 @@ function newAddr() {
 }
 
 function oldAddr() {
-	var addrClass = document.getElementsByClassName("address");
+  var addrClass = document.getElementsByClassName("address");
   for (var i = 0; i < addrClass.length; i++) {
     addrClass[i].style.display = "none";
   }
 }
-	
-	
-	
-	
+
 	
 	
 	
