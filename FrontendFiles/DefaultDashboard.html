@@ -45,15 +45,24 @@ img {
   </div>
  
   <div class="w3-container" style="text-align: center">
-  <button class="w3-button turquoise w3-border w3-xlarge" style="text-align: center;color: #009999" onClick="">Browse Catalog</button>
-    <button class="w3-button turquoise w3-border w3-xlarge" style="text-align: center;color: #009999" onClick="">Make a Request</button>
-    <button class="w3-button turquoise w3-border w3-xlarge" style="text-align: center;color: #009999" onClick="">Events Near Me</button>
+  <button class="w3-button turquoise w3-border w3-xlarge" style="text-align: center;color: #009999" onClick="browseCatalog()">Browse Catalog</button>
+    <button class="w3-button turquoise w3-border w3-xlarge" style="text-align: center;color: #009999" onClick="makeARequest()">Make a Request</button>
+    <button class="w3-button turquoise w3-border w3-xlarge" style="text-align: center;color: #009999" onClick="eventsNearMe()">Events Near Me</button>
   </div>
 
 </body>
 
 <script>
 	
+    function browseCatalog() {
+      windows.location.href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/BrowseCatalog";
+    }
+    function makeARequest() {
+      windows.location.href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/UserRequest" 
+    }
+    function eventsNearMe() {
+      windows.location.href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/UserEvents";
+    }
 	
 	
 		function openNav() {
