@@ -10,6 +10,9 @@ img {
       max-width: 100%;
       height: auto;
     }
+	.address {
+  display: none;
+}
 </style>
 
   <div class="w3-sidebar w3-bar-block w3-card w3-animate-right" style="display:none;right:0;" id="mySidebar">
@@ -42,10 +45,150 @@ img {
     <p>Welcome to Make a Request!</p>
     <p>Here you can request items.</p>
   </div>
+	
+	
+	<!DOCTYPE html>
+
+<head>
+
+</head>
+
+<body>
+  <label>Item Name:</label>
+  <input type="text" id="name"><br><br>
+
+  <label>Short Description:</label>
+  <input type="text" id="description"><br><br>
+
+  <label>Hashtags:</label>
+  <input type="text" id="hashtags"><br><br>
+
+  <input type="file" id="image">
+
+  <label for="quantity">Quantity (between 1 and 10):</label>
+  <input type="number" id="quantity" name="quantity" min="1" max="10">
+
+  <br>
+
+  <input type="radio" id="ftf" name="del-option">
+  <label>Face-to-face</label>
+  <input type="radio" id="delivery" name="del-option">
+  <label>Delivery</label>
+  <input type="radio" id="public" name="del-option" value="Public Meeting">
+  <label>Public Meeting</label>
+
+  <br><br>
+
+  <input type="radio" id="use-old" name="address" onclick="oldAddr()">
+  <label>Use Saved Address</label>
+  <input type="radio" id="use-new" name="address" onclick="newAddr()">
+  <label>Use New Address</label>
+
+  <br><br>
+
+  <label class="address">Address 1:</label>
+  <input type="text" id="addr1" class="address">
+  <label class="address">Address 2:</label>
+  <input type="text" id="addr2" class="address">
+  <label class="address">City:</label>
+  <input type="text" id="city" class="address">
+  <label class="address">State:</label>
+  <input type="text" id="state" class="address">
+  <label class="address">ZIP Code:</label>
+  <input type="text" id="zip" class="address">
+  <br>
+  <button id="submitButton" onclick="check()">
+    Submit
+  </button>
+
+</body>
+	
+	
 
 </body>
 
 <script>
+	
+	function mainSubmit() {
+
+	
+
+}
+
+function oldAddressFunc() {
+
+	//add the code from location to this
+	mainSubmit();
+
+}
+
+function newAddressFunc() {
+	//add the code from location to this
+  mainSubmit();
+}
+
+
+function check() {
+
+  //this function is used to check if everything is valid
+  //so Varun's server doesn't die
+  
+  var name = document.getElementById("name");
+  var desc = document.getElementById("description");
+  
+  var ftf = document.getElementById("ftf");
+  var deli = document.getElementById("delivery");
+  var public = document.getElementById("public");
+  
+  var oldAddress = document.getElementById("use-old");
+  var newAddress = document.getElementById("use-new");
+  
+  if (name.length == 0 || desc.length == 0) {
+  	alert("Fill in all input fields.");
+  	return -1;
+  }
+  if (!ftf.checked && !deli.checked && !public.checked) {
+  	alert("Fill in all input fields.");
+  	return -1;
+  }
+  if (!oldAddress.checked && !newAddress.checked) {
+  	alert("Fill in all input fields.");
+  	return -1;
+  }
+  
+  if (oldAddress.checked) {
+  	newAddressFunc();
+  } else if (newAddress.checked) {
+  	oldAddressFunc();
+  }
+
+}
+
+
+function newAddr() {
+
+  var addrClass = document.getElementsByClassName("address");
+  for (var i = 0; i < addrClass.length; i++) {
+    addrClass[i].style.display = "inline";
+  }
+
+}
+
+function oldAddr() {
+	var addrClass = document.getElementsByClassName("address");
+  for (var i = 0; i < addrClass.length; i++) {
+    addrClass[i].style.display = "none";
+  }
+}
+	
+	
+	
+	
+	
+	
+	
+	
+	
 		function openNav() {
       document.getElementById("mySidebar").style.display = "block";
     }
