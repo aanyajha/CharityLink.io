@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+  <title>Feedback</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+  <body>
+    <div class="w3-container w3-center">
+      <h1>Feedback</h1>
+      <p>Let us know how we can improve our app</p>
+    </div>
+    <div class="w3-container">
+      <form>
+        <label for="feedback">Enter your feedback here:</label>
+        <textarea id="feedback" name="feedback" rows="6" class="w3-input w3-border"></textarea>
+        <br>
+        <label for="anonymous">Send feedback anonymously:</label>
+        <input type="checkbox" id="anonymous" name="anonymous" class="w3-check">
+        <br><br>
+        <input type="submit" value="Submit" class="w3-button w3-turquoise w3-border w3-round-large">
+      </form>
+    </div>
+    <div class="w3-container w3-center">
+        <button onclick="goToDashboard()" style="height:50px;width:200px;position: fixed;top: 10px;right: 10px;padding: 10px 20px;background-color: #009999;
+        font-size: 15px;color: #fff;border-radius: 5px;border-color: #009999;z-index: 999">Go Back to Dashboard</button>
+    </div>
+    <script>
+      function goToDashboard() {
+        window.location.href = 'https://aanyajha.github.io/CharityLink.io/FrontendFiles/DefaultDashboard';
+    }
+    </script>
+  </body>
+</html>
