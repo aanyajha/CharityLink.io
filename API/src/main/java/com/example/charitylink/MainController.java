@@ -110,7 +110,7 @@ public class MainController {
     }
 
 
-
+    @CrossOrigin(origins = "*", allowedHeaders = "Access-Control-Allow-Origin")
     @PostMapping(path = "/feedback")
         public @ResponseBody String sendFeedbackEmail(@RequestBody String emailBody) {
         try {
