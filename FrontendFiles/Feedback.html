@@ -81,5 +81,21 @@ font-size: 15px;color: #fff;border-radius: 5px;border-color: #009999;z-index: 99
       function goToDashboard() {
         window.location.href = 'https://aanyajha.github.io/CharityLink.io/FrontendFiles/DefaultDashboard';
     }
+    function submitFeedback(event) {
+        event.preventDefault(); // prevent form submission
+        var userData = JSON.parse(sessionStorage.getItem('userData'));
+        var username = userData.email;
+        
+        const feedback = document.getElementById('feedback').value;
+        const anonymous = document.getElementById('anonymous').checked;
+        const username = anonymous ? 'anonymous' : username; // set username as 'anonymous' if checkbox is checked, else 'user'
+        const date = new Date().toLocaleString(); // get current date and time
+  
+        const emailBody = `Feedback from ${username} on ${date}:\n\n${feedback}`;
+        const mailtoLink = `mailto:aanyajha121@gmail.com?subject=Feedback&body=${encodeURIComponent(emailBody)}`;
+  
+        window.location.href = mailtoLink;
+
+    }
     </script>
 </html>
