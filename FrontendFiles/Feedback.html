@@ -83,7 +83,7 @@ font-size: 15px;color: #fff;border-radius: 5px;border-color: #009999;z-index: 99
     }
     function submitFeedback(event) {
 
-        event.preventDefault(); // prevent form submission
+        //event.preventDefault(); // prevent form submission
         var userData = JSON.parse(sessionStorage.getItem('userData'));
         var username = userData.email;
         
@@ -93,9 +93,13 @@ font-size: 15px;color: #fff;border-radius: 5px;border-color: #009999;z-index: 99
         const date = new Date().toLocaleString(); // get current date and time
   
         const emailBody = `Feedback from ${finalUsername} on ${date}:\n\n${feedback}`;
-        const mailtoLink = `mailto:aanyajha121@gmail.com?subject=Feedback&body=${encodeURIComponent(emailBody)}`;
+
+        const xhr = new XMLHttpRequest();
+        xhr.open("POST", "http://172.174.33.35:8080/api/feedback", true);
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.send(JSON.stringify(emailBody));
   
-        window.location.href = mailtoLink;
+        window.location.href = "https://aanyajha.github.io/CharityLink.io/FrontendFiles/Feedback.html";
 
     }
 

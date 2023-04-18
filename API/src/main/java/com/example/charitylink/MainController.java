@@ -109,6 +109,21 @@ public class MainController {
         }
     }
 
+
+
+    @PostMapping(path = "/feedback")
+        public @ResponseBody String sendFeedbackEmail(@RequestBody String emailBody) {
+        try {
+            new SendEmail().sendMail("aanyajha121@gmail.com", "Feedback", emailBody);
+        } catch (Exception e) {
+        System.out.println(e.getMessage());
+        return "Error sending feedback";
+        }
+        return "Feedback sent";
+    }
+
+
+
     @PostMapping(path = "/profile/add")
     public @ResponseBody Profile addNewProfile(@RequestParam Integer companyID, @RequestParam String statement,
                                                @RequestParam String logo) {
