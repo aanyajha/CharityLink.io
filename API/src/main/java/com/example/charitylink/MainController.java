@@ -70,6 +70,7 @@ public class MainController {
         }
     }
 
+    
     @GetMapping(path = "/password/reset")
     public @ResponseBody String passwordReset(@RequestParam String email) {
         List<Integer> userIdList = userRepository.findUserIdByEmail(email);
@@ -110,7 +111,7 @@ public class MainController {
     }
 
 
-    
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @GetMapping(path = "/feedback")
     public @ResponseBody String sendFeedbackEmail(@RequestParam("emailBody") String emailBody) {
     try {
