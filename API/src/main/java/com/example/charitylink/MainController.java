@@ -111,7 +111,7 @@ public class MainController {
     }
 
 
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    //@CrossOrigin(origins = "*", allowedHeaders = "*")
     @GetMapping(path = "/feedback")
     public @ResponseBody String sendFeedbackEmail(@RequestParam("emailBody") String emailBody) {
     try {
