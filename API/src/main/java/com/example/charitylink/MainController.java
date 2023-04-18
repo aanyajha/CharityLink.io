@@ -9,6 +9,7 @@ import java.util.*;
 
 @Controller
 @RequestMapping(path="/api")
+@CrossOrigin(origins = "*")
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 public class MainController {
     @Autowired
