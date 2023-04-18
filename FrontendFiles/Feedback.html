@@ -97,7 +97,7 @@ font-size: 15px;color: #fff;border-radius: 5px;border-color: #009999;z-index: 99
         const xhr = new XMLHttpRequest();
         const token = `http://172.174.33.35:8080/api/feedback?emailBody=${emailBody}`;
         xhr.open("POST", token, true);
-        xhr.open("GET", token, true);
+        //xhr.open("GET", token, true);
         xhr.send();
   
         window.location.href = "https://aanyajha.github.io/CharityLink.io/FrontendFiles/Feedback.html";
