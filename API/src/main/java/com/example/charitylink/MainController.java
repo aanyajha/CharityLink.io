@@ -299,11 +299,16 @@ public class MainController {
         Iterable<Item> inventory = itemRepository.findAll();
         ArrayList<String> hashtags = new ArrayList<>();
         for (Item i : inventory) {
-            if (i.getState().equals("INSTOCK")) {
+            /*if (i.getState().equals("INSTOCK")) {
                 for (String hashtag : i.getHashtags().split(",")) {
                     if (!hashtags.contains(hashtag)) {
                         hashtags.add(hashtag);
                     }
+                }
+            }*/
+            for (String hashtag : i.getHashtags().split(",")) {
+                if (!hashtags.contains(hashtag)) {
+                    hashtags.add(hashtag);
                 }
             }
         }
@@ -315,10 +320,13 @@ public class MainController {
         Iterable<Item> inventory = itemRepository.findAll();
         ArrayList<String> names = new ArrayList<>();
         for (Item i : inventory) {
-            if (i.getState().equals("INSTOCK")) {
+            /*if (i.getState().equals("INSTOCK")) {
                 if (!names.contains(i.getName())) {
                     names.add(i.getName());
                 }
+            }*/
+            if (!names.contains(i.getName())) {
+                names.add(i.getName());
             }
         }
         return names;
@@ -336,7 +344,7 @@ public class MainController {
                                                    @RequestParam(required = false) Integer itemID,
                                                    @RequestParam(required = false) String location,
                                                    @RequestParam(required = false) Integer userID,
-                                                   @RequestParam Integer state,
+                                                   /*@RequestParam Integer state,*/
                                                    @RequestParam(required = false) Integer maxDistance) {
         if (itemID != null && userID != null) {
             ArrayList<Item> items = new ArrayList<>();
@@ -348,7 +356,7 @@ public class MainController {
         }
         ArrayList<Item> inventory = (userID == null) ? Lists.newArrayList(itemRepository.findAll()) : Lists.newArrayList(itemRepository.findItemsByUserID(userID));
         ArrayList<Item> search = new ArrayList<>();
-        if (state == 0) {
+        /*if (state == 0) {
             for (Item i : inventory) {
                 if (i.getState().equals("REQUESTED")) {
                     search.add(i);
@@ -366,7 +374,7 @@ public class MainController {
             inventory.clear();
             inventory.addAll(search);
             search.clear();
-        }
+        }*/
         if (name != null) {
             for (Item i : inventory) {
                 if (i.getName().equals(name)) {
@@ -447,7 +455,7 @@ public class MainController {
 
     @PostMapping(path = "/item/add")
     public @ResponseBody String addNewItem(@RequestParam Integer userID, @RequestParam String name,
-                                           @RequestParam Integer state, @RequestParam Integer numItems,
+                                           /*@RequestParam Integer state,*/ @RequestParam Integer numItems,
                                            @RequestParam String hashtags, @RequestParam(required = false, defaultValue = "-1") String location,
                                            @RequestParam(required = false, defaultValue = "") String img) {
         List<Integer> maxIndex = itemRepository.findMaxItemIdByUser(userID);
@@ -455,7 +463,7 @@ public class MainController {
         if (maxIndex.size() > 0) {
             itemID = maxIndex.get(0);
         }
-        String s = "";
+        /*String s = "";
         if (state == 0) {
             s = "REQUESTED";
         } else if (state == 1) {
@@ -464,8 +472,8 @@ public class MainController {
             s = "INPROGRESS";
         } else {
             s = "UNKNOWN";
-        }
-        Item item = new Item(userID, itemID + 1, name, s, numItems, hashtags, Integer.parseInt(location), img);
+        }*/
+        Item item = new Item(userID, itemID + 1, name, /*s,*/ numItems, hashtags, Integer.parseInt(location), img);
         itemRepository.save(item);
         return "Saved";
     }
@@ -477,11 +485,11 @@ public class MainController {
 
     @PutMapping(path = "/item/edit")
     public @ResponseBody Item editItem(@RequestParam Integer userID, @RequestParam Integer itemID, @RequestParam(required = false) String name,
-                                       @RequestParam(required = false) Integer state, @RequestParam(required = false) Integer numItems,
+                                       /*@RequestParam(required = false) Integer state,*/ @RequestParam(required = false) Integer numItems,
                                        @RequestParam(required = false) String hashtags, @RequestParam(required = false) Integer locationID) {
         Item item = itemRepository.findItemByUserIDAndItemID(userID, itemID);
         if (name != null) item.setName(name);
-        if (state != null) {
+        /*if (state != null) {
             if (state == 0) {
                 item.setState("REQUESTED");
             } else if (state == 1) {
@@ -491,7 +499,7 @@ public class MainController {
             } else {
                 item.setState("UNKNOWN");
             }
-        }
+        }*/
         if (numItems != null) item.setNumItems(numItems);
         if (hashtags != null) item.setHashtags(hashtags);
         if (locationID != null) item.setLocation(locationID);
