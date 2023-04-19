@@ -36,16 +36,16 @@ public class MainController {
     public @ResponseBody Request addUserRequest(@RequestParam String name, @RequestParam String hashtags,
                                                 @RequestParam Integer quantity, @RequestParam Integer requester,
                                                 @RequestParam String location, @RequestParam Integer deliveryType) {
-        String[] locationAttributes = location.split(",");
-        Location loc;
-        if (locationAttributes.length != 5) {
-            return null;
+        String[] locationAttributes = location.split(";");
+        Integer loc;
+        if (locationAttributes.length == 5) {
+            loc = addNewLocation(locationAttributes[0], locationAttributes[1], locationAttributes[2], locationAttributes[3], Integer.parseInt(locationAttributes[4]));
+        } else if (locationAttributes.length == 1) {
+            loc = Integer.parseInt(locationAttributes[0]);
         } else {
-            loc = new Location(locationAttributes[0], locationAttributes[1], locationAttributes[2], locationAttributes[3], Integer.parseInt(locationAttributes[0]));
-            locationRepository.save(loc);
+            return null;
         }
-        Item item = addNewItem(requester, name, 0, hashtags, loc.getId() + "", "");
-        itemRepository.save(item);
+        Item item = addNewItem(requester, name, 0, hashtags, loc + "", "");
         String s = "";
         switch (deliveryType) {
             case 0:
