@@ -32,6 +32,26 @@ public class MainController {
     @Autowired
     private RequestRepository requestRepository;
 
+    @PutMapping(path = "/request/update/address")
+    public @ResponseBody Request editRequestAddress(@RequestParam Integer id, @RequestParam String location) {
+        String[] locationAttributes = location.split(";");
+        Integer loc;
+        if (locationAttributes.length == 5) {
+            loc = addNewLocation(locationAttributes[0], locationAttributes[1], locationAttributes[2], locationAttributes[3], Integer.parseInt(locationAttributes[4]));
+        } else if (locationAttributes.length == 1) {
+            loc = Integer.parseInt(locationAttributes[0]);
+        } else {
+            return null;
+        }
+        Request r = requestRepository.findById(id).get();
+        if (r == null) {
+            return null;
+        }
+        r.setLocation(loc);
+        requestRepository.save(r);
+        return r;
+    }
+
     @PostMapping(path = "/request/add/user")
     public @ResponseBody Request addUserRequest(@RequestParam String name, @RequestParam String hashtags,
                                                 @RequestParam Integer quantity, @RequestParam Integer requester,
