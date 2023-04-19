@@ -68,7 +68,7 @@ img {
   <label>Face-to-face</label>
   <input type="radio" id="delivery" name="del-option">
   <label>Delivery</label>
-  <input type="radio" id="public" name="del-option" value="Public Meeting">
+  <input type="radio" id="public" name="del-option">
   <label>Public Meeting</label>
 
   <br><br>
@@ -103,6 +103,13 @@ img {
 </body>
 
 <script>
+
+var userData = JSON.parse(sessionStorage.getItem('userData'));
+if (userData != null) {
+    
+} else {
+    userData = { companyID: -1, email: "vjasti@purdue.edu", id: 1, joinDate: "2023-02-27", locationID: -1, name: "Varun", password: "passwordtest", passwordToken: null, userType: 1, username: "vjasti" };
+}
 	
 function mainSubmit(locID) {
 	//this is where we implement new request functionality
@@ -114,8 +121,8 @@ function mainSubmit(locID) {
 function oldAddressFunc() {
 
   //add the code from location to this
-  var userData = JSON.parse(sessionStorage.getItem('userData'));
 
+  
   if (userData.locationID == -1) {
     alert("You do not have a saved location. Change this in your settings.");
     return;
@@ -128,8 +135,6 @@ function oldAddressFunc() {
 function newAddressFunc() {
   //add the code from location to this
 
-  var userData = JSON.parse(sessionStorage.getItem('userData'));
-
   var addr1 = document.getElementById("addr1").value;
   var addr2 = document.getElementById("addr2").value;
   var city = document.getElementById("city").value;
@@ -139,13 +144,12 @@ function newAddressFunc() {
   if (addr1.length == 0 || city.length == 0 || state.length == 0 || zip.length == 0) {
     alert("Please fill out all of the following: Address 1, city, state, and zip code.");
     return;
-
   }
 
   //this is the start of api functionality for location, copied from our settings
   //TODO: FIXME (basically doesn't work because we don't know how we're gonna implement it yet)
   
-
+/*
   const locxhr = new XMLHttpRequest();
   var locurl = "";
 
@@ -163,6 +167,7 @@ function newAddressFunc() {
       mainSubmit(locationId);
     }
   }
+  */
 
   
 }
@@ -174,7 +179,6 @@ function check() {
   //so Varun's server doesn't die
 
   var name = document.getElementById("name").value;
-  var desc = document.getElementById("description").value;
 
   var ftf = document.getElementById("ftf");
   var deli = document.getElementById("delivery");
@@ -183,7 +187,7 @@ function check() {
   var oldAddress = document.getElementById("use-old");
   var newAddress = document.getElementById("use-new");
 
-  if (name.length == 0 || desc.length == 0) {
+  if (name.length == 0) {
     alert("Fill in all input fields.");
     return -1;
   }
@@ -197,16 +201,77 @@ function check() {
   }
 
   if (oldAddress.checked) {
-    newAddressFunc();
-  } else if (newAddress.checked) {
     oldAddressFunc();
+  } else if (newAddress.checked) {
+    newAddressFunc();
   }
 
+  addRequest();
+}
+
+function addRequest() {
+    // Get the popup element and the form element
+    var name = document.getElementById("name").value;
+    var hashtags = document.getElementById("hashtags").value;
+    var quantity = document.getElementById("quantity").value;
+
+    var ftf = document.getElementById("ftf").checked;
+    var deli = document.getElementById("delivery").checked;
+    var public = document.getElementById("public").checked;
+    var newAddress = document.getElementById("use-new").checked;
+
+    var address;
+    var deliveryType;
+
+    if (newAddress) {
+        var addr1 = document.getElementById("addr1").value;
+        var addr2 = document.getElementById("addr2").value;
+        var city = document.getElementById("city").value;
+        var state = document.getElementById("state").value;
+        var zip = document.getElementById("zip").value;
+        address = addr1 + ";" + addr2 + ";" + city + ";" + state + ";" + zip;
+        address = address.replaceAll(" ", "+");
+    }
+    else {
+        address = userData.locationID;
+    }
+
+    if (ftf) {
+        deliveryType = 0;
+    }
+    else if (deli) {
+        deliveryType = 1;
+    }
+    else if (public) {
+        deliverType = 2;
+    }
+    console.log(deliveryType);
+
+    const url = `http://172.174.33.35:8080/api/request/add/user?requester=${userData.id}&name=${name}&quantity=${quantity}&hashtags=${hashtags}&location=${address}&deliveryType=${deliveryType}`;
+    console.log(url);
+    console.log("Sent User Info");
+
+    const xhr2 = new XMLHttpRequest();
+    xhr2.open("POST", url, true);
+
+    xhr2.onload = function () {
+        if (this.status === 200) {
+          console.log(this.responseText);
+          alert("Request Made");
+        } else {
+          console.error("Request failed with status code", this.status);
+        }
+    };
+
+    xhr2.onerror = function () {
+      console.error("Request failed");
+    };
+
+    xhr2.send();
 }
 
 
 function newAddr() {
-
   var addrClass = document.getElementsByClassName("address");
   for (var i = 0; i < addrClass.length; i++) {
     addrClass[i].style.display = "inline";
@@ -224,9 +289,7 @@ function oldAddr() {
 	
 	
 	
-	
-	
-		function openNav() {
+	function openNav() {
       document.getElementById("mySidebar").style.display = "block";
     }
 
@@ -234,7 +297,6 @@ function oldAddr() {
       document.getElementById("mySidebar").style.display = "none";
     }
     
-    const userData = sessionStorage.getItem('userData');
     
     //const usernameTitle = userData.username;
     
