@@ -420,7 +420,7 @@
     checkboxes.forEach(checkboxVal => {
       console.log(checkboxVal.value);
       if (checkboxVal.checked) {
-        const url = ``;
+        const url = `http://172.174.33.35:8080/api/request/delete?id=${checkboxVal.value}`;
         console.log("Sent Item Deletion Info");
 
         const xhr1 = new XMLHttpRequest();
