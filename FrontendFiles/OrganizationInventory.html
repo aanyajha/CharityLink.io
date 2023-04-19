@@ -302,7 +302,7 @@
 
         console.log(imgUrl);
 
-      const url = `http://172.174.33.35:8080/api/item/add?userID=${userData.companyID}&name=${itemName}&state=1&numItems=${quantity}&hashtags=${hashtags}&location=${userData.locationID}&img=${imgUrl}`;
+      const url = `http://172.174.33.35:8080/api/item/add?userID=${userData.companyID}&name=${itemName}&numItems=${quantity}&hashtags=${hashtags}&location=${userData.locationID}&img=${imgUrl}`;
       console.log("Sent User Info");
 
       const xhr2 = new XMLHttpRequest();
@@ -360,7 +360,7 @@
         const hashtags = form.elements['hashtags'].value;
         var quantity = form.elements['quantity'].value;
 
-        const url = `http://172.174.33.35:8080/api/item/edit?itemID=${tempItemID}&userID=${userData.companyID}&name=${itemName}&state=1&numItems=${quantity}&hashtags=${hashtags}&location=${userData.locationID}`;
+        const url = `http://172.174.33.35:8080/api/item/edit?itemID=${tempItemID}&userID=${userData.companyID}&name=${itemName}&numItems=${quantity}&hashtags=${hashtags}&location=${userData.locationID}`;
         console.log("Sent User Info");
 
         const xhr2 = new XMLHttpRequest();
@@ -558,7 +558,7 @@
       itemName.textContent = item.name;
       itemHashtags.textContent = item.hashtags;
       itemID.textContent = 'Item ID: ' + item.itemID;
-      itemID.textContent = item.state;
+      // itemID.textContent = item.state;
       quantity.textContent = 'Quantity: [ ' + item.numItems + ' ]';
       itemImage.setAttributeNode(srcAttr);
       console.log(item.name);
@@ -583,7 +583,7 @@
         itemContainer.appendChild(itemName);
         itemContainer.appendChild(itemHashtags);
       }
-      itemContainer.appendChild(itemState);
+      // itemContainer.appendChild(itemState);
       itemContainer.appendChild(quantity);
       //itemContainer.appendChild(itemImage);
 

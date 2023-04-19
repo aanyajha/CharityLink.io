@@ -10,7 +10,7 @@ public class Item {
     @Id
     private Integer itemID;
     private String name;
-    private String state;
+    //private String state;
     private Integer numItems;
     private String hashtags;
     private Integer location;
@@ -18,21 +18,21 @@ public class Item {
     @Transient
     private Double distance;
 
-    public Item(Integer userID, String name, String state, Integer numItems, String hashtags, Integer location, String img) {
+    public Item(Integer userID, String name, /*String state,*/ Integer numItems, String hashtags, Integer location, String img) {
         this.userID = userID;
         this.name = name;
-        this.state = state;
+        //this.state = state;
         this.numItems = numItems;
         this.hashtags = hashtags;
         this.location = location;
         this.img = img;
     }
 
-    public Item(Integer userID, Integer itemID, String name, String state, Integer numItems, String hashtags, Integer location, String img) {
+    public Item(Integer userID, Integer itemID, String name, /*String state,*/ Integer numItems, String hashtags, Integer location, String img) {
         this.userID = userID;
         this.itemID = itemID;
         this.name = name;
-        this.state = state;
+        //this.state = state;
         this.numItems = numItems;
         this.hashtags = hashtags;
         this.location = location;
@@ -74,13 +74,13 @@ public class Item {
         this.itemID = itemID;
     }
 
-    public String getState() {
+    /*public String getState() {
         return state;
     }
 
     public void setState(String state) {
         this.state = state;
-    }
+    }*/
 
     public Integer getNumItems() {
         return numItems;
