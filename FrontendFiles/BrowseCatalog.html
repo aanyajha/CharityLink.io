@@ -62,7 +62,25 @@
     .autocomplete-active {
       /*when navigating through the items using the arrow keys:*/
       background-color: #009999 !important;
-      color: #ffffff;
+      color: 
+      
+      #ffffff;
+    }
+    
+    input[type="checkbox"] {
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+      width: 30px;
+      height: 30px;
+      border: 2px solid #555;
+      border-radius: 4px;
+      outline: none;
+      cursor: pointer;
+    }
+
+    input[type="checkbox"]:checked {
+      background-color: #555;
     }
   </style>
 
@@ -124,6 +142,16 @@
       Sort by Location
     </label>
   </blockquote>
+
+  <div class="w3-container">
+    <button type="button" id="requestItem" onClick="requestItem()" style="height:50px;width:300px;padding: 10px 20px;background-color: #009999;
+      font-size: 15px;color: #fff;border-radius: 5px;border-color: #009999;z-index: 999;">
+        Request Selected Items
+      </button>
+      </div>
+      <br>
+  
+    <div class="w3-container w3-border" id="catalog"></div>
 
   <div class="w3-container w3-border" id="catalog"></div>
 
@@ -325,38 +353,35 @@
       catalogContainer.removeChild(catalogContainer.firstChild);
     }
     catalogData.forEach(item => {
+      if (item.numItems != 0) {
       // Create elements for item
       console.log(item);
       const itemContainer = document.createElement('div');
       var itemName;
       var itemHashtags;
-      var itemID;
+      //var itemID;
       var distance;
+      const checkbox = document.createElement('input');
+      checkbox.type = 'checkbox';
+      checkbox.value = item.itemID;
 
       var itemImage = document.createElement('img');
       var srcAttr = document.createAttribute('src');
-      if (item.img != null) {
-        srcAttr.value = item.img;
-      }
 
+      itemContainer.appendChild(checkbox);
       if (searchtype == 0) {
         itemName = document.createElement('h3');
         itemHashtags = document.createElement('p');
-        itemID = document.createElement('p');
+        //itemID = document.createElement('p');
       }
       else if (searchtype == 1) {
         itemHashtags = document.createElement('h3');
         itemName = document.createElement('p');
-        itemID = document.createElement('p');
+        //itemID = document.createElement('p');
 
-      }
-      else if (searchtype == 2) {
-        itemID = document.createElement('h3');
-        itemName = document.createElement('p');
-        itemHashtags = document.createElement('p');
       } else if (searchtype == 3) {
         distance = document.createElement('h3');
-        itemID = document.createElement('p');
+        //itemID = document.createElement('p');
         itemName = document.createElement('p');
         itemHashtags = document.createElement('p');
       }
@@ -367,8 +392,20 @@
       // Set content and attributes for elements
       itemName.textContent = item.name;
       itemHashtags.textContent = item.hashtags;
-      itemID.textContent = 'Item ID: ' + item.itemID;
+      //itemID.textContent = 'Item ID: ' + item.itemID;
       quantity.textContent = 'Quantity: [ ' + item.numItems + ' ]';
+      console.log("Before: " + srcAttr.value);
+      const regex = /^https?:\/\/[a-z0-9]+(\.[a-z0-9]+)*(:[0-9]+)?(\/.*)?$/;
+
+      if (!regex.test(item.img)) {
+        srcAttr.value = `https://i.postimg.cc/1tpvZg4Y/charitylinkdefault.jpg`;
+        console.log("Updated: " + srcAttr.value);
+      }
+      else {
+        srcAttr.value = item.img;
+        console.log("Item.img: " + item.img);
+      }
+
       itemImage.setAttributeNode(srcAttr);
       if (searchtype == 3) {
         distance.textContent = item.distance.toFixed(2) + " mi";
@@ -379,21 +416,16 @@
       if (searchtype == 0) {
         itemContainer.appendChild(itemName);
         itemContainer.appendChild(itemHashtags);
-        itemContainer.appendChild(itemID);
+        //itemContainer.appendChild(itemID);
       }
       else if (searchtype == 1) {
         itemContainer.appendChild(itemHashtags);
         itemContainer.appendChild(itemName);
-        itemContainer.appendChild(itemID);
-      }
-      else if (searchtype == 2) {
-        itemContainer.appendChild(itemID);
-        itemContainer.appendChild(itemName);
-        itemContainer.appendChild(itemHashtags);
+        //itemContainer.appendChild(itemID);
       } else if (searchtype == 3) {
         itemContainer.appendChild(distance);
-        itemContainer.appendChild(itemID);
-        itemContainer.appendChild(itemName);
+        //itemContainer.appendChild(itemID);
+        //itemContainer.appendChild(itemName);
         itemContainer.appendChild(itemHashtags);
       }
       itemContainer.appendChild(quantity);
@@ -403,6 +435,7 @@
 
       // Add item container to catalog container
       catalogContainer.appendChild(itemContainer);
+    }
     });
   }
 
