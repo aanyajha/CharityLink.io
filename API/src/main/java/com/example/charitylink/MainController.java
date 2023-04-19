@@ -44,7 +44,7 @@ public class MainController {
             loc = new Location(locationAttributes[0], locationAttributes[1], locationAttributes[2], locationAttributes[3], Integer.parseInt(locationAttributes[0]));
             locationRepository.save(loc);
         }
-        Item item = addNewItem(requester, name, quantity, hashtags, loc.getId() + "", "");
+        Item item = addNewItem(requester, name, 0, hashtags, loc.getId() + "", "");
         itemRepository.save(item);
         String s = "";
         switch (deliveryType) {
