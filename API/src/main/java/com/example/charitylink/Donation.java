@@ -21,4 +21,52 @@ public class Donation {
         this.quantity = quantity;
         this.state = state;
     }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Integer getItemID() {
+        return itemID;
+    }
+
+    public void setItemID(Integer itemID) {
+        this.itemID = itemID;
+    }
+
+    public Integer getRequester() {
+        return requester;
+    }
+
+    public void setRequester(Integer requester) {
+        this.requester = requester;
+    }
+
+    public Integer getDonator() {
+        return donator;
+    }
+
+    public void setDonator(Integer donator) {
+        this.donator = donator;
+    }
+
+    public Integer getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
 }

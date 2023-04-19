@@ -20,10 +20,6 @@ public class CharityLinkApplication {
 //    }
 
     public static void main(String[] args) {
-
-
-
-
         SpringApplication.run(CharityLinkApplication.class, args);
     }
 
