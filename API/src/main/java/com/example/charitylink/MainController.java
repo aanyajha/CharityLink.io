@@ -83,6 +83,12 @@ public class MainController {
         return r;
     }
 
+    @DeleteMapping(path = "/request/delete")
+    public @ResponseBody String deleteRequest(@RequestParam Integer id) {
+        requestRepository.deleteById(id);
+        return "Deleted";
+    }
+
     @GetMapping(path = "/request/all")
     public @ResponseBody Iterable<Request> getAllRequests(@RequestParam(required = false) String name,
                                                           @RequestParam(required = false) String hashtags,
