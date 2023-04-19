@@ -32,6 +32,37 @@ public class MainController {
     @Autowired
     private RequestRepository requestRepository;
 
+    @PostMapping(path = "/request/add/user")
+    public @ResponseBody Request addUserRequest(@RequestParam String name, @RequestParam String hashtags,
+                                                @RequestParam Integer quantity, @RequestParam Integer requester,
+                                                @RequestParam String location, @RequestParam Integer deliveryType) {
+        String[] locationAttributes = location.split(",");
+        Location loc;
+        if (locationAttributes.length != 5) {
+            return null;
+        } else {
+            loc = new Location(locationAttributes[0], locationAttributes[1], locationAttributes[2], locationAttributes[3], Integer.parseInt(locationAttributes[0]));
+            locationRepository.save(loc);
+        }
+        Item item = addNewItem(requester, name, quantity, hashtags, loc.getId() + "", "");
+        itemRepository.save(item);
+        String s = "";
+        switch (deliveryType) {
+            case 0:
+                s = "F2F";
+                break;
+            case 1:
+                s = "DELIVERY";
+                break;
+            case 2:
+                s = "PUBLIC";
+                break;
+        }
+        Request request = new Request(requester, item.getItemID(), quantity, s);
+        requestRepository.save(request);
+        return request;
+    }
+
     @PostMapping(path = "/request/add")
     public @ResponseBody Request addRequest(@RequestParam Integer itemID, @RequestParam Integer requester,
                                             @RequestParam Integer quantity, @RequestParam Integer deliveryType) {
@@ -591,8 +622,8 @@ public class MainController {
     }
 
     @PostMapping(path = "/item/add")
-    public @ResponseBody String addNewItem(@RequestParam Integer userID, @RequestParam String name,
-                                           /*@RequestParam Integer state,*/ @RequestParam Integer numItems,
+    public @ResponseBody Item addNewItem(@RequestParam Integer userID, @RequestParam String name,
+                                           @RequestParam Integer numItems,
                                            @RequestParam String hashtags, @RequestParam(required = false, defaultValue = "-1") String location,
                                            @RequestParam(required = false, defaultValue = "") String img) {
         List<Integer> maxIndex = itemRepository.findMaxItemIdByUser(userID);
@@ -600,19 +631,9 @@ public class MainController {
         if (maxIndex.size() > 0) {
             itemID = maxIndex.get(0);
         }
-        /*String s = "";
-        if (state == 0) {
-            s = "REQUESTED";
-        } else if (state == 1) {
-            s = "INSTOCK";
-        } else if (state == 2) {
-            s = "INPROGRESS";
-        } else {
-            s = "UNKNOWN";
-        }*/
-        Item item = new Item(userID, itemID + 1, name, /*s,*/ numItems, hashtags, Integer.parseInt(location), img);
+        Item item = new Item(userID, itemID + 1, name, numItems, hashtags, Integer.parseInt(location), img);
         itemRepository.save(item);
-        return "Saved";
+        return item;
     }
 
     @GetMapping(path = "/item/inventory")
