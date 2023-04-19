@@ -85,6 +85,10 @@ public class MainController {
 
     @DeleteMapping(path = "/request/delete")
     public @ResponseBody String deleteRequest(@RequestParam Integer id) {
+        Request r = requestRepository.findById(id).get();
+        if (r == null) {
+            return "Error";
+        }
         requestRepository.deleteById(id);
         return "Deleted";
     }
