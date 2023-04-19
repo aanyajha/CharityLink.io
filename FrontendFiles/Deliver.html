@@ -180,7 +180,7 @@
   function searchByName() {
     const name = document.getElementById("myInputName").value;
     console.log("name: " + name);
-    var url = `http://172.174.33.35:8080/api/item/search?name=${name}&state=0`;
+    var url = `http://172.174.33.35:8080/api/request/all?name=${name}`;
     var xhr = new XMLHttpRequest();
 
     xhr.onload = function () {
@@ -191,11 +191,7 @@
         if (catalogData.length == 0) {
           alert("No items with name");
         }
-        if (document.getElementById("locationCheckbox").checked) {
-          printCatalog(catalogData, 3);
-        } else {
           printCatalog(catalogData, 0);
-        }
       } else {
         console.error("Request failed with status code", this.status);
       }
@@ -204,61 +200,15 @@
     xhr.onerror = function () {
       console.error("Request failed");
     };
-    if (document.getElementById("locationCheckbox").checked) {
-      if (userData.locationID == -1) {
-        //TODO: request location from browser
-        if (navigator.geolocation) {
-          navigator.geolocation.getCurrentPosition(function (position) {
-            console.log("Latitude: " + position.coords.latitude);
-            console.log("Longitude: " + position.coords.longitude);
-            url = `http://172.174.33.35:8080/api/item/search?name=${name}&location=${position.coords.latitude};${position.coords.longitude}&state=0`;
-            xhr.open("GET", url, true);
-            xhr.send();
-            return;
-          }, function (error) {
-            console.error("Error getting location: " + error.message);
-          });
-        } else {
-          console.error("Geolocation is not supported by this browser.");
-        }
-      } else {
-        var location;
-        var url1 = `http://172.174.33.35:8080/api/location/get?id=${userData.locationID}`;
-        var xhr1 = new XMLHttpRequest();
-        xhr1.open("GET", url1, true);
-        xhr1.onload = function () {
-          if (this.status === 200) {
-            location = JSON.parse(this.responseText);
-            console.log(location);
-            console.log(location.latitude);
-            console.log(location.latitude != null && location.longitude != null);
-            if (location.latitude != null && location.longitude != null) {
-              url = `http://172.174.33.35:8080/api/item/search?name=${name}&location=${location.latitude};${location.longitude}&state=0`;
-            }
-            xhr.open("GET", url, true);
-            xhr.send();
-            return;
-          } else {
-            console.error("Request failed with status code", this.status);
-          }
-        }
-
-        xhr1.onerror = function () {
-          console.error("Request failed");
-        };
-
-        xhr1.send();
-      }
-    } else {
       xhr.open("GET", url, true);
       xhr.send();
-    }
+    // }
   }
 
   function searchByHashtag() {
     const hashtag = document.getElementById("myInputHashtag").value;
     console.log("name: " + name);
-    var url = `http://172.174.33.35:8080/api/item/search?hashtags=${hashtag}&state=0`;
+    var url = `http://172.174.33.35:8080/api/request/all?hashtags=${hashtag}`;
     var xhr = new XMLHttpRequest();
 
     xhr.onload = function () {
@@ -269,11 +219,7 @@
         if (catalogData.length == 0) {
           alert("No items in category");
         }
-        if (document.getElementById("locationCheckbox").checked) {
-          printCatalog(catalogData, 3);
-        } else {
-          printCatalog(catalogData, 1);
-        }
+        printCatalog(catalogData, 1);
       } else {
         console.error("Request failed with status code", this.status);
       }
@@ -282,99 +228,9 @@
     xhr.onerror = function () {
       console.error("Request failed");
     };
-    if (document.getElementById("locationCheckbox").checked) {
-      if (userData.locationID == -1) {
-        //TODO: request location from browser
-        if (navigator.geolocation) {
-          navigator.geolocation.getCurrentPosition(function (position) {
-            console.log("Latitude: " + position.coords.latitude);
-            console.log("Longitude: " + position.coords.longitude);
-            if (hashtag == "") {
-              url = `http://172.174.33.35:8080/api/item/search?location=${position.coords.latitude};${position.coords.longitude}&state=0`;
-            } else {
-              url = `http://172.174.33.35:8080/api/item/search?hashtags=${hashtag}&location=${position.coords.latitude};${position.coords.longitude}&state=0`;
-            }
-            xhr.open("GET", url, true);
-            xhr.send();
-            return;
-          }, function (error) {
-            console.error("Error getting location: " + error.message);
-          });
-        } else {
-          console.error("Geolocation is not supported by this browser.");
-        }
-      } else {
-        var location;
-        var url1 = `http://172.174.33.35:8080/api/location/get?id=${userData.locationID}`;
-        var xhr1 = new XMLHttpRequest();
-        xhr1.open("GET", url1, true);
-        xhr1.onload = function () {
-          if (this.status === 200) {
-            location = JSON.parse(this.responseText);
-            console.log(location);
-            console.log(location.latitude);
-            console.log(location.latitude != null && location.longitude != null);
-            if (location.latitude != null && location.longitude != null) {
-              if (hashtag == "") {
-                url = `http://172.174.33.35:8080/api/item/search?location=${location.latitude};${location.longitude}&state=0`;
-              } else {
-                url = `http://172.174.33.35:8080/api/item/search?hashtags=${hashtag}&location=${position.coords.latitude};${position.coords.longitude}&state=0`;
-              }
-            }
-            xhr.open("GET", url, true);
-            xhr.send();
-            return;
-          } else {
-            console.error("Request failed with status code", this.status);
-          }
-        }
-
-        xhr1.onerror = function () {
-          console.error("Request failed");
-        };
-
-        xhr1.send();
-      }
-    } else {
       xhr.open("GET", url, true);
       xhr.send();
-    }
-  }
-
-  // Add click event listener to item container
-  function acceptRequests() {
-    const checkboxes = document.querySelectorAll('input[type="checkbox"]');
-    checkboxes.forEach(checkboxVal => {
-      console.log(checkboxVal.value);
-      if (checkboxVal.checked) {
-        alert("Request Selected");
-        /*
-        const url = `http://172.174.33.35:8080/api/item/delete?itemID=${checkboxVal.value}&userID=${userData.companyID}`;
-        console.log("Sent Item Deletion Info");
-
-        const xhr1 = new XMLHttpRequest();
-        xhr1.open("DELETE", url, true);
-
-        xhr1.onload = function () {
-          if (this.status === 200) {
-            const data = this.responseText;
-            console.log(data);
-            printData();
-          } else {
-            console.error("Request failed with status code", this.status);
-          }
-        };
-
-        xhr1.onerror = function () {
-          console.error("Request failed");
-        };
-
-        xhr1.send();
-        const div = checkboxVal.parentNode;
-        div.remove();
-        */
-      }
-    });
+    // }
   }
 
   function submitForm(event) {
@@ -402,7 +258,7 @@
         console.log("Latitude: " + position.coords.latitude);
         console.log("Longitude: " + position.coords.longitude);
         const maxDist = document.getElementById("maxDistance");
-        url = `http://172.174.33.35:8080/api/item/search?location=${position.coords.latitude};${position.coords.longitude}&state=0&maxDistance=${maxDist.value}`;
+        url = `http://172.174.33.35:8080/api/request/all?location=${position.coords.latitude};${position.coords.longitude}&maxDistance=${maxDist.value}`;
         xhr.open("GET", url, true);
         xhr.send();
         return;
@@ -425,10 +281,11 @@
       const itemContainer = document.createElement('div');
       var itemName;
       var itemHashtags;
+      // var itemID;
+      var distance;
       const checkbox = document.createElement('input');
       checkbox.type = 'checkbox';
       checkbox.value = item.itemID;
-      var distance;
 
       //var itemImage = document.createElement('img');
       //var srcAttr = document.createAttribute('src');
@@ -440,15 +297,21 @@
       if (searchtype == 0) {
         itemName = document.createElement('h3');
         itemHashtags = document.createElement('p');
-        //itemID = document.createElement('p');
+        // itemID = document.createElement('p');
       }
       else if (searchtype == 1) {
         itemHashtags = document.createElement('h3');
         itemName = document.createElement('p');
-        //itemID = document.createElement('p');
+        // itemID = document.createElement('p');
+
+      }
+      else if (searchtype == 2) {
+        // itemID = document.createElement('h3');
+        itemName = document.createElement('p');
+        itemHashtags = document.createElement('p');
       } else if (searchtype == 3) {
         distance = document.createElement('h3');
-        //itemID = document.createElement('p');
+        // itemID = document.createElement('p');
         itemName = document.createElement('p');
         itemHashtags = document.createElement('p');
       }
@@ -459,8 +322,8 @@
       // Set content and attributes for elements
       itemName.textContent = item.name;
       itemHashtags.textContent = item.hashtags;
-      //itemID.textContent = 'Item ID: ' + item.itemID;
-      quantity.textContent = 'Quantity: [ ' + item.numItems + ' ]';
+      // itemID.textContent = 'Item ID: ' + item.itemID;
+      quantity.textContent = 'Quantity: [ ' + item.quantity + ' ]';
       //itemImage.setAttributeNode(srcAttr);
       if (searchtype == 3) {
         distance.textContent = item.distance.toFixed(2) + " mi";
@@ -471,15 +334,20 @@
       if (searchtype == 0) {
         itemContainer.appendChild(itemName);
         itemContainer.appendChild(itemHashtags);
-        //itemContainer.appendChild(itemID);
+        // itemContainer.appendChild(itemID);
       }
       else if (searchtype == 1) {
         itemContainer.appendChild(itemHashtags);
         itemContainer.appendChild(itemName);
-        //itemContainer.appendChild(itemID);
+        // itemContainer.appendChild(itemID);
+      }
+      else if (searchtype == 2) {
+        // itemContainer.appendChild(itemID);
+        itemContainer.appendChild(itemName);
+        itemContainer.appendChild(itemHashtags);
       } else if (searchtype == 3) {
         itemContainer.appendChild(distance);
-        //itemContainer.appendChild(itemID);
+        // itemContainer.appendChild(itemID);
         itemContainer.appendChild(itemName);
         itemContainer.appendChild(itemHashtags);
       }
@@ -497,7 +365,7 @@
   function printData() {
     console.log(userData);
 
-    var url = `http://172.174.33.35:8080/api/item/search?state=0`;
+    var url = `http://172.174.33.35:8080/api/request/all`;
     var xhr = new XMLHttpRequest();
     xhr.open("GET", url, true);
 
@@ -555,6 +423,21 @@
     };
 
     xhr.send();
+  }
+
+  // Add click event listener to item container
+  function acceptRequests() {
+    const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+    checkboxes.forEach(checkboxVal => {
+      console.log(checkboxVal.value);
+      if (checkboxVal.checked) {
+        alert("Request Selected");
+      }
+    });
+  }
+
+  function submitForm(event) {
+    event.preventDefault();
   }
 
   function openNav() {
