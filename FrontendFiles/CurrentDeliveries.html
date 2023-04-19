@@ -106,13 +106,13 @@
 
   <div class="w3-pale-blue">
     <div class="w3-container">
-      <h1 style="color: #009999">Make a Delivery</h1>
+      <h1 style="color: #009999">Current Deliveries</h1>
 
     </div>
   </div>
 
   <div class="w3-container">
-    <p>Welcome to your Current Delivers!</p>
+    <p>Welcome to your Current Deliveries!</p>
     <p>Here you can view requests that you have accepted.</p>
   </div>
 
@@ -174,7 +174,7 @@
 
   // Get reference to catalog container in HTML
 
-  var catalogData;
+  var requestData;
 
   function searchByName() {
     const name = document.getElementById("myInputName").value;
@@ -185,15 +185,15 @@
     xhr.onload = function () {
       if (this.status === 200) {
         console.log(url);
-        const catalogData = JSON.parse(this.responseText);
-        console.log(catalogData);
-        if (catalogData.length == 0) {
+        const requestData = JSON.parse(this.responseText);
+        console.log(requestData);
+        if (requestData.length == 0) {
           alert("No items with name");
         }
         if (document.getElementById("locationCheckbox").checked) {
-          printCatalog(catalogData, 3);
+          printCatalog(requestData, 3);
         } else {
-          printCatalog(catalogData, 0);
+          printCatalog(requestData, 0);
         }
       } else {
         console.error("Request failed with status code", this.status);
@@ -263,15 +263,15 @@
     xhr.onload = function () {
       if (this.status === 200) {
         console.log(url);
-        const catalogData = JSON.parse(this.responseText);
-        console.log(catalogData);
-        if (catalogData.length == 0) {
+        const requestData = JSON.parse(this.responseText);
+        console.log(requestData);
+        if (requestData.length == 0) {
           alert("No items in category");
         }
         if (document.getElementById("locationCheckbox").checked) {
-          printCatalog(catalogData, 3);
+          printCatalog(requestData, 3);
         } else {
-          printCatalog(catalogData, 1);
+          printCatalog(requestData, 1);
         }
       } else {
         console.error("Request failed with status code", this.status);
@@ -385,12 +385,12 @@
     xhr.onload = function () {
       if (this.status === 200) {
         console.log(url);
-        const catalogData = JSON.parse(this.responseText);
-        console.log(catalogData);
-        if (catalogData.length == 0) {
+        const requestData = JSON.parse(this.responseText);
+        console.log(requestData);
+        if (requestData.length == 0) {
           alert("No items within filtered distance");
         }
-        printCatalog(catalogData, 3);
+        printCatalog(requestData, 3);
       } else {
         console.error("Request failed with status code", this.status);
       }
@@ -413,12 +413,12 @@
     }
   }
 
-  function printCatalog(catalogData, searchtype) {
+  function printCatalog(requestData, searchtype) {
     console.log(userData);
     while (catalogContainer.firstChild) {
       catalogContainer.removeChild(catalogContainer.firstChild);
     }
-    catalogData.forEach(item => {
+    requestData.forEach(item => {
       // Create elements for item
       console.log(item);
       const itemContainer = document.createElement('div');
@@ -496,7 +496,7 @@
   function printData() {
     console.log(userData);
 
-    var url = `http://172.174.33.35:8080/api/item/search?state=0`;
+    var url = ``;
     var xhr = new XMLHttpRequest();
     xhr.open("GET", url, true);
 
@@ -504,8 +504,8 @@
       if (this.status === 200) {
         const data = this.responseText;
         console.log(data);
-        catalogData = JSON.parse(data);
-        printCatalog(catalogData, 0);
+        requestData = JSON.parse(data);
+        printCatalog(requestData, 0);
       } else {
         console.error("Request failed with status code", this.status);
       }
