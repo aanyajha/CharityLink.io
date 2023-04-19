@@ -30,6 +30,7 @@ public class Request {
         this.requestor = requestor;
         this.itemID = itemID;
         this.quantity = quantity;
+        this.deliveryType = deliveryType;
     }
 
     public Request(Integer requestor, Integer itemID, Integer quantity, String deliveryType, String hashtags, String name, Double distance, String img, Integer location) {
