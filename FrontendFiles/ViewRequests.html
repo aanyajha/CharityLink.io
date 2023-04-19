@@ -88,10 +88,10 @@
   const catalogContainer = document.getElementById('catalog');
   var hashtagList = [];
   var nameList = [];
-  autocomplete(document.getElementById("myInputName"), nameList);
-  autocomplete(document.getElementById("myInputHashtag"), hashtagList);
-  document.getElementById("nameForm").addEventListener('submit', submitForm);
-  document.getElementById("hashtagForm").addEventListener('submit', submitForm);
+  //autocomplete(document.getElementById("myInputName"), nameList);
+  //autocomplete(document.getElementById("myInputHashtag"), hashtagList);
+  //document.getElementById("nameForm").addEventListener('submit', submitForm);
+  //document.getElementById("hashtagForm").addEventListener('submit', submitForm);
 
   // Define data for catalog
   var userData = JSON.parse(sessionStorage.getItem('userData'));
@@ -398,12 +398,46 @@
     });
   }
 
+  function deleteRequest() {
+    // Add click event listener to item container
+    const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+    checkboxes.forEach(checkboxVal => {
+      console.log(checkboxVal.value);
+      if (checkboxVal.checked) {
+        const url = ``;
+        console.log("Sent Item Deletion Info");
+
+        const xhr1 = new XMLHttpRequest();
+        xhr1.open("DELETE", url, true);
+
+        xhr1.onload = function () {
+          if (this.status === 200) {
+            const data = this.responseText;
+            console.log(data);
+            printData();
+            alert("Request cancelled")
+          } else {
+            console.error("Request failed with status code", this.status);
+          }
+        };
+
+        xhr1.onerror = function () {
+          console.error("Request failed");
+        };
+
+        xhr1.send();
+        const div = checkboxVal.parentNode;
+        div.remove();
+      }
+    });
+  }
+
 
   // Dynamically generate HTML elements for each item in the catalog
   function printData() {
     console.log(userData);
 
-    var url = `http://172.174.33.35:8080/api/request/all?userID={userid}`;
+    var url = `http://172.174.33.35:8080/api/request/all?userID=${userData.id}`;
     var xhr = new XMLHttpRequest();
     xhr.open("GET", url, true);
 
