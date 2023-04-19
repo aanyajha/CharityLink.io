@@ -34,8 +34,20 @@ public class MainController {
 
     @PostMapping(path = "/request/add")
     public @ResponseBody Request addRequest(@RequestParam Integer itemID, @RequestParam Integer requester,
-                                            @RequestParam Integer quantity) {
-        Request r = new Request(requester, itemID, quantity);
+                                            @RequestParam Integer quantity, @RequestParam Integer deliveryType) {
+        String s = "";
+        switch (deliveryType) {
+            case 0:
+                s = "F2F";
+                break;
+            case 1:
+                s = "DELIVERY";
+                break;
+            case 2:
+                s = "PUBLIC";
+                break;
+        }
+        Request r = new Request(requester, itemID, quantity, s);
         requestRepository.save(r);
         return r;
     }
@@ -234,8 +246,6 @@ public class MainController {
         }
     }
 
-
-    //@CrossOrigin(origins = "*", allowedHeaders = "*")
     @GetMapping(path = "/feedback")
     public @ResponseBody String sendFeedbackEmail(@RequestParam("emailBody") String emailBody) {
     try {
