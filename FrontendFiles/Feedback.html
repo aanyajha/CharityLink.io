@@ -83,26 +83,33 @@ font-size: 15px;color: #fff;border-radius: 5px;border-color: #009999;z-index: 99
     }
     function submitFeedback(event) {
 
-        //event.preventDefault(); // prevent form submission
-        var userData = JSON.parse(sessionStorage.getItem('userData'));
-        var username = userData.email;
+    event.preventDefault(); // prevent form submission
+    var userData = JSON.parse(sessionStorage.getItem('userData'));
+    var username = userData.email;
         
-        const feedback = document.getElementById('feedback').value;
-        const isAnonymous = document.getElementById('anonymous').checked;
-        const finalUsername = isAnonymous ? 'anonymous' : username; // set username as 'anonymous' if checkbox is checked, else 'user'
-        const date = new Date().toLocaleString(); // get current date and time
+    const feedback = document.getElementById('feedback').value;
+    const isAnonymous = document.getElementById('anonymous').checked;
+    const finalUsername = isAnonymous ? 'anonymous' : username; // set username as 'anonymous' if checkbox is checked, else 'user'
+    const date = new Date().toLocaleString(); // get current date and time
   
-        const emailBody = `Feedback from ${finalUsername} on ${date}:\n\n${feedback}`;
-
-        const xhr = new XMLHttpRequest();
-        const token = `http://172.174.33.35:8080/api/feedback?emailBody=${emailBody}`;
-        xhr.open("POST", token, true);
-        //xhr.open("GET", token, true);
-        xhr.send();
+    const emailBody = `Feedback from ${finalUsername} on ${date}:\n\n${feedback}`;
+    const token = `http://172.174.33.35:8080/api/feedback?emailBody=${encodeURIComponent(emailBody)}`;
+    const xhr = new XMLHttpRequest();
   
+    xhr.open("GET", token, true);
+  
+    xhr.onload = function() {
+        if (xhr.status === 200) {
         window.location.href = "https://aanyajha.github.io/CharityLink.io/FrontendFiles/Feedback.html";
-
+        } else {
+            console.log("Error sending feedback");
+        }
+    };
+  
+    xhr.send();
+    
     }
+
 
     </script>
 </html>

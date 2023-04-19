@@ -7,6 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class CharityLinkApplication {
 
     public static void main(String[] args) {
+        /*
         @Bean
         public WebMvcConfigurer corsConfigurer() {
             return new WebMvcConfigurerAdapter() {
@@ -18,7 +19,7 @@ public class CharityLinkApplication {
                     .allowedHeaders("*");
         }
     };
-}
+    */
 
 
 

@@ -194,6 +194,7 @@ public class MainController {
         }
     }
 
+    
     @GetMapping(path = "/password/reset")
     public @ResponseBody String passwordReset(@RequestParam String email) {
         List<Integer> userIdList = userRepository.findUserIdByEmail(email);
@@ -234,17 +235,18 @@ public class MainController {
     }
 
 
-    @CrossOrigin(origins = "*", allowedHeaders = "Access-Control-Allow-Origin")
-    @PostMapping(path = "/feedback")
-        public @ResponseBody String sendFeedbackEmail(@RequestBody String emailBody) {
-        try {
-            new SendEmail().sendMail("aanyajha121@gmail.com", "Feedback", emailBody);
-        } catch (Exception e) {
+    //@CrossOrigin(origins = "*", allowedHeaders = "*")
+    @GetMapping(path = "/feedback")
+    public @ResponseBody String sendFeedbackEmail(@RequestParam("emailBody") String emailBody) {
+    try {
+        new SendEmail().sendMail("aanyajha121@gmail.com", "Feedback", emailBody);
+    } catch (Exception e) {
         System.out.println(e.getMessage());
         return "Error sending feedback";
-        }
-        return "Feedback sent";
     }
+    return "Feedback sent";
+}
+
 
 
 
