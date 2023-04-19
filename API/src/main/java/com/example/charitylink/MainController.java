@@ -56,8 +56,9 @@ public class MainController {
     public @ResponseBody Iterable<Request> getAllRequests(@RequestParam(required = false) String name,
                                                           @RequestParam(required = false) String hashtags,
                                                           @RequestParam(required = false) String location,
-                                                          @RequestParam(required = false) Integer maxDistance) {
-        ArrayList<Request> requests = Lists.newArrayList(requestRepository.findAll());
+                                                          @RequestParam(required = false) Integer maxDistance,
+                                                          @RequestParam(required = false) Integer userID) {
+        ArrayList<Request> requests = (userID == null) ? Lists.newArrayList(requestRepository.findAll()) : Lists.newArrayList(requestRepository.findAllByRequestor(userID));
         ArrayList<Request> search = new ArrayList<>();
         while (requests.size() > 0) {
             for (int i = 0; i < requests.size(); i++) {
