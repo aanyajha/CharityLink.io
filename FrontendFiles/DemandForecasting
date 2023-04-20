@@ -47,3 +47,29 @@ img {
 	<div id="all-profiles"></div>
 
 </body>
+
+
+
+<script>
+
+window.onload = onloadFunc();
+
+function onloadFunc() {
+  var userData = JSON.parse(sessionStorage.getItem('userData'));
+  const url = `http://172.174.33.35:8080/api/request/local?locationID=${userData.locationID}&maxDistance={20}`;
+
+  const xhr = new XMLHttpRequest();
+  xhr.open("GET", url, true);
+  xhr.send();
+  xhr.onload = function() {
+    if (this.status === 200) {
+    var data = JSON.parse(this.responseText);
+  	console.log(data);
+    }
+    
+    }
+
+}
+
+
+</script>
