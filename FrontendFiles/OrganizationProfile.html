@@ -185,14 +185,29 @@ function onloadFunc() {
       lxhr.onload = function() {
         const locData = JSON.parse(this.responseText);
         var addr1 = document.getElementById("address1");
+        if (locData.addressLine1 == undefined) {
+         addr1.value = "";
+        }
         addr1.value = locData.addressLine1;
         var addr2 = document.getElementById("address2");
+       if (locData.addressLine2 == undefined) {
+         addr2.value = "";
+        }
         addr2.value = locData.addressLine2;
         var city = document.getElementById("city");
+       if (locData.city == undefined) {
+         city.value = "";
+        }
         city.value = locData.city;
         var state = document.getElementById("state");
+       if (locData.state == undefined) {
+         state.value = "";
+        }
         state.value = locData.state;
         var zip = document.getElementById("zip");
+       if (locData.zip == undefined) {
+         zip.value = "";
+        }
         zip.value = locData.zip;
         var location = document.getElementById("vis-loc");
         var locationString = "";
@@ -304,6 +319,10 @@ function saveFunc() {
          userData.name = newName;
          userData.locationID = locationId;
          sessionStorage.setItem("userData", JSON.stringify(userData));
+         
+         if (locationId != -1) {
+          document.getElementByID("add-remove").innerHTML = "Remove";
+         }
         
           updatexhr.open("PUT", updateurl, true);
           updatexhr.send();
@@ -341,7 +360,7 @@ function saveFunc() {
   if (userData.locationID == -1) {
    
    editFunc();
-   document.getElementByID("add-remove").innerHTML = "Remove";
+   
   } else {
    var negOne = -1;
    const url = `http://172.174.33.35:8080/api/user/update?email=${userData.email}&locationID=${negOne}`;
