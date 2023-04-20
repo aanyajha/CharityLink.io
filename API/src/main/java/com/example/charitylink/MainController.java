@@ -107,6 +107,13 @@ public class MainController {
         ArrayList<ProfileTemp> returnVal = new ArrayList<>();
         for (Profile profile : profiles) {
             User u = userRepository.findById(profile.getCompanyID()).get();
+            if (u.getLocationID() == -1) {
+                continue;
+            }
+            Location loc = locationRepository.findById(u.getLocationID()).orElse(null);
+            if (loc == null) {
+                continue;
+            }
             returnVal.add(new ProfileTemp(profile.getCompanyID(), u.getName(), profile.getStatement(), profile.getLogo(),
                     locationRepository.findById(u.getLocationID()).get().toString()));
         }
