@@ -56,7 +56,22 @@ img {
     }
     
     const userData = sessionStorage.getItem('userData');
-    
+	
+	window.onload = onloadFunc()
+	
+	function onloadFunc() {
+	const url = `http://172.174.33.35:8080/api/profile/all`;
+
+	  const xhr = new XMLHttpRequest();
+	  xhr.open("GET", url, true);
+	  xhr.send();
+	  xhr.onload = function() {
+	    if (this.status === 200) {
+		    const data = JSON.parse(this.responseText);
+		    console.log(data);
+	    }
+	  }
+	}
     //const usernameTitle = userData.username;
     
     //document.getElementById("docTitle").innerHTML = "title" + ${usernameTitle};
