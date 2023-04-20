@@ -125,10 +125,10 @@ function oldAddressFunc() {
   
   if (userData.locationID == -1) {
     alert("You do not have a saved location. Change this in your settings.");
-    return;
+    return false;
   }
 
-  mainSubmit(userData.locationID);
+  return truel
 
 }
 
@@ -201,7 +201,9 @@ function check() {
   }
 
   if (oldAddress.checked) {
-    oldAddressFunc();
+    if (!oldAddressFunc()) {
+      return;
+    }
   } else if (newAddress.checked) {
     newAddressFunc();
   }

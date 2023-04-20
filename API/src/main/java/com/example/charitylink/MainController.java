@@ -54,8 +54,11 @@ public class MainController {
             return null;
         }
         Delivery delivery = deliveryRepository.findDeliveryByRequestID(id);
+        String status;
         if (delivery == null) {
-            return null;
+            status = "NOT_SELECTED_FOR_DELIVERY";
+        } else {
+            status = delivery.getStatus();
         }
         Item item = itemRepository.findItemByUserIDAndItemID(request.getRequestor(), request.getItemID());
         if (item == null) {
@@ -65,7 +68,7 @@ public class MainController {
         if (loc == null) {
             return null;
         }
-        return new requestStatus(delivery.getStatus(), loc.toString(), delivery.getEta());
+        return new requestStatus(status, loc.toString(), delivery.getEta());
     }
 
     @PutMapping(path = "/request/existing")
