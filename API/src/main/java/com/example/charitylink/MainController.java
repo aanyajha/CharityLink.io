@@ -368,24 +368,15 @@ public class MainController {
     }
 
     @PostMapping(path = "delivery/add")
-    public @ResponseBody Delivery addDelivery(@RequestParam Integer itemID, @RequestParam Integer requester,
-                                           @RequestParam Integer donator, @RequestParam Integer quantity,
-                                           @RequestParam Integer state) {
+    public @ResponseBody Delivery addDelivery(@RequestParam Integer requesterID,
+                                           @RequestParam Integer donator, @RequestParam Integer state) {
         String temp = "";
         if (state == 0) {
             temp = "INPROGRESS";
         } else if (state == 1) {
             temp = "DELIVERED";
-
-            Delivery d = deliveryRepository.findByItemID(itemID);
-            if (d != null) {
-                deliveryRepository.delete(d);
-
-                Request r = new Request(requester, itemID, quantity, "DELIVERY");
-                requestRepository.save(r);
-            }
         }
-        Delivery delivery = new Delivery(itemID, requester, donator, quantity, temp);
+        Delivery delivery = new Delivery(donator, requesterID, temp);
         deliveryRepository.save(delivery);
         return delivery;
     }
