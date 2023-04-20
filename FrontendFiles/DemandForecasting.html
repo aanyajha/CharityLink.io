@@ -47,6 +47,7 @@ img {
 	<label for="distance">Distance (Between 1 and 100 miles):</label>
   <input type="number" id="distance" name="distance" min="1" max="100">
 
+	<button onclick="dForecasting()">Submit</button>
 	
 	<div id="item-container"></div>
 
@@ -64,9 +65,9 @@ function closeNav() {
   document.getElementById("mySidebar").style.display = "none";
 }
 
-window.onload = onloadFunc();
+//window.onload = onloadFunc();
 
-function onloadFunc() {
+function dForecasting() {
   var userData = JSON.parse(sessionStorage.getItem('userData'));
   var htmlDist = document.getElementById("distance");
   var maxDist = htmlDist.value;
