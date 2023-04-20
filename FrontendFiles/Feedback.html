@@ -85,22 +85,26 @@ font-size: 15px;color: #fff;border-radius: 5px;border-color: #009999;z-index: 99
 
     event.preventDefault(); // prevent form submission
     var userData = JSON.parse(sessionStorage.getItem('userData'));
-    var username = userData.email;
+    if (userData == null) {
+      userData = { companyID: -1, email: "vjasti@purdue.edu", id: 1, joinDate: "2023-02-27", locationID: -1, name: "Varun", password: "passwordtest", passwordToken: null, userType: 1, username: "vjasti" };
+    }
+    var user = userData.id;
         
     const feedback = document.getElementById('feedback').value;
     const isAnonymous = document.getElementById('anonymous').checked;
-    const finalUsername = isAnonymous ? 'anonymous' : username; // set username as 'anonymous' if checkbox is checked, else 'user'
+    const finalUsername = isAnonymous ? -1 : user; // set username as 'anonymous' if checkbox is checked, else 'user'
     const date = new Date().toLocaleString(); // get current date and time
   
     const emailBody = `Feedback from ${finalUsername} on ${date}:\n\n${feedback}`;
-    const token = `http://172.174.33.35:8080/api/feedback?emailBody=${encodeURIComponent(emailBody)}`;
+    const token = `http://172.174.33.35:8080/api/feedback/add?feedback=${feedback}&userID=${finalUsername}`;
     const xhr = new XMLHttpRequest();
   
-    xhr.open("GET", token, true);
+    xhr.open("POST", token, true);
   
     xhr.onload = function() {
         if (xhr.status === 200) {
-        window.location.href = "https://aanyajha.github.io/CharityLink.io/FrontendFiles/Feedback.html";
+          alert("Feedback sent");
+          window.location.href = "https://aanyajha.github.io/CharityLink.io/FrontendFiles/Feedback.html";
         } else {
             console.log("Error sending feedback");
         }
