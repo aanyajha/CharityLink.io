@@ -526,7 +526,7 @@
     
     if (newLoc.match(regex2).length > 0 || newLoc.match(regex1).length > 0) {
           
-          const url;
+          var url;
       
           if (locArr.length == 4) {
               url = `http://172.174.33.35:8080/api/request/update/address?id={requestid}&location={locArr[0];loc[1];loc[2];loc[3]}`;
