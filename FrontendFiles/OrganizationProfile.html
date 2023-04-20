@@ -177,12 +177,13 @@ function onloadFunc() {
   })
 
       var locId = userData.locationID;
-      
+      //
       const lxhr = new XMLHttpRequest();
       var lurl = `http://172.174.33.35:8080/api/location/get?id=${locId}`;
       lxhr.open("GET", lurl, true);
       lxhr.send();
       lxhr.onload = function() {
+       if (this.status == 200) {
         const locData = JSON.parse(this.responseText);
         var addr1 = document.getElementById("address1");
         if (locData.addressLine1 == undefined) {
@@ -219,12 +220,11 @@ function onloadFunc() {
           locationString = locData.addressLine1 + ", " + locData.addressLine2 + ", " + locData.city + ", " + locData.state + " " + locData.zip;
         }
         location.value = locationString;
-      }
-     else {
+
+      } else {
       location.value = "";
       document.getElementById("add-remove").innerHTML = "Add";
-     }
-     
+      }
     }
 
   }
