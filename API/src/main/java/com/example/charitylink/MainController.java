@@ -32,6 +32,16 @@ public class MainController {
     @Autowired
     private RequestRepository requestRepository;
 
+    @Autowired
+    private FeedbackRepository feedbackRepository;
+
+    @PostMapping(path = "/feedback/add")
+    public @ResponseBody Feedback addFeedback(@RequestParam String feedback) {
+        Feedback f = new Feedback(feedback);
+        feedbackRepository.save(f);
+        return f;
+    }
+
     @PutMapping(path = "/request/update/address")
     public @ResponseBody Request editRequestAddress(@RequestParam Integer id, @RequestParam String location) {
         String[] locationAttributes = location.split(";");
