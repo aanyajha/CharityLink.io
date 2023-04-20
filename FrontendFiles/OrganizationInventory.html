@@ -137,6 +137,8 @@
     <p>Welcome to Manage Inventory!</p>
     <p>Here you can view your inventory.</p>
   </div>
+  
+  <button onclick="demandForecasting()">See Deman Forecasting</button>
 
   <blockquote>
     <form id="nameForm" autocomplete="off">
@@ -201,6 +203,13 @@
 
 
 <script>
+  
+  function demandForecasting() {
+    window.location.href = '/CharityLink.io/FrontendFiles/DemandForecasting';
+    
+  }
+  
+  
   // Get reference to catalog container in HTML
   const catalogContainer = document.getElementById('catalog');
   var hashtagList = [];
