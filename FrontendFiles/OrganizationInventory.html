@@ -165,7 +165,7 @@
 
   <div class="w3-container w3-border id=add-edit-delete">
     <br>
-    <text type="text">Select items you would like to <b>Add, Edit, or Delete</b> then select the corressponding button</text>
+    <text type="text">Select items you would like to <b>Add, Edit, Delete, or Request</b> then select the corressponding button</text>
     <button type="button" id="addButton" style="background-color:#009999; color:white; border-color:white">
       Add
     </button>
@@ -174,6 +174,9 @@
     </button>
     <button type="button" id="deleteButton" style="background-color:#009999; color:white;border-color:white">
       Delete
+    </button>
+    <button type="button" id="requestButton" onclick = "requestItem()" style="background-color:#009999; color:white;border-color:white">
+      Request
     </button>
     <br>
     <br>
@@ -265,6 +268,40 @@
       }
     });
   });
+
+  function requestItem() {
+    // Add click event listener to item container
+    const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+    checkboxes.forEach(checkboxVal => {
+      console.log(checkboxVal.value);
+      if (checkboxVal.checked) {
+        var quantity = prompt("How much would you like to request?");
+        const url = `http://172.174.33.35:8080/api/request/add?itemID=${checkboxVal.value}&requester=${userData.companyID}&quantity=${quantity}&deliveryType=2`;
+        console.log("Sent Request info");
+        console.log(url);
+
+        const xhr1 = new XMLHttpRequest();
+        xhr1.open("POST", url, true);
+
+        xhr1.onload = function () {
+          if (this.status === 200) {
+            const data = this.responseText;
+            console.log(data);
+            printData();
+            alert("Request made");
+          } else {
+            console.error("Request failed with status code", this.status);
+          }
+        };
+
+        xhr1.onerror = function () {
+          console.error("Request failed");
+        };
+
+        xhr1.send();
+      }
+    });
+  }
 
 
   const addButton = document.getElementById('addButton');
