@@ -349,6 +349,7 @@ function saveFunc() {
   xhr.onload = function() {
     if (this.status === 200) {
       var data = JSON.parse(this.responseText);
+     console.log(data);
      var addr1 = document.getElementById("address1");
         addr1.value = "";
         var addr2 = document.getElementById("address2");
@@ -359,6 +360,8 @@ function saveFunc() {
         state.value = "";
         var zip = document.getElementById("zip");
         zip.value = "";
+     var location = document.getElementById("vis-loc");
+     location.value = "";
     }
   }
    
