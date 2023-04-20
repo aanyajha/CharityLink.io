@@ -1,9 +1,12 @@
 package com.example.charitylink;
 
-import jakarta.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 
 @Entity
-public class Donation {
+public class Delivery {
+
     @Id
     @GeneratedValue
     private Integer id;
@@ -11,15 +14,16 @@ public class Donation {
     private Integer requester;
     private Integer donator;
     private Integer quantity;
-    private String state;
+    private String status;
 
-    public Donation() {};
-    public Donation(Integer itemID, Integer requester, Integer donator, Integer quantity, String state) {
+    public Delivery() {}
+    
+    public Delivery(Integer itemID, Integer requester, Integer donator, Integer quantity, String status) {
         this.itemID = itemID;
         this.requester = requester;
         this.donator = donator;
         this.quantity = quantity;
-        this.state = state;
+        this.status = status;
     }
 
     public Integer getId() {
@@ -62,11 +66,13 @@ public class Donation {
         this.quantity = quantity;
     }
 
-    public String getState() {
-        return state;
+    public String getStatus() {
+        return status;
     }
 
-    public void setState(String state) {
-        this.state = state;
+    public void setStatus(String status) {
+        this.status = status;
     }
+    
 }
+

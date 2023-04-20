@@ -395,6 +395,64 @@ public class MainController {
         return donationRepository.findAllByDonator(donator);
     }
 
+
+
+    @PostMapping(path = "delivery/cancel")
+    public @ResponseBody Request cancelDelivery(@RequestParam Integer deliveryID) {
+        Delivery d = deliveryRepository.findById(deliveryID).orElse(null);
+        if (d != null) {
+            Integer itemID = d.getItemID();
+            Integer requester = d.getRequester();
+            Integer quantity = d.getQuantity();
+            String deliveryType = d.getDeliveryType();
+
+            deliveryRepository.delete(d);
+
+            Request r = new Request(requester, itemID, quantity, deliveryType);
+            requestRepository.save(r);
+            return r;
+        }
+        return null;
+    }
+
+    @PostMapping(path = "delivery/add")
+    public @ResponseBody Delivery addDelivery(@RequestParam Integer itemID, @RequestParam Integer requester,
+                                           @RequestParam Integer donator, @RequestParam Integer quantity,
+                                           @RequestParam Integer state) {
+        String temp = "";
+        if (state == 0) {
+            temp = "INPROGRESS";
+        } else if (state == 1) {
+            temp = "DELIVERED";
+
+            Delivery d = deliveryRepository.findByItemID(itemID);
+            if (d != null) {
+                deliveryRepository.delete(d);
+
+                Request r = new Request(requester, itemID, quantity, "DELIVERY");
+                requestRepository.save(r);
+            }
+        }
+        Delivery delivery = new Delivery(itemID, requester, donator, quantity, temp);
+        deliveryRepository.save(delivery);
+        return delivery;
+    }
+
+    @GetMapping(path = "delivery/requester")
+    public @ResponseBody Iterable<Delivery> deliveryByRequester(@RequestParam Integer requester) {
+        return deliveryRepository.findAllByRequester(requester);
+    }
+
+    @GetMapping(path = "delivery/donator")
+    public @ResponseBody Iterable<Delivery> deliveryByDonator(@RequestParam Integer donator) {
+        return deliveryRepository.findAllByDonator(donator);
+    }
+
+
+
+
+    
+
     @GetMapping(path = "/email/suspicious")
     public @ResponseBody String suspicious(@RequestParam String email) {
         List<Integer> userIdList = userRepository.findUserIdByEmail(email);
@@ -460,11 +518,9 @@ public class MainController {
         return "Error sending feedback";
     }
     return "Feedback sent";
-}
+    }
 
-
-
-
+    
     @PostMapping(path = "/profile/add")
     public @ResponseBody Profile addNewProfile(@RequestParam Integer companyID, @RequestParam String statement,
                                                @RequestParam String logo) {
@@ -679,6 +735,7 @@ public class MainController {
         or:
         {latitude};{longitude}
      */
+
     @GetMapping(path = "/item/search")
     public @ResponseBody Iterable<Item> itemSearch(@RequestParam(required = false) String hashtags,
                                                    @RequestParam(required = false) String name,
@@ -917,6 +974,7 @@ public class MainController {
         return event;
     }
 
+
     @GetMapping(path = "/event/all")
     public @ResponseBody Iterable<Event> getAllEvents(@RequestParam(required = false) String location) {
         ArrayList<Event> events = Lists.newArrayList(eventRepository.findAll());
@@ -1002,4 +1060,6 @@ public class MainController {
         locationRepository.save(location);
         return location;
     }
+
+    
 }
