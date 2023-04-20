@@ -345,7 +345,8 @@ function saveFunc() {
   } else {
    var negOne = -1;
    const url = `http://172.174.33.35:8080/api/user/update?email=${userData.email}&locationID=${negOne}`;
-
+   userData.locationID = -1;
+   sessionStorage.setItem("userData", JSON.stringify(userData));
   const xhr = new XMLHttpRequest();
   xhr.open("PUT", url, true);
   xhr.send();
