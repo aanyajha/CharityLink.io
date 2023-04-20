@@ -80,19 +80,23 @@ img {
     
     var compImg = document.createElement('img');
     compImg.src = logo;
+    compImg.width = 100px;
+    compImg.height = 100px;
     companyContainer.appendChild(compImg);
 			    
-    var compName = document.createElement('p');
+    var compName = document.createElement('h2');
     compName.textContent = data[i].name;
     companyContainer.appendChild(compName);
     
-    var compLoc = document.createElement('p');
+    var compLoc = document.createElement('h3');
     compLoc.textContent = data[i].location;
     companyContainer.appendChild(compLoc);
     
     var compState = document.createElement('p');
     compState.textContent = statement;
     companyContainer.appendChild(compState);
+    
+    companyContainer.style.border = '1px solid black';
     
     var fullContainer = document.getElementById("all-profiles");
     fullContainer.appendChild(companyContainer);
