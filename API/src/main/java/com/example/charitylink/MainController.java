@@ -38,7 +38,7 @@ public class MainController {
     @Autowired
     private FeedbackRepository feedbackRepository;
 
-    @PutMapping(path = "/request/exisiting")
+    @PutMapping(path = "/request/existing")
     public @ResponseBody Request requestExisiting(@RequestParam Integer userID, @RequestParam Integer itemID,
                                                   @RequestParam Integer requester) {
         Item item = itemRepository.findItemByUserIDAndItemID(userID, itemID);
