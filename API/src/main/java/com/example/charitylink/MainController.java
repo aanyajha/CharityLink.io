@@ -181,9 +181,9 @@ public class MainController {
         HashMap<String, Integer> map = new HashMap<>();
         for (Request request : requests) {
             if (map.containsKey(request.getName())) {
-                map.replace(request.getName(), map.get(request.getName()) + 1);
+                map.replace(request.getName(), map.get(request.getName()) + request.getQuantity());
             } else {
-                map.put(request.getName(), 1);
+                map.put(request.getName(), request.getQuantity());
             }
         }
         for (String name : map.keySet()) {
