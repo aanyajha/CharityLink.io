@@ -81,6 +81,14 @@ img {
     var compImg = document.createElement('img');
     compImg.src = logo;
     companyContainer.appendChild(compImg);
+			    
+    var compName = document.createElement('p');
+    compName.textContent = data[i].name;
+    companyContainer.appendChild(compName);
+    
+    var compLoc = document.createElement('p');
+    compLoc.textContent = data[i].location;
+    companyContainer.appendChild(compLoc);
     
     var compState = document.createElement('p');
     compState.textContent = statement;
