@@ -468,13 +468,41 @@ public class MainController {
         return deliveries;
     }
 
-    @GetMapping(path = "delivery/donator")
-    public @ResponseBody Iterable<Delivery> deliveryByDonator(@RequestParam Integer donator) {
-        return deliveryRepository.findAllByDonator(donator);
+    class TempDelivery {
+        public Integer id;
+        public String name;
+        public Integer quantity;
+        public String eta;
+        public String location;
+
+        public TempDelivery(Integer id, String name, Integer quantity, String eta, String location) {
+            this.id = id;
+            this.name = name;
+            this.quantity = quantity;
+            this.eta = eta;
+            this.location = location;
+        }
     }
 
-//<<<<<<< HEAD
-//=======
+    @GetMapping(path = "delivery/donator")
+    public @ResponseBody Iterable<TempDelivery> deliveryByDonator(@RequestParam Integer donator) {
+        ArrayList<Delivery> deliveries = Lists.newArrayList(deliveryRepository.findAllByDonator(donator));
+        ArrayList<TempDelivery> returnVal = new ArrayList<>();
+        for (Delivery delivery : deliveries) {
+            Request request = requestRepository.findById(delivery.getRequestID()).orElse(null);
+            if (request != null) {
+                Item item = itemRepository.findItemByUserIDAndItemID(request.getRequestor(), request.getItemID());
+                if (item != null) {
+                    Location location = locationRepository.findById(item.getLocation()).orElse(null);
+                    if (location != null) {
+                        TempDelivery tempDelivery = new TempDelivery(delivery.getId(), item.getName(), request.getQuantity(), delivery.getEta(), location.toString());
+                        returnVal.add(tempDelivery);
+                    }
+                }
+            }
+        }
+        return returnVal;
+    }
 
 //    @DeleteMapping(path = "/delivery/delete")
 //    public @ResponseBody String deleteDelivery(@RequestParam Integer id) {
