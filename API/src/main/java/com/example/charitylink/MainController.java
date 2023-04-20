@@ -57,8 +57,9 @@ public class MainController {
         if (r == null) {
             return null;
         }
-        r.setLocation(loc);
-        requestRepository.save(r);
+        Item i = itemRepository.findItemByUserIDAndItemID(r.getRequestor(), r.getItemID());
+        i.setLocation(loc);
+        itemRepository.save(i);
         return r;
     }
 
