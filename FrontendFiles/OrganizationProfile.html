@@ -220,6 +220,11 @@ function onloadFunc() {
         }
         location.value = locationString;
       }
+     else {
+      location.value = "";
+      document.getElementById("add-remove").innerHTML = "Add";
+     }
+     
     }
 
   }
@@ -321,7 +326,7 @@ function saveFunc() {
          sessionStorage.setItem("userData", JSON.stringify(userData));
          
          if (locationId != -1) {
-          document.getElementByID("add-remove").innerHTML = "Remove";
+          document.getElementById("add-remove").innerHTML = "Remove";
          }
         
           updatexhr.open("PUT", updateurl, true);
