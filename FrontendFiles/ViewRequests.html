@@ -11,6 +11,24 @@
       height: 200px;
       width: 200px;
     }
+    /*
+    #popup {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: #fff;
+      padding: 20px;
+      z-index: 9999;
+      border: 1px solid #ccc;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    }
+
+    #popup.show {
+      display: block;
+    }
+*/
 
     input {
       border: 1px solid transparent;
@@ -94,6 +112,23 @@
     </button>
     </div>
     <br>
+  
+  <!--
+  <div id="popup">
+    <form id="addItem">
+      <br><label>Address 1:</label>
+      <input type="text" id="addr1" name="addr1" required><br><br>
+      <br><label>Address 2:</label>
+      <input type="text" id="addr2" name="addr2"><br><br>
+      <br><label>City:</label>
+      <input type="text" id="city" name="city" required><br><br>
+      <br><label>State:</label>
+      <input type="text" id="state" name="state" required><br><br>
+      <br><label>Zip Code:</label>
+      <input type="text" id="zip" name="zip" required><br><br>
+    </form>
+  </div><br>
+-->
 
   <div class="w3-container w3-border" id="catalog"></div>
 
@@ -339,6 +374,13 @@
       const checkbox = document.createElement('input');
       checkbox.type = 'checkbox';
       checkbox.value = item.id;
+      
+      const editButton = document.createElement('button');
+      editButton.type = 'submit';
+      editButton.name = item.id;
+      editButton.value = "Edit location of Request";
+      
+      editButton.onclick = function() { changeLocFunc(item.id) };
 
       //var itemImage = document.createElement('img');
       //var srcAttr = document.createAttribute('src');
@@ -347,6 +389,7 @@
       //}
 
       itemContainer.appendChild(checkbox);
+      itemContainer.appendChild(editButton);
       if (searchtype == 0) {
         itemName = document.createElement('h3');
         itemHashtags = document.createElement('p');
@@ -473,6 +516,33 @@
     };
 
     xhr.send();
+  }
+  
+  function changeLocFunc(requestid) {
+    var newLoc = prompt("Enter your new address in the format: \nAddress 1, Address 2, City, State, Zip Code \nOR \nAddress 1, City, State, Zip Code");
+    const regex2 = /[ A-Za-z0-9]*, [ A-Za-z0-9]*, [ A-Za-z0-9]*, [ A-Za-z0-9]*, [0-9]*,/g;
+    const regex1 = /[ A-Za-z0-9]*, [ A-Za-z0-9]*, [ A-Za-z0-9]*, [0-9]*,/g;
+    var locArr = newLoc.split(", ");
+    
+    if (newLoc.match(regex2).length > 0 || newLoc.match(regex1).length > 0) {
+          
+          const url;
+      
+          if (locArr.length == 4) {
+              url = `http://172.174.33.35:8080/api/request/update/address?id={requestid}&location={locArr[0];loc[1];loc[2];loc[3]}`;
+          } else if (locArr.length == 5) {
+              url = `http://172.174.33.35:8080/api/request/update/address?id={requestid}&location={locArr[0];loc[1];loc[2];loc[3];loc[4]}`;
+          }
+          const xhr = new XMLHttpRequest();
+          xhr.open("PUT", url, true);
+          xhr.send();
+          xhr.onload = function() {
+            if (this.status === 200) {
+               
+
+            }
+          }
+    }
   }
 
   function openNav() {
