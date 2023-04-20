@@ -368,18 +368,21 @@ public class MainController {
     }
 
     @PostMapping(path = "delivery/add")
-    public @ResponseBody Delivery addDelivery(@RequestParam Integer requesterID,
-                                           @RequestParam Integer donator, @RequestParam Integer state) {
+    public @ResponseBody Delivery addDelivery(@RequestParam Integer requesterID, @RequestParam Integer donator, 
+                                          @RequestParam Integer state, @RequestParam boolean delivered) {
         String temp = "";
         if (state == 0) {
             temp = "INPROGRESS";
+            delivered = false;
         } else if (state == 1) {
             temp = "DELIVERED";
+            delivered = true;
         }
-        Delivery delivery = new Delivery(donator, requesterID, temp);
+        Delivery delivery = new Delivery(donator, requesterID, temp, delivered);
         deliveryRepository.save(delivery);
         return delivery;
     }
+
 
     @GetMapping(path = "delivery/requester")
     public @ResponseBody Iterable<Delivery> deliveryByRequester(@RequestParam Integer requester) {
@@ -392,9 +395,41 @@ public class MainController {
     }
 
 
+    @DeleteMapping(path = "/delivery/delete")
+    public @ResponseBody String deleteDelivery(@RequestParam Integer id) {
+        Delivery delivery = deliveryRepository.findById(id).orElse(null);
+        if (delivery == null) {
+            return "Error: delivery not found";
+        }
 
+        if (delivery.getDelivered()) {
+            // Delete the delivery
+            deliveryRepository.deleteById(id);
 
-    
+            // Remove the delivery from requests
+            Iterable<Request> requests = requestRepository.findAllByDonatorAndRequester(delivery.getDonator(), delivery.getRequester());
+            for (Request request : requests) {
+                if (request.getDelivered()) {
+                    requestRepository.deleteById(request.getId());
+                }
+            }
+
+            return "Deleted";
+        } else {
+            return "Error: delivery is not yet delivered";
+        }
+     }
+
+    @DeleteMapping(path = "/delivery/cancel")
+    public @ResponseBody String cancelDelivery(@RequestParam Integer id) {
+        Delivery delivery = deliveryRepository.findById(id).orElse(null);
+        if (delivery == null) {
+            return "Error: delivery not found";
+        }
+        deliveryRepository.deleteById(id);
+        return "Deleted";
+    }
+
 
     @GetMapping(path = "/email/suspicious")
     public @ResponseBody String suspicious(@RequestParam String email) {
