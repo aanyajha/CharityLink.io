@@ -294,7 +294,8 @@ public class MainController {
         }
         Delivery delivery = deliveryRepository.findDeliveryByRequestID(id);
         if (delivery == null) {
-            return null;
+            requestRepository.deleteById(id);
+            return "Deleted";
         }
         delivery.setStatus("REUQEUST_CANCELLED");
         deliveryRepository.save(delivery);
