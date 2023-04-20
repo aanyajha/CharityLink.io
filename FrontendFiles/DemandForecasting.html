@@ -85,7 +85,7 @@ function onloadFunc() {
 	reqName.textContent = "The most requested item within range: " + data[0].name;
 	reqCont.appendChild(reqName);
 	itemContainer.appendChild(reqCont);
-	for (int i = 1; i < data.length; i++) {
+	for (var i = 1; i < data.length; i++) {
 	  	reqCont = document.createElement('div');
 		reqName = document.createElement('p');
 		reqName.textContent = data[i].name;
