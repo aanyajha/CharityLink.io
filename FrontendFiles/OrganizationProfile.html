@@ -339,9 +339,12 @@ function saveFunc() {
  function addRemove() {
   var userData = JSON.parse(sessionStorage.getItem("userData"));
   if (userData.locationID == -1) {
+   
    editFunc();
+   document.getElementByID("add-remove").innerHTML = "Remove";
   } else {
-   const url = `http://172.174.33.35:8080/api/user/update?email=${userData.email}&locationID=-1`;
+   var negOne = -1;
+   const url = `http://172.174.33.35:8080/api/user/update?email=${userData.email}&locationID=${negOne}`;
 
   const xhr = new XMLHttpRequest();
   xhr.open("PUT", url, true);
@@ -362,6 +365,8 @@ function saveFunc() {
         zip.value = "";
      var location = document.getElementById("vis-loc");
      location.value = "";
+     
+     document.getElementByID("add-remove").innerHTML = "Add";
     }
   }
    
