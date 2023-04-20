@@ -474,13 +474,15 @@ public class MainController {
         public Integer quantity;
         public String eta;
         public String location;
+        public String status;
 
-        public TempDelivery(Integer id, String name, Integer quantity, String eta, String location) {
+        public TempDelivery(Integer id, String name, Integer quantity, String eta, String location, String status) {
             this.id = id;
             this.name = name;
             this.quantity = quantity;
             this.eta = eta;
             this.location = location;
+            this.status = status;
         }
     }
 
@@ -495,7 +497,8 @@ public class MainController {
                 if (item != null) {
                     Location location = locationRepository.findById(item.getLocation()).orElse(null);
                     if (location != null) {
-                        TempDelivery tempDelivery = new TempDelivery(delivery.getId(), item.getName(), request.getQuantity(), delivery.getEta(), location.toString());
+                        TempDelivery tempDelivery = new TempDelivery(delivery.getId(), item.getName(), request.getQuantity(),
+                                delivery.getEta(), location.toString(), delivery.getStatus());
                         returnVal.add(tempDelivery);
                     }
                 }
@@ -531,7 +534,7 @@ public class MainController {
 //        }
 //     }
 
-    @DeleteMapping(path = "/deliver/complete")
+    @DeleteMapping(path = "/delivery/complete")
     public @ResponseBody String completeDeliver(@RequestParam Integer id) {
         Delivery delivery = deliveryRepository.findById(id).orElse(null);
         if (delivery == null) {
