@@ -532,7 +532,7 @@
           if (locArr.length == 4) {
               url = `http://172.174.33.35:8080/api/request/update/address?id={requestid}&location={locArr[0];loc[1];loc[2];loc[3]}`;
           } else if (locArr.length == 5) {
-              url = `http://172.174.33.35:8080/api/request/update/address?id={requestid}&location={locArr[0];loc[1];loc[2];loc[3];loc[4]}`;
+              url = `http://172.174.33.35:8080/api/request/update/address?id=${requestid}&location=${locArr[0]};${loc[1]};${loc[2]};${loc[3]};${loc[4]}`;
           }
           const xhr = new XMLHttpRequest();
           xhr.open("PUT", url, true);
