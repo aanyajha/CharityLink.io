@@ -10,9 +10,11 @@ public class Feedback {
     @GeneratedValue
     private Integer id;
     private String feedback;
+    private Integer userID;
 
-    public Feedback(String feedback) {
+    public Feedback(String feedback, Integer userID) {
         this.feedback = feedback;
+        this.userID = userID;
     }
 
     public Feedback() {};

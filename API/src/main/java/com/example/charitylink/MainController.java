@@ -36,8 +36,8 @@ public class MainController {
     private FeedbackRepository feedbackRepository;
 
     @PostMapping(path = "/feedback/add")
-    public @ResponseBody Feedback addFeedback(@RequestParam String feedback) {
-        Feedback f = new Feedback(feedback);
+    public @ResponseBody Feedback addFeedback(@RequestParam String feedback, @RequestParam Integer userID) {
+        Feedback f = new Feedback(feedback, userID);
         feedbackRepository.save(f);
         return f;
     }
