@@ -162,16 +162,19 @@
   </blockquote>
 
   <div class="w3-container w3-border id=add-edit-delete">
-    <text type="text">Select the Following:</text>
-    <button type="button" id="addButton">
+    <br>
+    <text type="text">Select items you would like to <b>Add, Edit, or Delete</b> then select the corressponding button</text>
+    <button type="button" id="addButton" style="background-color:#009999; color:white; border-color:white">
       Add
     </button>
-    <button type="button" id="editButton">
+    <button type="button" id="editButton" style="background-color:#009999; color:white; border-color:white;">
       Edit
     </button>
-    <button type="button" id="deleteButton">
+    <button type="button" id="deleteButton" style="background-color:#009999; color:white;border-color:white">
       Delete
     </button>
+    <br>
+    <br>
   </div>
 
   <datalist id="nameSuggestions">
@@ -560,11 +563,18 @@
       itemID.textContent = 'Item ID: ' + item.itemID;
       // itemID.textContent = item.state;
       quantity.textContent = 'Quantity: [ ' + item.numItems + ' ]';
-      itemImage.setAttributeNode(srcAttr);
-      console.log(item.name);
-      console.log(item.hashtags);
-      console.log(item.numItems);
 
+      const regex = /^https?:\/\/[a-z0-9]+(\.[a-z0-9]+)*(:[0-9]+)?(\/.*)?$/;
+
+      if (!regex.test(item.img)) {
+        srcAttr.value = `https://i.postimg.cc/1tpvZg4Y/charitylinkdefault.jpg`;
+      }
+      else {
+        srcAttr.value = item.img;
+      }
+
+      itemImage.setAttributeNode(srcAttr);
+  
       // Add elements to item container
       itemContainer.appendChild(checkbox);
       itemContainer.appendChild(itemImage);
