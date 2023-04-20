@@ -1094,7 +1094,7 @@ public class MainController {
 
     @GetMapping(path = "/location/get")
     public @ResponseBody Location getLocation(@RequestParam Integer id) {
-        Location location = locationRepository.findById(id).get();
+        Location location = locationRepository.findById(id).orElse(null);
         if (location == null) {
             return new Location();
         }
