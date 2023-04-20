@@ -177,7 +177,7 @@ function onloadFunc() {
   })
 
       var locId = userData.locationID;
-      
+      //
       const lxhr = new XMLHttpRequest();
       var lurl = `http://172.174.33.35:8080/api/location/get?id=${locId}`;
       lxhr.open("GET", lurl, true);
