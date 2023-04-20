@@ -170,7 +170,7 @@ public class MainController {
         }
         requests.addAll(search);
         search.clear();
-        Location location = locationRepository.findById(locationID).get();
+        Location location = locationRepository.findById(locationID).orElse(null);
         if (location == null || location.getLatitude() == null || location.getLongitude() == null) {
             return null;
         }
