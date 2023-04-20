@@ -42,7 +42,7 @@ public class MainController {
         Item newItem = addNewItem(requester, item.getName(), 0, item.getHashtags(),
                 userRepository.findById(requester).get().getLocationID() + "", item.getImg());
         itemRepository.save(newItem);
-        Request r = new Request(requester, newItem.getItemID(), item.getNumItems(), "DELIVERY");
+        Request r = new Request(requester, newItem.getItemID(), item.getNumItems(), "DELIVERY", false);
         item.setNumItems(0);
         itemRepository.save(item);
         requestRepository.save(r);
@@ -218,7 +218,7 @@ public class MainController {
                 s = "PUBLIC";
                 break;
         }
-        Request request = new Request(requester, item.getItemID(), quantity, s);
+        Request request = new Request(requester, item.getItemID(), quantity, s, false);
         requestRepository.save(request);
         return request;
     }
@@ -238,7 +238,7 @@ public class MainController {
                 s = "PUBLIC";
                 break;
         }
-        Request r = new Request(requester, itemID, quantity, s);
+        Request r = new Request(requester, itemID, quantity, s, false);
         requestRepository.save(r);
         return r;
     }
@@ -390,11 +390,6 @@ public class MainController {
     public @ResponseBody Iterable<Delivery> deliveryByDonator(@RequestParam Integer donator) {
         return deliveryRepository.findAllByDonator(donator);
     }
-
-
-
-
-    
 
     @GetMapping(path = "/email/suspicious")
     public @ResponseBody String suspicious(@RequestParam String email) {

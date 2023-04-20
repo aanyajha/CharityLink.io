@@ -14,6 +14,7 @@ public class Request {
     private Integer itemID;
     private Integer quantity;
     private String deliveryType;
+    private Boolean delivered;
     @Transient
     private String hashtags;
     @Transient
@@ -26,14 +27,15 @@ public class Request {
     private Integer location;
 
     public Request() {};
-    public Request(Integer requestor, Integer itemID, Integer quantity, String deliveryType) {
+    public Request(Integer requestor, Integer itemID, Integer quantity, String deliveryType, Boolean delivered) {
         this.requestor = requestor;
         this.itemID = itemID;
         this.quantity = quantity;
         this.deliveryType = deliveryType;
+        this.delivered = delivered;
     }
 
-    public Request(Integer requestor, Integer itemID, Integer quantity, String deliveryType, String hashtags, String name, Double distance, String img, Integer location) {
+    public Request(Integer requestor, Integer itemID, Integer quantity, String deliveryType, Boolean delivered, String hashtags, String name, Double distance, String img, Integer location) {
         this.requestor = requestor;
         this.itemID = itemID;
         this.quantity = quantity;
