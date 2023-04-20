@@ -38,6 +38,20 @@ public class MainController {
     @Autowired
     private FeedbackRepository feedbackRepository;
 
+    @PutMapping(path = "/request/exisiting")
+    public @ResponseBody Request requestExisiting(@RequestParam Integer userID, @RequestParam Integer itemID,
+                                                  @RequestParam Integer requester) {
+        Item item = itemRepository.findItemByUserIDAndItemID(userID, itemID);
+        Item newItem = addNewItem(requester, item.getName(), 0, item.getHashtags(),
+                userRepository.findById(requester).get().getLocationID() + "", item.getImg());
+        itemRepository.save(newItem);
+        Request r = new Request(requester, newItem.getItemID(), item.getNumItems(), "DELIVERY");
+        item.setNumItems(0);
+        itemRepository.save(item);
+        requestRepository.save(r);
+        return r;
+    }
+
     class ProfileTemp {
         public Integer companyID;
         public String name;
