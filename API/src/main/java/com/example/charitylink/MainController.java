@@ -35,6 +35,39 @@ public class MainController {
     @Autowired
     private DeliveryRepository deliveryRepository;
 
+    class requestStatus {
+        public String status;
+        public String location;
+        public String eta;
+
+        public requestStatus(String status, String location, String eta) {
+            this.status = status;
+            this.location = location;
+            this.eta = eta;
+        }
+    }
+
+    @GetMapping(path = "/request/status")
+    public @ResponseBody requestStatus requestStatus(@RequestParam Integer id) {
+        Request request = requestRepository.findById(id).orElse(null);
+        if (request == null) {
+            return null;
+        }
+        Delivery delivery = deliveryRepository.findDeliveryByRequestID(id);
+        if (delivery == null) {
+            return null;
+        }
+        Item item = itemRepository.findItemByUserIDAndItemID(request.getRequestor(), request.getItemID());
+        if (item == null) {
+            return null;
+        }
+        Location loc = locationRepository.findById(item.getLocation()).orElse(null);
+        if (loc == null) {
+            return null;
+        }
+        return new requestStatus(delivery.getStatus(), loc.toString(), delivery.getEta());
+    }
+
     @PutMapping(path = "/request/existing")
     public @ResponseBody Request requestExisiting(@RequestParam Integer userID, @RequestParam Integer itemID,
                                                   @RequestParam Integer requester) {
@@ -177,8 +210,8 @@ public class MainController {
         Integer loc;
         if (locationAttributes.length == 5) {
             loc = addNewLocation(locationAttributes[0], locationAttributes[1], locationAttributes[2], locationAttributes[3], Integer.parseInt(locationAttributes[4]));
-        } else if (locationAttributes.length == 1) {
-            loc = Integer.parseInt(locationAttributes[0]);
+        } else if (locationAttributes.length == 4) {
+            loc = addNewLocation(locationAttributes[0], null, locationAttributes[1], locationAttributes[2], Integer.parseInt(locationAttributes[3]));
         } else {
             return null;
         }
@@ -245,10 +278,16 @@ public class MainController {
 
     @DeleteMapping(path = "/request/delete")
     public @ResponseBody String deleteRequest(@RequestParam Integer id) {
-        Request r = requestRepository.findById(id).get();
+        Request r = requestRepository.findById(id).orElse(null);
         if (r == null) {
             return "Error";
         }
+        Delivery delivery = deliveryRepository.findDeliveryByRequestID(id);
+        if (delivery == null) {
+            return null;
+        }
+        delivery.setStatus("REUQEUST_CANCELLED");
+        deliveryRepository.save(delivery);
         requestRepository.deleteById(id);
         return "Deleted";
     }
@@ -369,14 +408,14 @@ public class MainController {
 
     @PostMapping(path = "delivery/add")
     public @ResponseBody Delivery addDelivery(@RequestParam Integer requesterID, @RequestParam Integer donator, 
-                                          @RequestParam Integer state) {
+                                          @RequestParam Integer state, @RequestParam String eta) {
         String temp = "";
         if (state == 0) {
             temp = "INPROGRESS";
         } else if (state == 1) {
             temp = "DELIVERED";
         }
-        Delivery delivery = new Delivery(donator, requesterID, temp);
+        Delivery delivery = new Delivery(donator, requesterID, temp, eta);
         deliveryRepository.save(delivery);
         return delivery;
     }
@@ -447,6 +486,9 @@ public class MainController {
         Delivery delivery = deliveryRepository.findById(id).orElse(null);
         if (delivery == null) {
             return "Error: delivery not found";
+        }
+        if (delivery.getStatus().equals("DELIVERED") || delivery.getStatus().equals("REQUEST_CANCELLED")) {
+            deliveryRepository.deleteById(id);
         }
         Request request = requestRepository.findById(delivery.getRequestID()).get();
         if (request == null) {

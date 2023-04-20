@@ -14,14 +14,24 @@ public class Delivery {
     private Integer requestID;
     private String status;
 //    private boolean delivered;
+    private String eta;
 
     public Delivery() {}
 
-    public Delivery(Integer donator, Integer requestID, String status/*, boolean delivered*/) {
+    public Delivery(Integer donator, Integer requestID, String status/*, boolean delivered*/, String eta) {
         this.donator = donator;
         this.requestID = requestID;
         this.status = status;
 //        this.delivered = delivered;
+        this.eta = eta;
+    }
+
+    public String getEta() {
+        return eta;
+    }
+
+    public void setEta(String eta) {
+        this.eta = eta;
     }
 
     public Integer getRequestID() {
