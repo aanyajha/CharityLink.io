@@ -27,6 +27,9 @@ Location
 <input type="text" value="IN" id="state" class="edit-loc">
 <p class="edit-loc">Zip Code</p>
 <input type="text" value="47905" id="zip" class="edit-loc">
+ 
+ <button id="add-remove" onclick="addRemove()">Remove</button>
+ 
 <p>
 Mission Statement
 </p>
@@ -120,6 +123,7 @@ function editFunc() {
   document.getElementById("name-edit").style.display = "inline";
   document.getElementById("name-edit").value = document.getElementById("org-name").innerHTML;
   document.getElementById("org-name").style.display = "none";
+ document.getElementById("add-remove").style.display = "none";
 }
 
 window.onload = onloadFunc();
@@ -323,12 +327,45 @@ function saveFunc() {
   document.getElementById("org-name").innerHTML = document.getElementById("name-edit").value;
   document.getElementById("name-edit").style.display = "none";
   document.getElementById("org-name").style.display = "inline";
+ document.getElementById("add-remove").style.display = "inline";
 
   //if everything is successful
   alert("Save successful!")
 
 
 }
+ 
+ 
+ function addRemove() {
+  var userData = JSON.parse(sessionStorage.getItem("userData"));
+  if (userData.locationID == -1) {
+   editFunc();
+  } else {
+   const url = `http://172.174.33.35:8080/api/user/update?email=${userData.email}&locationID=-1`;
+
+  const xhr = new XMLHttpRequest();
+  xhr.open("PUT", url, true);
+  xhr.send();
+  xhr.onload = function() {
+    if (this.status === 200) {
+      var data = JSON.parse(this.responseText);
+     var addr1 = document.getElementById("address1");
+        addr1.value = "";
+        var addr2 = document.getElementById("address2");
+        addr2.value = "";
+        var city = document.getElementById("city");
+        city.value = "";
+        var state = document.getElementById("state");
+        state.value = "";
+        var zip = document.getElementById("zip");
+        zip.value = "";
+    }
+  }
+   
+  }
+  
+  
+ }
 
 
 //this code I used stackoverflow to help me
