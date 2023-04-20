@@ -44,19 +44,32 @@ img {
     <p>Here you can view what item is most in demand.</p>
   </div>
 	
-	<div id="all-profiles"></div>
+	<label for="distance">Distance (Between 1 and 100 miles):</label>
+  <input type="number" id="distance" name="distance" min="1" max="100">
+
+	
+	<div id="item-container"></div>
 
 </body>
 
 
 
 <script>
+	
+function openNav() {
+  document.getElementById("mySidebar").style.display = "block";
+}
+
+function closeNav() {
+  document.getElementById("mySidebar").style.display = "none";
+}
 
 window.onload = onloadFunc();
 
 function onloadFunc() {
   var userData = JSON.parse(sessionStorage.getItem('userData'));
-  var maxDist = 20;
+  var htmlDist = document.getElementById("distance");
+  var maxDist = htmlDist.value;
   const url = `http://172.174.33.35:8080/api/request/local?locationID=${userData.locationID}&maxDistance=${maxDist}`;
 
   const xhr = new XMLHttpRequest();
@@ -66,6 +79,20 @@ function onloadFunc() {
     if (this.status === 200) {
     var data = JSON.parse(this.responseText);
   	console.log(data);
+	var itemContainer = document.getElementById("item-container");
+	var reqCont = document.createElement('div');
+	var reqName = document.createElement('p');
+	reqName.textContent = "The most requested item within range: " + data[0].name;
+	reqCont.appendChild(reqName);
+	itemContainer.appendChild(reqCont);
+	for (int i = 1; i < data.length; i++) {
+	  	reqCont = document.createElement('div');
+		reqName = document.createElement('p');
+		reqName.textContent = data[i].name;
+		reqCont.appendChild(reqName);
+		itemContainer.appendChild(reqCont);
+	}
+	
     }
     
     }
