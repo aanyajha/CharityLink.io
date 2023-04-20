@@ -1,9 +1,6 @@
 package com.example.charitylink;
 
 import com.google.api.client.util.Lists;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.criteria.CriteriaBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -30,13 +27,13 @@ public class MainController {
     private ProfileRepository profileRepository;
 
     @Autowired
-    private DonationRepository donationRepository;
-
-    @Autowired
     private RequestRepository requestRepository;
 
     @Autowired
     private FeedbackRepository feedbackRepository;
+
+    @Autowired
+    private DeliveryRepository deliveryRepository;
 
     @PutMapping(path = "/request/existing")
     public @ResponseBody Request requestExisiting(@RequestParam Integer userID, @RequestParam Integer itemID,
@@ -368,51 +365,6 @@ public class MainController {
             }
         }
         return requests;
-    }
-
-    @PostMapping(path = "/donation/add")
-    public @ResponseBody Donation addDonation(@RequestParam Integer itemID, @RequestParam Integer requester,
-                                            @RequestParam Integer donator, @RequestParam Integer quantity,
-                                            @RequestParam Integer state) {
-        String temp = "";
-        if (state == 0) {
-            temp = "INPROGRESS";
-        } else if (state == 1) {
-            temp = "DELIVERED";
-        }
-        Donation d = new Donation(itemID, requester, donator, quantity, temp);
-        donationRepository.save(d);
-        return d;
-    }
-
-    @GetMapping(path = "/donation/requester")
-    public @ResponseBody Iterable<Donation> donationByRequester(@RequestParam Integer requester) {
-        return donationRepository.findAllByRequester(requester);
-    }
-
-    @GetMapping(path = "/donation/donator")
-    public @ResponseBody Iterable<Donation> donationByDonator(@RequestParam Integer donator) {
-        return donationRepository.findAllByDonator(donator);
-    }
-
-
-
-    @PostMapping(path = "delivery/cancel")
-    public @ResponseBody Request cancelDelivery(@RequestParam Integer deliveryID) {
-        Delivery d = deliveryRepository.findById(deliveryID).orElse(null);
-        if (d != null) {
-            Integer itemID = d.getItemID();
-            Integer requester = d.getRequester();
-            Integer quantity = d.getQuantity();
-            String deliveryType = d.getDeliveryType();
-
-            deliveryRepository.delete(d);
-
-            Request r = new Request(requester, itemID, quantity, deliveryType);
-            requestRepository.save(r);
-            return r;
-        }
-        return null;
     }
 
     @PostMapping(path = "delivery/add")
