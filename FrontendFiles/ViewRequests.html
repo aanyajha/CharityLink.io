@@ -523,10 +523,10 @@
     var newLoc = prompt("Enter your new address in the format: \nAddress 1, Address 2, City, State, Zip Code \nOR \nAddress 1, City, State, Zip Code");
     const regex2 = /[ A-Za-z0-9]*, [ A-Za-z0-9]*, [ A-Za-z0-9]*, [ A-Za-z0-9]*, [0-9]*,/g;
     const regex1 = /[ A-Za-z0-9]*, [ A-Za-z0-9]*, [ A-Za-z0-9]*, [0-9]*,/g;
+    var locArr = newLoc.split(", ");
     
-    
-    if (newLoc.match(regex2).length > 0 || newLoc.match(regex1).length > 0) {
-          var locArr = newLoc.split(", ");
+    if (locArr.length > 0 || locArr.length > 0) {
+          
           var url;
       
           if (locArr.length == 4) {
