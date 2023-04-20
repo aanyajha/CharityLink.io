@@ -68,6 +68,10 @@ function closeNav() {
 //window.onload = onloadFunc();
 
 function dForecasting() {
+  var itemContainer = document.getElementById("item-container");
+  while (itemContainer.firstChild) {
+      itemContainer.removeChild(itemContainer.firstChild);
+  }
   var userData = JSON.parse(sessionStorage.getItem('userData'));
   var htmlDist = document.getElementById("distance");
   var maxDist = htmlDist.value;
@@ -80,7 +84,7 @@ function dForecasting() {
     if (this.status === 200) {
     var data = JSON.parse(this.responseText);
   	console.log(data);
-	var itemContainer = document.getElementById("item-container");
+	itemContainer = document.getElementById("item-container");
 	var reqCont = document.createElement('div');
 	var reqName = document.createElement('h3');
 	reqName.textContent = "The most requested item within range: " + data[0].name;
