@@ -81,7 +81,7 @@ public class Location {
     }
 
     public String toString() {
-        if (addressLine2 == null) {
+        if (addressLine2 == null || addressLine2.length() == 0) {
             return addressLine1 + ", " + city + ", " + state + ", " + zip;
         } else {
             return addressLine1 + ", " + addressLine2 + ", " + city + ", " + state + ", " + zip;
