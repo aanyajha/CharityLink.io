@@ -117,19 +117,6 @@
   </div>
 
   <blockquote>
-    <form id="nameForm" autocomplete="off">
-      <div class="autocomplete" style="width:300px;">
-        <input id="myInputName" type="text" name="searchName" placeholder="Search By Name">
-      </div>
-      <input type="submit" onclick="searchByName()">
-    </form><br>
-
-    <form id="hashtagForm" autocomplete="off">
-      <div class="autocomplete" style="width:300px;">
-        <input id="myInputHashtag" type="text" name="searchHashtags" placeholder="Search By Category">
-      </div>
-      <input type="submit" onclick="searchByHashtag()">
-    </form><br>
 
     <label for="maxDistance">Filter By Distance:</label>
     <input type="number" id="maxDistance" name="maxDistance" style="width:80px" value="20" min="0" step="1" required> mi
@@ -142,10 +129,10 @@
   <br>
   <div class="w3-container w3-border id=add-edit-delete">
     <br>
-    <text type="text">Select requests you would like to accept by selecting the boxes below. Then click <b>Accept Selected Requests</b>.</text>
-    <button type="button" id="acceptRequests" onClick="acceptRequests()" style="height:50px;width:300px;padding: 10px 20px;background-color: #009999;
+    <text type="text">Select requests you would like to complete. Then click <b>Request Complete</b>.</text>
+    <button type="button" id="requestComplete" onClick="requestComplete()" style="height:50px;width:200px;padding: 10px 20px;background-color: #009999;
     font-size: 15px;color: #fff;border-radius: 5px;border-color: #009999;z-index: 999;">
-      Accept Selected Requests
+      Request Complete
     </button>
     <br><br>
   </div>
@@ -338,42 +325,6 @@
       xhr.open("GET", url, true);
       xhr.send();
     }
-  }
-
-  // Add click event listener to item container
-  function acceptRequests() {
-    const checkboxes = document.querySelectorAll('input[type="checkbox"]');
-    checkboxes.forEach(checkboxVal => {
-      console.log(checkboxVal.value);
-      if (checkboxVal.checked) {
-        alert("Request Selected");
-        /*
-        const url = `http://172.174.33.35:8080/api/item/delete?itemID=${checkboxVal.value}&userID=${userData.companyID}`;
-        console.log("Sent Item Deletion Info");
-
-        const xhr1 = new XMLHttpRequest();
-        xhr1.open("DELETE", url, true);
-
-        xhr1.onload = function () {
-          if (this.status === 200) {
-            const data = this.responseText;
-            console.log(data);
-            printData();
-          } else {
-            console.error("Request failed with status code", this.status);
-          }
-        };
-
-        xhr1.onerror = function () {
-          console.error("Request failed");
-        };
-
-        xhr1.send();
-        const div = checkboxVal.parentNode;
-        div.remove();
-        */
-      }
-    });
   }
 
   function submitForm(event) {

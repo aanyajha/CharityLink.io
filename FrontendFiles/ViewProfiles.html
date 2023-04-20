@@ -43,6 +43,8 @@ img {
     <p>Welcome to View Organization Profiles!</p>
     <p>Here you can view organization profiles.</p>
   </div>
+	
+	<div id="all-profiles"></div>
 
 </body>
 
@@ -56,7 +58,40 @@ img {
     }
     
     const userData = sessionStorage.getItem('userData');
+	
+	window.onload = onloadFunc()
+	
+	function onloadFunc() {
+	const url = `http://172.174.33.35:8080/api/profile/all`;
+
+	  const xhr = new XMLHttpRequest();
+	  xhr.open("GET", url, true);
+	  xhr.send();
+	  xhr.onload = function() {
+	    if (this.status === 200) {
+		    const data = JSON.parse(this.responseText);
+		    console.log(data);
+		    for (var i = 0; i < data.length; i++) {
+  	var companyContainer = document.createElement('div');
+    var companyID = data[i].companyID;
+    var logo = data[i].logo;
+    var statement = data[i].statement;
+    //do stuff with the company name and location first
     
+    var compImg = document.createElement('img');
+    compImg.src = logo;
+    companyContainer.appendChild(compImg);
+    
+    var compState = document.createElement('p');
+    compState.textContent = statement;
+    companyContainer.appendChild(compState);
+    
+    var fullContainer = document.getElementById("all-profiles");
+    fullContainer.appendChild(companyContainer);
+  }
+	    }
+	  }
+	}
     //const usernameTitle = userData.username;
     
     //document.getElementById("docTitle").innerHTML = "title" + ${usernameTitle};

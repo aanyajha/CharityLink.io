@@ -399,11 +399,9 @@
 
       if (!regex.test(item.img)) {
         srcAttr.value = `https://i.postimg.cc/1tpvZg4Y/charitylinkdefault.jpg`;
-        console.log("Updated: " + srcAttr.value);
       }
       else {
         srcAttr.value = item.img;
-        console.log("Item.img: " + item.img);
       }
 
       itemImage.setAttributeNode(srcAttr);
