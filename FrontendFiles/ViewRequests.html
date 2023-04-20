@@ -110,6 +110,10 @@
     font-size: 15px;color: #fff;border-radius: 5px;border-color: #009999;z-index: 999;">
       Delete Selected Requests
     </button>
+      <button type="button" id="acceptRequests" onClick="viewRequestStatus()" style="height:50px;width:300px;padding: 10px 20px;background-color: #009999;
+      font-size: 15px;color: #fff;border-radius: 5px;border-color: #009999;z-index: 999;">
+        List Request Status
+      </button>
     </div>
     <br>
   
@@ -130,7 +134,9 @@
   </div><br>
 -->
 
-  <div class="w3-container w3-border" id="catalog"></div>
+
+
+  <div class="w3-container" id="catalog"></div>
 
 
 </body>
@@ -233,6 +239,39 @@
       xhr.open("GET", url, true);
       xhr.send();
     }
+  }
+
+  function viewRequestStatus() {
+    // Add click event listener to item container
+    const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+    checkboxes.forEach(checkboxVal => {
+      console.log(checkboxVal.value);
+      if (checkboxVal.checked) {
+        const url = `http://172.174.33.35:8080/api/request/status?id=${checkboxVal.value}`;
+
+        const xhr1 = new XMLHttpRequest();
+        xhr1.open("DELETE", url, true);
+
+        xhr1.onload = function () {
+          if (this.status === 200) {
+            const data = this.responseText;
+            console.log(data);
+            //printData();
+            // make alert with status, location, and estimated time of arrival.
+          } else {
+            console.error("Request failed with status code", this.status);
+          }
+        };
+
+        xhr1.onerror = function () {
+          console.error("Request failed");
+        };
+
+        xhr1.send();
+        const div = checkboxVal.parentNode;
+        div.remove();
+      }
+    });
   }
 
   function searchByHashtag() {
@@ -376,8 +415,11 @@
       checkbox.value = item.id;
       
       const editButton = document.createElement('button');
+      editButton.style.marginLeft = '20px';
       editButton.type = 'submit';
       editButton.name = item.id;
+      editButton.style.backgroundColor = '#009999';
+      editButton.style.color = 'white';
       editButton.value = "Edit location of Request";
       editButton.innerHTML = "Edit location of Request";
       
@@ -452,7 +494,7 @@
       //itemContainer.appendChild(itemImage);
 
       itemContainer.style.border = '1px solid black';
-
+      
       // Add item container to catalog container
       catalogContainer.appendChild(itemContainer);
     });
@@ -525,9 +567,14 @@
     const regex1 = /[ A-Za-z0-9]*, [ A-Za-z0-9]*, [ A-Za-z0-9]*, [0-9]*,/g;
     var locArr = newLoc.split(", ");
     
-    if (locArr.length > 0 || locArr.length > 0) {
+    
+    if (locArr.length > 0) {
           
           var url;
+
+          for (var i = 0; i < locArr.length; i++) {
+            locArr[i] = locArr[i].replaceAll(" ", "+");  
+          }
       
           if (locArr.length == 4) {
               url = `http://172.174.33.35:8080/api/request/update/address?id=${requestid}&location=${locArr[0]};${locArr[1]};${locArr[2]};${locArr[3]}`;
@@ -536,13 +583,25 @@
           }
           const xhr = new XMLHttpRequest();
           xhr.open("PUT", url, true);
-          xhr.send();
           xhr.onload = function() {
             if (this.status === 200) {
-               
-
+              //printCatalog();
+              console.log(url);
+              alert("Location changed");
+            }
+            else {
+              console.error("Request failed not 200");
             }
           }
+
+          xhr.onerror = function () {
+            console.error("Request failed");
+          };
+
+          xhr.send();
+    }
+    else {
+      alert("Incorrect Format");
     }
   }
 
