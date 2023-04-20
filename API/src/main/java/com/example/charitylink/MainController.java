@@ -410,7 +410,7 @@ public class MainController {
     }
 
     @PostMapping(path = "delivery/add")
-    public @ResponseBody Delivery addDelivery(@RequestParam Integer requesterID, @RequestParam Integer donator, 
+    public @ResponseBody Delivery addDelivery(@RequestParam Integer requestID, @RequestParam Integer donator,
                                           @RequestParam Integer state, @RequestParam String eta) {
         String temp = "";
         if (state == 0) {
@@ -418,7 +418,13 @@ public class MainController {
         } else if (state == 1) {
             temp = "DELIVERED";
         }
-        Delivery delivery = new Delivery(donator, requesterID, temp, eta);
+        Request request = requestRepository.findById(requestID).orElse(null);
+        if (requestID == null) {
+            return null;
+        }
+        request.setDelivered(true);
+        requestRepository.save(request);
+        Delivery delivery = new Delivery(donator, requestID, temp, eta);
         deliveryRepository.save(delivery);
         return delivery;
     }
