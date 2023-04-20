@@ -1,6 +1,9 @@
 package com.example.charitylink;
 
 import com.google.api.client.util.Lists;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.criteria.CriteriaBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -40,6 +43,93 @@ public class MainController {
         Feedback f = new Feedback(feedback, userID);
         feedbackRepository.save(f);
         return f;
+    }
+
+    class Tuple {
+        public String name;
+        public Integer count;
+        
+        public Tuple (String name, Integer count) {
+            this.name = name;
+            this.count = count;
+        }
+    }
+
+    @GetMapping(path = "/request/local")
+    public @ResponseBody Iterable<Tuple> localRequests(@RequestParam Integer locationID, @RequestParam Integer maxDistance) {
+        ArrayList<Request> requests = Lists.newArrayList(requestRepository.findAll());
+        ArrayList<Request> search = new ArrayList<>();
+        for (Request request : requests) {
+            User u = userRepository.findById(request.getRequestor()).get();
+            if (u == null) {
+                continue;
+            }
+            if (u.getUserType() == 1) {
+                search.add(request);
+            }
+        }
+        requests.clear();
+        requests.addAll(search);
+        search.clear();
+        while (requests.size() > 0) {
+            for (int i = 0; i < requests.size(); i++) {
+                Item item = itemRepository.findItemByUserIDAndItemID(requests.get(i).getRequestor(), requests.get(i).getItemID());
+                if (item != null) {
+                    Request r = requests.get(i);
+                    r.setHashtags(item.getHashtags());
+                    r.setName(item.getName());
+                    r.setImg(item.getImg());
+                    r.setLocation(item.getLocation());
+                    search.add(r);
+                }
+                requests.remove(i);
+                break;
+            }
+        }
+        requests.addAll(search);
+        search.clear();
+        Location location = locationRepository.findById(locationID).get();
+        if (location == null || location.getLatitude() == null || location.getLongitude() == null) {
+            return null;
+        }
+        for (Request request : requests) {
+            Location requestLoc = locationRepository.findById(request.getLocation()).get();
+            request.setDistance(requestLoc.findDistance(location.getLatitude(), location.getLongitude()));
+            if (request.getDistance() <= maxDistance) {
+                search.add(request);
+            }
+        }
+        requests.clear();
+        requests.addAll(search);
+        search.clear();
+        ArrayList<Tuple> returnVal = new ArrayList<>();
+        HashMap<String, Integer> map = new HashMap<>();
+        for (Request request : requests) {
+            if (map.containsKey(request.getName())) {
+                map.replace(request.getName(), map.get(request.getName()) + 1);
+            } else {
+                map.put(request.getName(), 1);
+            }
+        }
+        for (String name : map.keySet()) {
+            returnVal.add(new Tuple(name, map.get(name)));
+        }
+        ArrayList<Tuple> temp = new ArrayList<>();
+        int index = -1;
+        int max = 0;
+        while (returnVal.size() > 0) {
+            index = 0;
+            max = 0;
+            for (int i = 0; i < returnVal.size(); i++) {
+                if (returnVal.get(i).count > max) {
+                    max = returnVal.get(i).count;
+                    index = i;
+                }
+            }
+            temp.add(returnVal.get(index));
+            returnVal.remove(index);
+        }
+        return temp;
     }
 
     @PutMapping(path = "/request/update/address")
