@@ -38,6 +38,34 @@ public class MainController {
     @Autowired
     private FeedbackRepository feedbackRepository;
 
+    class ProfileTemp {
+        public Integer companyID;
+        public String name;
+        public String statement;
+        public String logo;
+        public String location;
+
+        public ProfileTemp(Integer companyID, String name, String statement, String logo, String location) {
+            this.companyID = companyID;
+            this.name = name;
+            this.statement = statement;
+            this.logo = logo;
+            this.location = location;
+        }
+    }
+
+    @GetMapping(path = "/profile/all/companies")
+    public @ResponseBody Iterable<ProfileTemp> getProfileTemp() {
+        ArrayList<Profile> profiles = Lists.newArrayList(profileRepository.findAll());
+        ArrayList<ProfileTemp> returnVal = new ArrayList<>();
+        for (Profile profile : profiles) {
+            User u = userRepository.findById(profile.getCompanyID()).get();
+            returnVal.add(new ProfileTemp(profile.getCompanyID(), u.getName(), profile.getStatement(), profile.getLogo(),
+                    locationRepository.findById(u.getLocationID()).get().toString()));
+        }
+        return returnVal;
+    }
+
     @PostMapping(path = "/feedback/add")
     public @ResponseBody Feedback addFeedback(@RequestParam String feedback, @RequestParam Integer userID) {
         Feedback f = new Feedback(feedback, userID);

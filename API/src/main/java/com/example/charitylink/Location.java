@@ -80,6 +80,14 @@ public class Location {
         return distance;
     }
 
+    public String toString() {
+        if (addressLine2 == null) {
+            return addressLine1 + ", " + city + ", " + state + ", " + zip;
+        } else {
+            return addressLine1 + ", " + addressLine2 + ", " + city + ", " + state + ", " + zip;
+        }
+    }
+
     public Double getLatitude() {
         return latitude;
     }
