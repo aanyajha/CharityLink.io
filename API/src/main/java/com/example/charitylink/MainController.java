@@ -307,7 +307,8 @@ public class MainController {
                                                           @RequestParam(required = false) String hashtags,
                                                           @RequestParam(required = false) String location,
                                                           @RequestParam(required = false) Integer maxDistance,
-                                                          @RequestParam(required = false) Integer userID) {
+                                                          @RequestParam(required = false) Integer userID,
+                                                          @RequestParam(required = false) Integer userType) {
         ArrayList<Request> requests = (userID == null) ? Lists.newArrayList(requestRepository.findAll()) : Lists.newArrayList(requestRepository.findAllByRequestor(userID));
         ArrayList<Request> search = new ArrayList<>();
         while (requests.size() > 0) {
@@ -337,6 +338,21 @@ public class MainController {
             } else {
 
             }
+        }
+        if (userType != null) {
+            for (Request request: requests) {
+                User u = userRepository.findById(request.getRequestor()).orElse(null);
+                if (u != null) {
+                    if (userType == 0 && u.getUserType() == 1) {
+                        search.add(request);
+                    } else if (userType == 1 && u.getUserType() != 1) {
+                        search.add(request);
+                    }
+                }
+            }
+            requests.clear();
+            requests.addAll(search);
+            search.clear();
         }
         if (name != null) {
             for (Request r : requests) {
