@@ -82,15 +82,23 @@ function dForecasting() {
   	console.log(data);
 	var itemContainer = document.getElementById("item-container");
 	var reqCont = document.createElement('div');
-	var reqName = document.createElement('p');
+	var reqName = document.createElement('h3');
 	reqName.textContent = "The most requested item within range: " + data[0].name;
 	reqCont.appendChild(reqName);
+	var reqQ = document.createElement('p');
+	reqQ.textContent = "Amount Requested: " + data[0].count;
+	reqCont.appendChild(reqQ);
+	reqCont.style.border = '1px solid black';
 	itemContainer.appendChild(reqCont);
 	for (var i = 1; i < data.length; i++) {
 	  	reqCont = document.createElement('div');
-		reqName = document.createElement('p');
+		reqName = document.createElement('h3');
 		reqName.textContent = data[i].name;
 		reqCont.appendChild(reqName);
+		reqQ = document.createElement('p');
+	        reqQ.textContent = "Amount Requested: " + data[0].count;
+		reqCont.appendChild(reqQ);
+		reqCont.style.border = '1px solid black';
 		itemContainer.appendChild(reqCont);
 	}
 	
