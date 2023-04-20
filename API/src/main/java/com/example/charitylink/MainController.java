@@ -545,7 +545,7 @@ public class MainController {
         return "delivered";
     }
 
-    @DeleteMapping(path = "/delivery/cancel")
+    @DeleteMapping(path = "/delivery/delete")
     public @ResponseBody String cancelDelivery(@RequestParam Integer id) {
         Delivery delivery = deliveryRepository.findById(id).orElse(null);
         if (delivery == null) {
@@ -553,6 +553,7 @@ public class MainController {
         }
         if (delivery.getStatus().equals("DELIVERED") || delivery.getStatus().equals("REQUEST_CANCELLED")) {
             deliveryRepository.deleteById(id);
+            return "Deleted";
         }
         Request request = requestRepository.findById(delivery.getRequestID()).get();
         if (request == null) {
