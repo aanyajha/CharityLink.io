@@ -144,7 +144,8 @@
   </blockquote>
 
   <div class="w3-container">
-    <button type="button" id="requestItem" onClick="requestItem()" style="height:50px;width:300px;padding: 10px 20px;background-color: #009999;
+    <text type="text">Select items that you would like to request from the catalog below. Then click <b>Request Selected Items</b>.</text>
+    <button type="button" id="requestItem" onClick="requestItems()" style="height:50px;width:300px;padding: 10px 20px;background-color: #009999;
       font-size: 15px;color: #fff;border-radius: 5px;border-color: #009999;z-index: 999;">
         Request Selected Items
       </button>
@@ -171,13 +172,55 @@
   if (userData != null) {
     printData();
   } else {
-    userData = { companyID: -1, email: "vjasti@purdue.edu", id: 1, joinDate: "2023-02-27", locationID: -1, name: "Varun", password: "passwordtest", passwordToken: null, userType: 1, username: "vjasti" };
+    //userData = { companyID: -1, email: "vjasti@purdue.edu", id: 1, joinDate: "2023-02-27", locationID: -1, name: "Varun", password: "passwordtest", passwordToken: null, userType: 1, username: "vjasti" };
+    userData = { companyID: -1, email: "test@purdue.edu", id: 2, joinDate: "2023-02-27", locationID: 102, name: "test name", password: "blank", passwordToken: null, userType: 1, username: "test" };
     printData();
   }
 
   // Get reference to catalog container in HTML
 
   var catalogData;
+
+  function requestItems() {
+    // Add click event listener to item container
+    if (userData.locationID == -1) {
+      alert("Please go to your settings and add a location before requesting items in the catalog. Organizations need an address in order to confirm delivery.");
+    }
+    const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+    checkboxes.forEach(checkboxVal => {
+      console.log(checkboxVal.value);
+      if (checkboxVal.checked) {
+        var temp = checkboxVal.value.split(";");
+        console.log("Split data: ");
+        console.log(temp);
+        const url = `http://172.174.33.35:8080/api/request/existing?userID=${temp[0]}&itemID=${temp[1]}&requester=${userData.id}`;
+        console.log("Sent Item Request from CatalogInfo");
+        console.log(url);
+
+        const xhr1 = new XMLHttpRequest();
+        xhr1.open("PUT", url, true);
+
+        xhr1.onload = function () {
+          if (this.status === 200) {
+            const data = this.responseText;
+            console.log(data);
+            printData();
+            alert("Request made")
+          } else {
+            console.error("Request failed with status code", this.status);
+          }
+        };
+
+        xhr1.onerror = function () {
+          console.error("Request failed");
+        };
+
+        xhr1.send();
+        const div = checkboxVal.parentNode;
+        div.remove();
+      }
+    });
+  }
 
   function searchByName() {
     const name = document.getElementById("myInputName").value;
@@ -363,7 +406,7 @@
       var distance;
       const checkbox = document.createElement('input');
       checkbox.type = 'checkbox';
-      checkbox.value = item.itemID;
+      checkbox.value = `${item.userID};${item.itemID}`;
 
       var itemImage = document.createElement('img');
       var srcAttr = document.createAttribute('src');

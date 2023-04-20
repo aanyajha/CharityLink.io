@@ -45,20 +45,495 @@ img {
 
   <div class="w3-container">
     <p>Welcome to Deliveries!</p>
-    <p>This page will eventually display all deliveries assigned to you as an employee.</p>
+    <p>This page displays all deliveries assigned to you as an employee.</p>
   </div>
+
+  <br>
+  <div class="w3-container w3-border id=add-edit-delete">
+    <br>
+    <text type="text">Select requests you would like to mark as complete. Then click <b>Request Complete</b>.</text>
+    <button type="button" id="requestComplete" onClick="requestComplete()" style="height:50px;width:200px;padding: 10px 20px;background-color: #009999;
+    font-size: 15px;color: #fff;border-radius: 5px;border-color: #009999;z-index: 999;">
+      Request Complete
+    </button>
+    <br><br>
+  </div>
+
+  <div class="w3-container w3-border" id="catalog"></div>
 
 </body>
 
 <script>
-		function openNav() {
+    const catalogContainer = document.getElementById('catalog');
+    var hashtagList = [];
+    var nameList = [];
+    autocomplete(document.getElementById("myInputName"), nameList);
+    autocomplete(document.getElementById("myInputHashtag"), hashtagList);
+    document.getElementById("nameForm").addEventListener('submit', submitForm);
+    document.getElementById("hashtagForm").addEventListener('submit', submitForm);
+  
+    // Define data for catalog
+    var userData = JSON.parse(sessionStorage.getItem('userData'));
+    if (userData != null) {
+      printData();
+    } else {
+      userData = { companyID: -1, email: "vjasti@purdue.edu", id: 1, joinDate: "2023-02-27", locationID: -1, name: "Varun", password: "passwordtest", passwordToken: null, userType: 1, username: "vjasti" };
+      printData();
+    }
+  
+    // Get reference to catalog container in HTML
+  
+    var requestData;
+  
+    function searchByName() {
+      const name = document.getElementById("myInputName").value;
+      console.log("name: " + name);
+      var url = `http://172.174.33.35:8080/api/item/search?name=${name}&state=0`;
+      var xhr = new XMLHttpRequest();
+  
+      xhr.onload = function () {
+        if (this.status === 200) {
+          console.log(url);
+          const requestData = JSON.parse(this.responseText);
+          console.log(requestData);
+          if (requestData.length == 0) {
+            alert("No items with name");
+          }
+          if (document.getElementById("locationCheckbox").checked) {
+            printCatalog(requestData, 3);
+          } else {
+            printCatalog(requestData, 0);
+          }
+        } else {
+          console.error("Request failed with status code", this.status);
+        }
+      }
+  
+      xhr.onerror = function () {
+        console.error("Request failed");
+      };
+      if (document.getElementById("locationCheckbox").checked) {
+        if (userData.locationID == -1) {
+          //TODO: request location from browser
+          if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function (position) {
+              console.log("Latitude: " + position.coords.latitude);
+              console.log("Longitude: " + position.coords.longitude);
+              url = `http://172.174.33.35:8080/api/item/search?name=${name}&location=${position.coords.latitude};${position.coords.longitude}&state=0`;
+              xhr.open("GET", url, true);
+              xhr.send();
+              return;
+            }, function (error) {
+              console.error("Error getting location: " + error.message);
+            });
+          } else {
+            console.error("Geolocation is not supported by this browser.");
+          }
+        } else {
+          var location;
+          var url1 = `http://172.174.33.35:8080/api/location/get?id=${userData.locationID}`;
+          var xhr1 = new XMLHttpRequest();
+          xhr1.open("GET", url1, true);
+          xhr1.onload = function () {
+            if (this.status === 200) {
+              location = JSON.parse(this.responseText);
+              console.log(location);
+              console.log(location.latitude);
+              console.log(location.latitude != null && location.longitude != null);
+              if (location.latitude != null && location.longitude != null) {
+                url = `http://172.174.33.35:8080/api/item/search?name=${name}&location=${location.latitude};${location.longitude}&state=0`;
+              }
+              xhr.open("GET", url, true);
+              xhr.send();
+              return;
+            } else {
+              console.error("Request failed with status code", this.status);
+            }
+          }
+  
+          xhr1.onerror = function () {
+            console.error("Request failed");
+          };
+  
+          xhr1.send();
+        }
+      } else {
+        xhr.open("GET", url, true);
+        xhr.send();
+      }
+    }
+  
+    function searchByHashtag() {
+      const hashtag = document.getElementById("myInputHashtag").value;
+      console.log("name: " + name);
+      var url = `http://172.174.33.35:8080/api/item/search?hashtags=${hashtag}&state=0`;
+      var xhr = new XMLHttpRequest();
+  
+      xhr.onload = function () {
+        if (this.status === 200) {
+          console.log(url);
+          const requestData = JSON.parse(this.responseText);
+          console.log(requestData);
+          if (requestData.length == 0) {
+            alert("No items in category");
+          }
+          if (document.getElementById("locationCheckbox").checked) {
+            printCatalog(requestData, 3);
+          } else {
+            printCatalog(requestData, 1);
+          }
+        } else {
+          console.error("Request failed with status code", this.status);
+        }
+      }
+  
+      xhr.onerror = function () {
+        console.error("Request failed");
+      };
+      if (document.getElementById("locationCheckbox").checked) {
+        if (userData.locationID == -1) {
+          //TODO: request location from browser
+          if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function (position) {
+              console.log("Latitude: " + position.coords.latitude);
+              console.log("Longitude: " + position.coords.longitude);
+              if (hashtag == "") {
+                url = `http://172.174.33.35:8080/api/item/search?location=${position.coords.latitude};${position.coords.longitude}&state=0`;
+              } else {
+                url = `http://172.174.33.35:8080/api/item/search?hashtags=${hashtag}&location=${position.coords.latitude};${position.coords.longitude}&state=0`;
+              }
+              xhr.open("GET", url, true);
+              xhr.send();
+              return;
+            }, function (error) {
+              console.error("Error getting location: " + error.message);
+            });
+          } else {
+            console.error("Geolocation is not supported by this browser.");
+          }
+        } else {
+          var location;
+          var url1 = `http://172.174.33.35:8080/api/location/get?id=${userData.locationID}`;
+          var xhr1 = new XMLHttpRequest();
+          xhr1.open("GET", url1, true);
+          xhr1.onload = function () {
+            if (this.status === 200) {
+              location = JSON.parse(this.responseText);
+              console.log(location);
+              console.log(location.latitude);
+              console.log(location.latitude != null && location.longitude != null);
+              if (location.latitude != null && location.longitude != null) {
+                if (hashtag == "") {
+                  url = `http://172.174.33.35:8080/api/item/search?location=${location.latitude};${location.longitude}&state=0`;
+                } else {
+                  url = `http://172.174.33.35:8080/api/item/search?hashtags=${hashtag}&location=${position.coords.latitude};${position.coords.longitude}&state=0`;
+                }
+              }
+              xhr.open("GET", url, true);
+              xhr.send();
+              return;
+            } else {
+              console.error("Request failed with status code", this.status);
+            }
+          }
+  
+          xhr1.onerror = function () {
+            console.error("Request failed");
+          };
+  
+          xhr1.send();
+        }
+      } else {
+        xhr.open("GET", url, true);
+        xhr.send();
+      }
+    }
+  
+    function submitForm(event) {
+      event.preventDefault();
+    }
+  
+    function sortByMaxDistance() {
+      var xhr = new XMLHttpRequest();
+      xhr.onload = function () {
+        if (this.status === 200) {
+          console.log(url);
+          const requestData = JSON.parse(this.responseText);
+          console.log(requestData);
+          if (requestData.length == 0) {
+            alert("No items within filtered distance");
+          }
+          printCatalog(requestData, 3);
+        } else {
+          console.error("Request failed with status code", this.status);
+        }
+      }
+  
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function (position) {
+          console.log("Latitude: " + position.coords.latitude);
+          console.log("Longitude: " + position.coords.longitude);
+          const maxDist = document.getElementById("maxDistance");
+          url = `http://172.174.33.35:8080/api/item/search?location=${position.coords.latitude};${position.coords.longitude}&state=0&maxDistance=${maxDist.value}`;
+          xhr.open("GET", url, true);
+          xhr.send();
+          return;
+        }, function (error) {
+          console.error("Error getting location: " + error.message);
+        });
+      } else {
+        console.error("Geolocation is not supported by this browser.");
+      }
+    }
+  
+    function printCatalog(requestData, searchtype) {
+      console.log(userData);
+      while (catalogContainer.firstChild) {
+        catalogContainer.removeChild(catalogContainer.firstChild);
+      }
+      requestData.forEach(item => {
+        // Create elements for item
+        console.log(item);
+        const itemContainer = document.createElement('div');
+        var itemName;
+        var itemHashtags;
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.value = item.itemID;
+        var distance;
+  
+        //var itemImage = document.createElement('img');
+        //var srcAttr = document.createAttribute('src');
+        //if (item.img != null) {
+          //srcAttr.value = item.img;
+        //}
+  
+        itemContainer.appendChild(checkbox);
+        if (searchtype == 0) {
+          itemName = document.createElement('h3');
+          itemHashtags = document.createElement('p');
+          //itemID = document.createElement('p');
+        }
+        else if (searchtype == 1) {
+          itemHashtags = document.createElement('h3');
+          itemName = document.createElement('p');
+          //itemID = document.createElement('p');
+        } else if (searchtype == 3) {
+          distance = document.createElement('h3');
+          //itemID = document.createElement('p');
+          itemName = document.createElement('p');
+          itemHashtags = document.createElement('p');
+        }
+  
+        const quantity = document.createElement('p');
+        //const itemImage = document.createElement('img');
+  
+        // Set content and attributes for elements
+        itemName.textContent = item.name;
+        itemHashtags.textContent = item.hashtags;
+        //itemID.textContent = 'Item ID: ' + item.itemID;
+        quantity.textContent = 'Quantity: [ ' + item.numItems + ' ]';
+        //itemImage.setAttributeNode(srcAttr);
+        if (searchtype == 3) {
+          distance.textContent = item.distance.toFixed(2) + " mi";
+        }
+  
+        // Add elements to item container
+        //itemContainer.appendChild(itemImage);
+        if (searchtype == 0) {
+          itemContainer.appendChild(itemName);
+          itemContainer.appendChild(itemHashtags);
+          //itemContainer.appendChild(itemID);
+        }
+        else if (searchtype == 1) {
+          itemContainer.appendChild(itemHashtags);
+          itemContainer.appendChild(itemName);
+          //itemContainer.appendChild(itemID);
+        } else if (searchtype == 3) {
+          itemContainer.appendChild(distance);
+          //itemContainer.appendChild(itemID);
+          itemContainer.appendChild(itemName);
+          itemContainer.appendChild(itemHashtags);
+        }
+        itemContainer.appendChild(quantity);
+        //itemContainer.appendChild(itemImage);
+  
+        itemContainer.style.border = '1px solid black';
+  
+        // Add item container to catalog container
+        catalogContainer.appendChild(itemContainer);
+      });
+    }
+  
+    // Dynamically generate HTML elements for each item in the catalog
+    function printData() {
+      console.log(userData);
+  
+      var url = ``;
+      var xhr = new XMLHttpRequest();
+      xhr.open("GET", url, true);
+  
+      xhr.onload = function () {
+        if (this.status === 200) {
+          const data = this.responseText;
+          console.log(data);
+          requestData = JSON.parse(data);
+          printCatalog(requestData, 0);
+        } else {
+          console.error("Request failed with status code", this.status);
+        }
+      };
+  
+      xhr.onerror = function () {
+        console.error("Request failed");
+      };
+  
+      xhr.send();
+  
+      url = `http://172.174.33.35:8080/api/item/catalog/autofill/hashtag`;
+      xhr = new XMLHttpRequest();
+      xhr.open("GET", url, true);
+  
+      xhr.onload = function () {
+        if (this.status === 200) {
+          hashtagList = JSON.parse(this.responseText);
+          autocomplete(document.getElementById("myInputHashtag"), hashtagList);
+        } else {
+          console.error("Request failed with status code", this.status);
+        }
+      };
+  
+      xhr.onerror = function () {
+        console.error("Request failed");
+      };
+  
+      xhr.send();
+  
+      url = `http://172.174.33.35:8080/api/item/catalog/autofill/name`;
+      xhr = new XMLHttpRequest();
+      xhr.open("GET", url, true);
+  
+      xhr.onload = function () {
+        if (this.status === 200) {
+          nameList = JSON.parse(this.responseText);
+          autocomplete(document.getElementById("myInputName"), nameList);
+        } else {
+          console.error("Request failed with status code", this.status);
+        }
+      };
+  
+      xhr.onerror = function () {
+        console.error("Request failed");
+      };
+  
+      xhr.send();
+    }
+  
+    function openNav() {
       document.getElementById("mySidebar").style.display = "block";
     }
-
+  
     function closeNav() {
       document.getElementById("mySidebar").style.display = "none";
     }
-
-</script>
+  
+    function autocomplete(inp, arr) {
+      console.log(arr);
+      /*the autocomplete function takes two arguments,
+      the text field element and an array of possible autocompleted values:*/
+      var currentFocus;
+      /*execute a function when someone writes in the text field:*/
+      inp.addEventListener("input", function (e) {
+        var a, b, i, val = this.value;
+        /*close any already open lists of autocompleted values*/
+        closeAllLists();
+        if (!val) { return false; }
+        currentFocus = -1;
+        /*create a DIV element that will contain the items (values):*/
+        a = document.createElement("DIV");
+        a.setAttribute("id", this.id + "autocomplete-list");
+        a.setAttribute("class", "autocomplete-items");
+        /*append the DIV element as a child of the autocomplete container:*/
+        this.parentNode.appendChild(a);
+        /*for each item in the array...*/
+        for (i = 0; i < arr.length; i++) {
+          /*check if the item starts with the same letters as the text field value:*/
+          if (arr[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
+            /*create a DIV element for each matching element:*/
+            b = document.createElement("DIV");
+            /*make the matching letters bold:*/
+            b.innerHTML = "<strong>" + arr[i].substr(0, val.length) + "</strong>";
+            b.innerHTML += arr[i].substr(val.length);
+            /*insert a input field that will hold the current array item's value:*/
+            b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
+            /*execute a function when someone clicks on the item value (DIV element):*/
+            b.addEventListener("click", function (e) {
+              /*insert the value for the autocomplete text field:*/
+              inp.value = this.getElementsByTagName("input")[0].value;
+              /*close the list of autocompleted values,
+              (or any other open lists of autocompleted values:*/
+              closeAllLists();
+            });
+            a.appendChild(b);
+          }
+        }
+      });
+      /*execute a function presses a key on the keyboard:*/
+      inp.addEventListener("keydown", function (e) {
+        var x = document.getElementById(this.id + "autocomplete-list");
+        if (x) x = x.getElementsByTagName("div");
+        if (e.keyCode == 40) {
+          /*If the arrow DOWN key is pressed,
+          increase the currentFocus variable:*/
+          currentFocus++;
+          /*and and make the current item more visible:*/
+          addActive(x);
+        } else if (e.keyCode == 38) { //up
+          /*If the arrow UP key is pressed,
+          decrease the currentFocus variable:*/
+          currentFocus--;
+          /*and and make the current item more visible:*/
+          addActive(x);
+        } else if (e.keyCode == 13) {
+          /*If the ENTER key is pressed, prevent the form from being submitted,*/
+          e.preventDefault();
+          if (currentFocus > -1) {
+            /*and simulate a click on the "active" item:*/
+            if (x) x[currentFocus].click();
+          }
+        }
+      });
+      function addActive(x) {
+        /*a function to classify an item as "active":*/
+        if (!x) return false;
+        /*start by removing the "active" class on all items:*/
+        removeActive(x);
+        if (currentFocus >= x.length) currentFocus = 0;
+        if (currentFocus < 0) currentFocus = (x.length - 1);
+        /*add class "autocomplete-active":*/
+        x[currentFocus].classList.add("autocomplete-active");
+      }
+      function removeActive(x) {
+        /*a function to remove the "active" class from all autocomplete items:*/
+        for (var i = 0; i < x.length; i++) {
+          x[i].classList.remove("autocomplete-active");
+        }
+      }
+      function closeAllLists(elmnt) {
+        /*close all autocomplete lists in the document,
+        except the one passed as an argument:*/
+        var x = document.getElementsByClassName("autocomplete-items");
+        for (var i = 0; i < x.length; i++) {
+          if (elmnt != x[i] && elmnt != inp) {
+            x[i].parentNode.removeChild(x[i]);
+          }
+        }
+      }
+      /*execute a function when someone clicks in the document:*/
+      document.addEventListener("click", function (e) {
+        closeAllLists(e.target);
+      });
+    }
+  </script>
 
 </html>

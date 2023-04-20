@@ -47,6 +47,14 @@ public class Request {
         this.location = location;
     }
 
+    public Boolean getDelivered() {
+        return delivered;
+    }
+
+    public void setDelivered(Boolean delivered) {
+        this.delivered = delivered;
+    }
+
     public Integer getLocation() {
         return location;
     }

@@ -11,23 +11,25 @@ public class Delivery {
     @GeneratedValue
     private Integer id;
     private Integer donator;
-    private Integer requesterID;
+    private Integer requestID;
     private String status;
+//    private boolean delivered;
 
     public Delivery() {}
-    
-    public Delivery(Integer donator, Integer requesterID, String status) {
+
+    public Delivery(Integer donator, Integer requestID, String status/*, boolean delivered*/) {
         this.donator = donator;
-        this.requesterID = requesterID;
+        this.requestID = requestID;
         this.status = status;
+//        this.delivered = delivered;
     }
 
-    public Integer getRequesterID() {
-        return requesterID;
+    public Integer getRequestID() {
+        return requestID;
     }
 
-    public void setRequesterID(Integer requesterID) {
-        this.requesterID = requesterID;
+    public void setRequestID(Integer requesterID) {
+        this.requestID = requesterID;
     }
 
     public Integer getId() {
@@ -53,6 +55,14 @@ public class Delivery {
     public void setStatus(String status) {
         this.status = status;
     }
-    
+
+//    public boolean getDelivered() {
+//        return delivered;
+//    }
+//
+//    public void setDelivered(boolean delivered) {
+//        this.delivered = delivered;
+//    }
 }
+
 

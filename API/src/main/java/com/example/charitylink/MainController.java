@@ -368,8 +368,8 @@ public class MainController {
     }
 
     @PostMapping(path = "delivery/add")
-    public @ResponseBody Delivery addDelivery(@RequestParam Integer requesterID,
-                                           @RequestParam Integer donator, @RequestParam Integer state) {
+    public @ResponseBody Delivery addDelivery(@RequestParam Integer requesterID, @RequestParam Integer donator, 
+                                          @RequestParam Integer state) {
         String temp = "";
         if (state == 0) {
             temp = "INPROGRESS";
@@ -381,9 +381,19 @@ public class MainController {
         return delivery;
     }
 
+
     @GetMapping(path = "delivery/requester")
     public @ResponseBody Iterable<Delivery> deliveryByRequester(@RequestParam Integer requester) {
-        return deliveryRepository.findAllByRequester(requester);
+//        return deliveryRepository.findAllByRequester(requester);
+        ArrayList<Request> requests = Lists.newArrayList(requestRepository.findAllByRequestor(requester));
+        ArrayList<Delivery> deliveries = new ArrayList<>();
+        for (Request request : requests) {
+            Delivery delivery = deliveryRepository.findDeliveryByRequestID(request.getId());
+            if (delivery != null) {
+                deliveries.add(delivery);
+            }
+        }
+        return deliveries;
     }
 
     @GetMapping(path = "delivery/donator")
@@ -391,6 +401,65 @@ public class MainController {
         return deliveryRepository.findAllByDonator(donator);
     }
 
+//<<<<<<< HEAD
+//=======
+
+//    @DeleteMapping(path = "/delivery/delete")
+//    public @ResponseBody String deleteDelivery(@RequestParam Integer id) {
+//        Delivery delivery = deliveryRepository.findById(id).orElse(null);
+//        if (delivery == null) {
+//            return "Error: delivery not found";
+//        }
+//
+//
+//        if (delivery.getDelivered()) {
+//            // Delete the delivery
+//            deliveryRepository.deleteById(id);
+//
+//            // Remove the delivery from requests
+//            Iterable<Request> requests = requestRepository.findAllByDonatorAndRequester(delivery.getDonator(), delivery.getRequester());
+//            for (Request request : requests) {
+//                if (request.getDelivered()) {
+//                    requestRepository.deleteById(request.getId());
+//                }
+//            }
+//            requestRepository.deleteById(delivery.getRequestID());
+//
+//            return "Deleted";
+//        } else {
+//            return "Error: delivery is not yet delivered";
+//        }
+//     }
+
+    @DeleteMapping(path = "/deliver/complete")
+    public @ResponseBody String completeDeliver(@RequestParam Integer id) {
+        Delivery delivery = deliveryRepository.findById(id).orElse(null);
+        if (delivery == null) {
+            return "Error: delivery not found";
+        }
+        delivery.setStatus("DELIVERED");
+        deliveryRepository.save(delivery);
+        return "delivered";
+    }
+
+    @DeleteMapping(path = "/delivery/cancel")
+    public @ResponseBody String cancelDelivery(@RequestParam Integer id) {
+        Delivery delivery = deliveryRepository.findById(id).orElse(null);
+        if (delivery == null) {
+            return "Error: delivery not found";
+        }
+        Request request = requestRepository.findById(delivery.getRequestID()).get();
+        if (request == null) {
+            return "Error: request not found";
+        }
+        request.setDelivered(false);
+        requestRepository.save(request);
+        deliveryRepository.deleteById(id);
+        return "Deleted";
+    }
+
+
+//>>>>>>> 29fd097a1c7508c178a3b1ffd1fc9320314978d6
     @GetMapping(path = "/email/suspicious")
     public @ResponseBody String suspicious(@RequestParam String email) {
         List<Integer> userIdList = userRepository.findUserIdByEmail(email);
