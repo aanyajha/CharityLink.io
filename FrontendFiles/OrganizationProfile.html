@@ -183,6 +183,7 @@ function onloadFunc() {
       lxhr.open("GET", lurl, true);
       lxhr.send();
       lxhr.onload = function() {
+       if (this.status == 200) {
         const locData = JSON.parse(this.responseText);
         var addr1 = document.getElementById("address1");
         if (locData.addressLine1 == undefined) {
@@ -220,11 +221,10 @@ function onloadFunc() {
         }
         location.value = locationString;
       }
-     else {
+      } else {
       location.value = "";
       document.getElementById("add-remove").innerHTML = "Add";
-     }
-     
+      }
     }
 
   }
