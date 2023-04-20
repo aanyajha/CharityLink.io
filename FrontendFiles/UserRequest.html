@@ -108,7 +108,7 @@ var userData = JSON.parse(sessionStorage.getItem('userData'));
 if (userData != null) {
     
 } else {
-    userData = { companyID: -1, email: "vjasti@purdue.edu", id: 1, joinDate: "2023-02-27", locationID: -1, name: "Varun", password: "passwordtest", passwordToken: null, userType: 1, username: "vjasti" };
+    userData = { companyID: -1, email: "vjasti@purdue.edu", id: 1, joinDate: "2023-02-27", locationID: 102, name: "Varun", password: "passwordtest", passwordToken: null, userType: 1, username: "vjasti" };
 }
 	
 function mainSubmit(locID) {
@@ -128,7 +128,7 @@ function oldAddressFunc() {
     return false;
   }
 
-  return truel
+  return true;
 
 }
 
