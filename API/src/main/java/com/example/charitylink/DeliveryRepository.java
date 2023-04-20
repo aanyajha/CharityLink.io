@@ -8,6 +8,6 @@ public interface DeliveryRepository extends CrudRepository<Delivery, Integer> {
 //    List<Delivery> findAllByRequester(Integer requester);
     Delivery findDeliveryByRequestID(Integer requestID);
     List<Delivery> findAllByDonator(Integer donator);
-    void deleteAllByItemID(Integer itemID);
+//    void deleteAllByItemID(Integer itemID);
 }
 
