@@ -3,114 +3,124 @@
 <title>Demand Forecasting</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
 <body>
 
-<style>
-img {
+  <style>
+    img {
       max-width: 100%;
       height: auto;
     }
-</style>
+  </style>
 
   <div class="w3-sidebar w3-bar-block w3-card w3-animate-right" style="display:none;right:0;" id="mySidebar">
 
     <button onclick="closeNav()" class="w3-bar-item w3-button w3-large">&#10005; Close</button>
 
     <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles" class="w3-bar-item w3-button">&#x27B2; Logout</a>
-    <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/DefaultDashboard" class="w3-bar-item w3-button">Dashboard</a>
-    <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/BrowseCatalog" class="w3-bar-item w3-button">Browse Catalog</a>
-    <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/UserRequest" class="w3-bar-item w3-button">Make a Request</a>
-    <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/ViewRequests" class="w3-bar-item w3-button">View Requests</a>
-    <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/UserEvents" class="w3-bar-item w3-button">Events Near Me</a>
-     <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/Deliver" class="w3-bar-item w3-button">Make a Delivery</a>
-    <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/UserSettings" class="w3-bar-item w3-button">&#9965; Settings</a>
-    <a href="https://aanyajha.github.io/CharityLink.io" class="w3-bar-item w3-button"><img src="https://i.postimg.cc/Zq3dkdkW/Charitylink-Logo-Updated.png" alt="Charity Link Logo" width="200" height="65"></a>
+    <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/DefaultDashboard"
+      class="w3-bar-item w3-button">Dashboard</a>
+    <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/BrowseCatalog" class="w3-bar-item w3-button">Browse
+      Catalog</a>
+    <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/UserRequest" class="w3-bar-item w3-button">Make a
+      Request</a>
+    <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/ViewRequests" class="w3-bar-item w3-button">View
+      Requests</a>
+    <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/UserEvents" class="w3-bar-item w3-button">Events
+      Near Me</a>
+    <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/Deliver" class="w3-bar-item w3-button">Make a
+      Delivery</a>
+    <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/UserSettings" class="w3-bar-item w3-button">&#9965;
+      Settings</a>
+    <a href="https://aanyajha.github.io/CharityLink.io" class="w3-bar-item w3-button"><img
+        src="https://i.postimg.cc/Zq3dkdkW/Charitylink-Logo-Updated.png" alt="Charity Link Logo" width="200"
+        height="65"></a>
   </div>
 
   <div class="w3-pale-blue">
     <button class="w3-button turquoise w3-xlarge w3-right" onclick="openNav()">&#9776;</button>
-    
+
   </div>
-  
+
   <div class="w3-pale-blue">
-  <div class="w3-container">
+    <div class="w3-container">
       <h1 style="color: #009999">Demand Forecasting</h1>
-      
-      </div>
+
+    </div>
   </div>
 
   <div class="w3-container">
     <p>Welcome to your demand forecasting!</p>
     <p>Here you can view what item is most in demand.</p>
   </div>
-	
-	<label for="distance">Distance (Between 1 and 100 miles):</label>
+
+  <label for="distance">Distance (Between 1 and 100 miles):</label>
   <input type="number" id="distance" name="distance" min="1" max="100">
 
-	<button onclick="dForecasting()">Submit</button>
-	
-	<div id="item-container"></div>
+  <button onclick="dForecasting()">Submit</button>
+
+  <div id="item-container"></div>
 
 </body>
 
 
 
 <script>
-	
-function openNav() {
-  document.getElementById("mySidebar").style.display = "block";
-}
 
-function closeNav() {
-  document.getElementById("mySidebar").style.display = "none";
-}
-
-//window.onload = onloadFunc();
-
-function dForecasting() {
-  var itemContainer = document.getElementById("item-container");
-  while (itemContainer.firstChild) {
-      itemContainer.removeChild(itemContainer.firstChild);
+  function openNav() {
+    document.getElementById("mySidebar").style.display = "block";
   }
-  var userData = JSON.parse(sessionStorage.getItem('userData'));
-  var htmlDist = document.getElementById("distance");
-  var maxDist = htmlDist.value;
-  const url = `http://172.174.33.35:8080/api/request/local?locationID=${userData.locationID}&maxDistance=${maxDist}`;
 
-  const xhr = new XMLHttpRequest();
-  xhr.open("GET", url, true);
-  xhr.send();
-  xhr.onload = function() {
-    if (this.status === 200) {
-    var data = JSON.parse(this.responseText);
-  	console.log(data);
-	itemContainer = document.getElementById("item-container");
-	var reqCont = document.createElement('div');
-	var reqName = document.createElement('h3');
-	reqName.textContent = "The most requested item within range: " + data[0].name;
-	reqCont.appendChild(reqName);
-	var reqQ = document.createElement('p');
-	reqQ.textContent = "Amount Requested: " + data[0].count;
-	reqCont.appendChild(reqQ);
-	reqCont.style.border = '1px solid black';
-	itemContainer.appendChild(reqCont);
-	for (var i = 1; i < data.length; i++) {
-	  	reqCont = document.createElement('div');
-		reqName = document.createElement('h3');
-		reqName.textContent = data[i].name;
-		reqCont.appendChild(reqName);
-		reqQ = document.createElement('p');
-	        reqQ.textContent = "Amount Requested: " + data[0].count;
-		reqCont.appendChild(reqQ);
-		reqCont.style.border = '1px solid black';
-		itemContainer.appendChild(reqCont);
-	}
-	
+  function closeNav() {
+    document.getElementById("mySidebar").style.display = "none";
+  }
+
+  //window.onload = onloadFunc();
+
+  function dForecasting() {
+    var itemContainer = document.getElementById("item-container");
+    while (itemContainer.firstChild) {
+      itemContainer.removeChild(itemContainer.firstChild);
     }
-    
+    var userData = JSON.parse(sessionStorage.getItem('userData'));
+    var htmlDist = document.getElementById("distance");
+    var maxDist = htmlDist.value;
+    const url = `http://172.174.33.35:8080/api/request/local?locationID=${userData.locationID}&maxDistance=${maxDist}`;
+
+    const xhr = new XMLHttpRequest();
+    xhr.open("GET", url, true);
+    xhr.send();
+    xhr.onload = function () {
+      if (this.status === 200) {
+        var data = JSON.parse(this.responseText);
+        console.log(data);
+        itemContainer = document.getElementById("item-container");
+        var reqCont = document.createElement('div');
+        var reqName = document.createElement('h3');
+        reqName.textContent = "The most requested item within range: " + data[0].name;
+        reqCont.appendChild(reqName);
+        var reqQ = document.createElement('p');
+        reqQ.textContent = "Amount Requested: " + data[0].count;
+        reqCont.appendChild(reqQ);
+        reqCont.style.border = '1px solid black';
+        itemContainer.appendChild(reqCont);
+        for (var i = 1; i < data.length; i++) {
+          reqCont = document.createElement('div');
+          reqName = document.createElement('h3');
+          reqName.textContent = data[i].name;
+          reqCont.appendChild(reqName);
+          reqQ = document.createElement('p');
+          reqQ.textContent = "Amount Requested: " + data[i].count;
+          reqCont.appendChild(reqQ);
+          reqCont.style.border = '1px solid black';
+          itemContainer.appendChild(reqCont);
+        }
+
+      }
+
     }
 
-}
+  }
 
 
 </script>
