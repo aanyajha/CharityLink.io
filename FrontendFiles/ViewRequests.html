@@ -120,6 +120,8 @@
 
   <div class=" w3-container" id="catalog">
   </div>
+  <br>
+  <br>
 
 
 </body>
@@ -243,6 +245,8 @@
       const checkbox = document.createElement('input');
       checkbox.type = 'checkbox';
       checkbox.value = item.id;
+      checkbox.style.marginLeft = '10px';
+      checkbox.style.marginTop = '10px';
 
 
       const editButton = document.createElement('button');
@@ -274,10 +278,14 @@
       //const itemImage = document.createElement('img');
 
       // Set content and attributes for elements
+      status.style.marginLeft = '10px';
       itemName.textContent = item.name;
+      itemName.style.marginLeft = '10px';
       itemHashtags.textContent = item.hashtags;
+      itemHashtags.style.marginLeft = '10px';
       // itemID.textContent = 'Item ID: ' + item.itemID;
       quantity.textContent = 'Quantity: [ ' + item.quantity + ' ]';
+      quantity.style.marginLeft = '10px';
       //itemImage.setAttributeNode(srcAttr);
       if (searchtype == 3) {
         distance.textContent = item.distance.toFixed(2) + " mi";
