@@ -133,8 +133,9 @@
         xhr1.open("GET", url, true);
         console.log(url);
         xhr1.onload = function () {
-          if (this.status === 200) {
+          //if (this.status === 200) {
             var data = JSON.parse(this.responseText);
+          console.log("stuff before data");
             console.log(data);
             var employee = document.getElementById('employee-select');
             
@@ -143,7 +144,7 @@
               console.log(i);
             }
             
-          }
+          //}
         }
     
   }
