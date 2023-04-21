@@ -89,7 +89,16 @@ font-size: 15px;color: #fff;border-radius: 5px;border-color: #009999;z-index: 99
 
     <script>
       function goToDashboard() {
-        window.location.href = 'https://aanyajha.github.io/CharityLink.io/FrontendFiles/DefaultDashboard';
+        var userData = JSON.parse(sessionStorage.getItem('userData'));
+        if (userData == 1) {
+          window.location.href = 'https://aanyajha.github.io/CharityLink.io/FrontendFiles/DefaultDashboard.html';
+        } else if (userData == 2) { //employee
+          window.location.href = 'https://aanyajha.github.io/CharityLink.io/FrontendFiles/EmployeeDashboard.html';
+        } else if (userData == 3) { //manager
+          window.location.href = 'https://aanyajha.github.io/CharityLink.io/FrontendFiles/ManagerDashboard.html';
+        } else if (userData == 4) { //organization
+          window.location.href = 'https://aanyajha.github.io/CharityLink.io/FrontendFiles/OrgDashboard.html';
+        }
     }
     function submitFeedback(event) {
 
