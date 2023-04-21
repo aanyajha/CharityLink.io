@@ -141,7 +141,7 @@
             var employee = document.getElementById('employee-select');
             
             for (var i = 0; i < data.length; i++) {
-              employee.options[employee.options.length] = new Option(data[i].id, data[i].name);
+              employee.options[employee.options.length] = new Option(data[i].name, data[i].id);
             }
           console.log(data.length);
             
