@@ -47,7 +47,9 @@ img {
     <p>Here you can view organization profiles.</p>
   </div>
 	
-	<div id="all-profiles"></div>
+	<div class="w3-container" id="all-profiles"></div>
+  <br>
+  <br>
 
 </body>
 
@@ -82,6 +84,9 @@ img {
     //do stuff with the company name and location first
     
     var compImg = document.createElement('img');
+    compImg.style.marginTop = '10px';
+    compImg.style.marginLeft = '10px';
+    compImg.style.border = '1px solid black';
     const regex = /^https?:\/\/[a-z0-9]+(\.[a-z0-9]+)*(:[0-9]+)?(\/.*)?$/;
 
     if (!regex.test(logo)) {
@@ -96,14 +101,17 @@ img {
     companyContainer.appendChild(compImg);
 			    
     var compName = document.createElement('h2');
+    compName.style.marginLeft = '10px';
     compName.textContent = data[i].name;
     companyContainer.appendChild(compName);
     
     var compLoc = document.createElement('h3');
+    compLoc.style.marginLeft = '10px';
     compLoc.textContent = data[i].location;
     companyContainer.appendChild(compLoc);
     
     var compState = document.createElement('p');
+    compState.style.marginLeft = '10px';
     compState.textContent = statement;
     companyContainer.appendChild(compState);
     
