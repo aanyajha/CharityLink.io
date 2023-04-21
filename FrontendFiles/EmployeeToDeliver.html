@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-<title>View My Requests</title>
+<title>Assign an Employee</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 
@@ -11,25 +11,6 @@
       height: 200px;
       width: 200px;
     }
-
-    /*
-    #popup {
-      display: none;
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background-color: #fff;
-      padding: 20px;
-      z-index: 9999;
-      border: 1px solid #ccc;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-    }
-
-    #popup.show {
-      display: block;
-    }
-*/
 
     input {
       border: 1px solid transparent;
@@ -96,54 +77,62 @@
 
   <div class="w3-pale-blue">
     <div class="w3-container">
-      <h1 style="color: #009999">View My Requests</h1>
+      <h1 style="color: #009999">Assign an Employee</h1>
 
     </div>
   </div>
 
   <div class="w3-container">
-    <p>Welcome to View My Requests!</p>
-    <p>Here you can view requests that you have made.</p>
+    <p>Welcome to Assign an Employee!</p>
+    <p>Here you can choose requests to fulfill.</p> <button type="button" id="orgDelivery" style=" height:50px;width:350px; padding: 10px 20px;background-color: #009999;
+    font-size: 15px;color: #fff;border-radius: 5px;border-color: #009999;z-index: 999;" onclick="gotoListPage()">
+      Want to Donate for Local Organizations?
+    </button>
     <hr style="height: 3px;" />
   </div>
+  
+  <form>
+  <label for="employee">Choose a employee:</label>
+  <select name="employees" id="employee-select">
+  </select>
+  <br><br>
+</form>
+
 
   <div class="w3-container">
-    <button type="button" id="acceptRequests" onClick="deleteRequest()" style="height:50px;width:300px;padding: 10px 20px;background-color: #009999;
+    <button type="button" id="acceptRequests" onClick="acceptRequests()" style="height:50px;width:300px;padding: 10px 20px;background-color: #009999;
     font-size: 15px;color: #fff;border-radius: 5px;border-color: #009999;z-index: 999;">
-      Delete Selected Requests
+      Put Requests for Employee
     </button>
-    <button type="button" id="acceptRequests" onClick="viewRequestStatus()" style="height:50px;width:300px;padding: 10px 20px;background-color: #009999;
-      font-size: 15px;color: #fff;border-radius: 5px;border-color: #009999;z-index: 999;">
-      List Request Status
+    
+  </div>
+  
+  <div class="w3-container">
+    <button type="button" id="employeeToDeliver" onClick="employeePage()" style="height:50px;width:300px;padding: 10px 20px;background-color: #009999;
+    font-size: 15px;color: #fff;border-radius: 5px;border-color: #009999;z-index: 999;">
+      Deliver on My Own
     </button>
+    
   </div>
   <br>
 
-  <!--
-  <div id="popup">
-    <form id="addItem">
-      <br><label>Address 1:</label>
-      <input type="text" id="addr1" name="addr1" required><br><br>
-      <br><label>Address 2:</label>
-      <input type="text" id="addr2" name="addr2"><br><br>
-      <br><label>City:</label>
-      <input type="text" id="city" name="city" required><br><br>
-      <br><label>State:</label>
-      <input type="text" id="state" name="state" required><br><br>
-      <br><label>Zip Code:</label>
-      <input type="text" id="zip" name="zip" required><br><br>
-    </form>
-  </div><br>
--->
-
-
-
-  <div class="w3-container" id="catalog"></div>
+  <div class="w3-container w3-border" id="catalog"></div>
 
 
 </body>
 
 <script>
+  
+  function gotoListPage() {
+    window.location.href = "https://aanyajha.github.io/CharityLink.io/FrontendFiles/LocalOrganizationRequests.html";
+    
+  }
+  
+  function employeePage() {
+    window.location.href = "https://aanyajha.github.io/CharityLink.io/FrontendFiles/Deliver.html";
+    
+  }
+  
   const catalogContainer = document.getElementById('catalog');
   var hashtagList = [];
   var nameList = [];
@@ -157,13 +146,58 @@
   if (userData != null) {
     printData();
   } else {
-    userData = { companyID: -1, email: "vjasti@purdue.edu", id: 1, joinDate: "2023-02-27", locationID: -1, name: "Varun", password: "passwordtest", passwordToken: null, userType: 1, username: "vjasti" };
+    //userData = { companyID: -1, email: "vjasti@purdue.edu", id: 1, joinDate: "2023-02-27", locationID: -1, name: "Varun", password: "passwordtest", passwordToken: null, userType: 1, username: "vjasti" };
+    userData = { companyID: -1, email: "test@purdue.edu", id: 2, joinDate: "2023-02-27", locationID: 102, name: "test name", password: "blank", passwordToken: null, userType: 1, username: "test" };
     printData();
   }
 
   // Get reference to catalog container in HTML
 
   var requestData;
+
+  function getTwoDaysFromNow() {
+    const today = new Date();
+    const twoDaysFromNow = new Date(today.getTime() + 2 * 24 * 60 * 60 * 1000);
+    const year = twoDaysFromNow.getFullYear();
+    const month = String(twoDaysFromNow.getMonth() + 1).padStart(2, '0');
+    const day = String(twoDaysFromNow.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+}
+
+  function acceptRequests() {
+    // Add click event listener to item container
+    const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+    checkboxes.forEach(checkboxVal => {
+      console.log(checkboxVal.value);
+      if (checkboxVal.checked) {
+        const url = `http://172.174.33.35:8080/api/delivery/add?requestID=${checkboxVal.value}&donator=${userData.id}&state=0&eta=${getTwoDaysFromNow()}`;
+        console.log("Sent Delivery info");
+        console.log(url);
+
+        const xhr1 = new XMLHttpRequest();
+        xhr1.open("POST", url, true);
+
+        xhr1.onload = function () {
+          if (this.status === 200) {
+            const data = this.responseText;
+            console.log(data);
+            printData();
+            alert("Request accepted")
+          } else {
+            console.error("Request failed with status code", this.status);
+          }
+        };
+
+        xhr1.onerror = function () {
+          console.error("Request failed");
+        };
+
+        xhr1.send();
+        const div = checkboxVal.parentNode;
+        div.remove();
+      }
+    });
+  }
 
   function searchByName() {
     const name = document.getElementById("myInputName").value;
@@ -241,39 +275,6 @@
       xhr.open("GET", url, true);
       xhr.send();
     }
-  }
-
-  function viewRequestStatus() {
-    // Add click event listener to item container
-    const checkboxes = document.querySelectorAll('input[type="checkbox"]');
-    checkboxes.forEach(checkboxVal => {
-      console.log(checkboxVal.value);
-      if (checkboxVal.checked) {
-        const url = `http://172.174.33.35:8080/api/request/status?id=${checkboxVal.value}`;
-
-        const xhr1 = new XMLHttpRequest();
-        xhr1.open("DELETE", url, true);
-
-        xhr1.onload = function () {
-          if (this.status === 200) {
-            const data = this.responseText;
-            console.log(data);
-            //printData();
-            // make alert with status, location, and estimated time of arrival.
-          } else {
-            console.error("Request failed with status code", this.status);
-          }
-        };
-
-        xhr1.onerror = function () {
-          console.error("Request failed");
-        };
-
-        xhr1.send();
-        const div = checkboxVal.parentNode;
-        div.remove();
-      }
-    });
   }
 
   function searchByHashtag() {
@@ -407,106 +408,87 @@
     requestData.forEach(item => {
       // Create elements for item
       console.log(item);
-      const itemContainer = document.createElement('div');
-      var itemName;
-      var itemHashtags;
-      // var itemID;
-      var distance;
-      var status;
-      const checkbox = document.createElement('input');
-      checkbox.type = 'checkbox';
-      checkbox.value = item.id;
+      if (!item.delivered) {
+        const itemContainer = document.createElement('div');
+        var itemName;
+        var itemHashtags;
+        // var itemID;
+        var distance;
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.value = item.id;
 
+        //var itemImage = document.createElement('img');
+        //var srcAttr = document.createAttribute('src');
+        //if (item.img != null) {
+        //srcAttr.value = item.img;
+        //}
 
-      const editButton = document.createElement('button');
-      editButton.style.marginLeft = '20px';
-      editButton.type = 'submit';
-      editButton.name = item.id;
-      editButton.style.backgroundColor = '#009999';
-      editButton.style.color = 'white';
-      editButton.value = "Edit location of Request";
-      editButton.innerHTML = "Edit location of Request";
+        itemContainer.appendChild(checkbox);
+        if (searchtype == 0) {
+          itemName = document.createElement('h3');
+          itemHashtags = document.createElement('p');
+          // itemID = document.createElement('p');
+        }
+        else if (searchtype == 1) {
+          itemHashtags = document.createElement('h3');
+          itemName = document.createElement('p');
+          // itemID = document.createElement('p');
 
-      editButton.onclick = function () { changeLocFunc(item.id) };
+        }
+        else if (searchtype == 2) {
+          // itemID = document.createElement('h3');
+          itemName = document.createElement('p');
+          itemHashtags = document.createElement('p');
+        } else if (searchtype == 3) {
+          distance = document.createElement('h3');
+          // itemID = document.createElement('p');
+          itemName = document.createElement('p');
+          itemHashtags = document.createElement('p');
+        }
 
-      //var itemImage = document.createElement('img');
-      //var srcAttr = document.createAttribute('src');
-      //if (item.img != null) {
-      //srcAttr.value = item.img;
-      //}
+        const quantity = document.createElement('p');
+        //const itemImage = document.createElement('img');
 
-      itemContainer.appendChild(checkbox);
-      itemContainer.appendChild(editButton);
+        // Set content and attributes for elements
+        itemName.textContent = item.name;
+        itemHashtags.textContent = item.hashtags;
+        // itemID.textContent = 'Item ID: ' + item.itemID;
+        quantity.textContent = 'Quantity: [ ' + item.quantity + ' ]';
+        //itemImage.setAttributeNode(srcAttr);
+        if (searchtype == 3) {
+          distance.textContent = item.distance.toFixed(2) + " mi";
+        }
 
-      itemName = document.createElement('h3');
-      status = document.createElement('p');
-      itemHashtags = document.createElement('p');
-      // itemID = document.createElement('p');
+        // Add elements to item container
+        //itemContainer.appendChild(itemImage);
+        if (searchtype == 0) {
+          itemContainer.appendChild(itemName);
+          itemContainer.appendChild(itemHashtags);
+          // itemContainer.appendChild(itemID);
+        }
+        else if (searchtype == 1) {
+          itemContainer.appendChild(itemHashtags);
+          itemContainer.appendChild(itemName);
+          // itemContainer.appendChild(itemID);
+        }
+        else if (searchtype == 2) {
+          // itemContainer.appendChild(itemID);
+          itemContainer.appendChild(itemName);
+          itemContainer.appendChild(itemHashtags);
+        } else if (searchtype == 3) {
+          itemContainer.appendChild(distance);
+          // itemContainer.appendChild(itemID);
+          itemContainer.appendChild(itemName);
+          itemContainer.appendChild(itemHashtags);
+        }
+        itemContainer.appendChild(quantity);
+        //itemContainer.appendChild(itemImage);
 
-      const quantity = document.createElement('p');
-      //const itemImage = document.createElement('img');
+        itemContainer.style.border = '1px solid black';
 
-      // Set content and attributes for elements
-      itemName.textContent = item.name;
-      itemHashtags.textContent = item.hashtags;
-      if (item.delivered) {
-        status.textContent = 'DELIVERED';
-      }
-      else {
-        status.textContent = 'IN PROGRESS'
-      }
-      // itemID.textContent = 'Item ID: ' + item.itemID;
-      quantity.textContent = 'Quantity: [ ' + item.quantity + ' ]';
-      //itemImage.setAttributeNode(srcAttr);
-      if (searchtype == 3) {
-        distance.textContent = item.distance.toFixed(2) + " mi";
-      }
-
-      // Add elements to item container
-      //itemContainer.appendChild(itemImage)
-      itemContainer.appendChild(itemName);
-      itemContainer.appendChild(status);
-      itemContainer.appendChild(itemHashtags);
-      itemContainer.appendChild(quantity);
-      //itemContainer.appendChild(itemImage);
-
-      itemContainer.style.border = '1px solid black';
-
-      // Add item container to catalog container
-      catalogContainer.appendChild(itemContainer);
-    });
-  }
-
-  function deleteRequest() {
-    // Add click event listener to item container
-    const checkboxes = document.querySelectorAll('input[type="checkbox"]');
-    checkboxes.forEach(checkboxVal => {
-      console.log(checkboxVal.value);
-      if (checkboxVal.checked) {
-        const url = `http://172.174.33.35:8080/api/request/delete?id=${checkboxVal.value}`;
-        console.log("Sent Item Deletion Info");
-
-        const xhr1 = new XMLHttpRequest();
-        xhr1.open("DELETE", url, true);
-
-        xhr1.onload = function () {
-          if (this.status === 200) {
-            const data = this.responseText;
-            console.log(data);
-            printData();
-            alert("Request cancelled")
-          } else {
-            console.error("Request failed with status code", this.status);
-          }
-        };
-
-        xhr1.onerror = function () {
-          console.error("Request failed");
-        };
-
-        xhr1.send();
-        const div = checkboxVal.parentNode;
-        div.remove();
+        // Add item container to catalog container
+        catalogContainer.appendChild(itemContainer);
       }
     });
   }
@@ -516,7 +498,7 @@
   function printData() {
     console.log(userData);
 
-    var url = `http://172.174.33.35:8080/api/request/all?userID=${userData.id}`;
+    var url = `http://172.174.33.35:8080/api/request/all?userType=0`;
     var xhr = new XMLHttpRequest();
     xhr.open("GET", url, true);
 
@@ -536,50 +518,6 @@
     };
 
     xhr.send();
-  }
-
-  function changeLocFunc(requestid) {
-    var newLoc = prompt("Enter your new address in the format: \nAddress 1, Address 2, City, State, Zip Code \nOR \nAddress 1, City, State, Zip Code");
-    const regex2 = /[ A-Za-z0-9]*, [ A-Za-z0-9]*, [ A-Za-z0-9]*, [ A-Za-z0-9]*, [0-9]*,/g;
-    const regex1 = /[ A-Za-z0-9]*, [ A-Za-z0-9]*, [ A-Za-z0-9]*, [0-9]*,/g;
-    var locArr = newLoc.split(", ");
-
-
-    if (locArr.length > 0) {
-
-      var url;
-
-      for (var i = 0; i < locArr.length; i++) {
-        locArr[i] = locArr[i].replaceAll(" ", "+");
-      }
-
-      if (locArr.length == 4) {
-        url = `http://172.174.33.35:8080/api/request/update/address?id=${requestid}&location=${locArr[0]};${locArr[1]};${locArr[2]};${locArr[3]}`;
-      } else if (locArr.length == 5) {
-        url = `http://172.174.33.35:8080/api/request/update/address?id=${requestid}&location=${locArr[0]};${locArr[1]};${locArr[2]};${locArr[3]};${locArr[4]}`;
-      }
-      const xhr = new XMLHttpRequest();
-      xhr.open("PUT", url, true);
-      xhr.onload = function () {
-        if (this.status === 200) {
-          //printCatalog();
-          console.log(url);
-          alert("Location changed");
-        }
-        else {
-          console.error("Request failed not 200");
-        }
-      }
-
-      xhr.onerror = function () {
-        console.error("Request failed");
-      };
-
-      xhr.send();
-    }
-    else {
-      alert("Incorrect Format");
-    }
   }
 
   function openNav() {

@@ -1,16 +1,102 @@
 <!DOCTYPE html>
 <html>
-<title>Inventory</title>
+<title>Manager Inventory</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <body>
 
-<style>
-img {
-      max-width: 100%;
-      height: auto;
-    }
-</style>
+    <style>
+        img {
+          height: 200px;
+          width: 200px;
+        }
+    
+        #popup {
+          display: none;
+          position: fixed;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          background-color: #fff;
+          padding: 20px;
+          z-index: 9999;
+          border: 1px solid #ccc;
+          box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+    
+        #popup.show {
+          display: block;
+        }
+    
+        .autocomplete {
+          /*the container must be positioned relative:*/
+          position: relative;
+          display: inline-block;
+        }
+    
+        input {
+          border: 1px solid transparent;
+          background-color: #f1f1f1;
+          padding: 10px;
+          font-size: 16px;
+        }
+    
+        input[type=text] {
+          background-color: #f1f1f1;
+          width: 100%;
+        }
+    
+        input[type=submit] {
+          background-color: #009999;
+          color: #fff;
+        }
+    
+        .autocomplete-items {
+          position: absolute;
+          border: 1px solid #d4d4d4;
+          border-bottom: none;
+          border-top: none;
+          z-index: 99;
+          /*position the autocomplete items to be the same width as the container:*/
+          top: 100%;
+          left: 0;
+          right: 0;
+        }
+    
+        .autocomplete-items div {
+          padding: 10px;
+          cursor: pointer;
+          background-color: #fff;
+          border-bottom: 1px solid #d4d4d4;
+        }
+    
+        .autocomplete-items div:hover {
+          /*when hovering an item:*/
+          background-color: #e9e9e9;
+        }
+    
+        .autocomplete-active {
+          /*when navigating through the items using the arrow keys:*/
+          background-color: #009999 !important;
+          color: #ffffff;
+        }
+    
+        input[type="checkbox"] {
+          -webkit-appearance: none;
+          -moz-appearance: none;
+          appearance: none;
+          width: 30px;
+          height: 30px;
+          border: 2px solid #555;
+          border-radius: 4px;
+          outline: none;
+          cursor: pointer;
+        }
+    
+        input[type="checkbox"]:checked {
+          background-color: #555;
+        }
+      </style>
 
   <div class="w3-sidebar w3-bar-block w3-card w3-animate-right" style="display:none;right:0;" id="mySidebar">
 

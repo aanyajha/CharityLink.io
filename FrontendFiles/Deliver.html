@@ -85,7 +85,7 @@
   <div class="w3-container">
     <p>Welcome to Make a Delivery!</p>
     <p>Here you can choose requests to fulfill.</p> <button type="button" id="orgDelivery" style=" height:50px;width:350px; padding: 10px 20px;background-color: #009999;
-    font-size: 15px;color: #fff;border-radius: 5px;border-color: #009999;z-index: 999;">
+    font-size: 15px;color: #fff;border-radius: 5px;border-color: #009999;z-index: 999;" onclick="gotoListPage()">
       Want to Donate for Local Organizations?
     </button>
     <hr style="height: 3px;" />
@@ -98,6 +98,14 @@
     </button>
     
   </div>
+  
+  <div class="w3-container">
+    <button type="button" id="employeeToDeliver" onClick="employeePage()" style="height:50px;width:300px;padding: 10px 20px;background-color: #009999;
+    font-size: 15px;color: #fff;border-radius: 5px;border-color: #009999;z-index: 999;">
+      Assign an Employee to Deliver
+    </button>
+    
+  </div>
   <br>
 
   <div class="w3-container w3-border" id="catalog"></div>
@@ -106,6 +114,17 @@
 </body>
 
 <script>
+  
+  function gotoListPage() {
+    window.location.href = "https://aanyajha.github.io/CharityLink.io/FrontendFiles/LocalOrganizationRequests.html";
+    
+  }
+  
+  function employeePage() {
+    window.location.href = "https://aanyajha.github.io/CharityLink.io/FrontendFiles/EmployeeToDeliver.html";
+    
+  }
+  
   const catalogContainer = document.getElementById('catalog');
   var hashtagList = [];
   var nameList = [];
@@ -155,7 +174,7 @@
             const data = this.responseText;
             console.log(data);
             printData();
-            alert("Request cancelled")
+            alert("Request accepted")
           } else {
             console.error("Request failed with status code", this.status);
           }
