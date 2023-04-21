@@ -62,58 +62,69 @@
     <p>Employee information is listed below.</p>
   </div>
 
+  <br>
   <div class="w3-container w3-border id=deleteBox">
+    <br>
     <text type="text">Email of Employee to Delete:</text>
     <input type="text" id="emailBoxDelete" style="border: 1px solid black;"><br>
-    <button type="button" id="deleteButton" onclick="deleteEmployee()">
+    <button type="button" id="deleteButton" onclick="deleteEmployee()" style="background-color: #009999;color:white">
       Delete
     </button>
+    <br><br>
   </div>
 
   <div class="w3-container w3-border id=editBox">
+    <br>
     <text type="text">Email of Employee to Edit:</text>
-    <input type="text" id="emailBoxEdit" style="border: 1px solid black;"><br>
+    <input type="text" id="emailBoxEdit" style="border: 1px solid black;"><br><br>
     <text type="text">Name of Employee to Edit:</text>
-    <input type="text" id="nameBoxEdit" style="border: 1px solid black"><br>
+    <input type="text" id="nameBoxEdit" style="border: 1px solid black"><br><br>
     <text type="text">Username of Employee to Edit:</text>
-    <input type="text" id="usernameBoxEdit" style="border: 1px solid black;"><br>
+    <input type="text" id="usernameBoxEdit" style="border: 1px solid black;"><br><br>
     <text type="text">Temporary Password to Edit:</text>
-    <input type="text" id="passBoxEdit" style="border: 1px solid black;"><br>
+    <input type="text" id="passBoxEdit" style="border: 1px solid black;"><br><br>
     <text type="text">Employee</text>
     <input type="checkbox" id="empCheckEdit">
     <text type="text">Manager</text>
-    <input type="checkbox" id="manCheckEdit"><br>
-    <button type="button" id="editButton" onclick="editEmployee()">
+    <input type="checkbox" id="manCheckEdit"><br><br>
+    <button type="button" id="editButton" onclick="editEmployee()" style="background-color: #009999;color:white">
       Edit
     </button>
+    <br><br>
   </div>
+
   <div class="w3-container w3-border" id="addBox">
+    <br>
     <text type="text">Email of Employee to Add:</text>
-    <input type="text" id="emailBoxAdd" style="border: 1px solid black;"><br>
+    <input type="text" id="emailBoxAdd" style="border: 1px solid black;"><br><br>
     <text type="text">Name of Employee to Add:</text>
-    <input type="text" id="nameBoxAdd" style="border: 1px solid black;"><br>
+    <input type="text" id="nameBoxAdd" style="border: 1px solid black;"><br><br>
     <text type="text">Username of Employee to Add:</text>
-    <input type="text" id="usernameBoxAdd" style="border: 1px solid black;"><br>
+    <input type="text" id="usernameBoxAdd" style="border: 1px solid black;"><br><br>
     <text type="text">Temporary Password to Add:</text>
-    <input type="text" id="passBoxAdd" style="border: 1px solid black;"><br>
+    <input type="text" id="passBoxAdd" style="border: 1px solid black;"><br><br>
     <text type="text">Employee</text>
     <input type="checkbox" id="empCheckAdd">
     <text type="text">Manager</text>
-    <input type="checkbox" id="manCheckAdd"><br>
-    <button type="button" id="addButton" onclick="addEmployee()">
+    <input type="checkbox" id="manCheckAdd"><br><br>
+    <button type="button" id="addButton" onclick="addEmployee()" style="background-color: #009999;color:white">
       Add
     </button><br>
+    <br>
   </div>
 
-  <div>
-    <p>Search by: </p>
+  <div class="w3-container">
+    <h4>Search by: </h4>
     <text type="text">Employee</text>
     <input type="checkbox" id="employee-search" onclick="printData()">
     <text type="text">Manager</text>
     <input type="checkbox" id="manager-search" onclick="printData()"><br>
   </div>
+  <br>
 
   <div class="w3-container w3-border" id="employee"></div>
+
+  <br><br>
 
 </body>
 
