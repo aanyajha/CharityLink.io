@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html>
+<title>View Organization's Requests</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
+<body>
+
+  <style>
+    img {
+      height: 200px;
+      width: 200px;
+    }
+
+    input {
+      border: 1px solid transparent;
+      background-color: #f1f1f1;
+      padding: 10px;
+      font-size: 16px;
+    }
+
+    input[type=text] {
+      background-color: #f1f1f1;
+      width: 100%;
+    }
+
+    input[type=submit] {
+      background-color: #009999;
+      color: #fff;
+    }
+
+    input[type="checkbox"] {
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+      width: 30px;
+      height: 30px;
+      border: 2px solid #555;
+      border-radius: 4px;
+      outline: none;
+      cursor: pointer;
+    }
+
+    input[type="checkbox"]:checked {
+      background-color: #555;
+    }
+  </style>
+
+  <div class="w3-sidebar w3-bar-block w3-card w3-animate-right" style="display:none;right:0;" id="mySidebar">
+
+    <button onclick="closeNav()" class="w3-bar-item w3-button w3-large">&#10005; Close</button>
+
+    <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles" class="w3-bar-item w3-button">&#x27B2; Logout</a>
+    <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/DefaultDashboard"
+      class="w3-bar-item w3-button">Dashboard</a>
+    <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/UserRequest" class="w3-bar-item w3-button">Make a
+      Request</a>
+    <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/BrowseCatalog" class="w3-bar-item w3-button">Browse
+      Catalog</a>
+    <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/UserEvents" class="w3-bar-item w3-button">Events
+      Near Me</a>
+    <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/ViewProfiles" class="w3-bar-item w3-button">View
+      Organization Profiles</a>
+    <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/Deliver" class="w3-bar-item w3-button">Make a
+      Delivery</a>
+    <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/UserSettings" class="w3-bar-item w3-button">&#9965;
+      Settings</a>
+    <a href="https://aanyajha.github.io/CharityLink.io" class="w3-bar-item w3-button"><img
+        src="https://i.postimg.cc/Zq3dkdkW/Charitylink-Logo-Updated.png" alt="Charity Link Logo" width="200"
+        height="65"></a>
+  </div>
+
+  <div class="w3-pale-blue">
+    <button class="w3-button turquoise w3-xlarge w3-right" onclick="openNav()">&#9776;</button>
+
+  </div>
+
+  <div class="w3-pale-blue">
+    <div class="w3-container">
+      <h1 style="color: #009999">View Local Organizations' Requests</h1>
+
+    </div>
+  </div>
+
+  <div class="w3-container">
+    <p>Welcome to View Organizations' Requests!</p>
+    <p>Here you can choose requests to fulfill.</p> <button type="button" id="orgDelivery" style=" height:50px;width:350px; padding: 10px 20px;background-color: #009999;
+    font-size: 15px;color: #fff;border-radius: 5px;border-color: #009999;z-index: 999;" onclick="gotoListPage()">
+      Want to Donate for Other Users?
+    </button>
+    <hr style="height: 3px;" />
+  </div>
+
+  <div class="w3-container">
+    <button type="button" id="acceptRequests" onClick="acceptRequests()" style="height:50px;width:300px;padding: 10px 20px;background-color: #009999;
+    font-size: 15px;color: #fff;border-radius: 5px;border-color: #009999;z-index: 999;">
+      Accept Selected Requests
+    </button>
+    
+  </div>
+  <br>
+
+  <div class="w3-container w3-border" id="catalog"></div>
+
+
+</body>
+
+<script>
+  
+  function gotoListPage() {
+    window.location.href = "https://aanyajha.github.io/CharityLink.io/FrontendFiles/Deliver.html";
+    
+  }
+  
+  
+  const catalogContainer = document.getElementById('catalog');
+  var hashtagList = [];
+  var nameList = [];
+  //autocomplete(document.getElementById("myInputName"), nameList);
+  //autocomplete(document.getElementById("myInputHashtag"), hashtagList);
+  //document.getElementById("nameForm").addEventListener('submit', submitForm);
+  //document.getElementById("hashtagForm").addEventListener('submit', submitForm);
+
+  // Define data for catalog
+  var userData = JSON.parse(sessionStorage.getItem('userData'));
+  if (userData != null) {
+    printData();
+  } else {
+    //userData = { companyID: -1, email: "vjasti@purdue.edu", id: 1, joinDate: "2023-02-27", locationID: -1, name: "Varun", password: "passwordtest", passwordToken: null, userType: 1, username: "vjasti" };
+    userData = { companyID: -1, email: "test@purdue.edu", id: 2, joinDate: "2023-02-27", locationID: 102, name: "test name", password: "blank", passwordToken: null, userType: 1, username: "test" };
+    printData();
+  }
+
+  // Get reference to catalog container in HTML
+
+  var requestData;
+
+  function getTwoDaysFromNow() {
+    const today = new Date();
+    const twoDaysFromNow = new Date(today.getTime() + 2 * 24 * 60 * 60 * 1000);
+    const year = twoDaysFromNow.getFullYear();
+    const month = String(twoDaysFromNow.getMonth() + 1).padStart(2, '0');
+    const day = String(twoDaysFromNow.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+}
+
+  function acceptRequests() {
+    // Add click event listener to item container
+    const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+    checkboxes.forEach(checkboxVal => {
+      console.log(checkboxVal.value);
+      if (checkboxVal.checked) {
+        const url = `http://172.174.33.35:8080/api/delivery/add?requestID=${checkboxVal.value}&donator=${userData.id}&state=0&eta=${getTwoDaysFromNow()}`;
+        console.log("Sent Delivery info");
+        console.log(url);
+
+        const xhr1 = new XMLHttpRequest();
+        xhr1.open("POST", url, true);
+
+        xhr1.onload = function () {
+          if (this.status === 200) {
+            const data = this.responseText;
+            console.log(data);
+            printData();
+            alert("Request accepted")
+          } else {
+            console.error("Request failed with status code", this.status);
+          }
+        };
+
+        xhr1.onerror = function () {
+          console.error("Request failed");
+        };
+
+        xhr1.send();
+        const div = checkboxVal.parentNode;
+        div.remove();
+      }
+    });
+  }
+
+  function searchByName() {
+    const name = document.getElementById("myInputName").value;
+    console.log("name: " + name);
+    var url = `http://172.174.33.35:8080/api/item/search?name=${name}&state=0`;
+    var xhr = new XMLHttpRequest();
+
+    xhr.onload = function () {
+      if (this.status === 200) {
+        console.log(url);
+        const requestData = JSON.parse(this.responseText);
+        console.log(requestData);
+        if (requestData.length == 0) {
+          alert("No items with name");
+        }
+        if (document.getElementById("locationCheckbox").checked) {
+          printCatalog(requestData, 3);
+        } else {
+          printCatalog(requestData, 0);
+        }
+      } else {
+        console.error("Request failed with status code", this.status);
+      }
+    }
+
+    xhr.onerror = function () {
+      console.error("Request failed");
+    };
+    if (document.getElementById("locationCheckbox").checked) {
+      if (userData.locationID == -1) {
+        //TODO: request location from browser
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(function (position) {
+            console.log("Latitude: " + position.coords.latitude);
+            console.log("Longitude: " + position.coords.longitude);
+            url = `http://172.174.33.35:8080/api/item/search?name=${name}&location=${position.coords.latitude};${position.coords.longitude}&state=0`;
+            xhr.open("GET", url, true);
+            xhr.send();
+            return;
+          }, function (error) {
+            console.error("Error getting location: " + error.message);
+          });
+        } else {
+          console.error("Geolocation is not supported by this browser.");
+        }
+      } else {
+        var location;
+        var url1 = `http://172.174.33.35:8080/api/location/get?id=${userData.locationID}`;
+        var xhr1 = new XMLHttpRequest();
+        xhr1.open("GET", url1, true);
+        xhr1.onload = function () {
+          if (this.status === 200) {
+            location = JSON.parse(this.responseText);
+            console.log(location);
+            console.log(location.latitude);
+            console.log(location.latitude != null && location.longitude != null);
+            if (location.latitude != null && location.longitude != null) {
+              url = `http://172.174.33.35:8080/api/item/search?name=${name}&location=${location.latitude};${location.longitude}&state=0`;
+            }
+            xhr.open("GET", url, true);
+            xhr.send();
+            return;
+          } else {
+            console.error("Request failed with status code", this.status);
+          }
+        }
+
+        xhr1.onerror = function () {
+          console.error("Request failed");
+        };
+
+        xhr1.send();
+      }
+    } else {
+      xhr.open("GET", url, true);
+      xhr.send();
+    }
+  }
+
+  function searchByHashtag() {
+    const hashtag = document.getElementById("myInputHashtag").value;
+    console.log("name: " + name);
+    var url = `http://172.174.33.35:8080/api/item/search?hashtags=${hashtag}&state=0`;
+    var xhr = new XMLHttpRequest();
+
+    xhr.onload = function () {
+      if (this.status === 200) {
+        console.log(url);
+        const requestData = JSON.parse(this.responseText);
+        console.log(requestData);
+        if (requestData.length == 0) {
+          alert("No items in category");
+        }
+        if (document.getElementById("locationCheckbox").checked) {
+          printCatalog(requestData, 3);
+        } else {
+          printCatalog(requestData, 1);
+        }
+      } else {
+        console.error("Request failed with status code", this.status);
+      }
+    }
+
+    xhr.onerror = function () {
+      console.error("Request failed");
+    };
+    if (document.getElementById("locationCheckbox").checked) {
+      if (userData.locationID == -1) {
+        //TODO: request location from browser
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(function (position) {
+            console.log("Latitude: " + position.coords.latitude);
+            console.log("Longitude: " + position.coords.longitude);
+            if (hashtag == "") {
+              url = `http://172.174.33.35:8080/api/item/search?location=${position.coords.latitude};${position.coords.longitude}&state=0`;
+            } else {
+              url = `http://172.174.33.35:8080/api/item/search?hashtags=${hashtag}&location=${position.coords.latitude};${position.coords.longitude}&state=0`;
+            }
+            xhr.open("GET", url, true);
+            xhr.send();
+            return;
+          }, function (error) {
+            console.error("Error getting location: " + error.message);
+          });
+        } else {
+          console.error("Geolocation is not supported by this browser.");
+        }
+      } else {
+        var location;
+        var url1 = `http://172.174.33.35:8080/api/location/get?id=${userData.locationID}`;
+        var xhr1 = new XMLHttpRequest();
+        xhr1.open("GET", url1, true);
+        xhr1.onload = function () {
+          if (this.status === 200) {
+            location = JSON.parse(this.responseText);
+            console.log(location);
+            console.log(location.latitude);
+            console.log(location.latitude != null && location.longitude != null);
+            if (location.latitude != null && location.longitude != null) {
+              if (hashtag == "") {
+                url = `http://172.174.33.35:8080/api/item/search?location=${location.latitude};${location.longitude}&state=0`;
+              } else {
+                url = `http://172.174.33.35:8080/api/item/search?hashtags=${hashtag}&location=${position.coords.latitude};${position.coords.longitude}&state=0`;
+              }
+            }
+            xhr.open("GET", url, true);
+            xhr.send();
+            return;
+          } else {
+            console.error("Request failed with status code", this.status);
+          }
+        }
+
+        xhr1.onerror = function () {
+          console.error("Request failed");
+        };
+
+        xhr1.send();
+      }
+    } else {
+      xhr.open("GET", url, true);
+      xhr.send();
+    }
+  }
+
+  function submitForm(event) {
+    event.preventDefault();
+  }
+
+  function sortByMaxDistance() {
+    var xhr = new XMLHttpRequest();
+    xhr.onload = function () {
+      if (this.status === 200) {
+        console.log(url);
+        const requestData = JSON.parse(this.responseText);
+        console.log(requestData);
+        if (requestData.length == 0) {
+          alert("No items within filtered distance");
+        }
+        printCatalog(requestData, 3);
+      } else {
+        console.error("Request failed with status code", this.status);
+      }
+    }
+
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(function (position) {
+        console.log("Latitude: " + position.coords.latitude);
+        console.log("Longitude: " + position.coords.longitude);
+        const maxDist = document.getElementById("maxDistance");
+        url = `http://172.174.33.35:8080/api/item/search?location=${position.coords.latitude};${position.coords.longitude}&state=0&maxDistance=${maxDist.value}`;
+        xhr.open("GET", url, true);
+        xhr.send();
+        return;
+      }, function (error) {
+        console.error("Error getting location: " + error.message);
+      });
+    } else {
+      console.error("Geolocation is not supported by this browser.");
+    }
+  }
+
+  function printCatalog(requestData, searchtype) {
+    console.log(userData);
+    while (catalogContainer.firstChild) {
+      catalogContainer.removeChild(catalogContainer.firstChild);
+    }
+    requestData.forEach(item => {
+      // Create elements for item
+      console.log(item);
+      if (!item.delivered) {
+        const itemContainer = document.createElement('div');
+        var itemName;
+        var itemHashtags;
+        // var itemID;
+        var distance;
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.value = item.id;
+
+        //var itemImage = document.createElement('img');
+        //var srcAttr = document.createAttribute('src');
+        //if (item.img != null) {
+        //srcAttr.value = item.img;
+        //}
+
+        itemContainer.appendChild(checkbox);
+        if (searchtype == 0) {
+          itemName = document.createElement('h3');
+          itemHashtags = document.createElement('p');
+          // itemID = document.createElement('p');
+        }
+        else if (searchtype == 1) {
+          itemHashtags = document.createElement('h3');
+          itemName = document.createElement('p');
+          // itemID = document.createElement('p');
+
+        }
+        else if (searchtype == 2) {
+          // itemID = document.createElement('h3');
+          itemName = document.createElement('p');
+          itemHashtags = document.createElement('p');
+        } else if (searchtype == 3) {
+          distance = document.createElement('h3');
+          // itemID = document.createElement('p');
+          itemName = document.createElement('p');
+          itemHashtags = document.createElement('p');
+        }
+
+        const quantity = document.createElement('p');
+        //const itemImage = document.createElement('img');
+
+        // Set content and attributes for elements
+        itemName.textContent = item.name;
+        itemHashtags.textContent = item.hashtags;
+        // itemID.textContent = 'Item ID: ' + item.itemID;
+        quantity.textContent = 'Quantity: [ ' + item.quantity + ' ]';
+        //itemImage.setAttributeNode(srcAttr);
+        if (searchtype == 3) {
+          distance.textContent = item.distance.toFixed(2) + " mi";
+        }
+
+        // Add elements to item container
+        //itemContainer.appendChild(itemImage);
+        if (searchtype == 0) {
+          itemContainer.appendChild(itemName);
+          itemContainer.appendChild(itemHashtags);
+          // itemContainer.appendChild(itemID);
+        }
+        else if (searchtype == 1) {
+          itemContainer.appendChild(itemHashtags);
+          itemContainer.appendChild(itemName);
+          // itemContainer.appendChild(itemID);
+        }
+        else if (searchtype == 2) {
+          // itemContainer.appendChild(itemID);
+          itemContainer.appendChild(itemName);
+          itemContainer.appendChild(itemHashtags);
+        } else if (searchtype == 3) {
+          itemContainer.appendChild(distance);
+          // itemContainer.appendChild(itemID);
+          itemContainer.appendChild(itemName);
+          itemContainer.appendChild(itemHashtags);
+        }
+        itemContainer.appendChild(quantity);
+        //itemContainer.appendChild(itemImage);
+
+        itemContainer.style.border = '1px solid black';
+
+        // Add item container to catalog container
+        catalogContainer.appendChild(itemContainer);
+      }
+    });
+  }
+
+
+  // Dynamically generate HTML elements for each item in the catalog
+  function printData() {
+    console.log(userData);
+
+    var url = `http://172.174.33.35:8080/api/request/all?userType=1`;
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", url, true);
+
+    xhr.onload = function () {
+      if (this.status === 200) {
+        const data = this.responseText;
+        console.log(data);
+        requestData = JSON.parse(data);
+        printCatalog(requestData, 0);
+      } else {
+        console.error("Request failed with status code", this.status);
+      }
+    };
+
+    xhr.onerror = function () {
+      console.error("Request failed");
+    };
+
+    xhr.send();
+  }
+
+  function openNav() {
+    document.getElementById("mySidebar").style.display = "block";
+  }
+
+  function closeNav() {
+    document.getElementById("mySidebar").style.display = "none";
+  }
+</script>
+
+</html>
