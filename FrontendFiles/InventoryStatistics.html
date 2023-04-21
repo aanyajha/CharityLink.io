@@ -137,10 +137,14 @@
     <div class="w3-container">
         <p>Welcome to your Inventory Statistics!</p>
         <p>Here you can view your inventory's stats and data.</p>
-        <p>Number of Different Items: </p>
+        <text>Number of Individual Items: </text>
         <text id="diffItems"></text>
-        <p>Total Items: </p>
+        <br>
+        <text>Total Items: </text>
         <text id="totalItems"></text>
+        <br>
+        <br>
+        <text style="color:red">The following list contains items you may be running low on.</text>
     </div>
 
     <datalist id="nameSuggestions">
@@ -267,6 +271,7 @@
 
         catalogData.forEach(item => {
             if (item.numItems < 5) {
+                if (item.numItems != 0) {
                 // Create elements for item
                 console.log(item);
                 const itemContainer = document.createElement('div');
@@ -312,7 +317,7 @@
                 itemImage.setAttributeNode(srcAttr);
 
                 // Add elements to item container
-                itemContainer.appendChild(checkbox);
+                //itemContainer.appendChild(checkbox);
                 itemContainer.appendChild(itemImage);
                 if (searchtype == 0) {
                     itemContainer.appendChild(itemName);
@@ -337,6 +342,7 @@
 
                 // Add item container to catalog container
                 catalogContainer.appendChild(itemContainer);
+            }
             }
         });
     }
