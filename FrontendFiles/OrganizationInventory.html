@@ -136,9 +136,12 @@
   <div class="w3-container">
     <p>Welcome to Manage Inventory!</p>
     <p>Here you can view your inventory.</p>
+    <button type="button" id="orgDelivery" style=" height:50px;width:350px; padding: 10px 20px;background-color: #009999;
+    font-size: 15px;color: #fff;border-radius: 5px;border-color: #009999;z-index: 999;" onclick="demandForecasting()">
+      View Inventory Statistics
+    </button>
   </div>
-  
-  <button onclick="demandForecasting()">See Deman Forecasting</button>
+
 
   <blockquote>
     <form id="nameForm" autocomplete="off">
@@ -208,8 +211,7 @@
 <script>
   
   function demandForecasting() {
-    window.location.href = '/CharityLink.io/FrontendFiles/DemandForecasting';
-    
+    window.location.href = '/CharityLink.io/FrontendFiles/InventoryStatistics.html';
   }
   
   

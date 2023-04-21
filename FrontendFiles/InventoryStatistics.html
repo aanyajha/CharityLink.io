@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html>
+<title>Organization Inventory</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
+<body>
+
+    <style>
+        img {
+            height: 200px;
+            width: 200px;
+        }
+
+        #popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #fff;
+            padding: 20px;
+            z-index: 9999;
+            border: 1px solid #ccc;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+
+        #popup.show {
+            display: block;
+        }
+
+        .autocomplete {
+            /*the container must be positioned relative:*/
+            position: relative;
+            display: inline-block;
+        }
+
+        input {
+            border: 1px solid transparent;
+            background-color: #f1f1f1;
+            padding: 10px;
+            font-size: 16px;
+        }
+
+        input[type=text] {
+            background-color: #f1f1f1;
+            width: 100%;
+        }
+
+        input[type=submit] {
+            background-color: #009999;
+            color: #fff;
+        }
+
+        .autocomplete-items {
+            position: absolute;
+            border: 1px solid #d4d4d4;
+            border-bottom: none;
+            border-top: none;
+            z-index: 99;
+            /*position the autocomplete items to be the same width as the container:*/
+            top: 100%;
+            left: 0;
+            right: 0;
+        }
+
+        .autocomplete-items div {
+            padding: 10px;
+            cursor: pointer;
+            background-color: #fff;
+            border-bottom: 1px solid #d4d4d4;
+        }
+
+        .autocomplete-items div:hover {
+            /*when hovering an item:*/
+            background-color: #e9e9e9;
+        }
+
+        .autocomplete-active {
+            /*when navigating through the items using the arrow keys:*/
+            background-color: #009999 !important;
+            color: #ffffff;
+        }
+
+        input[type="checkbox"] {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            width: 30px;
+            height: 30px;
+            border: 2px solid #555;
+            border-radius: 4px;
+            outline: none;
+            cursor: pointer;
+        }
+
+        input[type="checkbox"]:checked {
+            background-color: #555;
+        }
+    </style>
+
+    <div class="w3-sidebar w3-bar-block w3-card w3-animate-right" style="display:none;right:0;" id="mySidebar">
+
+        <button onclick="closeNav()" class="w3-bar-item w3-button w3-large">&#10005; Close</button>
+
+        <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles" class="w3-bar-item w3-button">&#x27B2;
+            Logout</a>
+        <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/OrganizationDashboard"
+            class="w3-bar-item w3-button">Dashboard</a>
+        <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/OrganizationManageRequests"
+            class="w3-bar-item w3-button">Manage Requests</a>
+        <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/OrganizationDeliveries"
+            class="w3-bar-item w3-button">Manage Deliveries</a>
+        <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/OrganizationEmployees"
+            class="w3-bar-item w3-button">Manage Employees</a>
+        <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/OrganizationManageEvents"
+            class="w3-bar-item w3-button">Manage Events</a>
+        <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/OrganizationSettings"
+            class="w3-bar-item w3-button">&#9965; Settings</a>
+        <a href="https://aanyajha.github.io/CharityLink.io" class="w3-bar-item w3-button"><img
+                src="https://i.postimg.cc/Zq3dkdkW/Charitylink-Logo-Updated.png" alt="Charity Link Logo" width="200"
+                height="65"></a>
+    </div>
+
+    <div class="w3-pale-blue">
+        <button class="w3-button turquoise w3-xlarge w3-right" onclick="openNav()">&#9776;</button>
+
+    </div>
+
+    <div class="w3-pale-blue">
+        <div class="w3-container">
+            <h1 style="color: #009999">Manage Inventory</h1>
+
+        </div>
+    </div>
+
+    <div class="w3-container">
+        <p>Welcome to Manage Inventory!</p>
+        <p>Here you can view your inventory.</p>
+    </div>
+
+
+    <blockquote>
+        <form id="nameForm" autocomplete="off">
+            <div class="autocomplete" style="width:300px;">
+                <input id="myInputName" type="text" name="searchName" placeholder="Search By Name">
+            </div>
+            <input type="submit" onclick="searchByName()">
+        </form><br>
+
+        <form id="hashtagForm" autocomplete="off">
+            <div class="autocomplete" style="width:300px;">
+                <input id="myInputHashtag" type="text" name="searchHashtags" placeholder="Search By Category">
+            </div>
+            <input type="submit" onclick="searchByHashtag()">
+        </form><br>
+
+        <form id="idForm" autocomplete="off">
+            <div class="autocomplete" style="width:300px;">
+                <input id="myInputID" type="text" name="searchIDs" placeholder="Search By ID">
+            </div>
+            <input type="submit" onclick="searchByID()">
+        </form><br>
+    </blockquote>
+
+    <div class="w3-container w3-border id=add-edit-delete">
+        <br>
+        <text type="text">Select items you would like to <b>Add, Edit, Delete, or Request</b> then select the
+            corressponding button</text>
+        <button type="button" id="addButton" style="background-color:#009999; color:white; border-color:white">
+            Add
+        </button>
+        <button type="button" id="editButton" style="background-color:#009999; color:white; border-color:white;">
+            Edit
+        </button>
+        <button type="button" id="deleteButton" style="background-color:#009999; color:white;border-color:white">
+            Delete
+        </button>
+        <button type="button" id="requestButton" onclick="requestItem()"
+            style="background-color:#009999; color:white;border-color:white">
+            Request
+        </button>
+        <br>
+        <br>
+    </div>
+
+    <datalist id="nameSuggestions">
+    </datalist>
+    <datalist id="hashtagSuggestions">
+    </datalist>
+
+    <div id="popup">
+        <form id="addItem">
+            <br><label for="itemName">Item Name:</label>
+            <input type="text" id="itemName" name="itemName" required><br><br>
+            <input type="file" id="myFileInput">
+            <text>Use commas to separate hashtags, no spaces</text><br>
+            <label for="hashtags">Hashtags:</label>
+            <input type="hashtags" id="hashtags" name="hashtags" required><br><br>
+            <label for="quantity">Quantity:</label>
+            <input type="number" id="quantity" name="quantity" min="0" step="1" required><br><br>
+            <input type="submit" value="Add Item">
+        </form>
+    </div><br>
+
+    <div class="w3-container w3-border" id="catalog"></div>
+</body>
+
+
+<script>
+
+    function demandForecasting() {
+        window.location.href = 'https://aanyajha.github.io/CharityLink.io/FrontendFiles/DemandForecasting';
+
+    }
+
+
+    // Get reference to catalog container in HTML
+    const catalogContainer = document.getElementById('catalog');
+    var hashtagList = [];
+    var nameList = [];
+    autocomplete(document.getElementById("myInputName"), nameList);
+    autocomplete(document.getElementById("myInputHashtag"), hashtagList);
+    autocomplete(document.getElementById("hashtags"), hashtagList);
+    document.getElementById("nameForm").addEventListener('submit', submitForm);
+    document.getElementById("hashtagForm").addEventListener('submit', submitForm);
+    document.getElementById("idForm").addEventListener('submit', submitForm);
+
+
+    var userData = JSON.parse(sessionStorage.getItem('userData'));
+    if (userData != null) {
+        printData();
+    }
+    else {
+        userData = { companyID: 102, email: "default1@gmail.com", id: 102, joinDate: "2023-02-28", locationID: 102, name: "org", password: "project", passwordToken: null, userType: 4, username: "default" };
+        printData();
+    }
+    const id = userData.companyID;
+
+    // Add click event listener to item container
+    const deleteButton = document.getElementById('deleteButton');
+    deleteButton.addEventListener('click', () => {
+        const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+        checkboxes.forEach(checkboxVal => {
+            console.log(checkboxVal.value);
+            if (checkboxVal.checked) {
+                const url = `http://172.174.33.35:8080/api/item/delete?itemID=${checkboxVal.value}&userID=${userData.companyID}`;
+                console.log("Sent Item Deletion Info");
+
+                const xhr1 = new XMLHttpRequest();
+                xhr1.open("DELETE", url, true);
+
+                xhr1.onload = function () {
+                    if (this.status === 200) {
+                        const data = this.responseText;
+                        console.log(data);
+                        printData();
+                    } else {
+                        console.error("Request failed with status code", this.status);
+                    }
+                };
+
+                xhr1.onerror = function () {
+                    console.error("Request failed");
+                };
+
+                xhr1.send();
+                const div = checkboxVal.parentNode;
+                div.remove();
+            }
+        });
+    });
+
+    function requestItem() {
+        // Add click event listener to item container
+        const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+        checkboxes.forEach(checkboxVal => {
+            console.log(checkboxVal.value);
+            if (checkboxVal.checked) {
+                var quantity = prompt("How much would you like to request?");
+                const url = `http://172.174.33.35:8080/api/request/add?itemID=${checkboxVal.value}&requester=${userData.companyID}&quantity=${quantity}&deliveryType=2`;
+                console.log("Sent Request info");
+                console.log(url);
+
+                const xhr1 = new XMLHttpRequest();
+                xhr1.open("POST", url, true);
+
+                xhr1.onload = function () {
+                    if (this.status === 200) {
+                        const data = this.responseText;
+                        console.log(data);
+                        printData();
+                        alert("Request made");
+                    } else {
+                        console.error("Request failed with status code", this.status);
+                    }
+                };
+
+                xhr1.onerror = function () {
+                    console.error("Request failed");
+                };
+
+                xhr1.send();
+            }
+        });
+    }
+
+
+    const addButton = document.getElementById('addButton');
+    addButton.addEventListener('click', function (event) {
+        // Get the popup element and the form element
+        const popup = document.getElementById('popup');
+        const form = document.getElementById('addItem');
+
+        popup.classList.add('show');
+
+
+        // Send the form data to the API endpoint when the form is submitted
+        var fileInput = document.getElementById('myFileInput');
+        form.addEventListener('submit', function (event) {
+            event.preventDefault(); // Prevent the default form submission
+
+            const itemName = form.elements['itemName'].value;
+            const hashtags = form.elements['hashtags'].value;
+            var quantity = form.elements['quantity'].value;
+
+            var file = fileInput.files[0];
+            console.log(file);
+            var formData = new FormData();
+
+            var imgUrl;
+
+            //var reader = new FileReader();
+
+            // reader.onload = function (e) {
+            //   preview.setAttribute('src', e.target.result);
+            //   console.log(e.target.result);
+            // }
+
+            formData.append("image", file);
+
+
+
+            fetch("https://api.imgur.com/3/image/", {
+                method: "post",
+                headers: {
+                    Authorization: "Client-ID 10f9b76f36bb0cb"
+                },
+                body: formData
+            }).then(data => data.json()).then(data => {
+
+                imgUrl = data.data.link;
+
+                console.log(imgUrl);
+
+                const url = `http://172.174.33.35:8080/api/item/add?userID=${userData.companyID}&name=${itemName}&numItems=${quantity}&hashtags=${hashtags}&location=${userData.locationID}&img=${imgUrl}`;
+                console.log("Sent User Info");
+
+                const xhr2 = new XMLHttpRequest();
+                xhr2.open("POST", url, true);
+
+                xhr2.onload = function () {
+                    if (this.status === 200) {
+                        console.log(this.responseText);
+                        popup.classList.remove('show');
+                        printData();
+                    } else {
+                        popup.classList.remove('show');
+                        console.error("Request failed with status code", this.status);
+                    }
+                };
+
+                xhr2.onerror = function () {
+                    console.error("Request failed");
+                };
+
+                xhr2.send();
+
+            })
+
+
+
+            // close the popup
+            popup.classList.remove('show');
+            printData();
+        });
+    });
+
+    const editButton = document.getElementById('editButton');
+    editButton.addEventListener('click', () => {
+        const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+        var checked = 0;
+        var tempItemID;
+        checkboxes.forEach(checkboxVal => {
+            if (checkboxVal.checked) {
+                checked++;
+                tempItemID = checkboxVal.value;
+            }
+        });
+
+        if (checked == 1) {
+            const popup = document.getElementById('popup');
+            const form = document.getElementById('addItem');
+
+            popup.classList.add('show');
+
+            form.addEventListener('submit', function (event) {
+                event.preventDefault(); // Prevent the default form submission
+
+                const itemName = form.elements['itemName'].value;
+                const hashtags = form.elements['hashtags'].value;
+                var quantity = form.elements['quantity'].value;
+
+                const url = `http://172.174.33.35:8080/api/item/edit?itemID=${tempItemID}&userID=${userData.companyID}&name=${itemName}&numItems=${quantity}&hashtags=${hashtags}&location=${userData.locationID}`;
+                console.log("Sent User Info");
+
+                const xhr2 = new XMLHttpRequest();
+                xhr2.open("PUT", url, true);
+
+                xhr2.onload = function () {
+                    if (this.status === 200) {
+                        console.log(this.responseText);
+                        popup.classList.remove('show');
+                        printData();
+                    } else {
+                        popup.classList.remove('show');
+                        console.error("Request failed with status code", this.status);
+                    }
+                };
+
+                xhr2.onerror = function () {
+                    console.error("Request failed");
+                };
+
+                xhr2.send();
+
+                // close the popup
+                popup.classList.remove('show');
+                printData();
+            });
+        }
+
+        //else {
+        //alert("No item selected");
+
+        //}
+        //});
+    });
+
+    var catalogData;
+    // Define data for catalog
+
+    function submitForm(event) {
+        event.preventDefault();
+    }
+
+    function search() {
+        const searchInput = document.getElementById('search');
+        const suggestionsList = document.getElementById('suggestions');
+
+        fetch(`http://example.com/search?q=${searchTerm}`)
+            .then(response => response.json())
+            .then(data => {
+            })
+            .catch(error => console.error(error));
+
+        //put API DATA into array
+
+        var nameArray;
+
+
+        searchInput.addEventListener('input', function () {
+            const searchTerm = searchInput.value;
+
+            suggestionsList.innerHTML = ''; // Clear previous suggestions
+            data.forEach(item => {
+                const option = document.createElement('option');
+                option.value = item;
+                suggestionsList.appendChild(option);
+            });
+        });
+    }
+
+    function printCatalog(catalogData, searchtype) {
+        console.log(userData);
+        while (catalogContainer.firstChild) {
+            catalogContainer.removeChild(catalogContainer.firstChild);
+        }
+        catalogData.forEach(item => {
+            // Create elements for item
+            console.log(item);
+            const itemContainer = document.createElement('div');
+            const checkbox = document.createElement('input');
+            checkbox.type = 'checkbox';
+            checkbox.value = item.itemID;
+            console.log(checkbox.value);
+            var itemName;
+            var itemHashtags;
+            var itemID;
+            var itemImage = document.createElement('img');
+            var srcAttr = document.createAttribute('src');
+            if (item.img != null) {
+                srcAttr.value = item.img;
+            }
+            itemName = document.createElement('h3');
+            itemHashtags = document.createElement('p');
+            itemID = document.createElement('p');
+
+            const itemState = document.createElement('p');
+            const quantity = document.createElement('p');
+            //const itemImage = document.createElement('img');
+
+            // Set content and attributes for elements
+            itemName.textContent = item.name;
+            itemHashtags.textContent = item.hashtags;
+            itemID.textContent = 'Item ID: ' + item.itemID;
+            // itemID.textContent = item.state;
+            quantity.textContent = 'Quantity: [ ' + item.numItems + ' ]';
+
+            const regex = /^https?:\/\/[a-z0-9]+(\.[a-z0-9]+)*(:[0-9]+)?(\/.*)?$/;
+
+            if (!regex.test(item.img)) {
+                srcAttr.value = `https://i.postimg.cc/1tpvZg4Y/charitylinkdefault.jpg`;
+            }
+            else {
+                srcAttr.value = item.img;
+            }
+
+            itemImage.setAttributeNode(srcAttr);
+
+            // Add elements to item container
+            itemContainer.appendChild(checkbox);
+            itemContainer.appendChild(itemImage);
+            if (searchtype == 0) {
+                itemContainer.appendChild(itemName);
+                itemContainer.appendChild(itemHashtags);
+                itemContainer.appendChild(itemID);
+            }
+            else if (searchtype == 1) {
+                itemContainer.appendChild(itemHashtags);
+                itemContainer.appendChild(itemName);
+                itemContainer.appendChild(itemID);
+            }
+            else if (searchtype == 2) {
+                itemContainer.appendChild(itemID);
+                itemContainer.appendChild(itemName);
+                itemContainer.appendChild(itemHashtags);
+            }
+            // itemContainer.appendChild(itemState);
+            itemContainer.appendChild(quantity);
+            //itemContainer.appendChild(itemImage);
+
+            itemContainer.style.border = '1px solid black';
+
+            // Add item container to catalog container
+            catalogContainer.appendChild(itemContainer);
+        });
+    }
+
+    // Dynamically generate HTML elements for each item in the catalog
+    function printData() {
+
+        const userType = userData.userType;
+        // var id = null;
+        // if (userType == 2 || userType == 3) {
+        //   id = userData.companyID;
+        // } else {
+        //   id = userData.id;
+        // }
+        console.log(userData.companyID);
+
+        var url = `http://172.174.33.35:8080/api/item/inventory?userID=${userData.companyID}`;
+        var xhr = new XMLHttpRequest();
+        xhr.open("GET", url, true);
+
+        xhr.onload = function () {
+            if (this.status === 200) {
+                const data = this.responseText;
+                console.log(data);
+                catalogData = JSON.parse(data);
+                printCatalog(catalogData, 0);
+
+            } else {
+                console.error("Request failed with status code", this.status);
+            }
+        };
+
+        xhr.onerror = function () {
+            console.error("Request failed");
+        };
+
+        xhr.send();
+    }
+
+    function openNav() {
+        document.getElementById("mySidebar").style.display = "block";
+    }
+
+    function closeNav() {
+        document.getElementById("mySidebar").style.display = "none";
+    }
+
+
+</script>
+
+</html>
