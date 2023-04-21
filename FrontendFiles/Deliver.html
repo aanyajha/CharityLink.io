@@ -85,7 +85,7 @@
   <div class="w3-container">
     <p>Welcome to Make a Delivery!</p>
     <p>Here you can choose requests to fulfill.</p> <button type="button" id="orgDelivery" style=" height:50px;width:350px; padding: 10px 20px;background-color: #009999;
-    font-size: 15px;color: #fff;border-radius: 5px;border-color: #009999;z-index: 999;">
+    font-size: 15px;color: #fff;border-radius: 5px;border-color: #009999;z-index: 999;" onclick="gotoListPage()">
       Want to Donate for Local Organizations?
     </button>
     <hr style="height: 3px;" />
@@ -106,6 +106,13 @@
 </body>
 
 <script>
+  
+  function gotoListPage() {
+    window.location.href = "https://aanyajha.github.io/CharityLink.io/FrontendFiles/LocalOrganizationInventory";
+    
+  }
+  
+  
   const catalogContainer = document.getElementById('catalog');
   var hashtagList = [];
   var nameList = [];
