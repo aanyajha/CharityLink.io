@@ -35,7 +35,18 @@ public class MainController {
     @Autowired
     private DeliveryRepository deliveryRepository;
 
-//    @GetMapping(path = "/user/company")
+    @GetMapping(path = "/request/delivery")
+    public @ResponseBody Integer requestOutForDelivery(@RequestParam Integer companyID) {
+        ArrayList<Request> requests = Lists.newArrayList(requestRepository.findAllByRequestor(companyID));
+        Integer total = 0;
+        for (Request request: requests) {
+            Delivery delivery = deliveryRepository.findDeliveryByRequestID(request.getId());
+            if (delivery != null) {
+                total++;
+            }
+        }
+        return total;
+    }
 
     class requestStatus {
         public String status;
