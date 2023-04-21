@@ -35,6 +35,8 @@ public class MainController {
     @Autowired
     private DeliveryRepository deliveryRepository;
 
+//    @GetMapping(path = "/user/company")
+
     class requestStatus {
         public String status;
         public String location;
@@ -486,7 +488,7 @@ public class MainController {
         }
     }
 
-    @GetMapping(path = "delivery/donator")
+    @GetMapping(path = "/delivery/donator")
     public @ResponseBody Iterable<TempDelivery> deliveryByDonator(@RequestParam Integer donator) {
         ArrayList<Delivery> deliveries = Lists.newArrayList(deliveryRepository.findAllByDonator(donator));
         ArrayList<TempDelivery> returnVal = new ArrayList<>();
@@ -501,6 +503,10 @@ public class MainController {
                                 delivery.getEta(), location.toString(), delivery.getStatus());
                         returnVal.add(tempDelivery);
                     }
+                }
+            } else {
+                if (delivery.getStatus().equals("REQUEST_CANCELLED")) {
+                    returnVal.add(new TempDelivery(delivery.getId(), "DELETED", 0, "DELETED", "DELETED", delivery.getStatus()));
                 }
             }
         }
