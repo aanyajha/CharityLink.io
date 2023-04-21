@@ -3,65 +3,97 @@
 <title>Organization Dashboard</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
 <body>
- 
-<style>
-img {
+
+  <style>
+    img {
       max-width: 100%;
       height: auto;
     }
-</style>
+  </style>
 
   <div class="w3-sidebar w3-bar-block w3-card w3-animate-right" style="display:none;right:0;" id="mySidebar">
 
     <button onclick="closeNav()" class="w3-bar-item w3-button w3-large">&#10005; Close</button>
 
     <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles" class="w3-bar-item w3-button">&#x27B2; Logout</a>
-    <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/OrganizationManageRequests" class="w3-bar-item w3-button">Manage Requests</a>
-    <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/OrganizationInventory" class="w3-bar-item w3-button">Manage Inventory</a>
-    <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/OrganizationDeliveries" class="w3-bar-item w3-button">Manage Deliveries</a>
-    <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/OrganizationEmployees" class="w3-bar-item w3-button">Manage Employees</a>
-    <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/CreateEvent" class="w3-bar-item w3-button">Manage Events</a>
-    <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/OrganizationProfile.html" class="w3-bar-item w3-button">&#9965; Settings</a>
-    <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/Feedback.html" class="w3-bar-item w3-button">Send Feedback</a>
-    <a href="https://aanyajha.github.io/CharityLink.io" class="w3-bar-item w3-button"><img src="https://i.postimg.cc/Zq3dkdkW/Charitylink-Logo-Updated.png" alt="Charity Link Logo" style="max-width: 100%;
+    <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/OrganizationManageRequests"
+      class="w3-bar-item w3-button">Manage Requests</a>
+    <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/OrganizationInventory"
+      class="w3-bar-item w3-button">Manage Inventory</a>
+    <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/OrganizationDeliveries"
+      class="w3-bar-item w3-button">Manage Deliveries</a>
+    <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/OrganizationEmployees"
+      class="w3-bar-item w3-button">Manage Employees</a>
+    <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/CreateEvent" class="w3-bar-item w3-button">Manage
+      Events</a>
+    <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/OrganizationProfile.html"
+      class="w3-bar-item w3-button">&#9965; Settings</a>
+    <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/Feedback.html" class="w3-bar-item w3-button">Send
+      Feedback</a>
+    <a href="https://aanyajha.github.io/CharityLink.io" class="w3-bar-item w3-button"><img
+        src="https://i.postimg.cc/Zq3dkdkW/Charitylink-Logo-Updated.png" alt="Charity Link Logo" style="max-width: 100%;
       height: auto;"></a>
   </div>
- 
+
   <div class="w3-pale-blue">
     <button class="w3-button turquoise w3-xlarge w3-right" onclick="openNav()">&#9776;</button>
+  </div>
 
-<!--
-    <div class="w3-container">
-      <img src="https://i.postimg.cc/Zq3dkdkW/Charitylink-Logo-Updated.png" alt="Charity Link Logo" width="200" height="65">
-    </div>
-  </div>
-  -->
-  </div>
-  
   <div class="w3-pale-blue">
-  <div class="w3-container">
+    <div class="w3-container">
       <h1 style="color: #009999">Organization Dashboard</h1>
-      
-      </div>
+
+    </div>
   </div>
 
   <div class="w3-container">
     <p>Welcome to Charity Link!</p>
     <p>Use the side menu to select your desired function.</p>
-    <p>This page will eventually display basic user information and any account updates.</p>
+  </div>
+
+  <div class="w3-container" style="text-align: center">
+    <button class="w3-button turquoise w3-border w3-xlarge" style="text-align: center;color:#009999"
+      onClick="manageRequests()">Manage Requests</button>
+
+    <button class="w3-button turquoise w3-border w3-xlarge" style="text-align: center;color: #009999"
+      onClick="Event()">Create An Event</button>
+
+    <button class="w3-button turquoise w3-border w3-xlarge" style="text-align: center;color: #009999"
+      onClick="manageEmployees()">Manage Employees</button>
+  </div>
+
+  <div class="w3-container">
+    <img src="https://i.postimg.cc/Zq3dkdkW/Charitylink-Logo-Updated.png" alt="Charity Link Logo" width="200"
+      height="65" style="position: absolute;
+    right: 0px;
+    bottom: 0px;">
   </div>
 
 </body>
 
 <script>
-		function openNav() {
-      document.getElementById("mySidebar").style.display = "block";
-    }
 
-    function closeNav() {
-      document.getElementById("mySidebar").style.display = "none";
-    }
+  function manageRequests() {
+    window.location.href = "https://aanyajha.github.io/CharityLink.io/FrontendFiles/OrganizationManageRequests";
+  }
+
+  function Event() {
+    window.location.href = "https://aanyajha.github.io/CharityLink.io/FrontendFiles/CreateEvent.html";
+  }
+
+  function manageEmployees() {
+    window.location.href = "https://aanyajha.github.io/CharityLink.io/FrontendFiles/OrganizationEmployees";
+  }
+
+  function openNav() {
+    document.getElementById("mySidebar").style.display = "block";
+  }
+
+  function closeNav() {
+    document.getElementById("mySidebar").style.display = "none";
+  }
 
 </script>
 
