@@ -136,10 +136,6 @@
   <div class="w3-container">
     <p>Welcome to Manage Inventory!</p>
     <p>Here you can view your inventory.</p>
-    <button type="button" id="orgDelivery" style=" height:50px;width:350px; padding: 10px 20px;background-color: #009999;
-    font-size: 15px;color: #fff;border-radius: 5px;border-color: #009999;z-index: 999;" onclick="demandForecasting()">
-      View Inventory Statistics
-    </button>
   </div>
 
 
@@ -168,17 +164,19 @@
 
   <div class="w3-container w3-border id=add-edit-delete">
     <br>
-    <text type="text">Select items you would like to <b>Add, Edit, Delete, or Request</b> then select the corressponding button</text>
-    <button type="button" id="addButton" style="background-color:#009999; color:white; border-color:white">
+    <text type="text">Select items you would like to <b>Add, Edit, Delete, or Request</b> then select the corressponding
+      button</text>
+    <button type="button" onclick="addItem()"" id="addButton" style="background-color:#009999; color:white; border-color:white">
       Add
     </button>
-    <button type="button" id="editButton" style="background-color:#009999; color:white; border-color:white;">
+    <button type="button" onclick="editItem()" id="editButton" style="background-color:#009999; color:white; border-color:white;">
       Edit
     </button>
-    <button type="button" id="deleteButton" style="background-color:#009999; color:white;border-color:white">
+    <button onclick="deleteItem()" type="button" id="deleteButton" style="background-color:#009999; color:white;border-color:white">
       Delete
     </button>
-    <button type="button" id="requestButton" onclick = "requestItem()" style="background-color:#009999; color:white;border-color:white">
+    <button type="button" id="requestButton" onclick="requestItem()"
+      style="background-color:#009999; color:white;border-color:white">
       Request
     </button>
     <br>
@@ -200,7 +198,21 @@
       <input type="hashtags" id="hashtags" name="hashtags" required><br><br>
       <label for="quantity">Quantity:</label>
       <input type="number" id="quantity" name="quantity" min="0" step="1" required><br><br>
-      <input type="submit" value="Add Item">
+      <input type="submit" id="addSubmit" value="Add Item">
+    </form>
+  </div><br>
+
+  <div id="popup">
+    <form id="editItem">
+      <br><label for="itemName">Item Name:</label>
+      <input type="text" id="itemName" name="itemName" required><br><br>
+      <input type="file" id="myFileInput">
+      <text>Use commas to separate hashtags, no spaces</text><br>
+      <label for="hashtags">Hashtags:</label>
+      <input type="hashtags" id="hashtags" name="hashtags" required><br><br>
+      <label for="quantity">Quantity:</label>
+      <input type="number" id="quantity" name="quantity" min="0" step="1" required><br><br>
+      <input type="submit" id="editSubmit" value="Edit Item">
     </form>
   </div><br>
 
@@ -209,12 +221,12 @@
 
 
 <script>
-  
+
   function demandForecasting() {
-    window.location.href = 'https://aanyajha.github.io/CharityLink.io/FrontendFiles/InventoryStatistics.html';
+    window.location.href = '/CharityLink.io/FrontendFiles/InventoryStatistics.html';
   }
-  
-  
+
+
   // Get reference to catalog container in HTML
   const catalogContainer = document.getElementById('catalog');
   var hashtagList = [];
@@ -238,8 +250,7 @@
   const id = userData.companyID;
 
   // Add click event listener to item container
-  const deleteButton = document.getElementById('deleteButton');
-  deleteButton.addEventListener('click', () => {
+  function deleteItem() {
     const checkboxes = document.querySelectorAll('input[type="checkbox"]');
     checkboxes.forEach(checkboxVal => {
       console.log(checkboxVal.value);
@@ -269,7 +280,7 @@
         div.remove();
       }
     });
-  });
+  }
 
   function requestItem() {
     // Add click event listener to item container
@@ -306,8 +317,7 @@
   }
 
 
-  const addButton = document.getElementById('addButton');
-  addButton.addEventListener('click', function (event) {
+  function addItem() {
     // Get the popup element and the form element
     const popup = document.getElementById('popup');
     const form = document.getElementById('addItem');
@@ -317,7 +327,7 @@
 
     // Send the form data to the API endpoint when the form is submitted
     var fileInput = document.getElementById('myFileInput');
-    form.addEventListener('submit', function (event) {
+    form.addEventListener(onclick='addSubmit', function (event) {
       event.preventDefault(); // Prevent the default form submission
 
       const itemName = form.elements['itemName'].value;
@@ -353,41 +363,40 @@
 
         console.log(imgUrl);
 
-      const url = `http://172.174.33.35:8080/api/item/add?userID=${userData.companyID}&name=${itemName}&numItems=${quantity}&hashtags=${hashtags}&location=${userData.locationID}&img=${imgUrl}`;
-      console.log("Sent User Info");
+        const url = `http://172.174.33.35:8080/api/item/add?userID=${userData.companyID}&name=${itemName}&numItems=${quantity}&hashtags=${hashtags}&location=${userData.locationID}&img=${imgUrl}`;
+        console.log("Sent User Info");
 
-      const xhr2 = new XMLHttpRequest();
-      xhr2.open("POST", url, true);
+        const xhr2 = new XMLHttpRequest();
+        xhr2.open("POST", url, true);
 
-      xhr2.onload = function () {
-        if (this.status === 200) {
-          console.log(this.responseText);
-          popup.classList.remove('show');
-          printData();
-        } else {
-          popup.classList.remove('show');
-          console.error("Request failed with status code", this.status);
-        }
-      };
+        xhr2.onload = function () {
+          if (this.status === 200) {
+            console.log(this.responseText);
+            popup.classList.remove('show');
+            printData();
+          } else {
+            popup.classList.remove('show');
+            console.error("Request failed with status code", this.status);
+          }
+        };
 
-      xhr2.onerror = function () {
-        console.error("Request failed");
-      };
+        xhr2.onerror = function () {
+          console.error("Request failed");
+        };
 
-      xhr2.send();
-    
+        xhr2.send();
+
       })
 
-    
+
 
       // close the popup
       popup.classList.remove('show');
       printData();
     });
-  });
+  }
 
-  const editButton = document.getElementById('editButton');
-  editButton.addEventListener('click', () => {
+  function editItem() {
     const checkboxes = document.querySelectorAll('input[type="checkbox"]');
     var checked = 0;
     var tempItemID;
@@ -400,11 +409,11 @@
 
     if (checked == 1) {
       const popup = document.getElementById('popup');
-      const form = document.getElementById('addItem');
+      const form = document.getElementById('editItem');
 
       popup.classList.add('show');
 
-      form.addEventListener('submit', function (event) {
+      form.addEventListener(onclick='editSubmit', function (event) {
         event.preventDefault(); // Prevent the default form submission
 
         const itemName = form.elements['itemName'].value;
@@ -439,13 +448,7 @@
         printData();
       });
     }
-
-    //else {
-    //alert("No item selected");
-
-    //}
-    //});
-  });
+  }
 
   var catalogData;
   // Define data for catalog
@@ -622,7 +625,7 @@
       }
 
       itemImage.setAttributeNode(srcAttr);
-  
+
       // Add elements to item container
       itemContainer.appendChild(checkbox);
       itemContainer.appendChild(itemImage);
