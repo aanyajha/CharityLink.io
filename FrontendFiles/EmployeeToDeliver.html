@@ -198,7 +198,9 @@
       console.log(checkboxVal.value);
       if (checkboxVal.checked) {
         var employee = document.getElementById('employee-select');
-        var currentEmployee = employee.options[employee.selectedIndex].getAttribute('name');
+        var currentEmployee = employee.options[employee.selectedIndex].getAttribute('value');
+       
+        
         console.log(currentEmployee);
         const url = `http://172.174.33.35:8080/api/delivery/add?requestID=${checkboxVal.value}&donator=${currentEmployee}&state=0&eta=${getTwoDaysFromNow()}`;
         console.log("Sent Delivery info");
