@@ -128,7 +128,7 @@
   function fillEmployees() {
    //this function fills the select with employees 
     var userData = JSON.parse(sessionStorage.getItem('userData'));
-    const url = `http://172.174.33.35:8080/api/user/find/company/employee?companyID={userData.companyID}`;
+    const url = `http://172.174.33.35:8080/api/user/find/company/employee?companyID=${userData.companyID}`;
         const xhr1 = new XMLHttpRequest();
         xhr1.open("GET", url, true);
         console.log(url);
