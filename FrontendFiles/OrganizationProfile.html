@@ -1,421 +1,456 @@
 <!DOCTYPE html>
+
 <head>
-<title>Your Profile</title>
+  <title>Your Profile</title>
 </head>
- 
+
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
 <body>
-<div>
-<h1 id="org-name">Pseudo name</h1>
-<input type="text" value="" id="name-edit">
-</div>
-<img src="https://i.postimg.cc/Zq3dkdkW/Charitylink-Logo-Updated.png" id="initial-prof-pic" height="200px" width="200px">
-<img src="https://i.postimg.cc/Zq3dkdkW/Charitylink-Logo-Updated.png" id="preview" height="200px" width="200px">
-<input type="file" id="file-upload">
-<p id="loc-word">
-Location
-</p>
+  <br>
+  <div class="w3-container">
+    <h1 id="org-name">Pseudo name</h1>
+    <input type="text" value="" id="name-edit">
+  </div>
+  <div class="w3-container">
+    <img src="https://i.postimg.cc/Zq3dkdkW/Charitylink-Logo-Updated.png" id="initial-prof-pic" height="200px"
+      width="200px">
+    <img src="https://i.postimg.cc/Zq3dkdkW/Charitylink-Logo-Updated.png" id="preview" height="200px" width="200px">
+    <input type="file" id="file-upload">
+  </div>
 
-<input type="text" value="" id="vis-loc" readonly>
+  <div class="w3-container">
+    <p id="loc-word">
+      Location
+    </p>
+    <input type="text" value="" id="vis-loc" readonly>
+  </div>
 
-<p class="edit-loc">Address Line 1</p>
-<input type="text" value="123 state street" id="address1" class="edit-loc">
-<p class="edit-loc">Address Line 2</p>
-<input type="text" value="Apartment 2" id="address2" class="edit-loc">
-<p class="edit-loc">City</p>
-<input type="text" value="Lafayette" id="city" class="edit-loc">
-<p class="edit-loc">State</p>
-<input type="text" value="IN" id="state" class="edit-loc">
-<p class="edit-loc">Zip Code</p>
-<input type="text" value="47905" id="zip" class="edit-loc">
- 
- <button id="add-remove" onclick="addRemove()">Remove</button>
- 
-<p>
-Mission Statement
-</p>
-<textarea type="text" value="" id="mission-id" readonly>lorem ipsum</textarea>
+  <div class="w3-container">
 
-<button id="edit-button" onclick="editFunc()">Edit</button>
-<button id="save-button" onclick="saveFunc()">Save</button>
+    <p class="edit-loc">Address Line 1</p>
+    <input type="text" value="123 state street" id="address1" class="edit-loc">
+    <p class="edit-loc">Address Line 2</p>
+    <input type="text" value="Apartment 2" id="address2" class="edit-loc">
+    <p class="edit-loc">City</p>
+    <input type="text" value="Lafayette" id="city" class="edit-loc">
+    <p class="edit-loc">State</p>
+    <input type="text" value="IN" id="state" class="edit-loc">
+    <p class="edit-loc">Zip Code</p>
+    <input type="text" value="47905" id="zip" class="edit-loc">
+
+    <br>
+    <button id="add-remove" onclick="addRemove()" style="background-color: #009999; color:white">Remove</button>
+  </div>
+
+  <div class="w3-container">
+    <p>
+      Mission Statement
+    </p>
+    <textarea type="text" value="" id="mission-id" readonly>lorem ipsum</textarea>
+  </div>
+  <br>
+
+  <div class="w3-container">
+    <button id="edit-button" onclick="editFunc()" style="background-color:#009999; color:white">Edit</button>
+    <button id="save-button" onclick="saveFunc()">Save</button>
+  </div>
 
 </body>
 
 <style>
-#mission-id {
-  width: 100%;
-  height: 150px;
-  padding: 12px 20px;
-  box-sizing: border-box;
-  border: 2px solid #ccc;
-  border-radius: 4px;
-  background-color: #f8f8f8;
-  font-size: 16px;
-  resize: none;
-}
+  img {
+    height: auto;
+    max-width: 100%;
+    border: 1px solid black;
+    background-color: white;
+  }
 
-#vis-loc {
-  display: inline;
-}
+  #mission-id {
+    width: 100%;
+    height: 150px;
+    padding: 12px 20px;
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    background-color: #f8f8f8;
+    font-size: 16px;
+    resize: none;
+  }
 
-.edit-loc {
-  display: none;
-}
+  body {
+    background: #CBFCFF;
+    background: -webkit-gradient(linear, left top, right bottom, from(#CBFCFF), to(#FFFFFF));
+    background: linear-gradient(to bottom right, #CBFCFF 0%, #FFFFFF 100%);
+    top: 50%;
+    left: 0;
+    width: 100%;
+    height: 850px;
+  }
 
-#save-button {
-  display: none;
-}
+  #vis-loc {
+    display: inline;
+  }
 
-#file-upload {
-  display: none;
-}
+  .edit-loc {
+    display: none;
+  }
 
-#preview {
-  display: none;
-}
+  #save-button {
+    display: none;
+  }
 
-#name-edit {
-  display: none;
-}
+  #file-upload {
+    display: none;
+  }
+
+  #preview {
+    display: none;
+  }
+
+  #name-edit {
+    display: none;
+  }
 </style>
 
 
 <script>
-//TODO: add grey color to indicate if can edit or not
-var imgUrl;
-function editFunc() {
+  //TODO: add grey color to indicate if can edit or not
+  var imgUrl;
+  function editFunc() {
 
-  //get the backend and then replace these document.get with the
-  //data from backend
+    //get the backend and then replace these document.get with the
+    //data from backend
 
-  var mission = document.getElementById("mission-id");
-  var addr1 = document.getElementById("address1");
-  var addr2 = document.getElementById("address2");
-  var city = document.getElementById("city");
-  var state = document.getElementById("state");
-  var zip = document.getElementById("zip");
+    var mission = document.getElementById("mission-id");
+    var addr1 = document.getElementById("address1");
+    var addr2 = document.getElementById("address2");
+    var city = document.getElementById("city");
+    var state = document.getElementById("state");
+    var zip = document.getElementById("zip");
 
 
-  document.getElementById("vis-loc").style.display = "none";
-  document.getElementById("loc-word").style.display = "none";
+    document.getElementById("vis-loc").style.display = "none";
+    document.getElementById("loc-word").style.display = "none";
 
-  var editable = document.getElementsByClassName("edit-loc");
-  for (var i = 0; i < editable.length; i++) {
-    editable[i].style.display = 'inline';
+    var editable = document.getElementsByClassName("edit-loc");
+    for (var i = 0; i < editable.length; i++) {
+      editable[i].style.display = 'inline';
+    }
+    var editButton = document.getElementById("edit-button");
+
+    mission.removeAttribute("readonly");
+
+    document.getElementById("initial-prof-pic").style.display = "none";
+    document.getElementById("preview").style.display = "inline";
+    document.getElementById("file-upload").style.display = "inline";
+
+    var fileTag = document.getElementById("file-upload")
+    var preview = document.getElementById("preview");
+
+    fileTag.addEventListener("change", function () {
+      changeImage(this);
+    });
+
+    editButton.style.display = "none";
+
+    document.getElementById("save-button").style.display = "inline";
+    document.getElementById("name-edit").style.display = "inline";
+    document.getElementById("name-edit").value = document.getElementById("org-name").innerHTML;
+    document.getElementById("org-name").style.display = "none";
+    document.getElementById("add-remove").style.display = "none";
   }
-  var editButton = document.getElementById("edit-button");
 
-  mission.removeAttribute("readonly");
+  window.onload = onloadFunc();
 
-  document.getElementById("initial-prof-pic").style.display = "none";
-  document.getElementById("preview").style.display = "inline";
-  document.getElementById("file-upload").style.display = "inline";
+  function onloadFunc() {
+    var userData = JSON.parse(sessionStorage.getItem("userData"));
+    var companyId = userData.id;
+    console.log(companyId);
+    const eurl = `http://172.174.33.35:8080/api/profile/get?companyID=${companyId}`;
 
-  var fileTag = document.getElementById("file-upload")
-  var preview = document.getElementById("preview");
+    const exhr = new XMLHttpRequest();
+    exhr.open("GET", eurl, true);
+    exhr.send();
 
-  fileTag.addEventListener("change", function() {
-    changeImage(this);
-  });
+    var userData = JSON.parse(sessionStorage.getItem("userData"));
 
-  editButton.style.display = "none";
-
-  document.getElementById("save-button").style.display = "inline";
-  document.getElementById("name-edit").style.display = "inline";
-  document.getElementById("name-edit").value = document.getElementById("org-name").innerHTML;
-  document.getElementById("org-name").style.display = "none";
- document.getElementById("add-remove").style.display = "none";
-}
-
-window.onload = onloadFunc();
-
-function onloadFunc() {
-  var userData = JSON.parse(sessionStorage.getItem("userData"));
-  var companyId = userData.id;
-  console.log(companyId);
-  const eurl = `http://172.174.33.35:8080/api/profile/get?companyID=${companyId}`;
-
-  const exhr = new XMLHttpRequest();
-  exhr.open("GET", eurl, true);
-  exhr.send();
-  
-  var userData = JSON.parse(sessionStorage.getItem("userData"));
-
-  exhr.onload = function() {
-    if (this.status === 200) {
-      const data = JSON.parse(this.responseText);
-      var mission = document.getElementById("mission-id");
-      mission.value = data.statement;
-      var logo = data.logo;
-      console.log(logo);
-      if (logo == "undefined" || logo == "" || !logo) {
-        document.getElementById("initial-prof-pic").src = "https://i.postimg.cc/Zq3dkdkW/Charitylink-Logo-Updated.png";
-        document.getElementById("preview").src = "https://i.postimg.cc/Zq3dkdkW/Charitylink-Logo-Updated.png";
-      } else {
-        document.getElementById("initial-prof-pic").src = logo;
-        document.getElementById("preview").src = logo;
-      }
-      var companyName = document.getElementById("org-name");
-      companyName.innerHTML = userData.name;
-      console.log(data);
-      var newImg = document.getElementById("preview");
-  document.getElementById("file-upload").addEventListener("change", ev => {
-    const formdata = new FormData()
-    formdata.append("image", ev.target.files[0])
-    fetch("https://api.imgur.com/3/image/", {
-      method: "post",
-      headers: {
-        Authorization: "Client-ID 10f9b76f36bb0cb"
-      },
-      body: formdata
-    }).then(data => data.json()).then(data => {
-      newImg.src = data.data.link;
-
-      imgUrl = data.data.link;
-
-
-    })
-  })
-
-      var locId = userData.locationID;
-      //
-      const lxhr = new XMLHttpRequest();
-      var lurl = `http://172.174.33.35:8080/api/location/get?id=${locId}`;
-      lxhr.open("GET", lurl, true);
-      lxhr.send();
-      lxhr.onload = function() {
-       if (this.status == 200) {
-        const locData = JSON.parse(this.responseText);
-        var addr1 = document.getElementById("address1");
-        if (locData.addressLine1 == undefined) {
-         addr1.value = "";
-        }
-        addr1.value = locData.addressLine1;
-        var addr2 = document.getElementById("address2");
-       if (locData.addressLine2 == undefined) {
-         addr2.value = "";
-        }
-        addr2.value = locData.addressLine2;
-        var city = document.getElementById("city");
-       if (locData.city == undefined) {
-         city.value = "";
-        }
-        city.value = locData.city;
-        var state = document.getElementById("state");
-       if (locData.state == undefined) {
-         state.value = "";
-        }
-        state.value = locData.state;
-        var zip = document.getElementById("zip");
-       if (locData.zip == undefined) {
-         zip.value = "";
-        }
-        zip.value = locData.zip;
-        var location = document.getElementById("vis-loc");
-        var locationString = "";
-        console.log(locData.city);
-        console.log(city.value);
-        if (!locData.addressLine2) {
-          locationString = locData.addressLine1 + ", " + locData.city + ", " + locData.state + " " + locData.zip;
+    exhr.onload = function () {
+      if (this.status === 200) {
+        const data = JSON.parse(this.responseText);
+        var mission = document.getElementById("mission-id");
+        mission.value = data.statement;
+        var logo = data.logo;
+        console.log(logo);
+        if (logo == "undefined" || logo == "" || !logo) {
+          document.getElementById("initial-prof-pic").src = "https://i.postimg.cc/Zq3dkdkW/Charitylink-Logo-Updated.png";
+          document.getElementById("preview").src = "https://i.postimg.cc/Zq3dkdkW/Charitylink-Logo-Updated.png";
         } else {
-          locationString = locData.addressLine1 + ", " + locData.addressLine2 + ", " + locData.city + ", " + locData.state + " " + locData.zip;
+          document.getElementById("initial-prof-pic").src = logo;
+          document.getElementById("preview").src = logo;
         }
-        location.value = locationString;
+        var companyName = document.getElementById("org-name");
+        companyName.innerHTML = userData.name;
+        console.log(data);
+        var newImg = document.getElementById("preview");
+        document.getElementById("file-upload").addEventListener("change", ev => {
+          const formdata = new FormData()
+          formdata.append("image", ev.target.files[0])
+          fetch("https://api.imgur.com/3/image/", {
+            method: "post",
+            headers: {
+              Authorization: "Client-ID 10f9b76f36bb0cb"
+            },
+            body: formdata
+          }).then(data => data.json()).then(data => {
+            newImg.src = data.data.link;
 
-      } else {
-      document.getElementById("vis-loc").value = "";
-      document.getElementById("add-remove").innerHTML = "Add";
-      }
-    }
-    }
-  }
-}
+            imgUrl = data.data.link;
 
 
+          })
+        })
 
+        var locId = userData.locationID;
+        //
+        const lxhr = new XMLHttpRequest();
+        var lurl = `http://172.174.33.35:8080/api/location/get?id=${locId}`;
+        lxhr.open("GET", lurl, true);
+        lxhr.send();
+        lxhr.onload = function () {
+          if (this.status == 200) {
+            const locData = JSON.parse(this.responseText);
+            var addr1 = document.getElementById("address1");
+            if (locData.addressLine1 == undefined) {
+              addr1.value = "";
+            }
+            addr1.value = locData.addressLine1;
+            var addr2 = document.getElementById("address2");
+            if (locData.addressLine2 == undefined) {
+              addr2.value = "";
+            }
+            addr2.value = locData.addressLine2;
+            var city = document.getElementById("city");
+            if (locData.city == undefined) {
+              city.value = "";
+            }
+            city.value = locData.city;
+            var state = document.getElementById("state");
+            if (locData.state == undefined) {
+              state.value = "";
+            }
+            state.value = locData.state;
+            var zip = document.getElementById("zip");
+            if (locData.zip == undefined) {
+              zip.value = "";
+            }
+            zip.value = locData.zip;
+            var location = document.getElementById("vis-loc");
+            var locationString = "";
+            console.log(locData.city);
+            console.log(city.value);
+            if (!locData.addressLine2) {
+              locationString = locData.addressLine1 + ", " + locData.city + ", " + locData.state + " " + locData.zip;
+            } else {
+              locationString = locData.addressLine1 + ", " + locData.addressLine2 + ", " + locData.city + ", " + locData.state + " " + locData.zip;
+            }
+            location.value = locationString;
 
-
-function saveFunc() {
-  //this still needs to connect to backend to send all the info
-  var mission = document.getElementById("mission-id");
-  var addr1 = document.getElementById("address1");
-  var addr2 = document.getElementById("address2");
-  var city = document.getElementById("city");
-  var state = document.getElementById("state");
-  var zip = document.getElementById("zip");
-  
-  var userData = JSON.parse(sessionStorage.getItem("userData"));
-  var companyId = userData.id;
-
-  var newImg = document.getElementById("preview");
-  document.getElementById("initial-prof-pic").src = newImg.src;
-
-  document.getElementById("vis-loc").style.display = "inline";
-  document.getElementById("loc-word").style.display = "inline";
-
-  var editable = document.getElementsByClassName("edit-loc");
-  for (var i = 0; i < editable.length; i++) {
-    editable[i].style.display = 'none';
-  }
-
-  var location = document.getElementById("vis-loc");
-  var locationString = "";
-  if (!addr2) {
-    locationString = addr1.value + ", " + city.value + ", " + state.value + " " + zip.value;
-  } else {
-    locationString = addr1.value + ", " + addr2.value + ", " + city.value + ", " + state.value + " " + zip.value;
-  }
-  location.value = locationString;
-
-  document.getElementById("initial-prof-pic").style.display = "inline";
-  document.getElementById("preview").style.display = "none";
-  document.getElementById("file-upload").style.display = "none";
-  const file = document.getElementById("file-upload");
-  var newImg = document.getElementById("preview");
-
-      addr1 = document.getElementById("address1").value;
-      addr2 = document.getElementById("address2").value;
-      city = document.getElementById("city").value;
-      state = document.getElementById("state").value;
-      zip = document.getElementById("zip").value;
-
-      const locxhr = new XMLHttpRequest();
-      var locurl = "";
-      if (!addr1 || !city || !state || !zip) {
-        alert("Make sure to fill out every necessary box (Everything except for Address 2)");
-        return;
-      }
-      addr1.split(' ').join('+');
-      addr2.split(' ').join('+');
-      city.split(' ').join('+');
-      state.split(' ').join('+');
-      zip.split(' ').join('+');
-      if (!addr2) {
-        locurl = `http://172.174.33.35:8080/api/location/add?addressLine1=${addr1}&city=${city}&state=${state}&zip=${zip}`;
-      } else {
-        locurl = `http://172.174.33.35:8080/api/location/add?addressLine1=${addr1}&addressLine2=${addr2}&city=${city}&state=${state}&zip=${zip}`;
-      }
-
-      locxhr.open("POST", locurl, true);
-      locxhr.send();
-      locxhr.onload = function() {
-        var locationId = this.responseText;
-        if (this.status === 200) {
-          const updatexhr = new XMLHttpRequest();
-
-          var mission1 = mission.value.split(' ').join('+');
-          //imgUrl.split(' ').join('+');
-          console.log(imgUrl);
-          var userData = JSON.parse(sessionStorage.getItem("userData"));
-          var compId = userData.id;
-          var link = `http://172.174.33.35:8080/api/profile/edit?companyID=${compId}&statement=${mission1}&logo=${imgUrl}`;
-          
-          const qxhr = new XMLHttpRequest();
-          qxhr.open("PUT", link, true);
-          qxhr.send();
-          qxhr.onload = function() {
-            if (this.status === 200) {}
+          } else {
+            document.getElementById("vis-loc").value = "";
+            document.getElementById("add-remove").innerHTML = "Add";
           }
-         
-         var newName = document.getElementById("name-edit").value;
-          
-          var updateurl = `http://172.174.33.35:8080/api/user/update?email=${userData.email}&locationID=${locationId}&name=${newName}`;
-          console.log(userData.email);
-         
-         userData.name = newName;
-         userData.locationID = locationId;
-         sessionStorage.setItem("userData", JSON.stringify(userData));
-         
-         if (locationId != -1) {
+        }
+      }
+    }
+  }
+
+
+
+
+
+  function saveFunc() {
+    //this still needs to connect to backend to send all the info
+    var mission = document.getElementById("mission-id");
+    var addr1 = document.getElementById("address1");
+    var addr2 = document.getElementById("address2");
+    var city = document.getElementById("city");
+    var state = document.getElementById("state");
+    var zip = document.getElementById("zip");
+
+    var userData = JSON.parse(sessionStorage.getItem("userData"));
+    var companyId = userData.id;
+
+    var newImg = document.getElementById("preview");
+    document.getElementById("initial-prof-pic").src = newImg.src;
+
+    document.getElementById("vis-loc").style.display = "inline";
+    document.getElementById("loc-word").style.display = "inline";
+
+    var editable = document.getElementsByClassName("edit-loc");
+    for (var i = 0; i < editable.length; i++) {
+      editable[i].style.display = 'none';
+    }
+
+    var location = document.getElementById("vis-loc");
+    var locationString = "";
+    if (!addr2) {
+      locationString = addr1.value + ", " + city.value + ", " + state.value + " " + zip.value;
+    } else {
+      locationString = addr1.value + ", " + addr2.value + ", " + city.value + ", " + state.value + " " + zip.value;
+    }
+    location.value = locationString;
+
+    document.getElementById("initial-prof-pic").style.display = "inline";
+    document.getElementById("preview").style.display = "none";
+    document.getElementById("file-upload").style.display = "none";
+    const file = document.getElementById("file-upload");
+    var newImg = document.getElementById("preview");
+
+    addr1 = document.getElementById("address1").value;
+    addr2 = document.getElementById("address2").value;
+    city = document.getElementById("city").value;
+    state = document.getElementById("state").value;
+    zip = document.getElementById("zip").value;
+
+    const locxhr = new XMLHttpRequest();
+    var locurl = "";
+    if (!addr1 || !city || !state || !zip) {
+      alert("Make sure to fill out every necessary box (Everything except for Address 2)");
+      return;
+    }
+    addr1.split(' ').join('+');
+    addr2.split(' ').join('+');
+    city.split(' ').join('+');
+    state.split(' ').join('+');
+    zip.split(' ').join('+');
+    if (!addr2) {
+      locurl = `http://172.174.33.35:8080/api/location/add?addressLine1=${addr1}&city=${city}&state=${state}&zip=${zip}`;
+    } else {
+      locurl = `http://172.174.33.35:8080/api/location/add?addressLine1=${addr1}&addressLine2=${addr2}&city=${city}&state=${state}&zip=${zip}`;
+    }
+
+    locxhr.open("POST", locurl, true);
+    locxhr.send();
+    locxhr.onload = function () {
+      var locationId = this.responseText;
+      if (this.status === 200) {
+        const updatexhr = new XMLHttpRequest();
+
+        var mission1 = mission.value.split(' ').join('+');
+        //imgUrl.split(' ').join('+');
+        console.log(imgUrl);
+        var userData = JSON.parse(sessionStorage.getItem("userData"));
+        var compId = userData.id;
+        var link = `http://172.174.33.35:8080/api/profile/edit?companyID=${compId}&statement=${mission1}&logo=${imgUrl}`;
+
+        const qxhr = new XMLHttpRequest();
+        qxhr.open("PUT", link, true);
+        qxhr.send();
+        qxhr.onload = function () {
+          if (this.status === 200) { }
+        }
+
+        var newName = document.getElementById("name-edit").value;
+
+        var updateurl = `http://172.174.33.35:8080/api/user/update?email=${userData.email}&locationID=${locationId}&name=${newName}`;
+        console.log(userData.email);
+
+        userData.name = newName;
+        userData.locationID = locationId;
+        sessionStorage.setItem("userData", JSON.stringify(userData));
+
+        if (locationId != -1) {
           document.getElementById("add-remove").innerHTML = "Remove";
-         }
-        
-          updatexhr.open("PUT", updateurl, true);
-          updatexhr.send();
-         console.log(updateurl);
-            updatexhr.onload = function() {
+        }
+
+        updatexhr.open("PUT", updateurl, true);
+        updatexhr.send();
+        console.log(updateurl);
+        updatexhr.onload = function () {
+          if (this.status === 200) {
+
+          }
+        }
+
+      }
+    }
+
+
+    mission.setAttribute("readonly", "readonly");
+
+    var editButton = document.getElementById("edit-button");
+    editButton.style.display = "inline";
+    document.getElementById("save-button").style.display = "none";
+
+    document.getElementById("org-name").innerHTML = document.getElementById("name-edit").value;
+    document.getElementById("name-edit").style.display = "none";
+    document.getElementById("org-name").style.display = "inline";
+    document.getElementById("add-remove").style.display = "inline";
+
+    //if everything is successful
+    alert("Save successful!")
+
+
+  }
+
+
+  function addRemove() {
+    var userData = JSON.parse(sessionStorage.getItem("userData"));
+    if (userData.locationID == -1) {
+
+      editFunc();
+
+    } else {
+      var negOne = -1;
+      const url = `http://172.174.33.35:8080/api/user/update?email=${userData.email}&locationID=${negOne}`;
+      userData.locationID = -1;
+      sessionStorage.setItem("userData", JSON.stringify(userData));
+      const xhr = new XMLHttpRequest();
+      xhr.open("PUT", url, true);
+      xhr.send();
+      xhr.onload = function () {
         if (this.status === 200) {
+          var data = JSON.parse(this.responseText);
+          console.log(data);
+          var addr1 = document.getElementById("address1");
+          addr1.value = "";
+          var addr2 = document.getElementById("address2");
+          addr2.value = "";
+          var city = document.getElementById("city");
+          city.value = "";
+          var state = document.getElementById("state");
+          state.value = "";
+          var zip = document.getElementById("zip");
+          zip.value = "";
+          var location = document.getElementById("vis-loc");
+          location.value = "";
 
+          document.getElementById("add-remove").innerHTML = "Add";
+          alert("WARNING! You have removed your location. Your organization will not be shown to potential donors or receivers. Add a new location now.");
         }
       }
 
-        }
+    }
+
+
+  }
+
+
+  //this code I used stackoverflow to help me
+  //https://stackoverflow.com/questions/31710127/javascript-image-upload-and-display
+
+  function changeImage(input) {
+    var reader;
+
+    if (input.files && input.files[0]) {
+      reader = new FileReader();
+
+      reader.onload = function (e) {
+        preview.setAttribute('src', e.target.result);
       }
- 
 
-  mission.setAttribute("readonly", "readonly");
-
-  var editButton = document.getElementById("edit-button");
-  editButton.style.display = "inline";
-  document.getElementById("save-button").style.display = "none";
-
-  document.getElementById("org-name").innerHTML = document.getElementById("name-edit").value;
-  document.getElementById("name-edit").style.display = "none";
-  document.getElementById("org-name").style.display = "inline";
- document.getElementById("add-remove").style.display = "inline";
-
-  //if everything is successful
-  alert("Save successful!")
-
-
-}
- 
- 
- function addRemove() {
-  var userData = JSON.parse(sessionStorage.getItem("userData"));
-  if (userData.locationID == -1) {
-   
-   editFunc();
-   
-  } else {
-   var negOne = -1;
-   const url = `http://172.174.33.35:8080/api/user/update?email=${userData.email}&locationID=${negOne}`;
-   userData.locationID = -1;
-   sessionStorage.setItem("userData", JSON.stringify(userData));
-  const xhr = new XMLHttpRequest();
-  xhr.open("PUT", url, true);
-  xhr.send();
-  xhr.onload = function() {
-    if (this.status === 200) {
-      var data = JSON.parse(this.responseText);
-     console.log(data);
-     var addr1 = document.getElementById("address1");
-        addr1.value = "";
-        var addr2 = document.getElementById("address2");
-        addr2.value = "";
-        var city = document.getElementById("city");
-        city.value = "";
-        var state = document.getElementById("state");
-        state.value = "";
-        var zip = document.getElementById("zip");
-        zip.value = "";
-     var location = document.getElementById("vis-loc");
-     location.value = "";
-     
-     document.getElementById("add-remove").innerHTML = "Add";
-     alert("WARNING! You have removed your location. Your organization will not be shown to potential donors or receivers. Add a new location now.");
+      reader.readAsDataURL(input.files[0]);
     }
   }
-   
-  }
-  
-  
- }
-
-
-//this code I used stackoverflow to help me
-//https://stackoverflow.com/questions/31710127/javascript-image-upload-and-display
-
-function changeImage(input) {
-  var reader;
-
-  if (input.files && input.files[0]) {
-    reader = new FileReader();
-
-    reader.onload = function(e) {
-      preview.setAttribute('src', e.target.result);
-    }
-
-    reader.readAsDataURL(input.files[0]);
-  }
-}
 </script>
