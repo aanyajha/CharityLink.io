@@ -127,13 +127,23 @@
   
   function fillEmployees() {
    //this function fills the select with employees 
-    //api
-    
-    //var employee = document.getElementById('employee-select');
+    var userData = JSON.parse(sessionStorage.getItem('userData'));
+    const url = `http://172.174.33.35:8080/api/user/find/company/employee?companyID={userData.companyID}`;
+        const xhr1 = new XMLHttpRequest();
+        xhr1.open("GET", url, true);
 
-    //for (var i = 0; i < apicall.length; i++) {
-      //employee.options[employee.options.length] = new Option(employee.id, employee.name);
-    //}
+        xhr1.onload = function () {
+          if (this.status === 200) {
+            var data = JSON.parse(this.responseText);
+            console.log(data);
+            var employee = document.getElementById('employee-select');
+
+            for (var i = 0; i < data.length; i++) {
+              employee.options[employee.options.length] = new Option(employee.id, employee.name);
+            }
+            
+          }
+        }
     
   }
   
@@ -184,7 +194,10 @@
     checkboxes.forEach(checkboxVal => {
       console.log(checkboxVal.value);
       if (checkboxVal.checked) {
-        const url = `http://172.174.33.35:8080/api/delivery/add?requestID=${checkboxVal.value}&donator=${userData.id}&state=0&eta=${getTwoDaysFromNow()}`;
+        var employee = document.getElementById('employee-select');
+        var currentEmployee = employee.options[employee.selectedIndex].getAttribute('name');
+        console.log(currentEmployee);
+        const url = `http://172.174.33.35:8080/api/delivery/add?requestID=${checkboxVal.value}&donator=${currentEmployee}&state=0&eta=${getTwoDaysFromNow()}`;
         console.log("Sent Delivery info");
         console.log(url);
 
