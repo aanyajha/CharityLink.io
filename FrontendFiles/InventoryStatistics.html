@@ -142,6 +142,8 @@
         <br>
         <text>Total Items: </text>
         <text id="totalItems"></text>
+        <text>Number of requested items out for Delivery, Organization consumption status:</text>
+        <text id="totalRequestsNum"></text>
         <br>
         <br>
         <text style="color:red">The following list contains items you may be running low on.</text>
@@ -193,6 +195,8 @@
         printData();
     }
     const id = userData.companyID;
+
+
 
 
     function requestItem() {
@@ -387,11 +391,37 @@
             }
         };
 
+
         xhr.onerror = function () {
             console.error("Request failed");
         };
 
         xhr.send();
+
+        var url1 = `http://172.174.33.35:8080/api/request/delivery?companyID=${userData.companyID}`;
+        var xhr1 = new XMLHttpRequest();
+        xhr1.open("GET", url, true);
+        xhr1.onload = function () {
+            if (this.status === 200) {
+                const data = this.responseText;
+                console.log(data);
+                catalogData = JSON.parse(data);
+                var totalRequestsNum = catalogData;
+                //console.log(catalogData.length);
+                document.getElementById('totalRequestsNum').textContent = totalRequestsNum;
+                printCatalog(catalogData, 0);
+
+            } else {
+                console.error("Request failed with status code", this.status);
+            }
+        };
+
+
+        xhr1.onerror = function () {
+            console.error("Request failed");
+        };
+
+        xhr1.send();
     }
 
     function openNav() {
