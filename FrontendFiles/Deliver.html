@@ -84,7 +84,8 @@
 
   <div class="w3-container">
     <p>Welcome to Make a Delivery!</p>
-    <p>Here you can choose requests to fulfill.</p> <button type="button" id="orgDelivery" style=" height:50px;width:350px; padding: 10px 20px;background-color: #009999;
+    <p>Here you can choose requests to fulfill.</p>
+    <button type="button" id="orgDelivery" style=" height:50px;width:350px; padding: 10px 20px;background-color: #009999;
     font-size: 15px;color: #fff;border-radius: 5px;border-color: #009999;z-index: 999;" onclick="gotoListPage()">
       Want to Donate for Local Organizations?
     </button>
@@ -96,15 +97,7 @@
     font-size: 15px;color: #fff;border-radius: 5px;border-color: #009999;z-index: 999;">
       Accept Selected Requests
     </button>
-    
-  </div>
-  
-  <div class="w3-container">
-    <button type="button" id="employeeToDeliver" onClick="employeePage()" style="height:50px;width:300px;padding: 10px 20px;background-color: #009999;
-    font-size: 15px;color: #fff;border-radius: 5px;border-color: #009999;z-index: 999;">
-      Assign an Employee to Deliver
-    </button>
-    
+
   </div>
   <br>
 
@@ -114,17 +107,6 @@
 </body>
 
 <script>
-  
-  function gotoListPage() {
-    window.location.href = "https://aanyajha.github.io/CharityLink.io/FrontendFiles/LocalOrganizationRequests.html";
-    
-  }
-  
-  function employeePage() {
-    window.location.href = "https://aanyajha.github.io/CharityLink.io/FrontendFiles/EmployeeToDeliver.html";
-    
-  }
-  
   const catalogContainer = document.getElementById('catalog');
   var hashtagList = [];
   var nameList = [];
@@ -154,7 +136,12 @@
     const month = String(twoDaysFromNow.getMonth() + 1).padStart(2, '0');
     const day = String(twoDaysFromNow.getDate()).padStart(2, '0');
     return `${year}-${month}-${day}`;
-}
+  }
+
+  function gotoListPage() {
+    window.location.href = "https://aanyajha.github.io/CharityLink.io/FrontendFiles/LocalOrganizationRequests.html";
+
+  }
 
   function acceptRequests() {
     // Add click event listener to item container

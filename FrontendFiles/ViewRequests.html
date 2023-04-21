@@ -12,7 +12,7 @@
       width: 200px;
     }
 
-    /*
+
     #popup {
       display: none;
       position: fixed;
@@ -29,7 +29,6 @@
     #popup.show {
       display: block;
     }
-*/
 
     input {
       border: 1px solid transparent;
@@ -114,31 +113,17 @@
     </button>
     <button type="button" id="acceptRequests" onClick="viewRequestStatus()" style="height:50px;width:300px;padding: 10px 20px;background-color: #009999;
       font-size: 15px;color: #fff;border-radius: 5px;border-color: #009999;z-index: 999;">
-      List Request Status
+      View Request Status
     </button>
   </div>
   <br>
 
-  <!--
-  <div id="popup">
-    <form id="addItem">
-      <br><label>Address 1:</label>
-      <input type="text" id="addr1" name="addr1" required><br><br>
-      <br><label>Address 2:</label>
-      <input type="text" id="addr2" name="addr2"><br><br>
-      <br><label>City:</label>
-      <input type="text" id="city" name="city" required><br><br>
-      <br><label>State:</label>
-      <input type="text" id="state" name="state" required><br><br>
-      <br><label>Zip Code:</label>
-      <input type="text" id="zip" name="zip" required><br><br>
-    </form>
-  </div><br>
--->
+  <div id="popup"></div><br>
 
 
 
-  <div class="w3-container" id="catalog"></div>
+  <div class=" w3-container" id="catalog">
+  </div>
 
 
 </body>
@@ -165,84 +150,6 @@
 
   var requestData;
 
-  function searchByName() {
-    const name = document.getElementById("myInputName").value;
-    console.log("name: " + name);
-    var url = `http://172.174.33.35:8080/api/item/search?name=${name}&state=0`;
-    var xhr = new XMLHttpRequest();
-
-    xhr.onload = function () {
-      if (this.status === 200) {
-        console.log(url);
-        const requestData = JSON.parse(this.responseText);
-        console.log(requestData);
-        if (requestData.length == 0) {
-          alert("No items with name");
-        }
-        if (document.getElementById("locationCheckbox").checked) {
-          printCatalog(requestData, 3);
-        } else {
-          printCatalog(requestData, 0);
-        }
-      } else {
-        console.error("Request failed with status code", this.status);
-      }
-    }
-
-    xhr.onerror = function () {
-      console.error("Request failed");
-    };
-    if (document.getElementById("locationCheckbox").checked) {
-      if (userData.locationID == -1) {
-        //TODO: request location from browser
-        if (navigator.geolocation) {
-          navigator.geolocation.getCurrentPosition(function (position) {
-            console.log("Latitude: " + position.coords.latitude);
-            console.log("Longitude: " + position.coords.longitude);
-            url = `http://172.174.33.35:8080/api/item/search?name=${name}&location=${position.coords.latitude};${position.coords.longitude}&state=0`;
-            xhr.open("GET", url, true);
-            xhr.send();
-            return;
-          }, function (error) {
-            console.error("Error getting location: " + error.message);
-          });
-        } else {
-          console.error("Geolocation is not supported by this browser.");
-        }
-      } else {
-        var location;
-        var url1 = `http://172.174.33.35:8080/api/location/get?id=${userData.locationID}`;
-        var xhr1 = new XMLHttpRequest();
-        xhr1.open("GET", url1, true);
-        xhr1.onload = function () {
-          if (this.status === 200) {
-            location = JSON.parse(this.responseText);
-            console.log(location);
-            console.log(location.latitude);
-            console.log(location.latitude != null && location.longitude != null);
-            if (location.latitude != null && location.longitude != null) {
-              url = `http://172.174.33.35:8080/api/item/search?name=${name}&location=${location.latitude};${location.longitude}&state=0`;
-            }
-            xhr.open("GET", url, true);
-            xhr.send();
-            return;
-          } else {
-            console.error("Request failed with status code", this.status);
-          }
-        }
-
-        xhr1.onerror = function () {
-          console.error("Request failed");
-        };
-
-        xhr1.send();
-      }
-    } else {
-      xhr.open("GET", url, true);
-      xhr.send();
-    }
-  }
-
   function viewRequestStatus() {
     // Add click event listener to item container
     const checkboxes = document.querySelectorAll('input[type="checkbox"]');
@@ -250,14 +157,24 @@
       console.log(checkboxVal.value);
       if (checkboxVal.checked) {
         const url = `http://172.174.33.35:8080/api/request/status?id=${checkboxVal.value}`;
+        console.log(url);
 
         const xhr1 = new XMLHttpRequest();
-        xhr1.open("DELETE", url, true);
+        xhr1.open("GET", url, true);
 
         xhr1.onload = function () {
           if (this.status === 200) {
-            const data = this.responseText;
+            const data = JSON.parse(this.responseText);
             console.log(data);
+            var text;
+            if (data.status === "INPROGRESS") {
+              text = "Delivery Status: " + data.status + "\n" + "Delivery Address: " + data.location + "\n" + "Estimated Time of Arrival: " + data.eta;
+            } else {
+              text = "Delivery Status: " + data.status + "\n" + "Delivery Address: " + data.location;
+            }
+            alert(text);
+            //showPopup();
+            //popupData(data);
             //printData();
             // make alert with status, location, and estimated time of arrival.
           } else {
@@ -270,97 +187,11 @@
         };
 
         xhr1.send();
-        const div = checkboxVal.parentNode;
-        div.remove();
       }
     });
   }
 
-  function searchByHashtag() {
-    const hashtag = document.getElementById("myInputHashtag").value;
-    console.log("name: " + name);
-    var url = `http://172.174.33.35:8080/api/item/search?hashtags=${hashtag}&state=0`;
-    var xhr = new XMLHttpRequest();
 
-    xhr.onload = function () {
-      if (this.status === 200) {
-        console.log(url);
-        const requestData = JSON.parse(this.responseText);
-        console.log(requestData);
-        if (requestData.length == 0) {
-          alert("No items in category");
-        }
-        if (document.getElementById("locationCheckbox").checked) {
-          printCatalog(requestData, 3);
-        } else {
-          printCatalog(requestData, 1);
-        }
-      } else {
-        console.error("Request failed with status code", this.status);
-      }
-    }
-
-    xhr.onerror = function () {
-      console.error("Request failed");
-    };
-    if (document.getElementById("locationCheckbox").checked) {
-      if (userData.locationID == -1) {
-        //TODO: request location from browser
-        if (navigator.geolocation) {
-          navigator.geolocation.getCurrentPosition(function (position) {
-            console.log("Latitude: " + position.coords.latitude);
-            console.log("Longitude: " + position.coords.longitude);
-            if (hashtag == "") {
-              url = `http://172.174.33.35:8080/api/item/search?location=${position.coords.latitude};${position.coords.longitude}&state=0`;
-            } else {
-              url = `http://172.174.33.35:8080/api/item/search?hashtags=${hashtag}&location=${position.coords.latitude};${position.coords.longitude}&state=0`;
-            }
-            xhr.open("GET", url, true);
-            xhr.send();
-            return;
-          }, function (error) {
-            console.error("Error getting location: " + error.message);
-          });
-        } else {
-          console.error("Geolocation is not supported by this browser.");
-        }
-      } else {
-        var location;
-        var url1 = `http://172.174.33.35:8080/api/location/get?id=${userData.locationID}`;
-        var xhr1 = new XMLHttpRequest();
-        xhr1.open("GET", url1, true);
-        xhr1.onload = function () {
-          if (this.status === 200) {
-            location = JSON.parse(this.responseText);
-            console.log(location);
-            console.log(location.latitude);
-            console.log(location.latitude != null && location.longitude != null);
-            if (location.latitude != null && location.longitude != null) {
-              if (hashtag == "") {
-                url = `http://172.174.33.35:8080/api/item/search?location=${location.latitude};${location.longitude}&state=0`;
-              } else {
-                url = `http://172.174.33.35:8080/api/item/search?hashtags=${hashtag}&location=${position.coords.latitude};${position.coords.longitude}&state=0`;
-              }
-            }
-            xhr.open("GET", url, true);
-            xhr.send();
-            return;
-          } else {
-            console.error("Request failed with status code", this.status);
-          }
-        }
-
-        xhr1.onerror = function () {
-          console.error("Request failed");
-        };
-
-        xhr1.send();
-      }
-    } else {
-      xhr.open("GET", url, true);
-      xhr.send();
-    }
-  }
 
   function submitForm(event) {
     event.preventDefault();
@@ -449,12 +280,6 @@
       // Set content and attributes for elements
       itemName.textContent = item.name;
       itemHashtags.textContent = item.hashtags;
-      if (item.delivered) {
-        status.textContent = 'DELIVERED';
-      }
-      else {
-        status.textContent = 'IN PROGRESS'
-      }
       // itemID.textContent = 'Item ID: ' + item.itemID;
       quantity.textContent = 'Quantity: [ ' + item.quantity + ' ]';
       //itemImage.setAttributeNode(srcAttr);
