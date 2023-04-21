@@ -551,18 +551,25 @@ public class MainController {
         if (delivery == null) {
             return "Error: delivery not found";
         }
-        if (delivery.getStatus().equals("INPROGRESS") || delivery.getStatus().equals("REQUEST_CANCELLED")) {
+        if (delivery.getStatus().equals("REQUEST_CANCELLED")) {
             deliveryRepository.deleteById(id);
             return "Deleted";
+        } else if (delivery.getStatus().equals("INPROGRESS")) {
+            Request request = requestRepository.findById(delivery.getRequestID()).get();
+            if (request == null) {
+                return "Error: request not found";
+            }
+            request.setDelivered(false);
+            requestRepository.save(request);
+            deliveryRepository.deleteById(id);
+            return "DELETED";
+        } else if (delivery.getStatus().equals("DELIVERED")) {
+            requestRepository.deleteById(delivery.getRequestID());
+            deliveryRepository.deleteById(id);
+            return "DELETED";
+        } else {
+            return "ERROR";
         }
-        Request request = requestRepository.findById(delivery.getRequestID()).get();
-        if (request == null) {
-            return "Error: request not found";
-        }
-        request.setDelivered(false);
-        requestRepository.save(request);
-        deliveryRepository.deleteById(id);
-        return "Deleted";
     }
 
 
