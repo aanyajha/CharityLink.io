@@ -405,10 +405,8 @@
             if (this.status === 200) {
                 const data = this.responseText;
                 console.log(data);
-                catalogData = JSON.parse(data);
-                var totalRequestsNum = catalogData;
                 //console.log(catalogData.length);
-                document.getElementById('totalRequestsNum').textContent = totalRequestsNum;
+                document.getElementById('totalRequestsNum').textContent = data;
                 printCatalog(catalogData, 0);
 
             } else {
