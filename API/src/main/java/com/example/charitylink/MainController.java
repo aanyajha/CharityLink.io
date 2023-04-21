@@ -177,7 +177,10 @@ public class MainController {
             return null;
         }
         for (Request request : requests) {
-            Location requestLoc = locationRepository.findById(request.getLocation()).get();
+            Location requestLoc = locationRepository.findById(request.getLocation()).orElse(null);
+            if (requestLoc == null) {
+                continue;
+            }
             request.setDistance(requestLoc.findDistance(location.getLatitude(), location.getLongitude()));
             if (request.getDistance() <= maxDistance) {
                 search.add(request);
