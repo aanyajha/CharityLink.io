@@ -55,6 +55,10 @@
     <button id="edit-button" onclick="editFunc()" style="background-color:#009999; color:white">Edit</button>
     <button id="save-button" onclick="saveFunc()">Save</button>
   </div>
+  <br><br>
+  
+  <button onclick="goToDashboard()" style="height:50px;width:300px;position: fixed;top: 10px;right: 10px;padding: 10px 20px;background-color: #009999;
+font-size: 15px;color: #fff;border-radius: 5px;border-color: #009999;z-index: 999">Go Back to Dashboard</button>
 
 </body>
 
@@ -116,6 +120,20 @@
 
 <script>
   //TODO: add grey color to indicate if can edit or not
+  
+  function goToDashboard() {
+        var userData = JSON.parse(sessionStorage.getItem('userData'));
+        if (userData.userType == 1) {
+          window.location.href = 'https://aanyajha.github.io/CharityLink.io/FrontendFiles/DefaultDashboard.html';
+        } else if (userData.userType == 2) { //employee
+          window.location.href = 'https://aanyajha.github.io/CharityLink.io/FrontendFiles/EmployeeDashboard.html';
+        } else if (userData.userType == 3) { //manager
+          window.location.href = 'https://aanyajha.github.io/CharityLink.io/FrontendFiles/ManagerDashboard.html';
+        } else if (userData.userType == 4) { //organization
+          window.location.href = 'https://aanyajha.github.io/CharityLink.io/FrontendFiles/OrganizationDashboard.html';
+        }
+    }
+  
   var imgUrl;
   function editFunc() {
 
