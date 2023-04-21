@@ -777,6 +777,11 @@ public class MainController {
         }
     }
 
+    @GetMapping(path = "/user/find/company/employee")
+    public @ResponseBody Iterable<User> getEmployeesByCompanyId(@RequestParam Integer companyID) {
+        return userRepository.findAllByCompanyIDAndUserType(companyID, 2);
+    }
+
     @GetMapping(path = "/user/find/company")
     public @ResponseBody Iterable<User> getUsersByCompanyId(@RequestParam String email) {
         List<Integer> userIdList = userRepository.findUserIdByEmail(email);

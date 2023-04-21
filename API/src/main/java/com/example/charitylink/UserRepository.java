@@ -21,4 +21,5 @@ public interface UserRepository extends CrudRepository<User, Integer> {
     List<Integer> findUserIdByUsername(@Param("username") String username);
     @Query(value = "SELECT * FROM user WHERE user.companyid = :companyId AND user.user_type < :userType", nativeQuery = true)
     List<User> findAllByCompanyID(@Param("companyId") Integer companyId, @Param("userType") Integer userType);
+    List<User> findAllByCompanyIDAndUserType(Integer companyID, Integer userType);
 }
