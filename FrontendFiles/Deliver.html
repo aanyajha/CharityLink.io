@@ -118,6 +118,7 @@
   <br>
 
   <div class="w3-container w3-border" id="catalog"></div>
+  <br>
 
 
 </body>
@@ -383,7 +384,7 @@
         console.log("Latitude: " + position.coords.latitude);
         console.log("Longitude: " + position.coords.longitude);
         const maxDist = document.getElementById("maxDistance");
-        url = `http://172.174.33.35:8080/api/item/search?location=${position.coords.latitude};${position.coords.longitude}&state=0&maxDistance=${maxDist.value}`;
+        url = `http://172.174.33.35:8080/api/request/all?location=${position.coords.latitude};${position.coords.longitude}&maxDistance=${maxDist.value}&userType=0`;
         xhr.open("GET", url, true);
         xhr.send();
         return;
