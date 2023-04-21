@@ -272,77 +272,77 @@
         catalogData.forEach(item => {
             if (item.numItems < 5) {
                 if (item.numItems != 0) {
-                // Create elements for item
-                console.log(item);
-                const itemContainer = document.createElement('div');
-                const checkbox = document.createElement('input');
-                checkbox.type = 'checkbox';
-                checkbox.value = item.itemID;
-                console.log(checkbox.value);
-                var itemName;
-                var itemHashtags;
-                var itemID;
-                var itemImage = document.createElement('img');
-                var srcAttr = document.createAttribute('src');
-                if (item.img != null) {
-                    srcAttr.value = item.img;
+                    // Create elements for item
+                    console.log(item);
+                    const itemContainer = document.createElement('div');
+                    const checkbox = document.createElement('input');
+                    checkbox.type = 'checkbox';
+                    checkbox.value = item.itemID;
+                    console.log(checkbox.value);
+                    var itemName;
+                    var itemHashtags;
+                    var itemID;
+                    var itemImage = document.createElement('img');
+                    var srcAttr = document.createAttribute('src');
+                    if (item.img != null) {
+                        srcAttr.value = item.img;
+                    }
+                    itemName = document.createElement('h3');
+                    itemHashtags = document.createElement('p');
+                    itemID = document.createElement('p');
+
+                    const itemState = document.createElement('p');
+                    const quantity = document.createElement('p');
+                    //const itemImage = document.createElement('img');
+
+                    // Set content and attributes for elements
+                    itemName.textContent = item.name;
+                    itemHashtags.textContent = item.hashtags;
+                    itemID.textContent = 'Item ID: ' + item.itemID;
+                    // itemID.textContent = item.state;
+                    quantity.textContent = 'Quantity: [ ' + item.numItems + ' ]';
+
+                    //if quantity is less than 5, consider requesting additional items
+
+
+                    const regex = /^https?:\/\/[a-z0-9]+(\.[a-z0-9]+)*(:[0-9]+)?(\/.*)?$/;
+
+                    if (!regex.test(item.img)) {
+                        srcAttr.value = `https://i.postimg.cc/1tpvZg4Y/charitylinkdefault.jpg`;
+                    }
+                    else {
+                        srcAttr.value = item.img;
+                    }
+
+                    itemImage.setAttributeNode(srcAttr);
+
+                    // Add elements to item container
+                    //itemContainer.appendChild(checkbox);
+                    itemContainer.appendChild(itemImage);
+                    if (searchtype == 0) {
+                        itemContainer.appendChild(itemName);
+                        itemContainer.appendChild(itemHashtags);
+                        itemContainer.appendChild(itemID);
+                    }
+                    else if (searchtype == 1) {
+                        itemContainer.appendChild(itemHashtags);
+                        itemContainer.appendChild(itemName);
+                        itemContainer.appendChild(itemID);
+                    }
+                    else if (searchtype == 2) {
+                        itemContainer.appendChild(itemID);
+                        itemContainer.appendChild(itemName);
+                        itemContainer.appendChild(itemHashtags);
+                    }
+                    // itemContainer.appendChild(itemState);
+                    itemContainer.appendChild(quantity);
+                    //itemContainer.appendChild(itemImage);
+
+                    itemContainer.style.border = '1px solid black';
+
+                    // Add item container to catalog container
+                    catalogContainer.appendChild(itemContainer);
                 }
-                itemName = document.createElement('h3');
-                itemHashtags = document.createElement('p');
-                itemID = document.createElement('p');
-
-                const itemState = document.createElement('p');
-                const quantity = document.createElement('p');
-                //const itemImage = document.createElement('img');
-
-                // Set content and attributes for elements
-                itemName.textContent = item.name;
-                itemHashtags.textContent = item.hashtags;
-                itemID.textContent = 'Item ID: ' + item.itemID;
-                // itemID.textContent = item.state;
-                quantity.textContent = 'Quantity: [ ' + item.numItems + ' ]';
-
-                //if quantity is less than 5, consider requesting additional items
-
-
-                const regex = /^https?:\/\/[a-z0-9]+(\.[a-z0-9]+)*(:[0-9]+)?(\/.*)?$/;
-
-                if (!regex.test(item.img)) {
-                    srcAttr.value = `https://i.postimg.cc/1tpvZg4Y/charitylinkdefault.jpg`;
-                }
-                else {
-                    srcAttr.value = item.img;
-                }
-
-                itemImage.setAttributeNode(srcAttr);
-
-                // Add elements to item container
-                //itemContainer.appendChild(checkbox);
-                itemContainer.appendChild(itemImage);
-                if (searchtype == 0) {
-                    itemContainer.appendChild(itemName);
-                    itemContainer.appendChild(itemHashtags);
-                    itemContainer.appendChild(itemID);
-                }
-                else if (searchtype == 1) {
-                    itemContainer.appendChild(itemHashtags);
-                    itemContainer.appendChild(itemName);
-                    itemContainer.appendChild(itemID);
-                }
-                else if (searchtype == 2) {
-                    itemContainer.appendChild(itemID);
-                    itemContainer.appendChild(itemName);
-                    itemContainer.appendChild(itemHashtags);
-                }
-                // itemContainer.appendChild(itemState);
-                itemContainer.appendChild(quantity);
-                //itemContainer.appendChild(itemImage);
-
-                itemContainer.style.border = '1px solid black';
-
-                // Add item container to catalog container
-                catalogContainer.appendChild(itemContainer);
-            }
             }
         });
     }
@@ -368,11 +368,17 @@
                 const data = this.responseText;
                 console.log(data);
                 catalogData = JSON.parse(data);
-                document.getElementById('diffItems').textContent = catalogData.length;
+                var totalUni = 0;
                 var totalQuantity = 0;
+                console.log(catalogData.length);
+
                 for (var i = 0; i < catalogData.length; i++) {
+                    if (catalogData[i].numItems != 0) {
+                        totalUni++;
+                    }
                     totalQuantity += catalogData[i].numItems;
                 }
+                document.getElementById('diffItems').textContent = totalUni;
                 document.getElementById('totalItems').textContent = totalQuantity;
                 printCatalog(catalogData, 0);
 

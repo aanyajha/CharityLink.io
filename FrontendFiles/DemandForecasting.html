@@ -54,10 +54,14 @@
     <p>Here you can view what item is most in demand.</p>
   </div>
 
-  <label for="distance">Distance (Between 1 and 100 miles):</label>
-  <input type="number" id="distance" name="distance" min="1" max="100">
+  <div class="w3-container">
+    <label for="distance">Distance (Between 1 and 100 miles):</label>
+    <input type="number" id="distance" name="distance" min="1" max="100">
+  </div>
 
-  <button onclick="dForecasting()">Submit</button>
+  <div class="w3-counter">
+    <button onclick="dForecasting()">Submit</button>
+  </div>
 
   <div id="item-container"></div>
 

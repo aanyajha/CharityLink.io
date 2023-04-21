@@ -164,11 +164,24 @@
     </form><br>
   </blockquote>
 
+  <div class="w3-container">
+  <button type="button" id="orgDelivery" style=" height:50px;width:350px; padding: 10px 20px;background-color: #009999;
+    font-size: 15px;color: #fff;border-radius: 5px;border-color: #009999;z-index: 999;" onclick="demandForecasting()">
+    Demand DemandForecasting
+  </button>
+
+  <button type="button" id="orgDelivery" style=" height:50px;width:350px; padding: 10px 20px;background-color: #009999;
+    font-size: 15px;color: #fff;border-radius: 5px;border-color: #009999;z-index: 999;" onclick="inventoryStatistics()">
+    Inventory Statistics
+  </button>
+  </div>
+  <br>
+
   <div class="w3-container w3-border id=add-edit-delete">
     <br>
     <text type="text">Select items you would like to <b>Add, Edit, Delete, or Request</b> then select the corressponding
       button</text>
-    <button type="button" onclick="addItem()"" id=" addButton"
+    <button type="button" onclick="addItem()" id=" addButton"
       style="background-color:#009999; color:white; border-color:white">
       Add
     </button>
@@ -227,8 +240,12 @@
 
 <script>
 
+  function inventoryStatistics() {
+    window.location.href = 'https://aanyajha.github.io/CharityLink.io/FrontendFiles/InventoryStatistics.html';
+  }
+
   function demandForecasting() {
-    window.location.href = '/CharityLink.io/FrontendFiles/InventoryStatistics.html';
+    window.location.href = 'https://aanyajha.github.io/CharityLink.io/FrontendFiles/DemandForecasting.html';
   }
 
 
