@@ -391,7 +391,7 @@
                 var url1 = `http://172.174.33.35:8080/api/request/delivery?companyID=${userData.companyID}`;
                 var xhr1 = new XMLHttpRequest();
 
-                xhr1.open("GET", url, true);
+                xhr1.open("GET", url1, true);
                 xhr1.onload = function () {
                 if (this.status === 200) {
                     const data = this.responseText;
