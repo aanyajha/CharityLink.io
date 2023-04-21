@@ -11,7 +11,7 @@ font-size: 15px;color: #fff;border-radius: 5px;border-color: #009999;z-index: 99
     
     <div class="w3-container w3-center">
       <h1>Feedback</h1>
-      <p>Let us know how we can improve our app</p>
+      <p>Let us know how we can improve our website</p>
     </div>
     <div class="w3-container">
       <form>
@@ -21,11 +21,21 @@ font-size: 15px;color: #fff;border-radius: 5px;border-color: #009999;z-index: 99
         <label for="anonymous">Send feedback anonymously:</label>
         <input type="checkbox" id="anonymous" name="anonymous" class="w3-check">
         <br><br>
-        <input type="submit" value="Submit" class="w3-button w3-turquoise w3-border w3-round-large" onclick="submitFeedback(event)">
+        <input type="submit" value="Submit" class="w3-button w3-turquoise w3-border w3-round-large" style="background-color: #009999; color:white" onclick="submitFeedback(event)">
       </form>
     </div>
   </body>
+
   <style>
+    body {
+      background: #CBFCFF;
+      background: -webkit-gradient(linear, left top, right bottom, from(#CBFCFF), to(#FFFFFF));
+      background: linear-gradient(to bottom right, #CBFCFF 0%, #FFFFFF 100%);
+      top: 50%;
+      left: 0;
+      width: 100%;
+      height: 850px;
+    }
 
     #vis-loc {
       display: inline;

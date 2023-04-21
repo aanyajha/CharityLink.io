@@ -62,11 +62,11 @@
     .autocomplete-active {
       /*when navigating through the items using the arrow keys:*/
       background-color: #009999 !important;
-      color: 
-      
-      #ffffff;
+      color:
+
+        #ffffff;
     }
-    
+
     input[type="checkbox"] {
       -webkit-appearance: none;
       -moz-appearance: none;
@@ -89,18 +89,24 @@
     <button onclick="closeNav()" class="w3-bar-item w3-button w3-large">&#10005; Close</button>
 
     <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/" class="w3-bar-item w3-button">&#x27B2; Logout</a>
-    <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/DefaultDashboard" class="w3-bar-item w3-button">Dashboard</a>
+    <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/DefaultDashboard"
+      class="w3-bar-item w3-button">Dashboard</a>
+    <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/ViewRequests" class="w3-bar-item w3-button">View
+      Requests</a>
     <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/UserRequest" class="w3-bar-item w3-button">Make a
       Request</a>
-    <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/ViewRequests" class="w3-bar-item w3-button">View Requests</a> 
     <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/UserEvents" class="w3-bar-item w3-button">Events
       Near Me</a>
     <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/ViewProfiles" class="w3-bar-item w3-button">View
       Organization Profiles</a>
     <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/Deliver" class="w3-bar-item w3-button">Make a
       Delivery</a>
-    <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/UserSettings" class="w3-bar-item w3-button">&#9965;
-      Settings</a>
+    <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/CurrentDeliveries"
+      class="w3-bar-item w3-button">Current Deliveries</a>
+    <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/Feedback.html" class="w3-bar-item w3-button">Send
+      Feedback</a>
+    <a href="https://aanyajha.github.io/CharityLink.io/FrontendFiles/Settings.html"
+      class="w3-bar-item w3-button">&#9965; Settings</a>
     <a href="https://aanyajha.github.io/CharityLink.io" class="w3-bar-item w3-button"><img
         src="https://i.postimg.cc/Zq3dkdkW/Charitylink-Logo-Updated.png" alt="Charity Link Logo" width="200"
         height="65"></a>
@@ -144,15 +150,16 @@
   </blockquote>
 
   <div class="w3-container">
-    <text type="text">Select items that you would like to request from the catalog below. Then click <b>Request Selected Items</b>.</text>
+    <text type="text">Select items that you would like to request from the catalog below. Then click <b>Request Selected
+        Items</b>.</text>
     <button type="button" id="requestItem" onClick="requestItems()" style="height:50px;width:300px;padding: 10px 20px;background-color: #009999;
       font-size: 15px;color: #fff;border-radius: 5px;border-color: #009999;z-index: 999;">
-        Request Selected Items
-      </button>
-      </div>
-      <br>
-  
-    <div class="w3-container w3-border" id="catalog"></div>
+      Request Selected Items
+    </button>
+  </div>
+  <br>
+
+  <div class="w3-container w3-border" id="catalog"></div>
 
   <div class="w3-container w3-border" id="catalog"></div>
 
@@ -397,86 +404,86 @@
     }
     catalogData.forEach(item => {
       if (item.numItems != 0) {
-      // Create elements for item
-      console.log(item);
-      const itemContainer = document.createElement('div');
-      var itemName;
-      var itemHashtags;
-      //var itemID;
-      var distance;
-      const checkbox = document.createElement('input');
-      checkbox.type = 'checkbox';
-      checkbox.value = `${item.userID};${item.itemID}`;
+        // Create elements for item
+        console.log(item);
+        const itemContainer = document.createElement('div');
+        var itemName;
+        var itemHashtags;
+        //var itemID;
+        var distance;
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.value = `${item.userID};${item.itemID}`;
 
-      var itemImage = document.createElement('img');
-      var srcAttr = document.createAttribute('src');
+        var itemImage = document.createElement('img');
+        var srcAttr = document.createAttribute('src');
 
-      itemContainer.appendChild(checkbox);
-      if (searchtype == 0) {
-        itemName = document.createElement('h3');
-        itemHashtags = document.createElement('p');
-        //itemID = document.createElement('p');
+        itemContainer.appendChild(checkbox);
+        if (searchtype == 0) {
+          itemName = document.createElement('h3');
+          itemHashtags = document.createElement('p');
+          //itemID = document.createElement('p');
+        }
+        else if (searchtype == 1) {
+          itemHashtags = document.createElement('h3');
+          itemName = document.createElement('p');
+          //itemID = document.createElement('p');
+
+        } else if (searchtype == 3) {
+          distance = document.createElement('h3');
+          //itemID = document.createElement('p');
+          itemName = document.createElement('p');
+          itemHashtags = document.createElement('p');
+        }
+
+        const quantity = document.createElement('p');
+        //const itemImage = document.createElement('img');
+
+        // Set content and attributes for elements
+        itemName.textContent = item.name;
+        itemHashtags.textContent = item.hashtags;
+        //itemID.textContent = 'Item ID: ' + item.itemID;
+        quantity.textContent = 'Quantity: [ ' + item.numItems + ' ]';
+        console.log("Before: " + srcAttr.value);
+        const regex = /^https?:\/\/[a-z0-9]+(\.[a-z0-9]+)*(:[0-9]+)?(\/.*)?$/;
+
+        if (!regex.test(item.img)) {
+          srcAttr.value = `https://i.postimg.cc/1tpvZg4Y/charitylinkdefault.jpg`;
+        }
+        else {
+          srcAttr.value = item.img;
+        }
+
+        itemImage.setAttributeNode(srcAttr);
+        if (searchtype == 3) {
+          distance.textContent = item.distance.toFixed(2) + " mi";
+        }
+
+        // Add elements to item container
+        itemContainer.appendChild(itemImage);
+        if (searchtype == 0) {
+          itemContainer.appendChild(itemName);
+          itemContainer.appendChild(itemHashtags);
+          //itemContainer.appendChild(itemID);
+        }
+        else if (searchtype == 1) {
+          itemContainer.appendChild(itemHashtags);
+          itemContainer.appendChild(itemName);
+          //itemContainer.appendChild(itemID);
+        } else if (searchtype == 3) {
+          itemContainer.appendChild(distance);
+          //itemContainer.appendChild(itemID);
+          //itemContainer.appendChild(itemName);
+          itemContainer.appendChild(itemHashtags);
+        }
+        itemContainer.appendChild(quantity);
+        //itemContainer.appendChild(itemImage);
+
+        itemContainer.style.border = '1px solid black';
+
+        // Add item container to catalog container
+        catalogContainer.appendChild(itemContainer);
       }
-      else if (searchtype == 1) {
-        itemHashtags = document.createElement('h3');
-        itemName = document.createElement('p');
-        //itemID = document.createElement('p');
-
-      } else if (searchtype == 3) {
-        distance = document.createElement('h3');
-        //itemID = document.createElement('p');
-        itemName = document.createElement('p');
-        itemHashtags = document.createElement('p');
-      }
-
-      const quantity = document.createElement('p');
-      //const itemImage = document.createElement('img');
-
-      // Set content and attributes for elements
-      itemName.textContent = item.name;
-      itemHashtags.textContent = item.hashtags;
-      //itemID.textContent = 'Item ID: ' + item.itemID;
-      quantity.textContent = 'Quantity: [ ' + item.numItems + ' ]';
-      console.log("Before: " + srcAttr.value);
-      const regex = /^https?:\/\/[a-z0-9]+(\.[a-z0-9]+)*(:[0-9]+)?(\/.*)?$/;
-
-      if (!regex.test(item.img)) {
-        srcAttr.value = `https://i.postimg.cc/1tpvZg4Y/charitylinkdefault.jpg`;
-      }
-      else {
-        srcAttr.value = item.img;
-      }
-
-      itemImage.setAttributeNode(srcAttr);
-      if (searchtype == 3) {
-        distance.textContent = item.distance.toFixed(2) + " mi";
-      }
-
-      // Add elements to item container
-      itemContainer.appendChild(itemImage);
-      if (searchtype == 0) {
-        itemContainer.appendChild(itemName);
-        itemContainer.appendChild(itemHashtags);
-        //itemContainer.appendChild(itemID);
-      }
-      else if (searchtype == 1) {
-        itemContainer.appendChild(itemHashtags);
-        itemContainer.appendChild(itemName);
-        //itemContainer.appendChild(itemID);
-      } else if (searchtype == 3) {
-        itemContainer.appendChild(distance);
-        //itemContainer.appendChild(itemID);
-        //itemContainer.appendChild(itemName);
-        itemContainer.appendChild(itemHashtags);
-      }
-      itemContainer.appendChild(quantity);
-      //itemContainer.appendChild(itemImage);
-
-      itemContainer.style.border = '1px solid black';
-
-      // Add item container to catalog container
-      catalogContainer.appendChild(itemContainer);
-    }
     });
   }
 
