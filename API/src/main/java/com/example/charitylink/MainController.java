@@ -68,7 +68,7 @@ public class MainController {
         if (loc == null) {
             return null;
         }
-        return new requestStatus(status, loc.toString(), delivery.getEta());
+        return new requestStatus(status, loc.toString(), (delivery == null) ? "" : delivery.getEta());
     }
 
     @PutMapping(path = "/request/existing")
