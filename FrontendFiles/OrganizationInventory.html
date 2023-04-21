@@ -327,7 +327,7 @@
 
     // Send the form data to the API endpoint when the form is submitted
     var fileInput = document.getElementById('myFileInput');
-    form.addEventListener(onclick='addSubmit', function (event) {
+    form.querySelector('#addSubmit').addEventListener('click', function (event) {
       event.preventDefault(); // Prevent the default form submission
 
       const itemName = form.elements['itemName'].value;
@@ -340,16 +340,7 @@
 
       var imgUrl;
 
-      //var reader = new FileReader();
-
-      // reader.onload = function (e) {
-      //   preview.setAttribute('src', e.target.result);
-      //   console.log(e.target.result);
-      // }
-
       formData.append("image", file);
-
-
 
       fetch("https://api.imgur.com/3/image/", {
         method: "post",
@@ -413,7 +404,7 @@
 
       popup.classList.add('show');
 
-      form.addEventListener(onclick='editSubmit', function (event) {
+      form.querySelector('#editSubmit').addEventListener('click', function (event) {
         event.preventDefault(); // Prevent the default form submission
 
         const itemName = form.elements['itemName'].value;
