@@ -551,7 +551,7 @@ public class MainController {
         if (delivery == null) {
             return "Error: delivery not found";
         }
-        if (delivery.getStatus().equals("DELIVERED") || delivery.getStatus().equals("REQUEST_CANCELLED")) {
+        if (delivery.getStatus().equals("INPROGRESS") || delivery.getStatus().equals("REQUEST_CANCELLED")) {
             deliveryRepository.deleteById(id);
             return "Deleted";
         }
