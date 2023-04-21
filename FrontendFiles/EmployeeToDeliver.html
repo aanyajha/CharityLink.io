@@ -132,6 +132,7 @@
         const xhr1 = new XMLHttpRequest();
         xhr1.open("GET", url, true);
         console.log(url);
+        xhr1.send();
         xhr1.onload = function () {
           //if (this.status === 200) {
             var data = JSON.parse(this.responseText);
@@ -141,8 +142,8 @@
             
             for (var i = 0; i < data.length; i++) {
               employee.options[employee.options.length] = new Option(employee.id, employee.name);
-              console.log(i);
             }
+          console.log(data.length);
             
           //}
         }
