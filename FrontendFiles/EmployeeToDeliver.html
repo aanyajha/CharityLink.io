@@ -131,15 +131,16 @@
     const url = `http://172.174.33.35:8080/api/user/find/company/employee?companyID={userData.companyID}`;
         const xhr1 = new XMLHttpRequest();
         xhr1.open("GET", url, true);
-
+        console.log(url);
         xhr1.onload = function () {
           if (this.status === 200) {
             var data = JSON.parse(this.responseText);
             console.log(data);
             var employee = document.getElementById('employee-select');
-
+            
             for (var i = 0; i < data.length; i++) {
               employee.options[employee.options.length] = new Option(employee.id, employee.name);
+              console.log(i);
             }
             
           }
