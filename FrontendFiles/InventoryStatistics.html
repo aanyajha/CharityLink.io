@@ -363,28 +363,7 @@
         // }
         console.log(userData.companyID);
 
-        var url1 = `http://172.174.33.35:8080/api/request/delivery?companyID=${userData.companyID}`;
-        var xhr1 = new XMLHttpRequest();
-
-        xhr1.open("GET", url, true);
-        xhr1.onload = function () {
-            if (this.status === 200) {
-                const data = this.responseText;
-                console.log(data);
-                //console.log(catalogData.length);
-                document.getElementById('totalRequestsNum').textContent = data;
-                printCatalog(catalogData, 0);
-
-            } else {
-                console.error("Request failed with status code", this.status);
-            }
-        };
-
-
-        xhr1.onerror = function () {
-            console.error("Request failed");
-        };
-        xhr1.send();
+        
 
         var url = `http://172.174.33.35:8080/api/item/inventory?userID=${userData.companyID}`;
         var xhr = new XMLHttpRequest();
@@ -409,6 +388,28 @@
                 document.getElementById('totalItems').textContent = totalQuantity;
                 printCatalog(catalogData, 0);
                 
+                var url1 = `http://172.174.33.35:8080/api/request/delivery?companyID=${userData.companyID}`;
+                var xhr1 = new XMLHttpRequest();
+
+                xhr1.open("GET", url, true);
+                xhr1.onload = function () {
+                if (this.status === 200) {
+                    const data = this.responseText;
+                    console.log(data);
+                    //console.log(catalogData.length);
+                    document.getElementById('totalRequestsNum').textContent = data;
+                    printCatalog(catalogData, 0);
+
+                } else {
+                    console.error("Request failed with status code", this.status);
+                }
+            };
+
+
+            xhr1.onerror = function () {
+                console.error("Request failed");
+            };
+            xhr1.send();
 
             } else {
                 console.error("Request failed with status code", this.status);
