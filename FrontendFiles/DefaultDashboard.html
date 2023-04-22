@@ -53,15 +53,44 @@ img {
       </div>
   </div>
 
-  <div class="w3-container" style="text-align: center">
-    <p>Welcome to Charity Link!</p>
-    <p>Use the side menu to select your desired function.</p>
+  <div id="donor" class="w3-container" style="text-align: center">
+    <img onClick="alertDonor()" style="height: 50px;width:50px;float: right;margin-top: 10px;"
+      src='https://icones.pro/wp-content/uploads/2021/05/icone-point-d-interrogation-question-gris.png'>
+    <h2 style="text-align: center;margin-left:30px">Welcome to Charity Link!</h2>
+    <h4>Use the side menu to take action.</h4>
+    <h4>You are able to view local <b>Events</b>, fulfill <b>Requests</b> by completing deliveries, and you are able to view your <b>Deliveries</b>.</h4>
+    <br>
   </div>
- 
-  <div class="w3-container" style="text-align: center">
-  <button class="w3-button turquoise w3-border w3-xlarge" style="text-align: center;color: #009999" onClick="browseCatalog()">Browse Catalog</button>
+
+  <div id="receiver" class="w3-container" style="text-align: center">
+    <img onClick="alertReceiver()" style="height: 50px;width:50px;float: right;margin-top: 10px;"
+      src='https://icones.pro/wp-content/uploads/2021/05/icone-point-d-interrogation-question-gris.png'>
+    <h2 style="text-align: center;margin-left:60px">Welcome to Charity Link!</h2>
+    <h4>Use the side menu to view your resources.</h4>
+    <h4>You are able to browse the catalog for <b>Items</b>, make <b>Requests</b>, and view your requests in progress.</h4>
+    <h4>Local events are visible in the navigation bar titled <b>Events Near Me</b>.</h4>
+    <br>
+  </div>
+
+  <div id="receiverButtons" class="w3-container" style="text-align: center">
+  <button class="w3-button turquoise w3-border w3-xlarge" style="text-align: center;margin-right:10px;color: #009999" onClick="browseCatalog()">Browse Catalog</button>
     <button class="w3-button turquoise w3-border w3-xlarge" style="text-align: center;color: #009999" onClick="makeARequest()">Make a Request</button>
-    <button class="w3-button turquoise w3-border w3-xlarge" style="text-align: center;color: #009999" onClick="eventsNearMe()">Events Near Me</button>
+    <button class="w3-button turquoise w3-border w3-xlarge" style="text-align: center;margin-left:10px;color: #009999" onClick="eventsNearMe()">Events Near Me</button>
+    <br>
+  </div>
+
+  <div id="donorButtons" class="w3-container" style="text-align: center">
+    <button class="w3-button turquoise w3-border w3-xlarge" style="text-align: center;margin-right:10px;color: #009999" onClick="delivery()">Make a Delivery</button>
+      <button class="w3-button turquoise w3-border w3-xlarge" style="text-align: center;color: #009999" onClick="currentDeliveries()">Current Deliveries</button>
+      <button class="w3-button turquoise w3-border w3-xlarge" style="text-align: center;margin-left:10px;color: #009999" onClick="eventsNearMe()">Events Near Me</button>
+      <br>
+    </div>
+
+  <div class="w3-container">
+    <img src="https://i.postimg.cc/Zq3dkdkW/Charitylink-Logo-Updated.png" alt="Charity Link Logo" width="400"
+      height="130" style="position: absolute;
+    right: 0px;
+    bottom: 0px;margin-right:10px">
   </div>
 
 </body>
@@ -77,6 +106,21 @@ img {
     function eventsNearMe() {
       window.location.href = "https://aanyajha.github.io/CharityLink.io/FrontendFiles/UserEvents";
     }
+    function currentDeliveries() {
+      window.location.href = "https://aanyajha.github.io/CharityLink.io/FrontendFiles/CurrentDeliveries" 
+    }
+    function delivery() {
+      window.location.href = "https://aanyajha.github.io/CharityLink.io/FrontendFiles/Deliver";
+    }
+
+
+    function alertDonor() {
+      alert("Events are visible for you to attend.\nRequests are made by those in need to be delivered by you.\nThese Deliveries are selected by you to provide the requested item if it is accessible to you.")
+    }
+	
+    function alertReceiver() {
+      alert("Items are available for you to peruse in the Catalog, which contains items from a multitude of organizations with CharityLink accounts.\nYou are able to make Requests, which include items from the Catalog.\nYou are also able to request items not already in the Catalog.");
+    }
 	
 	
 
@@ -84,14 +128,14 @@ img {
 
     if (userData != null) {
     } else {
-      //userData = { companyID: -1, email: "vjasti@purdue.edu", id: 1, joinDate: "2023-02-27", locationID: -1, name: "Varun", password: "passwordtest", passwordToken: null, userType: 1, username: "vjasti" };
+      userData = { companyID: -1, email: "vjasti@purdue.edu", id: 1, joinDate: "2023-02-27", locationID: -1, name: "Varun", password: "passwordtest", passwordToken: null, userType: 1, username: "vjasti" };
       //userData = { companyID: -1, email: "test@purdue.edu", id: 2, joinDate: "2023-02-27", locationID: 102, name: "test name", password: "blank", passwordToken: null, userType: 5, username: "test" };
     }
 
 		function openNav() {
       if (userData.userType == 5) {
         document.getElementById("mySidebarReceiver").style.display = "none"; 
-        document.getElementById("mySidebarDonor").style.display = "block"; 
+        document.getElementById("mySidebarDonor").style.display = "block";  
 	    } else {
         document.getElementById("mySidebarDonor").style.display = "none"; 
         document.getElementById("mySidebarReceiver").style.display = "block"; 
@@ -102,13 +146,21 @@ img {
       document.getElementById("mySidebarReceiver").style.display = "none";
       document.getElementById("mySidebarDonor").style.display = "none"; 
     }
-    
+
     var donorReceiver = document.getElementById("donor-receiver");
 
 	if (userData.userType == 5) {
 		donorReceiver.innerHTML = "Donor Dashboard";
+    document.getElementById("donor").style.display = "block";
+    document.getElementById("receiver").style.display = "none";
+    document.getElementById("donorButtons").style.display = "block"; 
+        document.getElementById("receiverButtons").style.display = "none";
 	} else {
 		donorReceiver.innerHTML = "Receiver Dashboard";
+    document.getElementById("receiver").style.display = "block";
+    document.getElementById("donor").style.display = "none";
+    document.getElementById("donorButtons").style.display = "none"; 
+        document.getElementById("receiverButtons").style.display = "block"; 
 	}
     
     //const usernameTitle = userData.username;
