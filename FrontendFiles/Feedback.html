@@ -90,7 +90,7 @@ font-size: 15px;color: #fff;border-radius: 5px;border-color: #009999;z-index: 99
     <script>
       function goToDashboard() {
         var userData = JSON.parse(sessionStorage.getItem('userData'));
-        if (userData.userType == 1) {
+        if (userData.userType == 1 || userData.userType == 5) {
           window.location.href = 'https://aanyajha.github.io/CharityLink.io/FrontendFiles/DefaultDashboard.html';
         } else if (userData.userType == 2) { //employee
           window.location.href = 'https://aanyajha.github.io/CharityLink.io/FrontendFiles/EmployeeDashboard.html';
