@@ -378,13 +378,17 @@ function saveFunc() {
       var updateurl;
       console.log(typeData);
       console.log(donBool);
+      var userData = JSON.parse(sessionStorage.getItem("userData"));
       if (donBool == true) {
         typeData = 5;
         updateurl = `http://172.174.33.35:8080/api/user/update?email=${email}&name=${nameReal}&username=${username}&password=${password}&locationID=${locationId}&date=${joinData}&userType=5`;
-        
+        userData.userType = 5;
+        sessionStorage.setItem("userData", JSON.stringify(userData));
       } else {
         typeData = 1;
         updateurl = `http://172.174.33.35:8080/api/user/update?email=${email}&name=${nameReal}&username=${username}&password=${password}&locationID=${locationId}&date=${joinData}&userType=${typeData}`;
+        userData.userType = 1;
+        sessionStorage.setItem("userData", JSON.stringify(userData));
       }
       console.log(typeData);
       updatexhr.open("PUT", updateurl, true);

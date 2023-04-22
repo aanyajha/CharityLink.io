@@ -142,9 +142,9 @@
         <br>
         <text>Total Items: </text>
         <text id="totalItems"></text>
+        <br>
         <text>Number of requested items out for Delivery, Organization consumption status:</text>
         <text id="totalRequestsNum"></text>
-        <br>
         <br>
         <text style="color:red">The following list contains items you may be running low on.</text>
     </div>
@@ -363,6 +363,8 @@
         // }
         console.log(userData.companyID);
 
+        
+
         var url = `http://172.174.33.35:8080/api/item/inventory?userID=${userData.companyID}`;
         var xhr = new XMLHttpRequest();
         xhr.open("GET", url, true);
@@ -385,6 +387,29 @@
                 document.getElementById('diffItems').textContent = totalUni;
                 document.getElementById('totalItems').textContent = totalQuantity;
                 printCatalog(catalogData, 0);
+                
+                var url1 = `http://172.174.33.35:8080/api/request/delivery?companyID=${userData.companyID}`;
+                var xhr1 = new XMLHttpRequest();
+
+                xhr1.open("GET", url1, true);
+                xhr1.onload = function () {
+                if (this.status === 200) {
+                    const data = this.responseText;
+                    console.log(data);
+                    //console.log(catalogData.length);
+                    document.getElementById('totalRequestsNum').textContent = data;
+                    printCatalog(catalogData, 0);
+
+                } else {
+                    console.error("Request failed with status code", this.status);
+                }
+            };
+
+
+            xhr1.onerror = function () {
+                console.error("Request failed");
+            };
+            xhr1.send();
 
             } else {
                 console.error("Request failed with status code", this.status);
@@ -398,30 +423,7 @@
 
         xhr.send();
 
-        var url1 = `http://172.174.33.35:8080/api/request/delivery?companyID=${userData.companyID}`;
-        var xhr1 = new XMLHttpRequest();
-        xhr1.open("GET", url, true);
-        xhr1.onload = function () {
-            if (this.status === 200) {
-                const data = this.responseText;
-                console.log(data);
-                catalogData = JSON.parse(data);
-                var totalRequestsNum = catalogData;
-                //console.log(catalogData.length);
-                document.getElementById('totalRequestsNum').textContent = totalRequestsNum;
-                printCatalog(catalogData, 0);
-
-            } else {
-                console.error("Request failed with status code", this.status);
-            }
-        };
-
-
-        xhr1.onerror = function () {
-            console.error("Request failed");
-        };
-
-        xhr1.send();
+    
     }
 
     function openNav() {
