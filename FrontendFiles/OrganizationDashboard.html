@@ -49,31 +49,62 @@
   </div>
 
   <div class="w3-container">
-    <p>Welcome to Charity Link!</p>
-    <p>Use the side menu to select your desired function.</p>
+    <img onClick="alertTheUser()" style="height: 50px;width:50px;float: right;margin-top: 10px;"
+      src='https://icones.pro/wp-content/uploads/2021/05/icone-point-d-interrogation-question-gris.png'>
+    <h2 style="text-align: center;margin-left:30px">Welcome to Charity Link!</h2>
+    <h4 style="text-align: center;">Use the side menu to select your desired function.</h4>
+    <h4 style="text-align: center;">Some key features are managing or
+      making <b>Requests</b>, creating <b>Events</b>, managing <b>Employees</b>, and managing <b>Inventory</b>.</h4>
   </div>
 
+  </div>
+  <br>
   <div class="w3-container" style="text-align: center">
-    <button class="w3-button turquoise w3-border w3-xlarge" style="text-align: center;color:#009999"
+    <button class="w3-button turquoise w3-border w3-xlarge" style="text-align: center;margin-right:10px; color:#009999"
       onClick="manageRequests()">Manage Requests</button>
 
     <button class="w3-button turquoise w3-border w3-xlarge" style="text-align: center;color: #009999"
       onClick="manageEvent()">Create An Event</button>
 
-    <button class="w3-button turquoise w3-border w3-xlarge" style="text-align: center;color: #009999"
+    <button class="w3-button turquoise w3-border w3-xlarge" style="text-align: center;margin-left:10px;color: #009999"
       onClick="manageEmployees()">Manage Employees</button>
   </div>
 
+  <br>
+
+  <div class="w3-container" style="text-align: center;margin-right:20px">
+    <button class="w3-button turquoise w3-border w3-xlarge" style="text-align: center;color: #009999"
+      onClick="manageInventory()">Manage Inventory</button>
+  </div>
+
+  <br>
+
+  <!--
   <div class="w3-container">
-    <img src="https://i.postimg.cc/Zq3dkdkW/Charitylink-Logo-Updated.png" alt="Charity Link Logo" width="200"
-      height="65" style="position: absolute;
+    <h4 style="margin-left: 70px;margin-top:50px;color:#009999">Create Events to help your community!</h4>
+    <h4 style="margin-left: 170px;margin-top:60px;color:#009999">Keep track of your inventory online!</h4>
+    <h4 style="margin-left: 240px;margin-top:60px;color:#009999">Make delivery options more prevalent for those in need!
+    </h4>
+  </div>
+  <br>
+  <br>
+  -->
+
+  <div class="w3-container">
+    <img src="https://i.postimg.cc/Zq3dkdkW/Charitylink-Logo-Updated.png" alt="Charity Link Logo" width="400"
+      height="130" style="position: absolute;
     right: 0px;
-    bottom: 0px;">
+    bottom: 0px;margin-right:10px">
   </div>
 
 </body>
 
 <script>
+
+  function alertTheUser() {
+    //alert("You are able to request additional items in your inventory by clicking Request Item")
+    alert("Requests are the name of items you would like donors to send you.\nEvents can be published to reach people on CharityLink.\nYou are able to create Employees to fulfill specific tasks for your organization.")
+  }
 
   function manageRequests() {
     window.location.href = "https://aanyajha.github.io/CharityLink.io/FrontendFiles/OrganizationManageRequests";
@@ -81,6 +112,10 @@
 
   function manageEvent() {
     window.location.href = "https://aanyajha.github.io/CharityLink.io/FrontendFiles/CreateEvent.html";
+  }
+
+  function manageInventory() {
+    window.location.href = "https://aanyajha.github.io/CharityLink.io/FrontendFiles/OrganizationInventory.html";
   }
 
   function manageEmployees() {
